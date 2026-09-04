@@ -1,0 +1,29 @@
+{
+  "name": "Andiamo — aprender italiano en español, sin caer en las trampas",
+  "short_name": "Andiamo",
+  "description": "Curso de italiano para hispanohablantes: los sonidos que no compartimos, las consonantes dobles que cambian ",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FBF5E9",
+  "theme_color": "#C6291B",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

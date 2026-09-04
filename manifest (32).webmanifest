@@ -1,0 +1,29 @@
+{
+  "name": "Kana no Michi — aprender japonés desde cero, en español",
+  "short_name": "Kana no Michi",
+  "description": "Curso de japonés en español: los 46 hiragana y los 46 katakana con trazado a mano, el ritmo de las moras, ",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FBF5E9",
+  "theme_color": "#C6291B",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

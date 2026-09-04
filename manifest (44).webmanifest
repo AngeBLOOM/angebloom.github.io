@@ -1,0 +1,29 @@
+{
+  "name": "Hua Jai Thai — aprender tailandés desde cero, en español",
+  "short_name": "Hua Jai Thai",
+  "description": "Curso de tailandés en español: los 5 tonos con audio, las 44 consonantes y sus clases, gramática esencial, trazado de letras a mano, 155 palabras en tarjetas, 61 frases de viaje y juegos. Gratis y sin registro.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FBF5E9",
+  "theme_color": "#C6291B",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

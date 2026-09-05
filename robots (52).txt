@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://angebloom.github.io/sitemap.xml

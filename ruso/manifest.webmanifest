@@ -1,0 +1,29 @@
+{
+  "name": "Bukva — aprender ruso desde cero, en español",
+  "short_name": "Bukva",
+  "description": "Curso de ruso en español: las 33 letras del cirílico ordenadas por dificultad real, el acento móvil ",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FDFBF7",
+  "theme_color": "#0E7C8A",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

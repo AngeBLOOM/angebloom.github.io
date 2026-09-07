@@ -1,5 +1,5 @@
-/* Sounds Right — caché offline. Versión: ingles-20260907-o25r */
-const CACHE = "ingles-20260907-o25r";
+/* Bukva — caché offline. Versión: ruso-20260907-o1kg */
+const CACHE = "ruso-20260907-o1kg";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

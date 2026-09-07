@@ -1,6 +1,6 @@
-# Cursos de idiomas para hispanohablantes
+# Suena — cursos de idiomas para hispanohablantes
 
-Cinco cursos de idiomas en español, cada uno en una sola página. Sin registro, sin backend y sin
+**Suena**: siete cursos de idiomas en español, cada uno en una sola página. Sin registro, sin backend y sin
 dependencias: todo el sitio son ficheros estáticos que funcionan también sin conexión.
 
 | Carpeta | Curso | Lo que tiene de propio |
@@ -10,6 +10,8 @@ dependencias: todo el sitio son ficheros estáticos que funcionan también sin c
 | `coreano/` | **Hangul Gil** | El hangul y cómo se montan los bloques silábicos |
 | `ingles/` | **Sounds Right** | Los 20 sonidos que no tenemos y nuestros errores típicos |
 | `italiano/` | **Andiamo** | Las consonantes dobles y los falsos amigos |
+| `chino/` | **Sì Shēng** | Los cuatro tonos y el pinyin con sus trampas |
+| `ruso/` | **Bukva** | Las letras que parecen las nuestras, y el acento móvil |
 
 Todos comparten las mismas herramientas: alfabeto o sonidos con ficha ampliada, trazado a mano donde
 tiene sentido, tarjetas de vocabulario con cinco niveles, frases por situación, gramática con
@@ -51,7 +53,7 @@ Un solo motor y un paquete de datos por idioma:
 |---|---|
 | `part1.html` | Estilos y estructura, comunes a todos |
 | `part3.js`, `part4.js` | El motor: vistas, tests, juegos, progreso |
-| `data-<idioma>.js` | Todo lo propio del idioma: textos, alfabeto, vocabulario, gramática, números |
+| `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
 | `gen-icons.js` | Genera los iconos PNG sin dependencias |
@@ -59,10 +61,10 @@ Un solo motor y un paquete de datos por idioma:
 Reconstruir todo:
 
 ```bash
-for L in tailandes japones coreano ingles italiano; do
+for L in tailandes japones coreano chino ruso ingles italiano; do
   node build.js $L https://tuusuario.github.io/
 done
-node gen-portal.js https://tuusuario.github.io/ tailandes japones coreano ingles italiano
+node gen-portal.js https://tuusuario.github.io/ tailandes japones coreano chino ruso ingles italiano
 ```
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.

@@ -1,0 +1,29 @@
+{
+  "name": "Sì Shēng — aprender chino mandarín desde cero, en español",
+  "short_name": "Sì Shēng",
+  "description": "Curso de chino en español: los cuatro tonos con audio, el pinyin entero con sus trampas, ",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FDFBF7",
+  "theme_color": "#E2760F",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

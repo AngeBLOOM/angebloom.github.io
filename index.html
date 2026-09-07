@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Suena — aprender idiomas desde cero, en español</title>
-<meta name="description" content="Suena: cursos gratuitos de tailandés, japonés, coreano, inglés, italiano para hispanohablantes. Empiezan por el sonido, no por la gramática. Sin registro, sin anuncios y funcionan sin conexión.">
+<meta name="description" content="Suena: cursos gratuitos de tailandés, japonés, coreano, chino, ruso, inglés, italiano para hispanohablantes. Empiezan por el sonido, no por la gramática. Sin registro, sin anuncios y funcionan sin conexión.">
 <meta name="author" content="Adjgd by FDP">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FDFBF7" media="(prefers-color-scheme: light)">
@@ -23,7 +23,7 @@
 <meta property="og:locale" content="es_ES">
 <link rel="icon" href="./tailandes/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+Thai+Looped:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&family=Archivo:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+Thai+Looped:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Archivo:wght@400;500;600;700&display=swap">
 <style>
 :root{
   --ground:#FDFBF7; --surface:#FFFFFF; --surface-2:#F4F0E8;
@@ -44,8 +44,10 @@ body{
     radial-gradient(40% 34% at 8% 4%, #D93B1E1F 0%, transparent 62%),
     radial-gradient(46% 38% at 29% 96%, #4A47D51F 0%, transparent 62%),
     radial-gradient(52% 42% at 50% 4%, #C42E8C1F 0%, transparent 62%),
-    radial-gradient(58% 46% at 71% 96%, #2563D91F 0%, transparent 62%),
-    radial-gradient(64% 50% at 92% 4%, #2E9E4F1F 0%, transparent 62%),
+    radial-gradient(58% 46% at 71% 96%, #E2760F1F 0%, transparent 62%),
+    radial-gradient(64% 50% at 92% 4%, #0E7C8A1F 0%, transparent 62%),
+    radial-gradient(70% 54% at 113% 96%, #2563D91F 0%, transparent 62%),
+    radial-gradient(76% 58% at 134% 4%, #2E9E4F1F 0%, transparent 62%),
     var(--ground);
   background-attachment:fixed;
 }
@@ -67,7 +69,7 @@ h1,h2,h3,p{margin:0}
   color:var(--ink-2); background:var(--surface-2); padding:5px 13px; border-radius:20px; margin-bottom:18px;
 }
 h1{font-family:var(--disp); font-weight:600; font-size:clamp(38px,7vw,68px); line-height:1.02; letter-spacing:-.035em}
-h1 em{font-style:normal; background:linear-gradient(100deg, #D93B1E, #4A47D5, #C42E8C, #2563D9, #2E9E4F); -webkit-background-clip:text; background-clip:text; color:transparent}
+h1 em{font-style:normal; background:linear-gradient(100deg, #D93B1E, #4A47D5, #C42E8C, #E2760F, #0E7C8A, #2563D9, #2E9E4F); -webkit-background-clip:text; background-clip:text; color:transparent}
 .lede{color:var(--ink-2); margin-top:20px; max-width:58ch; font-size:clamp(16px,2vw,19px)}
 
 .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(288px,1fr)); margin:clamp(38px,6vw,56px) 0 0}
@@ -125,6 +127,10 @@ a.card .go span{transition:transform .18s}
 .f-japones{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif}
 .c-coreano{--c:#C42E8C}
 .f-coreano{font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif}
+.c-chino{--c:#E2760F}
+.f-chino{font-family:'Noto Sans SC','Microsoft YaHei','PingFang SC',sans-serif}
+.c-ruso{--c:#0E7C8A}
+.f-ruso{font-family:'Noto Sans','Segoe UI',system-ui,sans-serif}
 .c-ingles{--c:#2563D9}
 .f-ingles{font-family:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif}
 .c-italiano{--c:#2E9E4F}
@@ -133,6 +139,8 @@ a.card .go span{transition:transform .18s}
   .c-tailandes{--c:#FF7A5C}
   .c-japones{--c:#9290FF}
   .c-coreano{--c:#FF7ACB}
+  .c-chino{--c:#FFA24D}
+  .c-ruso{--c:#3FC8DB}
   .c-ingles{--c:#78AEFF}
   .c-italiano{--c:#5FD887}
   a.card{color:#151210}
@@ -178,6 +186,22 @@ a.card .go span{transition:transform .18s}
       <b>Coreano</b>
       <span class="nat f-coreano">한국어</span>
       <p>El alfabeto más lógico del mundo: se lee en un fin de semana. Lo difícil viene después.</p>
+      <span class="go">Empezar <span>→</span></span>
+    </a>
+    <a class="card c-chino" href="./chino/">
+      <span class="fondo f-chino" aria-hidden="true">中</span>
+      <span class="glifo f-chino">中</span>
+      <b>Chino</b>
+      <span class="nat f-chino">中文</span>
+      <p>Cuatro tonos que convierten una sílaba en cinco palabras. A cambio, la gramática más sencilla que existe.</p>
+      <span class="go">Empezar <span>→</span></span>
+    </a>
+    <a class="card c-ruso" href="./ruso/">
+      <span class="fondo f-ruso" aria-hidden="true">Я</span>
+      <span class="glifo f-ruso">Я</span>
+      <b>Ruso</b>
+      <span class="nat f-ruso">русский</span>
+      <p>Seis letras que parecen las nuestras y suenan a otra cosa, y un acento que no se escribe pero lo decide todo.</p>
       <span class="go">Empezar <span>→</span></span>
     </a>
     <a class="card c-ingles" href="./ingles/">

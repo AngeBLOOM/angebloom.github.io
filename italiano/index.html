@@ -165,6 +165,15 @@ p{margin:0}
 .voicebar{display:flex; align-items:center; gap:8px; padding:0 8px; font-size:12px; color:var(--ink-3)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
 .dot.on{background:var(--ok)} .dot.off{background:var(--bad)}
+.markbar{padding:0 6px; margin-bottom:8px}
+.markbar .mtit{font:700 10px var(--ui); letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px}
+.markbar .mbtns{display:flex; gap:4px}
+.markbar button{
+  flex:1; font:600 11px var(--ui); padding:5px 6px; border-radius:8px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--ink-2);
+}
+.markbar button[aria-pressed="true"]{background:var(--brand); color:#fff; border-color:var(--brand)}
+.markbar .mayuda{font:400 10.5px/1.35 var(--ui); color:var(--ink-3); margin-top:5px}
 .speedbtns{display:flex; gap:4px; padding:0 6px}
 .speedbtns button{
   flex:1; padding:5px 6px; font:600 11px var(--ui); letter-spacing:.04em;
@@ -756,13 +765,14 @@ img{max-width:100%;height:auto}
     <div class="brand">
       <div class="mark" aria-hidden="true"></div>
       <div class="txt">
-        <b>Hua Jai Thai</b>
-        <span>tailandés paso a paso</span>
+        <b></b>
+        <span></span>
         <span class="by" id="brandBy"></span>
       </div>
     </div>
     <div class="nav" id="nav"></div>
     <div class="rail-foot">
+      <div class="markbar" id="markbar" hidden></div>
       <div class="voicebar"><i class="dot" id="vdot"></i><span id="vtxt">comprobando voz…</span></div>
       <div class="speedbtns" role="group" aria-label="Velocidad del audio">
         <button data-speed="0.6">Lento</button>
@@ -781,17 +791,15 @@ img{max-width:100%;height:auto}
         <p class="lede">Once herramientas para el oído, la boca y la mano, en español y sin registro.</p>
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
-        <li><b>Tonos</b> — los cinco tonos del tailandés con audio y calculadora de reglas</li>
-        <li><b>Sonidos</b> — las diez trampas de pronunciación para hispanohablantes</li>
-        <li><b>Alfabeto</b> — las 44 consonantes con su clase, 29 vocales y los signos</li>
-        <li><b>Escritura</b> — cuaderno de trazado a mano y teclado tailandés</li>
-        <li><b>Gramática</b> — catorce patrones, clasificadores y constructor de frases</li>
-        <li><b>Hablar</b> — escucha y repite, con reconocimiento de voz</li>
-        <li><b>Vocabulario</b> — 155 palabras en tarjetas con repaso por niveles</li>
-        <li><b>Frases</b> — 61 frases de viaje con la partícula de cortesía correcta</li>
-        <li><b>Números</b> — conversor a cifras y palabras tailandesas</li>
-        <li><b>Juegos</b> — emparejar palabras y escribir de oído</li>
-        <li><b>Repaso</b> — examen mezclado de todo lo anterior</li>
+        <li><b>Empieza por los falsos amigos</b> — Las palabras que crees entender y significan otra cosa. Cinco de ellas duelen.</li>
+        <li><b>Los sonidos que no compartimos</b> — La z, la s sonora, las dobles y dónde cae el acento.</li>
+        <li><b>Las veinte reglas de lectura</b> — c, g, ch, gh, gli, gn, sc. Con esto ya lees cualquier cosa en voz alta.</li>
+        <li><b>Las dobles que cambian la palabra</b> — Doce parejas mínimas. La tabla más importante del curso.</li>
+        <li><b>Catorce detalles de gramática</b> — Los que se escapan justo por parecerse. Con un constructor para probarlos.</li>
+        <li><b>Noventa y cinco palabras de uso diario</b> — Con tarjetas por niveles y el acento marcado.</li>
+        <li><b>Treinta y ocho frases naturales</b> — Las que se dicen en un bar de Roma, no las del manual.</li>
+        <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
+        <li><b>Ponte a prueba</b> — Repaso mezclado de todo lo anterior.</li>
       </ul>
     </div></main>
 </div>
@@ -842,6 +850,11 @@ const LANG = {
   },
 
   textos: {
+    repaso_lede: "Doce preguntas de todo: sonidos, dobles, vocabulario, escucha, frases y números.",
+    repaso_fila: "Mejor prueba de dobles",
+    juego2_nota: "Junta oído, dobles y ortografía en un solo gesto.",
+    vocab_buscar: "Buscar en español o italiano…",
+    frases_buscar: "Buscar una frase en español o italiano…",
     alfa_eyebrow: "Fundamento 2",
     alfa_h1:   "Cómo se lee el italiano",
     alfa_lede: "Buena noticia: el italiano se lee casi como se escribe, igual que el español. "
@@ -906,6 +919,12 @@ const CONS = [
 
 const CLASSNAME = {c:"consonante", d:"dígrafo", v:"vocal", dob:"doble"};
 const CLASSTHAI = {c:"consonante", d:"digramma", v:"vocale", dob:"doppia"};
+const CLASSNOTA = {
+  c: "casi todas suenan como las nuestras",
+  d: "dos letras, un solo sonido",
+  v: "siempre clara, nunca se relaja",
+  dob: "se alarga de verdad y cambia la palabra"
+};
 const FILTROS = [["all","Todas (20)"],["c","Consonantes (9)"],["d","Dígrafos (8)"],
                  ["v","Vocales (2)"],["dob","Dobles (1)"],["known","Aprendidas"]];
 
@@ -1457,7 +1476,7 @@ const AUTOR = {
 /* ══ ESTADO ══════════════════════════════════════════════ */
 const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              best:{tono:0, repaso:0, oido:0}, streak:{day:"", n:0},
-             today:{day:"", cards:0, quiz:0, plays:0}};
+             today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -1545,6 +1564,7 @@ function tecladoHTML(attr){
 }
 const conPortador = k => /^\p{M}/u.test(k) ? (LANG.portador || "◌") + k : k;
 /* T("clave", "por defecto") — cada paquete de idioma puede sobreescribir cualquier texto */
+const idioma = () => LANG.nombre.toLowerCase();
 const T = (k, def) => (LANG.textos && LANG.textos[k] !== undefined) ? LANG.textos[k] : def;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const shuffle = a => a.map(v => [Math.random(), v]).sort((x,y) => x[0]-y[0]).map(v => v[1]);
@@ -1569,7 +1589,7 @@ const ICON = {
 const svg = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
 const sayBtn = (t, label) =>
   `<button class="iconbtn" data-say="${esc(t)}" aria-label="Escuchar ${esc(label||t)}">${svg("play")}</button>`;
-/* palabra tailandesa que se oye al tocarla */
+/* palabra del idioma que se oye al tocarla */
 const sayTh = (t, cls, style) =>
   `<span class="th ${cls||""}" ${style ? `style="${style}"` : ""} data-say="${esc(t)}" role="button" tabindex="0"
     title="Tocar para escuchar">${t}</span>`;
@@ -1659,6 +1679,7 @@ function go(id){
   if(hx) hx.addEventListener("click", () => { S.hintSeen = 1; save(); hx.closest(".hintbar").remove(); });
   document.querySelectorAll(".hintbar svg").forEach(s => { s.style.width = "18px"; s.style.height = "18px";
     s.style.stroke = "currentColor"; s.style.fill = "none"; s.style.strokeWidth = "1.7"; s.style.flex = "none"; });
+  if(marcaOff()) limpiaArbol($("#view"));
   if(VIEWS[id].init) VIEWS[id].init();
 }
 
@@ -1683,6 +1704,56 @@ function paintSpeed(){
   document.querySelectorAll("[data-speed]").forEach(b =>
     b.setAttribute("aria-pressed", +b.dataset.speed === S.speed));
 }
+
+/* ══ MARCA OPCIONAL ══════════════════════════════════════
+   Algunos idiomas se estudian con una marca que en la escritura real no
+   aparece: la tilde que marca dónde cae el acento. Se aprende con ella, pero hay que
+   saber leer sin ella, así que se puede apagar. El teclado queda fuera:
+   ahí la marca es una tecla, no una ayuda. */
+const MARCA = LANG.marcaOpcional || null;
+const sinMarca = t => MARCA ? String(t == null ? "" : t).split(MARCA.car).join("") : t;
+const marcaOff = () => !!(MARCA && S.sinMarca);
+
+function limpiaNodo(n){
+  if(n.nodeValue.indexOf(MARCA.car) < 0) return;
+  /* fuera del filtro: el teclado (ahí la marca es una tecla) y lo que escribe quien estudia */
+  if(n.parentElement && n.parentElement.closest(".kb, .markbar, #kbout, #dictBox")) return;
+  n.nodeValue = sinMarca(n.nodeValue);
+}
+function limpiaArbol(raiz){
+  if(raiz.nodeType === 3) return limpiaNodo(raiz);
+  const it = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+  const nodos = []; let n;
+  while((n = it.nextNode())) nodos.push(n);
+  nodos.forEach(limpiaNodo);
+}
+function vigilaMarca(){
+  if(!MARCA) return;
+  new MutationObserver(ms => {
+    if(!marcaOff()) return;
+    ms.forEach(m => {
+      if(m.type === "characterData") limpiaNodo(m.target);
+      else m.addedNodes.forEach(limpiaArbol);
+    });
+  }).observe($("#view"), {childList:true, subtree:true, characterData:true});
+}
+function paintMarca(){
+  const bar = $("#markbar");
+  if(!bar || !MARCA) return;
+  bar.hidden = false;
+  bar.innerHTML = `<div class="mtit">${esc(MARCA.titulo)}</div>
+    <div class="mbtns" role="group" aria-label="${esc(MARCA.titulo)}">
+      <button data-marca="0" aria-pressed="${!S.sinMarca}">${esc(MARCA.on)}</button>
+      <button data-marca="1" aria-pressed="${!!S.sinMarca}">${esc(MARCA.off)}</button>
+    </div>
+    <div class="mayuda">${esc(MARCA.ayuda)}</div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-marca]");
+  if(!b) return;
+  S.sinMarca = +b.dataset.marca; save(); paintMarca();
+  go(current || "inicio");   /* se repinta la vista con o sin marca */
+});
 
 /* ══ VISTA: INICIO ═══════════════════════════════════════ */
 VIEWS.inicio = {
@@ -1729,7 +1800,7 @@ VIEWS.inicio = {
       .map(a => ring(a, (NAV.find(n => n[0] === a) || [,a])[1])).join("")}</div>
 
     <h2 class="sec">${T("ruta_titulo","La ruta")} <span class="th">${T("ruta_th","")}</span></h2>
-    <p class="sec-note">El orden importa. El tailandés se lee en voz alta antes que en silencio: primero el oído, luego la letra.</p>
+    <p class="sec-note">El orden importa. El ${idioma()} se lee en voz alta antes que en silencio: primero el oído, luego la letra.</p>
     <div class="card path">
       ${PATH.map(([t,d,go],i) => `<div class="step" data-go="${go}" role="button" tabindex="0">
         <div class="step-n">${i+1}</div>
@@ -1752,7 +1823,7 @@ VIEWS.tonos = {
     return `
     <div class="vhead"><div class="eyebrow">${T("tonos_eyebrow","Fundamento 1")}</div>
       <h1>${T("tonos_h1","Los cinco tonos")}</h1>
-      <p class="lede">${T("tonos_lede","El tailandés tiene cinco melodías. No son entonación ni énfasis: son parte de la palabra, igual que una vocal. Escúchalas hasta distinguirlas, y solo después aprende a deducirlas al leer.")}</p></div>
+      <p class="lede">${T("tonos_lede","Los tonos no son entonación ni énfasis: son parte de la palabra, igual que una vocal. Escúchalos hasta distinguirlos, y solo después aprende a deducirlos al leer.")}</p></div>
 
     <h2 class="sec">${T("tonos_sec1","Escucha los cinco")} <span class="th">${T("tonos_sec1th","")}</span></h2>
     <p class="sec-note">${T("tonos_sec1nota","La misma sílaba «kha» dicha de cinco maneras. Pon el audio en Lento la primera vez.")}</p>
@@ -1942,7 +2013,7 @@ function paintDetail(){
         <dt>Nombre</dt><dd>${c[2]}</dd>
         <dt>Al inicio</dt><dd>${c[3]}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final" : c[4]}</dd>
-        <dt>Clase</dt><dd>${CLASSTHAI[c[5]]} — ${c[5] === "h" ? "sin marca y sílaba viva → tono ascendente" : c[5] === "m" ? "sin marca y sílaba viva → tono medio" : "sin marca y sílaba viva → tono medio; en sílaba muerta corta → alto"}</dd>
+        <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
       </dl>
       <div class="row" style="margin-top:12px">
         <button class="btn btn--s" id="mark">${kn ? "✓ Aprendida" : "Marcar como aprendida"}</button>
@@ -1986,7 +2057,7 @@ VIEWS.escritura = {
     </div>
     <div class="tracewrap"><canvas class="trace" id="tCanvas" width="1200" height="380"></canvas></div>
 
-    <h2 class="sec">Teclado tailandés</h2>
+    <h2 class="sec">Teclado ${idioma()}</h2>
     <p class="sec-note">Para escribir sin cambiar la configuración del sistema. Útil para copiar una palabra en un traductor o en un mensaje.</p>
     <div class="card">
       <div id="kbout" class="th" aria-live="polite"></div>
@@ -2134,7 +2205,7 @@ VIEWS.hablar = {
         const near = alts.some(a => stripThai(a).includes(stripThai(target[0]).slice(0,2)));
         out.innerHTML = hit
           ? `<b style="color:var(--ok)">Correcto.</b> He entendido «<span class="th">${esc(alts[0])}</span>».`
-          : `He entendido «<span class="th">${esc(alts[0])}</span>». ${near ? "Casi: revisa el tono." : "Vuelve a escuchar el modelo y exagera la melodía."}`;
+          : `He entendido «<span class="th">${esc(alts[0])}</span>». ${near ? T("hablar_casi","Casi: fíjate en cómo suena el modelo.") : T("hablar_falla","Vuelve a escuchar el modelo y repite exagerando.")}`;
         if(hit) touchStreak();
       };
       r.onerror = ev => {
@@ -2162,8 +2233,8 @@ VIEWS.vocabulario = {
     <div class="filters" id="vCats">${cats.map(c =>
       `<button data-c="${c}" aria-pressed="${vCat===c}">${c[0].toUpperCase()+c.slice(1)}</button>`).join("")}</div>
     <div class="row" style="margin-bottom:12px">
-      <button class="btn btn--s" data-vmode="th-es" aria-pressed="${vMode==="th-es"}">Ver tailandés → decir español</button>
-      <button class="btn btn--s" data-vmode="es-th" aria-pressed="${vMode==="es-th"}">Ver español → decir tailandés</button>
+      <button class="btn btn--s" data-vmode="th-es" aria-pressed="${vMode==="th-es"}">Ver ${idioma()} → decir español</button>
+      <button class="btn btn--s" data-vmode="es-th" aria-pressed="${vMode==="es-th"}">Ver español → decir ${idioma()}</button>
     </div>
     <div class="bar"><i id="vBar" style="width:0%"></i></div>
     <div id="vCard"></div>
@@ -2172,7 +2243,7 @@ VIEWS.vocabulario = {
       <kbd>1</kbd> no la sabía · <kbd>2</kbd> la sabía · <kbd>S</kbd> escuchar</p>
 
     <h2 class="sec">Todas las palabras</h2>
-    <input type="search" id="vSearch" placeholder="Buscar en español, tailandés o romanización…" style="margin-bottom:12px">
+    <input type="search" id="vSearch" placeholder="${T("vocab_buscar","Buscar en español, " + idioma() + " o romanización…")}" style="margin-bottom:12px">
     <div class="list" id="vList"></div>`;
   },
   init(){
@@ -2283,7 +2354,7 @@ VIEWS.frases = {
       <button class="btn btn--s" data-g="f" aria-pressed="${S.gender==="f"}">${PARTICULAS.botones[1]}</button>
     </div></div></div>` : `<div class="banner"><div>${T("frases_banner","")}</div></div>`}
 
-    <input type="search" id="pSearch" placeholder="Buscar una frase en español o tailandés…" style="margin-bottom:16px">
+    <input type="search" id="pSearch" placeholder="${T("frases_buscar","Buscar una frase en español o " + idioma() + "…")}" style="margin-bottom:16px">
     <div id="pList">${sits.map(s => `
       <h2 class="sec">${s}</h2>
       <div class="list">${PHRASES.filter(p => p[3] === s).map(p => {
@@ -2494,7 +2565,7 @@ VIEWS.repaso = {
     return `
     <div class="vhead"><div class="eyebrow">Herramienta 9</div>
       <h1>Repaso mezclado</h1>
-      <p class="lede">Doce preguntas de todo: letras, clases, vocabulario, escucha, tonos, frases y números.
+      <p class="lede">${T("repaso_lede","Doce preguntas de todo: letras, clases, vocabulario, escucha, frases y números.")}
       Mejor marca hasta ahora: <b>${S.best.repaso}%</b>.</p></div>
     <div class="card" id="mix"></div>
 
@@ -2505,7 +2576,7 @@ VIEWS.repaso = {
         <tr><td>Consonantes marcadas como aprendidas</td><td>${Object.keys(S.known).length} de ${CONS.length}</td></tr>
         <tr><td>Vocabulario en nivel 3 o superior</td><td>${Object.values(S.vocab).filter(b => b >= 3).length} de ${VOCAB.length}</td></tr>
         <tr><td>Frases marcadas</td><td>${Object.keys(S.phr).length} de ${PHRASES.length}</td></tr>
-        <tr><td>Mejor prueba de tonos</td><td>${S.best.tono}%</td></tr>
+        <tr><td>${T("repaso_fila","Mejor prueba de oído fino")}</td><td>${S.best.tono}%</td></tr>
         <tr><td>Mejor prueba de oído</td><td>${S.best.oido}%</td></tr>
         <tr><td>Racha</td><td>${S.streak.n || 0} ${S.streak.n === 1 ? "día" : "días"}</td></tr>
       </tbody></table></div>
@@ -2812,7 +2883,7 @@ VIEWS.juegos = {
       y escribir de oído. Son los que más cansan y los que más consolidan.</p></div>
 
     <h2 class="sec">${T("juego1_titulo","Emparejar")} <span class="th">${T("juego1_th","")}</span></h2>
-    <p class="sec-note">Seis palabras, doce cartas. Encuentra cada tailandés con su español.
+    <p class="sec-note">Seis palabras, doce cartas. Encuentra cada una con su español.
     Cada carta que destapas se pronuncia, así que además entrenas el oído sin darte cuenta.</p>
     <div class="row" style="margin-bottom:12px">
       <span id="memStat" class="mono-out"></span>
@@ -2822,7 +2893,7 @@ VIEWS.juegos = {
 
     <h2 class="sec">${T("juego2_titulo","Escribe lo que oyes")} <span class="th">${T("juego2_th","")}</span></h2>
     <p class="sec-note">El ejercicio más exigente de la página: oír una palabra y escribirla de cero.
-    Junta oído, tonos y ortografía en un solo gesto. Si aciertas una de cada tres, vas bien.</p>
+    ${T("juego2_nota","Junta oído y ortografía en un solo gesto.")} Si aciertas una de cada tres, vas bien.</p>
     <div class="card">
       <div class="row" style="margin-bottom:12px">
         <button class="btn btn--p" id="dictPlay">${svg("play")} Escuchar</button>
@@ -2851,7 +2922,7 @@ VIEWS.juegos = {
     $("#dictDel").addEventListener("click", () => { DICT.typed = DICT.typed.slice(0,-1); DICT.state = ""; dictPaint(); });
     $("#dictClr").addEventListener("click", () => { DICT.typed = ""; DICT.state = ""; dictPaint(); });
     $("#dictCheck").addEventListener("click", () => {
-      DICT.state = DICT.typed === DICT.w[0] ? "ok" : "no";
+      DICT.state = sinMarca(DICT.typed) === sinMarca(DICT.w[0]) ? "ok" : "no";
       dictPaint(); touchStreak();
     });
     document.querySelectorAll("[data-dk]").forEach(b => b.addEventListener("click", () => {
@@ -2873,6 +2944,8 @@ VIEWS.juegos = {
   document.documentElement.style.setProperty("--glifo", '"' + LANG.glifo + '"');
 })();
 paintSpeed();
+paintMarca();
+vigilaMarca();
 go((location.hash || "#inicio").slice(1));
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if(h !== current) go(h); });
 

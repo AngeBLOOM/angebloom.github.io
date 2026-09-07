@@ -57,6 +57,7 @@ Un solo motor y un paquete de datos por idioma:
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
 | `gen-icons.js` | Genera los iconos PNG sin dependencias |
+| `verificar.js` | Comprueba que ningún idioma arrastre escritura de otro |
 
 Reconstruir todo:
 
@@ -65,7 +66,12 @@ for L in tailandes japones coreano chino ruso ingles italiano; do
   node build.js $L https://tuusuario.github.io/
 done
 node gen-portal.js https://tuusuario.github.io/ tailandes japones coreano chino ruso ingles italiano
+node verificar.js
 ```
+
+`verificar.js` revisa cada sitio construido y avisa si se ha colado texto tailandés en el curso de
+ruso, kana en el de chino o cualquier otra mezcla. **Pásalo siempre después de construir**: el motor es
+compartido y cualquier cadena que se deje escrita a mano en él acaba apareciendo en los siete cursos.
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.

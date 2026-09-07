@@ -702,6 +702,19 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .dictbox{border-radius:14px}
 .tick:hover{background:var(--ok); border-color:var(--ok)}
 
+
+/* teclado por secciones, con las marcas destacadas */
+.kblab{
+  font:700 10px var(--ui); letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3);
+  margin:12px 0 2px; text-align:center;
+}
+.kblab:first-child{margin-top:0}
+.kb button.kbm{
+  background:var(--accent-soft); border-color:color-mix(in srgb,var(--brand) 45%, transparent);
+  color:var(--brand-ink); font-weight:600; min-width:40px;
+}
+.kb button.kbm:hover{background:var(--brand); border-color:var(--brand); color:#fff}
+
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
@@ -1337,11 +1350,11 @@ const NUM = {
 };
 
 const KB_ROWS = [
-  "a b c d e f g h i l m n o".split(" "),
-  "p q r s t u v z à è é ì ò ù".split(" "),
-  "ch gh gl gn sc qu zz".split(" "),
-  "cc dd ff gg ll mm nn pp rr ss tt".split(" "),
-  "' - ! ?".split(" ")
+  ["Letras", "a b c d e f g h i l m n o p q r s t u v z"],
+  ["Con acento", "à è é ì ò ù"],
+  ["Dígrafos", "ch gh gl gn sc sci qu"],
+  ["Consonantes dobles", "cc dd ff gg ll mm nn pp rr ss tt zz"],
+  ["Signos", "' - ! ?"]
 ];
 
 /* ── ruta y plan ── */
@@ -1512,6 +1525,24 @@ function speak(text, btn, rate){
 /* ══ UTILIDADES ══════════════════════════════════════════ */
 const $ = s => document.querySelector(s);
 /* las marcas que no se sostienen solas se muestran sobre un portador */
+/* dibuja el teclado del idioma. Cada fila puede ser una lista de teclas
+   o un par ["Etiqueta del grupo", "t e c l a s"]. Las marcas combinantes
+   se destacan y se muestran sobre el portador del idioma. */
+function tecladoHTML(attr){
+  return KB_ROWS.map(fila => {
+    /* formato de cada fila: ["Etiqueta del grupo", "t e c l a s"]; la etiqueta puede ir vacía */
+    const conEtiqueta = fila.length === 2 && typeof fila[0] === "string" && typeof fila[1] === "string";
+    const etiqueta = conEtiqueta ? fila[0] : "";
+    const teclas = conEtiqueta ? fila[1].split(" ").filter(Boolean) : fila;
+    const fin = etiqueta ? `<div class="kblab">${etiqueta}</div>` : "";
+    const botones = teclas.map(k => {
+      const esMarca = /^\p{M}/u.test(k);
+      const titulo = esMarca ? ' title="Marca: se escribe justo después de la consonante"' : "";
+      return `<button class="${esMarca ? "kbm" : ""}" data-${attr}="${k}"${titulo}>${conPortador(k)}</button>`;
+    }).join("");
+    return fin + `<div class="kbrow">${botones}</div>`;
+  }).join("");
+}
 const conPortador = k => /^\p{M}/u.test(k) ? (LANG.portador || "◌") + k : k;
 /* T("clave", "por defecto") — cada paquete de idioma puede sobreescribir cualquier texto */
 const T = (k, def) => (LANG.textos && LANG.textos[k] !== undefined) ? LANG.textos[k] : def;
@@ -1966,8 +1997,10 @@ VIEWS.escritura = {
         <button class="btn btn--s btn--p" id="kbSay">${svg("play")} Escuchar</button>
         <button class="btn btn--s" id="kbCopy">Copiar</button>
       </div>
-      <div class="kb">${KB_ROWS.map(r => `<div class="kbrow">${r.map(k =>
-        `<button data-k="${k}">${conPortador(k)}</button>`).join("")}</div>`).join("")}</div>
+      <div class="kb">${tecladoHTML("k")}</div>
+      <p class="muted" style="font-size:13px;margin-top:10px">
+        Las teclas resaltadas son marcas: no se sostienen solas, se escriben justo después de la letra
+        a la que acompañan. Aquí se muestran sobre ${LANG.portador || "un círculo"} para que se vean.</p>
     </div>`;
   },
   init(){
@@ -2803,8 +2836,7 @@ VIEWS.juegos = {
         <button class="btn btn--s" id="dictDel">Borrar último</button>
         <button class="btn btn--s" id="dictClr">Vaciar</button>
       </div>
-      <div class="kb">${KB_ROWS.map(r => `<div class="kbrow">${r.map(k =>
-        `<button data-dk="${k}">${conPortador(k)}</button>`).join("")}</div>`).join("")}</div>
+      <div class="kb">${tecladoHTML("dk")}</div>
     </div>`;
   },
   init(){

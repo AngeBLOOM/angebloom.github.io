@@ -531,7 +531,7 @@ kbd{
 .mcard .mth{font-family:var(--thai); font-size:24px}
 .mcard[data-face="down"]{color:transparent; background:linear-gradient(150deg, var(--accent), var(--accent-ink)); border-color:var(--accent-ink)}
 .mcard[data-face="down"] *{visibility:hidden}
-.mcard[data-face="down"]::after{content:"ก"; font-family:var(--thai); font-size:26px; color:rgba(255,255,255,.55); visibility:visible}
+.mcard[data-face="down"]::after{content:var(--glifo,"?"); font-family:var(--thai); font-size:26px; color:rgba(255,255,255,.55); visibility:visible}
 .mcard:hover[data-face="down"]{transform:translateY(-3px) scale(1.02)}
 .mcard.matched{border-color:var(--jade); background:color-mix(in srgb,var(--jade) 16%,var(--surface)); cursor:default}
 .mcard.wrong{border-color:var(--bad); animation:shake .32s}
@@ -741,7 +741,7 @@ img{max-width:100%;height:auto}
 <div id="shell">
   <nav id="rail" aria-label="Herramientas">
     <div class="brand">
-      <div class="mark" aria-hidden="true">ก</div>
+      <div class="mark" aria-hidden="true"></div>
       <div class="txt">
         <b>Hua Jai Thai</b>
         <span>tailandés paso a paso</span>
@@ -1395,6 +1395,22 @@ const TRAZO = [
 ["4 · La melodía va al final", "La entonación italiana sube y baja al final de la frase, no en medio. Escucha y copia frases enteras, no palabras."]
 ];
 
+/* tres cosas que conviene saber ya */
+const SABER = [
+  [
+    "El 70% del vocabulario te lo regalan",
+    "Y ahí está la trampa: entre esas palabras transparentes se esconden los falsos amigos. <i>Burro</i> es mantequilla."
+  ],
+  [
+    "Las consonantes dobles cambian la palabra",
+    "<i>Nonno</i> es abuelo y <i>nono</i> es noveno. En español no distinguimos la duración; en italiano es un fonema."
+  ],
+  [
+    "Se lee casi como se escribe",
+    "Como el español, con una docena de reglas de más: <i>ce</i> suena «che», <i>gli</i> suena «lli» y <i>gn</i> es nuestra «ñ»."
+  ]
+];
+
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -1495,6 +1511,8 @@ function speak(text, btn, rate){
 
 /* ══ UTILIDADES ══════════════════════════════════════════ */
 const $ = s => document.querySelector(s);
+/* las marcas que no se sostienen solas se muestran sobre un portador */
+const conPortador = k => /^\p{M}/u.test(k) ? (LANG.portador || "◌") + k : k;
 /* T("clave", "por defecto") — cada paquete de idioma puede sobreescribir cualquier texto */
 const T = (k, def) => (LANG.textos && LANG.textos[k] !== undefined) ? LANG.textos[k] : def;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -1679,7 +1697,7 @@ VIEWS.inicio = {
       .filter(a => LANG.secciones.indexOf(a) >= 0)
       .map(a => ring(a, (NAV.find(n => n[0] === a) || [,a])[1])).join("")}</div>
 
-    <h2 class="sec">La ruta <span class="th">เส้นทาง</span></h2>
+    <h2 class="sec">${T("ruta_titulo","La ruta")} <span class="th">${T("ruta_th","")}</span></h2>
     <p class="sec-note">El orden importa. El tailandés se lee en voz alta antes que en silencio: primero el oído, luego la letra.</p>
     <div class="card path">
       ${PATH.map(([t,d,go],i) => `<div class="step" data-go="${go}" role="button" tabindex="0">
@@ -1690,71 +1708,22 @@ VIEWS.inicio = {
 
     <h2 class="sec">Tres cosas que conviene saber ya</h2>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-      <div class="card"><b>No hay conjugación</b>
-        <p class="muted" style="font-size:14.5px;margin-top:6px">Los verbos no cambian nunca. «Yo comer», «él comer», «ayer yo comer». El tiempo se marca con palabras sueltas.</p></div>
-      <div class="card"><b>No hay espacios entre palabras</b>
-        <p class="muted" style="font-size:14.5px;margin-top:6px">El espacio separa frases, no palabras: <span class="th">ผมกินข้าว</span> son tres palabras seguidas.</p></div>
-      <div class="card"><b>El tono es parte de la palabra</b>
-        <p class="muted" style="font-size:14.5px;margin-top:6px">Igual que en español cambiar una vocal cambia la palabra, en tailandés cambiar la melodía cambia la palabra.</p></div>
+      ${SABER.map(([t,d]) => `<div class="card"><b>${t}</b>
+        <p class="muted" style="font-size:14.5px;margin-top:6px">${d}</p></div>`).join("")}
     </div>`;
   },
   init(){ paintVoice(); }
 };
 
 /* ══ VISTA: TONOS ════════════════════════════════════════ */
-function toneOf(cls, dead, longV, mark){
-  if(mark === "ek")   return cls === "l" ? "fall" : "low";
-  if(mark === "tho")  return cls === "l" ? "high" : "fall";
-  if(mark === "tri")  return "high";
-  if(mark === "chat") return "rise";
-  if(!dead) return cls === "h" ? "rise" : "mid";
-  if(cls === "l") return longV ? "fall" : "high";
-  return "low";
-}
-const MACHINE = {cls:"m", syl:"live-long", mark:""};
-const MACH_WORDS = {
-  "m|live-long|":    ["กา","kaa","cuervo"], "m|live-long|ek":["ก่า","kàa","(sílaba)"],
-  "m|live-long|tho": ["ก้า","kâa","(sílaba)"], "m|live-long|tri":["ก๊า","káa","(sílaba)"],
-  "m|live-long|chat":["ก๋า","kǎa","(sílaba)"],
-  "h|live-long|":    ["ขา","khǎa","pierna"], "h|live-long|ek":["ข่า","khàa","galanga"],
-  "h|live-long|tho": ["ข้า","khâa","siervo"],
-  "l|live-long|":    ["คา","khaa","atascado"], "l|live-long|ek":["ค่า","khâa","valor"],
-  "l|live-long|tho": ["ค้า","kháa","comerciar"],
-  "m|dead-short|":   ["กะ","kà","con"], "h|dead-short|":["ขะ","khà","(sílaba)"],
-  "l|dead-short|":   ["คะ","khá","(partícula)"],
-  "m|dead-long|":    ["กาบ","kàap","vaina"], "h|dead-long|":["ขาด","khàat","faltar"],
-  "l|dead-long|":    ["คาบ","khâap","llevar en la boca"]
-};
-function machineResult(){
-  const dead = MACHINE.syl !== "live-long";
-  const longV = MACHINE.syl !== "dead-short";
-  const t = toneOf(MACHINE.cls, dead, longV, MACHINE.mark);
-  const key = MACHINE.cls + "|" + MACHINE.syl + "|" + MACHINE.mark;
-  const w = MACH_WORDS[key];
-  const T = TONES[t];
-  const rare = (MACHINE.mark === "tri" || MACHINE.mark === "chat") && MACHINE.cls !== "m";
-  return `<div class="result">
-    <div class="eyebrow">Tono resultante</div>
-    <div class="rt ${T.cls}">${T.es}</div>
-    <div class="rom" style="margin-bottom:8px">${T.th} · ${T.desc}</div>
-    <svg class="contour" viewBox="0 0 110 38" aria-hidden="true"><path d="${T.path}" stroke="currentColor" class="${T.cls}" style="stroke:currentColor"/></svg>
-    ${w ? `<div class="rw th ${T.cls}">${w[0]}</div><div class="rom">${w[1]} — ${w[2]}</div>
-      <div style="margin-top:10px">${sayBtn(w[0], w[1])}</div>`
-        : `<p class="muted" style="font-size:13.5px;margin-top:8px">No hay palabra de ejemplo para esta combinación: las sílabas muertas casi nunca llevan marca de tono.</p>`}
-    ${rare ? `<p class="muted" style="font-size:13.5px;margin-top:8px">Ojo: esta marca solo se escribe, en la práctica, sobre consonantes de clase media.</p>` : ""}
-  </div>`;
-}
 VIEWS.tonos = {
   html(){
-    const marks = [["","sin marca"],["ek","◌่ mái èek"],["tho","◌้ mái thoo"],["tri","◌๊ mái trii"],["chat","◌๋ mái càt-ta-waa"]];
-    const syls = [["live-long","viva — acaba en vocal larga o en ง น ม ย ว"],["dead-short","muerta corta — vocal corta suelta"],["dead-long","muerta larga — acaba en ก ด บ"]];
-    const hayCalculadora = LANG.calculadoraTonos;
     return `
     <div class="vhead"><div class="eyebrow">${T("tonos_eyebrow","Fundamento 1")}</div>
       <h1>${T("tonos_h1","Los cinco tonos")}</h1>
       <p class="lede">${T("tonos_lede","El tailandés tiene cinco melodías. No son entonación ni énfasis: son parte de la palabra, igual que una vocal. Escúchalas hasta distinguirlas, y solo después aprende a deducirlas al leer.")}</p></div>
 
-    <h2 class="sec">${T("tonos_sec1","Escucha los cinco")} <span class="th">${T("tonos_sec1th","เสียงวรรณยุกต์")}</span></h2>
+    <h2 class="sec">${T("tonos_sec1","Escucha los cinco")} <span class="th">${T("tonos_sec1th","")}</span></h2>
     <p class="sec-note">${T("tonos_sec1nota","La misma sílaba «kha» dicha de cinco maneras. Pon el audio en Lento la primera vez.")}</p>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
       ${TONE_DEMO.map((d,i) => { const X = TONES[d.tone]; return `<div class="card pop" data-say="${d.th}" role="button" tabindex="0"
@@ -1768,36 +1737,7 @@ VIEWS.tonos = {
         <div>${sayBtn(d.th, d.rom)}</div></div>`; }).join("")}
     </div>
 
-    ${hayCalculadora ? `
-    <h2 class="sec">Calculadora de tonos</h2>
-    <p class="sec-note">Al leer, el tono no se ve: se deduce de tres cosas. Combínalas aquí hasta que las reglas se te queden.</p>
-    <div class="machine">
-      <div class="mach-col"><label>1 · Clase de la consonante</label><div class="opts" id="mCls">
-        ${[["m","กลาง media (ก จ ด ต บ ป อ…)"],["h","สูง alta (ข ฉ ถ ผ ฝ ส ห…)"],["l","ต่ำ baja (ค ง ช ท น พ ม ร ล…)"]]
-          .map(([v,t]) => `<button data-k="cls" data-v="${v}" aria-pressed="${MACHINE.cls===v}">${t}</button>`).join("")}
-      </div></div>
-      <div class="mach-col"><label>2 · Tipo de sílaba</label><div class="opts" id="mSyl">
-        ${syls.map(([v,t]) => `<button data-k="syl" data-v="${v}" aria-pressed="${MACHINE.syl===v}">${t}</button>`).join("")}
-      </div></div>
-      <div class="mach-col"><label>3 · Marca de tono</label><div class="opts" id="mMark">
-        ${marks.map(([v,t]) => `<button data-k="mark" data-v="${v}" aria-pressed="${MACHINE.mark===v}">${
-          v ? `<span class="thg">${t.split(" ")[0]}</span>${t.split(" ").slice(1).join(" ")}` : t}</button>`).join("")}
-      </div></div>
-    </div>
-    <div id="mOut">${machineResult()}</div>
-
-    <h2 class="sec">La tabla completa</h2>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Clase</th><th>Viva</th><th>Muerta corta</th><th>Muerta larga</th><th>+ ◌่</th><th>+ ◌้</th></tr></thead>
-      <tbody>${["m","h","l"].map(c => `<tr>
-        <td><span class="chip chip--${CLASSNAME[c]}">${CLASSNAME[c]}</span></td>
-        ${[["live-long",""],["dead-short",""],["dead-long",""],["live-long","ek"],["live-long","tho"]].map(([s,mk]) => {
-          const t = toneOf(c, s !== "live-long", s !== "dead-short", mk);
-          return `<td><span class="tone ${TONES[t].cls}">${TONES[t].es}</span></td>`; }).join("")}
-      </tr>`).join("")}</tbody>
-    </table></div>
-    <div class="note">Las marcas ◌๊ y ◌๋ solo aparecen en la práctica sobre consonantes de clase media
-    (y en préstamos coloquiales como <span class="th">โต๊ะ</span> «mesa»): dan tono alto y ascendente.</div>` : ""}
+    ${LANG.calculadoraTonos ? CALCULADORA.html() : ""}
 
     ${typeof TONO_REGLAS !== "undefined" ? `
     <h2 class="sec">${T("tonos_reglas","Cuando los tonos cambian solos")}</h2>
@@ -1811,13 +1751,7 @@ VIEWS.tonos = {
     <div class="card" id="toneQuiz"></div>`;
   },
   init(){
-    if(LANG.calculadoraTonos){
-      document.querySelectorAll("#mCls button,#mSyl button,#mMark button").forEach(b => b.addEventListener("click", () => {
-        MACHINE[b.dataset.k] = b.dataset.v;
-        b.parentNode.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
-        $("#mOut").innerHTML = machineResult();
-      }));
-    }
+    if(LANG.calculadoraTonos) CALCULADORA.init();
     quizEngine($("#toneQuiz"), 8, () => {
       const d = pick(TONE_DEMO);
       return {
@@ -1850,7 +1784,7 @@ VIEWS.sonidos = {
         ${sayBtn(w, rom)}</div>`).join("")}
     </div>
 
-    <h2 class="sec">Pares mínimos <span class="th">คำใกล้เคียง</span></h2>
+    <h2 class="sec">${T("pares_titulo","Pares mínimos")} <span class="th">${T("pares_th","")}</span></h2>
     <p class="sec-note">Dos o tres palabras casi idénticas. Escúchalas seguidas, luego tapa la pantalla y adivina.</p>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
       ${PAIRS.map(([t,d,items]) => `<div class="card">
@@ -1991,7 +1925,7 @@ function paintDetail(){
 }
 
 /* ══ VISTA: ESCRITURA ════════════════════════════════════ */
-let traceChar = "ก", strokes = [], curStroke = null;
+let traceChar = CONS[0][0], strokes = [], curStroke = null;
 /* el teclado lo aporta el paquete de idioma (KB_ROWS) */
 VIEWS.escritura = {
   html(){
@@ -2010,8 +1944,8 @@ VIEWS.escritura = {
     <div class="row" style="margin-bottom:10px">
       <select id="tSel" style="max-width:320px">
         <optgroup label="${T("alfa_sec1","Letras")}">${CONS.map(c => `<option value="${c[0]}">${c[0]} — ${c[1]}</option>`).join("")}</optgroup>
-        <optgroup label="${TABLA2.titulo}">${TABLA2.filas.map(v => `<option value="${v[0].replace("◌","อ")}">${v[0]} — ${v[1]}</option>`).join("")}</optgroup>
-        <optgroup label="${T("alfa_sec3","Signos")}">${MARKS.map(m => `<option value="${m[0].replace("◌","อ")}">${m[0]} — ${m[2]}</option>`).join("")}</optgroup>
+        <optgroup label="${TABLA2.titulo}">${TABLA2.filas.map(v => `<option value="${v[0].replace("◌", LANG.portador || "")}">${v[0]} — ${v[1]}</option>`).join("")}</optgroup>
+        <optgroup label="${T("alfa_sec3","Signos")}">${MARKS.map(m => `<option value="${m[0].replace("◌", LANG.portador || "")}">${m[0]} — ${m[2]}</option>`).join("")}</optgroup>
       </select>
       <button class="btn btn--s" id="tClear">Borrar</button>
       <button class="btn btn--s" id="tUndo">Deshacer</button>
@@ -2033,7 +1967,7 @@ VIEWS.escritura = {
         <button class="btn btn--s" id="kbCopy">Copiar</button>
       </div>
       <div class="kb">${KB_ROWS.map(r => `<div class="kbrow">${r.map(k =>
-        `<button data-k="${k}">${/[่้๊๋์็ัิีึืุู]/.test(k) ? "อ" + k : k}</button>`).join("")}</div>`).join("")}</div>
+        `<button data-k="${k}">${conPortador(k)}</button>`).join("")}</div>`).join("")}</div>
     </div>`;
   },
   init(){
@@ -2105,7 +2039,8 @@ VIEWS.escritura = {
 
 /* ══ VISTA: HABLAR ═══════════════════════════════════════ */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-const stripThai = s => (s||"").replace(/[\s็-๎….,!?]/g,"");
+/* para comparar lo que reconoce el micro: fuera espacios, puntuación y marcas de cualquier alfabeto */
+const stripThai = s => (s||"").replace(/[\p{M}\s….,!?¿¡]/gu, "");
 let spkIdx = 0;
 const SPK = VOCAB.filter(v => ["saludos","comida","viajar","básico"].includes(v[3])).slice(0,30);
 VIEWS.hablar = {
@@ -2190,7 +2125,7 @@ VIEWS.vocabulario = {
       <h1>Vocabulario</h1>
       <p class="lede">${T("vocab_lede","")}</p></div>
 
-    <h2 class="sec">Tarjetas <span class="th">บัตรคำ</span></h2>
+    <h2 class="sec">${T("tarjetas_titulo","Tarjetas")} <span class="th">${T("tarjetas_th","")}</span></h2>
     <div class="filters" id="vCats">${cats.map(c =>
       `<button data-c="${c}" aria-pressed="${vCat===c}">${c[0].toUpperCase()+c.slice(1)}</button>`).join("")}</div>
     <div class="row" style="margin-bottom:12px">
@@ -2286,17 +2221,20 @@ VIEWS.vocabulario = {
 };
 
 /* ══ VISTA: FRASES ═══════════════════════════════════════ */
+/* las partículas de cortesía las declara el paquete (PARTICULAS); sin ellas, no se toca nada */
 function renderPhrase(s){
-  const male = S.gender === "m";
-  return s.replace(/\{p\}/g, male ? "ครับ" : "ค่ะ")
-          .replace(/\{q\}/g, male ? "ครับ" : "คะ")
-          .replace(/\{i\}/g, male ? "ผม" : "ฉัน");
+  if(!LANG.particulas) return s;
+  const i = S.gender === "m" ? 0 : 1;
+  return s.replace(/\{p\}/g, PARTICULAS.p[i])
+          .replace(/\{q\}/g, PARTICULAS.q[i])
+          .replace(/\{i\}/g, PARTICULAS.i[i]);
 }
 function renderRom(s){
-  const male = S.gender === "m";
-  return s.replace(/\{p\}/g, male ? "khráp" : "khâ")
-          .replace(/\{q\}/g, male ? "khráp" : "khá")
-          .replace(/\{i\}/g, male ? "phǒm" : "chǎn");
+  if(!LANG.particulas) return s;
+  const i = S.gender === "m" ? 0 : 1;
+  return s.replace(/\{p\}/g, PARTICULAS.pRom[i])
+          .replace(/\{q\}/g, PARTICULAS.qRom[i])
+          .replace(/\{i\}/g, PARTICULAS.iRom[i]);
 }
 VIEWS.frases = {
   html(){
@@ -2306,11 +2244,10 @@ VIEWS.frases = {
       <h1>Frases para usar hoy</h1>
       <p class="lede">${T("frases_lede","")}</p></div>
 
-    ${LANG.particulas ? `<div class="banner"><div><b>Elige cómo hablas.</b> La partícula cambia según quién habla, no según a quién se habla.
-    Los hombres dicen <span class="th">ครับ</span> siempre; las mujeres dicen <span class="th">ค่ะ</span> al afirmar y <span class="th">คะ</span> al preguntar.
+    ${LANG.particulas ? `<div class="banner"><div>${PARTICULAS.aviso}
     <div class="row" style="margin-top:10px">
-      <button class="btn btn--s" data-g="m" aria-pressed="${S.gender==="m"}">Hablo como hombre (ผม / ครับ)</button>
-      <button class="btn btn--s" data-g="f" aria-pressed="${S.gender==="f"}">Hablo como mujer (ฉัน / ค่ะ)</button>
+      <button class="btn btn--s" data-g="m" aria-pressed="${S.gender==="m"}">${PARTICULAS.botones[0]}</button>
+      <button class="btn btn--s" data-g="f" aria-pressed="${S.gender==="f"}">${PARTICULAS.botones[1]}</button>
     </div></div></div>` : `<div class="banner"><div>${T("frases_banner","")}</div></div>`}
 
     <input type="search" id="pSearch" placeholder="Buscar una frase en español o tailandés…" style="margin-bottom:16px">
@@ -2841,7 +2778,7 @@ VIEWS.juegos = {
       <p class="lede">Dos ejercicios que trabajan lo que las tarjetas no llegan a tocar: asociar sin pistas
       y escribir de oído. Son los que más cansan y los que más consolidan.</p></div>
 
-    <h2 class="sec">Emparejar <span class="th">จับคู่</span></h2>
+    <h2 class="sec">${T("juego1_titulo","Emparejar")} <span class="th">${T("juego1_th","")}</span></h2>
     <p class="sec-note">Seis palabras, doce cartas. Encuentra cada tailandés con su español.
     Cada carta que destapas se pronuncia, así que además entrenas el oído sin darte cuenta.</p>
     <div class="row" style="margin-bottom:12px">
@@ -2850,7 +2787,7 @@ VIEWS.juegos = {
     </div>
     <div class="board" id="board"></div>
 
-    <h2 class="sec">Escribe lo que oyes <span class="th">เขียนตามคำบอก</span></h2>
+    <h2 class="sec">${T("juego2_titulo","Escribe lo que oyes")} <span class="th">${T("juego2_th","")}</span></h2>
     <p class="sec-note">El ejercicio más exigente de la página: oír una palabra y escribirla de cero.
     Junta oído, tonos y ortografía en un solo gesto. Si aciertas una de cada tres, vas bien.</p>
     <div class="card">
@@ -2867,7 +2804,7 @@ VIEWS.juegos = {
         <button class="btn btn--s" id="dictClr">Vaciar</button>
       </div>
       <div class="kb">${KB_ROWS.map(r => `<div class="kbrow">${r.map(k =>
-        `<button data-dk="${k}">${/[่้๊๋์็ัิีึืุู]/.test(k) ? "อ" + k : k}</button>`).join("")}</div>`).join("")}</div>
+        `<button data-dk="${k}">${conPortador(k)}</button>`).join("")}</div>`).join("")}</div>
     </div>`;
   },
   init(){
@@ -2901,6 +2838,7 @@ VIEWS.juegos = {
   if(s) s.textContent = LANG.lema;
   if(m) m.textContent = LANG.glifo;
   document.documentElement.lang = "es";
+  document.documentElement.style.setProperty("--glifo", '"' + LANG.glifo + '"');
 })();
 paintSpeed();
 go((location.hash || "#inicio").slice(1));

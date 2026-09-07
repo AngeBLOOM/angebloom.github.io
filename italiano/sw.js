@@ -1,5 +1,5 @@
-/* Andiamo — caché offline. Versión: italiano-20260904-fpl1 */
-const CACHE = "italiano-20260904-fpl1";
+/* Andiamo — caché offline. Versión: italiano-20260907-k8de */
+const CACHE = "italiano-20260907-k8de";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

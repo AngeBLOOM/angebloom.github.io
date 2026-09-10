@@ -109,6 +109,24 @@ La hora del `.ics` es **flotante** a propósito (sin `TZID` ni `Z`): la sesión 
 estés, no a las siete de un huso fijo. Las líneas se pliegan a 75 octetos como pide la norma, que es
 donde Outlook se pone quisquilloso.
 
+### La analítica
+
+Se declara en el bloque `ANALITICA` de `part3.js`, igual que `SUPPORT` y `AUTOR`, y vale para los siete
+cursos y el portal a la vez. **Mientras `goatcounter` esté vacío no se carga ningún script ni se hace
+ninguna petición a nadie**, y el pie no menciona nada. En cuanto lleva un código, `build.js` y
+`gen-portal.js` inyectan la etiqueta en la cabecera y el pie añade la frase que lo explica.
+
+Se eligió [GoatCounter](https://www.goatcounter.com) porque no usa cookies, no sigue a nadie entre
+webs y no guarda datos personales: sin eso haría falta un banner de consentimiento, que en una página
+de estudio sobra. Da visitas, páginas más vistas, país y de dónde llega la gente. No da "usuarios
+únicos" fiables, y está bien que así sea.
+
+El service worker no interfiere: su `fetch` se desentiende de todo lo que no sea de este origen
+(salvo las tipografías de Google), así que la petición de la analítica pasa de largo.
+
+Para cambiarlo por otro proveedor basta con sustituir esa etiqueta en los dos generadores. Si algún
+día se usa uno con cookies, hay que añadir banner de consentimiento y política de privacidad.
+
 ### El botón de apoyo y la autoría
 
 Ambos viven en la cabecera de `part3.js` (`SUPPORT` y `AUTOR`) y se aplican a los cinco cursos y al

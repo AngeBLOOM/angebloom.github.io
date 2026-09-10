@@ -69,12 +69,28 @@ node gen-portal.js https://tuusuario.github.io/ tailandes japones coreano chino 
 node verificar.js
 ```
 
-`verificar.js` revisa cada sitio construido y avisa si se ha colado texto tailandés en el curso de
-ruso, kana en el de chino o cualquier otra mezcla. **Pásalo siempre después de construir**: el motor es
-compartido y cualquier cadena que se deje escrita a mano en él acaba apareciendo en los siete cursos.
+`verificar.js` revisa cada sitio construido con dos redes. La primera busca escritura ajena: texto
+tailandés en el curso de ruso, kana en el de chino. La segunda busca fugas en castellano — el nombre de
+otro idioma o de su escritura («tailandés», «hangul», «pinyin»…) escrito a mano en el motor. Esta
+segunda es la que más falta hacía: los nombres van acentuados a propósito, para no chocar con los
+identificadores del código, que no llevan tilde.
+
+**Pásalo siempre después de construir**: el motor es compartido y cualquier cadena que se deje escrita
+a mano en él acaba apareciendo en los siete cursos. Lo propio de cada idioma va en su `data-*.js`:
+`LANG.textos` para las frases, `CLASSNOTA` para la regla que explica la clase de cada letra y `PATH`
+para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
+
+### Marcas que se estudian pero no se escriben
+
+El ruso se aprende con la tilde del acento marcada, porque sin ella no hay forma de saber dónde cae ni
+cómo suenan las vocales. Pero en ruso real esa tilde no existe. Por eso el paquete declara
+`LANG.marcaOpcional` y aparece un interruptor en la barra lateral: **Marcado** para estudiar,
+**Texto real** para leer como se lee fuera de clase. El teclado y lo que escribe quien estudia quedan
+fuera del filtro, y el dictado nunca exige la marca. Cualquier idioma puede usarlo declarando ese
+campo con el carácter que corresponda.
 
 ### El botón de apoyo y la autoría
 

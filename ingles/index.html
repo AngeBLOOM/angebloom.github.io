@@ -174,6 +174,36 @@ p{margin:0}
 }
 .markbar button[aria-pressed="true"]{background:var(--brand); color:#fff; border-color:var(--brand)}
 .markbar .mayuda{font:400 10.5px/1.35 var(--ui); color:var(--ink-3); margin-top:5px}
+/* horario de estudio */
+.hgrid{display:flex; flex-wrap:wrap; gap:18px 26px; align-items:flex-start}
+.hlab{font:700 10px var(--ui); letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3); margin-bottom:7px}
+.days{display:flex; gap:6px}
+.days button{
+  width:38px; height:38px; border-radius:50%; cursor:pointer; font:700 13px var(--ui);
+  border:1px solid var(--line); background:var(--card); color:var(--ink-2); transition:.15s;
+}
+.days button:hover{border-color:var(--brand)}
+.days button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
+.hcampos{display:flex; gap:14px; flex-wrap:wrap}
+.hcampo{display:flex; flex-direction:column; gap:7px; font:700 10px var(--ui);
+  letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3)}
+.hcampo input,.hcampo select{
+  font:600 15px var(--ui); color:var(--ink); background:var(--card);
+  border:1px solid var(--line); border-radius:10px; padding:8px 10px; text-transform:none; letter-spacing:0;
+}
+.hnext{margin-top:16px; font-size:14.5px; color:var(--ink-2)}
+.hmini{font-size:12.5px; line-height:1.5; margin-top:12px}
+.hoy{
+  display:flex; flex-direction:column; gap:2px; margin:14px 0 0; padding:13px 16px;
+  border:1px solid var(--line); border-radius:14px; background:var(--card);
+}
+.hoy[role="button"]{cursor:pointer}
+.hoy[role="button"]:hover{border-color:var(--brand)}
+.hoy b{font-size:15px}
+.hoy span{font-size:13.5px; color:var(--ink-3)}
+.hoy--now{background:var(--accent-soft); border-color:color-mix(in srgb,var(--brand) 45%, transparent)}
+.hoy--now b{color:var(--brand-ink)}
+.hoy--done b{color:var(--ok)}
 .speedbtns{display:flex; gap:4px; padding:0 6px}
 .speedbtns button{
   flex:1; padding:5px 6px; font:600 11px var(--ui); letter-spacing:.04em;
@@ -1485,7 +1515,8 @@ const AUTOR = {
 /* ══ ESTADO ══════════════════════════════════════════════ */
 const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              best:{tono:0, repaso:0, oido:0}, streak:{day:"", n:0},
-             today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0};
+             today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
+             horario:{dias:[], hora:"19:00", min:20, avisado:""}};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -1804,6 +1835,7 @@ VIEWS.inicio = {
     </div>
     <div id="voiceHelp"></div>
     <div id="goalBox">${goalHTML()}</div>
+    <div id="hoyBox">${avisoHoyHTML()}</div>
     <div class="rings">${(LANG.anillos||["alfabeto","vocabulario","repaso"])
       .filter(a => LANG.secciones.indexOf(a) >= 0)
       .map(a => ring(a, (NAV.find(n => n[0] === a) || [,a])[1])).join("")}</div>
@@ -2658,6 +2690,12 @@ VIEWS.estudiar = {
     por repetición espaciada, no por atracón.</p>
     <div class="routine">${PLAN.rutina.map(([a,b]) => `<div class="rt">${a}</div><div>${b}</div>`).join("")}</div>
 
+    <h2 class="sec">Cuándo vas a estudiar</h2>
+    <p class="sec-note">Quince minutos a una hora fija cunden más que una tarde entera sin plan.
+    Elige tus días y tu hora: con eso te genero una cita que se repite en el calendario de tu móvil,
+    y es él quien te avisa.</p>
+    <div class="card" id="hCard">${horarioHTML()}</div>
+
     <h2 class="sec">Las primeras semanas</h2>
     <div class="card">${PLAN.semanas.map(fila).join("")}</div>
 
@@ -2940,6 +2978,222 @@ VIEWS.juegos = {
   }
 };
 
+/* ══ HORARIO Y RECORDATORIO ══════════════════════════════
+   Una web sin servidor no puede avisar a un móvil que la tiene cerrada: las
+   notificaciones push necesitan a alguien que las mande, y la API que permitía
+   programarlas en el propio navegador nunca llegó a existir fuera de pruebas.
+   Así que el recordatorio de verdad lo pone el calendario del propio teléfono:
+   aquí se elige el horario y se genera una cita que se repite, con su alarma.
+   Dentro de la web queda el aviso al abrirla y, si se autoriza, una
+   notificación mientras la pestaña siga abierta. */
+
+const DIAS = [["L",1],["M",2],["X",3],["J",4],["V",5],["S",6],["D",0]];
+const DIAS_ICS = {0:"SU", 1:"MO", 2:"TU", 3:"WE", 4:"TH", 5:"FR", 6:"SA"};
+const DIAS_NOM = {0:"domingo", 1:"lunes", 2:"martes", 3:"miércoles",
+                  4:"jueves", 5:"viernes", 6:"sábado"};
+const dosD = n => (n < 10 ? "0" : "") + n;
+
+function horario(){
+  if(!S.horario) S.horario = {dias:[], hora:"19:00", min:20, avisado:""};
+  return S.horario;
+}
+const hayHorario = () => horario().dias.length > 0;
+
+/* la próxima sesión que toca, o null si no hay horario puesto */
+function proximaSesion(saltarHoy){
+  const h = horario();
+  if(!h.dias.length) return null;
+  const hh = +h.hora.slice(0,2), mm = +h.hora.slice(3,5);
+  const ahora = new Date();
+  for(let i = saltarHoy ? 1 : 0; i < 8; i++){
+    const d = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() + i, hh, mm, 0, 0);
+    if(h.dias.indexOf(d.getDay()) >= 0 && d > ahora) return d;
+  }
+  return null;
+}
+function proximaTexto(saltarHoy){
+  const d = proximaSesion(saltarHoy);
+  if(!d) return "";
+  const hoy = new Date();
+  const mismoDia = d.toDateString() === hoy.toDateString();
+  const manana = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 1);
+  const cuando = mismoDia ? "hoy"
+               : d.toDateString() === manana.toDateString() ? "mañana"
+               : "el " + DIAS_NOM[d.getDay()];
+  return cuando + " a las " + horario().hora;
+}
+/* ¿toca hoy y todavía no se ha hecho nada? */
+function tocaHoy(){
+  const h = horario();
+  if(!h.dias.length) return false;
+  const hoy = new Date();
+  if(h.dias.indexOf(hoy.getDay()) < 0) return false;
+  const t = (S.today && S.today.day === today()) ? S.today : null;
+  return !(t && (t.cards || t.quiz || t.plays));
+}
+
+/* ── la cita para el calendario del móvil ── */
+const icsEsc = t => String(t).split("\\").join("\\\\").split(";").join("\\;")
+                            .split(",").join("\\,").split("\n").join("\\n");
+const icsLocal = d => d.getFullYear() + dosD(d.getMonth()+1) + dosD(d.getDate())
+                    + "T" + dosD(d.getHours()) + dosD(d.getMinutes()) + "00";
+const icsUtc = d => d.getUTCFullYear() + dosD(d.getUTCMonth()+1) + dosD(d.getUTCDate())
+                  + "T" + dosD(d.getUTCHours()) + dosD(d.getUTCMinutes())
+                  + dosD(d.getUTCSeconds()) + "Z";
+
+/* la norma del calendario corta las líneas a 75 octetos y sigue con un espacio */
+function plegar(linea){
+  const ancho = t => new TextEncoder().encode(t).length;
+  if(ancho(linea) <= 75) return linea;
+  const trozos = []; let actual = "", largo = 0, tope = 75;
+  for(const car of linea){
+    const n = ancho(car);
+    if(largo + n > tope){ trozos.push(actual); actual = ""; largo = 1; tope = 74; }
+    actual += car; largo += n;
+  }
+  trozos.push(actual);
+  return trozos.join("\r\n ");
+}
+function icsTexto(){
+  const h = horario();
+  const inicio = proximaSesion() || new Date();
+  const url = location.href.split("#")[0];
+  const dias = h.dias.slice().sort().map(n => DIAS_ICS[n]).join(",");
+  /* hora flotante a propósito: la sesión es a las siete de donde estés, no UTC */
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Suena//" + icsEsc(LANG.marca) + "//ES",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:suena-" + LANG.id + "-" + Date.now() + "@angebloom.github.io",
+    "DTSTAMP:" + icsUtc(new Date()),
+    "DTSTART:" + icsLocal(inicio),
+    "DURATION:PT" + h.min + "M",
+    "RRULE:FREQ=WEEKLY;BYDAY=" + dias,
+    "SUMMARY:" + icsEsc("Estudiar " + idioma() + " · " + LANG.marca),
+    "DESCRIPTION:" + icsEsc("Tu sesión de " + h.min + " minutos. Abre el curso: " + url),
+    "URL:" + url,
+    "BEGIN:VALARM",
+    "TRIGGER:-PT10M",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:" + icsEsc("En 10 minutos toca " + idioma()),
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].map(plegar).join("\r\n");
+}
+function descargarIcs(){
+  const blob = new Blob([icsTexto()], {type:"text/calendar;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "suena-" + LANG.id + ".ics";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ── el aviso dentro del navegador, solo con la página abierta ── */
+let relojAviso = null;
+function avisaSiToca(){
+  const h = horario();
+  if(!h.dias.length || !("Notification" in window) || Notification.permission !== "granted") return;
+  const ahora = new Date();
+  if(h.dias.indexOf(ahora.getDay()) < 0) return;
+  if(h.avisado === today()) return;
+  const hh = +h.hora.slice(0,2), mm = +h.hora.slice(3,5);
+  if(ahora.getHours() !== hh || ahora.getMinutes() < mm) return;
+  h.avisado = today(); save();
+  try{
+    new Notification("Toca " + idioma(), {
+      body: "Tu sesión de " + h.min + " minutos en " + LANG.marca + ".",
+      tag: "suena-" + LANG.id
+    });
+  }catch(err){ /* algunos navegadores solo la permiten desde el service worker */ }
+}
+function vigilaHora(){
+  if(relojAviso) clearInterval(relojAviso);
+  relojAviso = setInterval(avisaSiToca, 30000);
+  avisaSiToca();
+}
+
+/* ── la sección de ajustes ── */
+function horarioHTML(){
+  const h = horario();
+  const prox = proximaTexto();
+  const permiso = ("Notification" in window) ? Notification.permission : "no";
+  return `
+    <div class="hgrid">
+      <div>
+        <div class="hlab">Qué días</div>
+        <div class="days" id="hDias" role="group" aria-label="Días de estudio">
+          ${DIAS.map(([txt, n]) => `<button data-dia="${n}" aria-pressed="${h.dias.indexOf(n) >= 0}"
+            aria-label="${DIAS_NOM[n]}">${txt}</button>`).join("")}
+        </div>
+      </div>
+      <div class="hcampos">
+        <label class="hcampo">A qué hora
+          <input type="time" id="hHora" value="${h.hora}"></label>
+        <label class="hcampo">Cuánto rato
+          <select id="hMin">
+            ${[10,15,20,30,45,60].map(m => `<option value="${m}"${m === h.min ? " selected" : ""}>${m} min</option>`).join("")}
+          </select></label>
+      </div>
+    </div>
+    <div class="hnext" id="hNext">${prox
+      ? `Tu próxima sesión: <b>${prox}</b>`
+      : `Marca al menos un día para fijar tu horario.`}</div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn btn--p" id="hIcs"${hayHorario() ? "" : " disabled"}>Añadir a mi calendario</button>
+      <button class="btn btn--s" id="hAviso"${permiso === "granted" ? " disabled" : ""}>
+        ${permiso === "granted" ? "Avisos activados" : permiso === "denied" ? "Avisos bloqueados" : "Avisarme también aquí"}</button>
+    </div>
+    <p class="muted hmini">El botón del calendario descarga una cita que se repite sola, con un aviso
+    diez minutos antes. La entienden el calendario del iPhone, Google Calendar y Outlook, y suena
+    aunque no tengas la web abierta — es tu móvil quien avisa, no la página.
+    Los avisos del navegador, en cambio, solo aparecen si dejas esta pestaña abierta.</p>`;
+}
+/* la línea de la portada: sin horario invita a ponerlo; con horario dice qué toca */
+function avisoHoyHTML(){
+  if(!hayHorario()) return `<div class="hoy hoy--off" data-go="estudiar" role="button" tabindex="0">
+    <b>¿Cuándo te viene bien estudiar?</b>
+    <span>Ponte tus días y tu hora y te lo pasa al calendario del móvil. Un toque.</span></div>`;
+  const t = (S.today && S.today.day === today()) ? S.today : null;
+  const hecho = t && (t.cards || t.quiz || t.plays);
+  if(tocaHoy()) return `<div class="hoy hoy--now">
+    <b>Hoy toca sesión · ${horario().hora}</b>
+    <span>${horario().min} minutos. Empieza por donde lo dejaste.</span></div>`;
+  if(hecho && horario().dias.indexOf(new Date().getDay()) >= 0) return `<div class="hoy hoy--done">
+    <b>Sesión de hoy hecha</b>
+    <span>La próxima, ${proximaTexto(true)}.</span></div>`;
+  return `<div class="hoy" data-go="estudiar" role="button" tabindex="0">
+    <b>Tu próxima sesión: ${proximaTexto()}</b>
+    <span>Cambia el horario cuando quieras.</span></div>`;
+}
+function pintaHorario(){
+  const c = document.getElementById("hCard");
+  if(c) c.innerHTML = horarioHTML();
+}
+document.addEventListener("click", e => {
+  const dia = e.target.closest("[data-dia]");
+  if(dia){
+    const h = horario(), n = +dia.dataset.dia, i = h.dias.indexOf(n);
+    if(i >= 0) h.dias.splice(i, 1); else h.dias.push(n);
+    h.avisado = ""; save(); pintaHorario(); return;
+  }
+  if(e.target.closest("#hIcs")){ descargarIcs(); return; }
+  if(e.target.closest("#hAviso")){
+    if(!("Notification" in window)) return;
+    Notification.requestPermission().then(() => { pintaHorario(); vigilaHora(); });
+    return;
+  }
+});
+document.addEventListener("change", e => {
+  const h = horario();
+  if(e.target.id === "hHora" && e.target.value){ h.hora = e.target.value; h.avisado = ""; save(); pintaHorario(); }
+  if(e.target.id === "hMin"){ h.min = +e.target.value; save(); pintaHorario(); }
+});
+
 /* ══ ARRANQUE ════════════════════════════════════════════ */
 (function marca(){
   const by = document.getElementById("brandBy");
@@ -2954,6 +3208,7 @@ VIEWS.juegos = {
 })();
 paintSpeed();
 paintMarca();
+vigilaHora();
 vigilaMarca();
 go((location.hash || "#inicio").slice(1));
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if(h !== current) go(h); });

@@ -58,6 +58,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kana no Michi">
+
 <title>Kana no Michi — aprender japonés desde cero, en español</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+JP:wght@400;600;700&display=swap">
@@ -1568,6 +1569,17 @@ const SUPPORT = {
 };
 
 /* ══════════════════════════════════════════════════════════
+   ANALÍTICA — para saber si entra alguien y por dónde.
+   Usa GoatCounter: sin cookies, sin seguir a nadie entre webs y
+   sin recoger datos personales, así que no hace falta banner de
+   consentimiento. Pon aquí el código de tu cuenta (la parte de
+   delante de .goatcounter.com). Vacío = no se carga nada.
+   ══════════════════════════════════════════════════════════ */
+const ANALITICA = {
+  goatcounter: ""
+};
+
+/* ══════════════════════════════════════════════════════════
    AUTORÍA — cambia `nombre` por el que quieras que se vea.
    Aparece al pie de todas las páginas, en los metadatos de la
    web y en los datos estructurados que leen los buscadores.
@@ -1776,6 +1788,7 @@ function go(id){
         <b class="credit">© ${AUTOR.desde}${new Date().getFullYear() > AUTOR.desde ? "–" + new Date().getFullYear() : ""}
         ${esc(AUTOR.nombre)}</b> · ${esc(AUTOR.licencia)}<br>
         ${SUPPORT.note} Tu progreso se guarda solo en este navegador.
+        ${ANALITICA.goatcounter ? "Contamos las visitas de forma anónima, sin cookies." : ""}
       </span>
       ${SUPPORT.url ? `<span class="support">
         ${SUPPORT.hint ? `<i>${esc(SUPPORT.hint)}</i>` : ""}

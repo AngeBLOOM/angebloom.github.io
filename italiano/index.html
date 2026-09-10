@@ -204,6 +204,40 @@ p{margin:0}
 .hoy--now{background:var(--accent-soft); border-color:color-mix(in srgb,var(--brand) 45%, transparent)}
 .hoy--now b{color:var(--brand-ink)}
 .hoy--done b{color:var(--ok)}
+/* acciones destacadas de la barra lateral */
+.acciones{display:flex; flex-direction:column; gap:7px; padding:0 6px; margin:2px 0 14px}
+.acc{
+  display:flex; align-items:center; gap:10px; width:100%; cursor:pointer; text-align:left;
+  padding:9px 11px; border-radius:11px; border:1px solid var(--line); background:var(--card);
+  color:var(--ink); transition:.15s;
+}
+.acc:hover{border-color:var(--brand); transform:translateY(-1px)}
+.acc svg{width:19px; height:19px; flex:none; stroke:currentColor; fill:none; stroke-width:1.7;
+  stroke-linecap:round; stroke-linejoin:round}
+.acc .at{display:flex; flex-direction:column; min-width:0}
+.acc b{font:700 12.5px var(--ui); line-height:1.25}
+.acc .sm{display:none}
+.acc em{font:400 11px var(--ui); font-style:normal; color:var(--ink-3); line-height:1.3;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.acc--cta{background:var(--brand); border-color:var(--brand); color:#fff}
+.acc--cta em{color:rgba(255,255,255,.82)}
+.acc--cta:hover{filter:brightness(1.07)}
+/* la tarjeta de la portada */
+.promo{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  margin-top:12px; padding:15px 18px; border-radius:14px;
+  border:1px solid color-mix(in srgb,var(--brand) 38%, transparent); background:var(--accent-soft);
+}
+.promo svg{width:26px; height:26px; flex:none; stroke:var(--brand-ink); fill:none; stroke-width:1.7;
+  stroke-linecap:round; stroke-linejoin:round}
+.promo .pt{flex:1; min-width:200px}
+.promo b{display:block; font-size:15px; color:var(--brand-ink)}
+.promo span{font-size:13.5px; color:var(--ink-2)}
+.promo-pasos{flex-basis:100%; margin:4px 0 0; padding:12px 14px; border-radius:11px;
+  background:var(--card); border:1px solid var(--line); font-size:13.5px; line-height:1.6}
+.promo-pasos ol{margin:6px 0 0; padding-left:20px}
+.hoy--cta{background:var(--accent-soft); border-color:color-mix(in srgb,var(--brand) 38%, transparent)}
+.hoy--cta b{color:var(--brand-ink)}
 .speedbtns{display:flex; gap:4px; padding:0 6px}
 .speedbtns button{
   flex:1; padding:5px 6px; font:600 11px var(--ui); letter-spacing:.04em;
@@ -769,6 +803,12 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .nav button{white-space:nowrap; padding:7px 11px; font-size:13.5px}
   .nav .n-badge{display:none}
   .rail-foot{margin-top:0; padding-top:0; border-top:0; flex-direction:row; align-items:center; flex:none; gap:6px}
+  .acciones{flex-direction:row; margin:0; padding:0; flex:none; gap:6px}
+  .acc{padding:7px 10px}
+  .acc em{display:none}
+  .acc b{white-space:nowrap; font-size:12.5px}
+  .acc .lg{display:none}
+  .acc .sm{display:inline}
   .voicebar span{display:none}
   main{padding:26px 18px 80px}
   .machine{grid-template-columns:1fr}
@@ -800,6 +840,7 @@ img{max-width:100%;height:auto}
         <span class="by" id="brandBy"></span>
       </div>
     </div>
+    <div class="acciones" id="acciones"></div>
     <div class="nav" id="nav"></div>
     <div class="rail-foot">
       <div class="markbar" id="markbar" hidden></div>
@@ -1615,6 +1656,8 @@ const ICON = {
   book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
   grammar:'<path d="M4 6h16M4 11.5h11M4 17h14"/><circle cx="19" cy="11.5" r="1.6"/>',
   game:'<rect x="2" y="7" width="20" height="10" rx="4.5"/><path d="M7 10.2v3.6M5.2 12h3.6M15.4 11h.01M18 13.2h.01"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5.4l3.4 2"/>',
+  down:'<path d="M12 3v12"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4 20h16"/>',
   play:'<path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"/>'
 };
 const svg = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
@@ -1827,6 +1870,7 @@ VIEWS.inicio = {
     <div id="voiceHelp"></div>
     <div id="goalBox">${goalHTML()}</div>
     <div id="hoyBox">${avisoHoyHTML()}</div>
+    <div id="promoBox">${promoHTML()}</div>
     <div class="rings">${(LANG.anillos||["alfabeto","vocabulario","repaso"])
       .filter(a => LANG.secciones.indexOf(a) >= 0)
       .map(a => ring(a, (NAV.find(n => n[0] === a) || [,a])[1])).join("")}</div>
@@ -2681,7 +2725,7 @@ VIEWS.estudiar = {
     por repetición espaciada, no por atracón.</p>
     <div class="routine">${PLAN.rutina.map(([a,b]) => `<div class="rt">${a}</div><div>${b}</div>`).join("")}</div>
 
-    <h2 class="sec">Cuándo vas a estudiar</h2>
+    <h2 class="sec" id="tuHorario">Establecer tu horario de estudio</h2>
     <p class="sec-note">Quince minutos a una hora fija cunden más que una tarde entera sin plan.
     Elige tus días y tu hora: con eso te genero una cita que se repite en el calendario de tu móvil,
     y es él quien te avisa.</p>
@@ -3154,7 +3198,7 @@ function horarioHTML(){
 }
 /* la línea de la portada: sin horario invita a ponerlo; con horario dice qué toca */
 function avisoHoyHTML(){
-  if(!hayHorario()) return `<div class="hoy hoy--off" data-go="estudiar" role="button" tabindex="0">
+  if(!hayHorario()) return `<div class="hoy hoy--cta" data-horario role="button" tabindex="0">
     <b>¿Cuándo te viene bien estudiar?</b>
     <span>Ponte tus días y tu hora y te lo pasa al calendario del móvil. Un toque.</span></div>`;
   const t = (S.today && S.today.day === today()) ? S.today : null;
@@ -3170,6 +3214,7 @@ function avisoHoyHTML(){
     <span>Cambia el horario cuando quieras.</span></div>`;
 }
 function pintaHorario(){
+  pintaAcciones();
   const c = document.getElementById("hCard");
   if(c) c.innerHTML = horarioHTML();
 }
@@ -3193,6 +3238,95 @@ document.addEventListener("change", e => {
   if(e.target.id === "hMin"){ h.min = +e.target.value; save(); pintaHorario(); }
 });
 
+
+/* ══ ACCIONES DESTACADAS ═════════════════════════════════
+   El horario y la instalación estaban escondidos: uno dentro del plan de
+   estudio y la otra en el menú del navegador. Ahora viven en la barra
+   lateral, a la vista desde cualquier sección. */
+let promptInstalar = null;
+let pasosVisibles = false;
+const yaInstalada = () => window.matchMedia('(display-mode: standalone)').matches
+                       || navigator.standalone === true;
+const sePuedeInstalar = () => !yaInstalada();
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();          /* la guardamos para ofrecerla desde nuestro propio botón */
+  promptInstalar = e;
+  pintaAcciones(); pintaPromo();
+});
+window.addEventListener('appinstalled', () => {
+  promptInstalar = null;
+  pintaAcciones(); pintaPromo();
+});
+
+async function instalar(){
+  if(promptInstalar){
+    promptInstalar.prompt();
+    const r = await promptInstalar.userChoice;
+    if(r && r.outcome === 'accepted') promptInstalar = null;
+    pintaAcciones(); pintaPromo();
+    return;
+  }
+  /* iOS y algún otro no ofrecen instalación programática: se explica el gesto */
+  pasosVisibles = !pasosVisibles;
+  pintaPromo();
+  const p = document.getElementById('promoBox');
+  if(p && pasosVisibles) p.scrollIntoView({block:'center', behavior:'smooth'});
+}
+
+function pasosHTML(){
+  const pasos = esIOS()
+    ? ['Toca <b>Compartir</b>, el cuadrado con la flecha hacia arriba.',
+       'Baja y elige <b>Añadir a pantalla de inicio</b>.',
+       'Confirma. Te queda un icono como el de cualquier otra app.']
+    : ['Abre el menú de tu navegador, el de los tres puntos.',
+       'Busca <b>Instalar aplicación</b> o <b>Añadir a pantalla de inicio</b>.',
+       'Confirma. Se abrirá en su propia ventana, sin barra de direcciones.'];
+  return `<div class="promo-pasos">Tu navegador no da el botón automático, pero se instala igual:
+    <ol>${pasos.map(p => '<li>' + p + '</li>').join('')}</ol></div>`;
+}
+
+function promoHTML(){
+  if(!sePuedeInstalar()) return '';
+  return `<div class="promo">
+    ${svg('down')}
+    <div class="pt">
+      <b>Ten ${LANG.marca} en tu dispositivo</b>
+      <span>Se instala como una app: icono propio, pantalla completa y funciona sin conexión.
+      Ocupa muy poco y no hace falta ninguna cuenta.</span>
+    </div>
+    <button class="btn btn--p" data-instalar>${promptInstalar ? 'Instalar ahora' : 'Cómo se instala'}</button>
+    ${pasosVisibles && !promptInstalar ? pasosHTML() : ''}
+  </div>`;
+}
+function pintaPromo(){
+  const c = document.getElementById('promoBox');
+  if(c) c.innerHTML = promoHTML();
+}
+
+function pintaAcciones(){
+  const c = document.getElementById('acciones');
+  if(!c) return;
+  const h = horario();
+  const resumen = hayHorario()
+    ? h.dias.slice().sort().map(n => DIAS_NOM[n].slice(0,3)).join(', ') + ' · ' + h.hora
+    : 'sin fijar todavía';
+  const botones = [];
+  botones.push(`<button class="acc ${hayHorario() ? '' : 'acc--cta'}" data-horario>
+    ${svg('clock')}<span class="at"><b><span class="lg">Horario de estudio</span><span class="sm">Horario</span></b><em>${resumen}</em></span></button>`);
+  if(sePuedeInstalar()) botones.push(`<button class="acc" data-instalar>
+    ${svg('down')}<span class="at"><b><span class="lg">Instalar la app</span><span class="sm">Instalar</span></b><em>y funciona sin conexión</em></span></button>`);
+  c.innerHTML = botones.join('');
+}
+
+document.addEventListener('click', e => {
+  if(e.target.closest('[data-instalar]')){ instalar(); return; }
+  if(e.target.closest('[data-horario]')){
+    if(current !== 'estudiar') go('estudiar');
+    const t = document.getElementById('tuHorario');
+    if(t) t.scrollIntoView({block:'start', behavior:'smooth'});
+  }
+});
 /* ══ ARRANQUE ════════════════════════════════════════════ */
 (function marca(){
   const by = document.getElementById("brandBy");
@@ -3207,6 +3341,7 @@ document.addEventListener("change", e => {
 })();
 paintSpeed();
 paintMarca();
+pintaAcciones();
 vigilaHora();
 vigilaMarca();
 go((location.hash || "#inicio").slice(1));

@@ -3114,13 +3114,21 @@ function icsTexto(){
     "END:VCALENDAR"
   ].map(plegar).join("\r\n");
 }
+/* iPadOS se presenta como Mac, así que además del nombre se mira si hay pantalla táctil */
+const esIOS = () => ["iPad","iPhone","iPod"].some(d => navigator.userAgent.indexOf(d) >= 0)
+                 || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 function descargarIcs(){
-  const blob = new Blob([icsTexto()], {type:"text/calendar;charset=utf-8"});
+  const texto = icsTexto();
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "suena-" + LANG.id + ".ics";
+  if(esIOS()){
+    /* Safari abre la vista previa del evento y ofrece añadirlo; una descarga acabaría en Archivos */
+    a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(texto);
+  } else {
+    a.href = URL.createObjectURL(new Blob([texto], {type:"text/calendar;charset=utf-8"}));
+    a.download = "suena-" + LANG.id + ".ics";
+  }
   document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  if(a.href.indexOf("blob:") === 0) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 
 /* ── el aviso dentro del navegador, solo con la página abierta ── */
@@ -3178,7 +3186,7 @@ function horarioHTML(){
       <button class="btn btn--s" id="hAviso"${permiso === "granted" ? " disabled" : ""}>
         ${permiso === "granted" ? "Avisos activados" : permiso === "denied" ? "Avisos bloqueados" : "Avisarme también aquí"}</button>
     </div>
-    <p class="muted hmini">El botón del calendario descarga una cita que se repite sola, con un aviso
+    <p class="muted hmini">${esIOS() ? "El botón del calendario te abre una cita que se repite sola" : "El botón del calendario descarga una cita que se repite sola"}, con un aviso
     diez minutos antes. La entienden el calendario del iPhone, Google Calendar y Outlook, y suena
     aunque no tengas la web abierta — es tu móvil quien avisa, no la página.
     Los avisos del navegador, en cambio, solo aparecen si dejas esta pestaña abierta.</p>`;

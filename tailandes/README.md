@@ -35,7 +35,7 @@ llamado exactamente **`TUUSUARIO.github.io`**:
 Queda así:
 
 ```
-tuusuario.github.io/            → portal con las cinco tarjetas
+tuusuario.github.io/            → portal con las siete tarjetas
 tuusuario.github.io/tailandes/
 tuusuario.github.io/japones/
 tuusuario.github.io/coreano/
@@ -91,6 +91,23 @@ cómo suenan las vocales. Pero en ruso real esa tilde no existe. Por eso el paqu
 **Texto real** para leer como se lee fuera de clase. El teclado y lo que escribe quien estudia quedan
 fuera del filtro, y el dictado nunca exige la marca. Cualquier idioma puede usarlo declarando ese
 campo con el carácter que corresponda.
+
+### El horario y el recordatorio
+
+En **Cómo estudiar**, cada persona marca sus días, su hora y cuánto rato quiere estudiar. Con eso la
+página genera una cita `.ics` que se repite cada semana y lleva su propia alarma diez minutos antes,
+para importarla en el calendario del móvil.
+
+Se hace así por una limitación real, no por comodidad: sin servidor no se pueden mandar
+notificaciones push, y la API que permitía programar avisos locales en el navegador
+(`TimestampTrigger`) nunca pasó de fase experimental y hoy no existe en ningún navegador estable. La
+única forma de que suene un aviso con la web cerrada es que lo ponga el calendario del propio
+teléfono. Dentro de la página quedan dos cosas menores: la línea de «tu próxima sesión» en la portada
+y, si se autoriza, una notificación mientras la pestaña siga abierta.
+
+La hora del `.ics` es **flotante** a propósito (sin `TZID` ni `Z`): la sesión es a las siete de donde
+estés, no a las siete de un huso fijo. Las líneas se pliegan a 75 octetos como pide la norma, que es
+donde Outlook se pone quisquilloso.
 
 ### El botón de apoyo y la autoría
 

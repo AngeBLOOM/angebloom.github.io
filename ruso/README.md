@@ -109,6 +109,24 @@ La hora del `.ics` es **flotante** a propósito (sin `TZID` ni `Z`): la sesión 
 estés, no a las siete de un huso fijo. Las líneas se pliegan a 75 octetos como pide la norma, que es
 donde Outlook se pone quisquilloso.
 
+### Desplegar
+
+**Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los
+cursos: también `app-ads.txt` y tres políticas de privacidad que **Google Play y AdMob consultan** para
+las apps Android. Un `git add -A` descuidado los borra sin decir nada, y las URLs empiezan a dar 404.
+Ya ocurrió una vez.
+
+El script toma la huella de esos cinco ficheros antes de copiar, la vuelve a comprobar después, pasa
+`verificar.js` y solo entonces prepara el commit — y aún revisa el índice de git antes de cerrarlo. Si
+algo no cuadra **aborta sin tocar nada** y dice cómo restaurarlo. Sin mensaje de commit se queda en
+copiar y comprobar. El `push` se hace aparte, a propósito.
+
+### Dónde vive el código
+
+Las fuentes se copian a `C:\Users\angel\OneDrive\Documentos\CLAUDE\idiomas-fuentes`. Trabajar sobre
+una carpeta temporal es cómodo hasta que se limpia: sin las fuentes solo queda el HTML compilado, que
+no se puede volver a construir ni ampliar. Si tocas las fuentes, actualiza esa copia.
+
 ### La analítica
 
 Se declara en el bloque `ANALITICA` de `part3.js`, igual que `SUPPORT` y `AUTOR`, y vale para los siete

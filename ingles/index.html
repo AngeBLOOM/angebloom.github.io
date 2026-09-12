@@ -2243,6 +2243,27 @@ VIEWS.escritura = {
 /* ══ VISTA: HABLAR ═══════════════════════════════════════ */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 /* para comparar lo que reconoce el micro: fuera espacios, puntuación y marcas de cualquier alfabeto */
+
+/* ¿lleva marcas que se escriben sobre la letra? (tono, acento, dakuten…) */
+const tieneMarcas = t => /\p{M}/u.test(t || "");
+/* compara lo dicho con el objetivo y explica en qué falla, no solo si falla */
+function comparaHabla(dicho, objetivo){
+  const d = (dicho || "").trim(), o = (objetivo || "").trim();
+  if(d === o) return {estado:"ok", clave:"exacto"};
+  if(stripThai(d) === stripThai(o)){
+    /* Las letras coinciden. Que la marca cuente depende del idioma: si el
+       paquete declara marcaOpcional, esa marca no se escribe fuera de clase y
+       el reconocedor no la devuelve nunca, así que no hay nada que juzgar. */
+    if(MARCA) return {estado:"ok", clave:"letras"};
+    if(tieneMarcas(o) || tieneMarcas(d)) return {estado:"marca", clave:"marca"};
+    return {estado:"ok", clave:"letras"};
+  }
+  const a = stripThai(d), b = stripThai(o);
+  if(b && a && (a.indexOf(b) >= 0 || b.indexOf(a) >= 0)) return {estado:"casi", clave:"contiene"};
+  if(b.length > 1 && a.slice(0,2) === b.slice(0,2)) return {estado:"casi", clave:"empieza"};
+  return {estado:"no", clave:"otra"};
+}
+let spkIntentos = 0, spkAciertos = 0;
 const stripThai = s => (s||"").replace(/[\p{M}\s….,!?¿¡]/gu, "");
 let spkIdx = 0;
 const SPK = VOCAB.filter(v => ["saludos","comida","viajar","básico"].includes(v[3])).slice(0,30);
@@ -2269,6 +2290,7 @@ VIEWS.hablar = {
         <button class="btn" id="sNext">Siguiente palabra →</button>
       </div>
       <div id="sOut" class="mono-out" style="margin-top:16px;min-height:24px" aria-live="polite"></div>
+      <div id="sTally" class="muted" style="margin-top:8px;font-size:12.5px"></div>
     </div>
 
     <h2 class="sec">Lista de práctica</h2>
@@ -2283,9 +2305,9 @@ VIEWS.hablar = {
   },
   init(){
     $("#sPlaySlow").addEventListener("click", () => speak(SPK[spkIdx % SPK.length][0], null, 0.55));
-    $("#sNext").addEventListener("click", () => { spkIdx++; go("hablar"); });
+    $("#sNext").addEventListener("click", () => { spkIntentos = spkAciertos = 0; spkIdx++; go("hablar"); });
     document.querySelectorAll("[data-spk]").forEach(b => b.addEventListener("click", () => {
-      spkIdx = +b.dataset.spk; go("hablar"); }));
+      spkIntentos = spkAciertos = 0; spkIdx = +b.dataset.spk; go("hablar"); }));
     const out = $("#sOut"), rec = $("#sRec"), target = SPK[spkIdx % SPK.length];
     if(!SR){
       rec.disabled = true;
@@ -2301,12 +2323,35 @@ VIEWS.hablar = {
       rec.disabled = true;
       r.onresult = ev => {
         const alts = [...ev.results[0]].map(a => a.transcript);
-        const hit = alts.some(a => stripThai(a) === stripThai(target[0]));
-        const near = alts.some(a => stripThai(a).includes(stripThai(target[0]).slice(0,2)));
-        out.innerHTML = hit
-          ? `<b style="color:var(--ok)">Correcto.</b> He entendido «<span class="th">${esc(alts[0])}</span>».`
-          : `He entendido «<span class="th">${esc(alts[0])}</span>». ${near ? T("hablar_casi","Casi: fíjate en cómo suena el modelo.") : T("hablar_falla","Vuelve a escuchar el modelo y repite exagerando.")}`;
-        if(hit) touchStreak();
+        /* de las alternativas que ofrece el navegador nos quedamos con la mejor */
+        const orden = {ok:0, marca:1, casi:2, no:3};
+        let mejor = null, dicho = alts[0];
+        for(const a of alts){
+          const c = comparaHabla(a, target[0]);
+          if(!mejor || orden[c.estado] < orden[mejor.estado]){ mejor = c; dicho = a; }
+        }
+        const oido = `«<span class="th">${esc(dicho)}</span>»`;
+        const modelo = `«<span class="th">${esc(target[0])}</span>»`;
+        spkIntentos++;
+        if(mejor.estado === "ok"){
+          spkAciertos++;
+          out.innerHTML = `<b style="color:var(--ok)">Bien dicho.</b> Te ha entendido ${oido}.`;
+          touchStreak();
+        } else if(mejor.estado === "marca"){
+          /* el caso más útil: sonidos correctos, marca equivocada */
+          out.innerHTML = `<b style="color:var(--brand-ink)">Los sonidos, bien. La marca, no.</b>
+            Has dicho ${oido} y la palabra era ${modelo}. ${T("hablar_marca","Escucha el modelo en Lento y fíjate solo en eso.")}`;
+        } else if(mejor.estado === "casi"){
+          out.innerHTML = `Te ha entendido ${oido}, y la palabra era ${modelo}.
+            ${T("hablar_casi","Casi: fíjate en cómo suena el modelo.")}`;
+        } else {
+          out.innerHTML = `Te ha entendido ${oido}, que no es ${modelo}.
+            ${T("hablar_falla","Vuelve a escuchar el modelo y repite exagerando.")}`;
+        }
+        const tally = $("#sTally");
+        if(tally) tally.textContent = spkIntentos === 1
+          ? "1 intento en esta palabra."
+          : spkIntentos + " intentos, " + spkAciertos + (spkAciertos === 1 ? " bien." : " bien.");
       };
       r.onerror = ev => {
         out.innerHTML = ev.error === "not-allowed" || ev.error === "service-not-allowed"

@@ -2465,7 +2465,8 @@ VIEWS.hablar = {
     }
     rec.addEventListener("click", () => {
       const r = new SR();
-      r.lang = "th-TH"; r.interimResults = false; r.maxAlternatives = 3;
+      r.lang = LANG.voz;   /* lo declara el paquete: fijarlo a mano aquí lo rompe en los otros seis cursos */
+      r.interimResults = false; r.maxAlternatives = 3;
       out.textContent = "Escuchando… di la palabra ahora.";
       rec.disabled = true;
       r.onresult = ev => {

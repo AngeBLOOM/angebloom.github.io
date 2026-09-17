@@ -1,5 +1,5 @@
-/* Hua Jai Thai — caché offline. Versión: tailandes-20260912-pc9g */
-const CACHE = "tailandes-20260912-pc9g";
+/* Hua Jai Thai — caché offline. Versión: tailandes-20260917-fppd */
+const CACHE = "tailandes-20260917-fppd";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

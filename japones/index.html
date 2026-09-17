@@ -790,6 +790,151 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 }
 .kb button.kbm:hover{background:var(--brand); border-color:var(--brand); color:#fff}
 
+/* ══ VIDA: movimiento, dibujos y celebraciones ═══════════ */
+@keyframes entra{from{opacity:0; transform:translateY(14px) scale(.985)} to{opacity:1; transform:none}}
+.entra{animation:entra .5s cubic-bezier(.2,.8,.25,1) both}
+@keyframes bota{0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-5px) rotate(-4deg)}}
+@keyframes late{0%,100%{transform:scale(1)} 50%{transform:scale(1.12)}}
+@keyframes acierto{0%{transform:scale(1)} 40%{transform:scale(1.06)} 100%{transform:scale(1)}}
+
+/* la misión: lo siguiente que toca, en grande */
+.misionSlot{margin:0 0 18px}
+.misionSlot--top{margin:0 0 24px}
+.mision{
+  position:relative; overflow:hidden; display:flex; align-items:center; gap:16px; cursor:pointer;
+  padding:18px 20px; border-radius:20px; color:#fff;
+  background:linear-gradient(125deg, var(--brand) 0%, color-mix(in srgb, var(--brand) 60%, #16162a) 100%);
+  box-shadow:0 12px 30px color-mix(in srgb, var(--brand) 30%, transparent);
+  transition:transform .18s, box-shadow .18s;
+}
+.mision::before{
+  content:""; position:absolute; top:-40%; bottom:-40%; left:-40%; width:36%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  transform:skewX(-20deg); animation:brillo 4.8s ease-in-out infinite; pointer-events:none;
+}
+@keyframes brillo{0%,55%{left:-40%} 100%{left:130%}}
+.mision::after{
+  content:""; position:absolute; right:-46px; top:-46px; width:160px; height:160px;
+  border-radius:50%; background:rgba(255,255,255,.08); pointer-events:none;
+}
+.mision:hover{transform:translateY(-3px); box-shadow:0 18px 40px color-mix(in srgb, var(--brand) 42%, transparent)}
+.mi-emoji{
+  flex:none; width:62px; height:62px; border-radius:18px; display:grid; place-items:center;
+  font-size:34px; background:rgba(255,255,255,.96); box-shadow:0 6px 16px rgba(0,0,0,.16);
+  animation:bota 2.6s ease-in-out infinite; position:relative; z-index:1;
+}
+.mi-txt{flex:1; min-width:0; position:relative; z-index:1}
+.mi-eyebrow{font:700 10.5px var(--ui); letter-spacing:.12em; text-transform:uppercase; opacity:.86}
+.mi-txt b{display:block; font-family:var(--disp); font-size:21px; line-height:1.2; margin:3px 0 2px}
+.mi-txt span{font-size:14px; opacity:.93}
+.mi-go{
+  position:relative; z-index:1; flex:none; background:#fff; color:var(--brand-ink);
+  font:800 14px var(--ui); padding:10px 16px; border-radius:99px;
+  box-shadow:0 4px 12px rgba(0,0,0,.12); transition:transform .15s;
+}
+.mision:hover .mi-go{transform:translateX(3px)}
+
+/* objetivo del día: cada meta pendiente es un botón que lleva a hacerla */
+.goal .gitems{gap:10px}
+.gitem{
+  appearance:none; font:inherit; text-align:left; cursor:pointer;
+  display:flex; align-items:center; gap:10px; padding:9px 12px;
+  border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink-2);
+  transition:transform .15s, border-color .15s, box-shadow .15s;
+}
+.gitem:not(.done):hover{transform:translateY(-2px); border-color:var(--brand); box-shadow:var(--shadow)}
+.gitem.done{cursor:default; opacity:1; color:var(--ink-2);
+  background:color-mix(in srgb, var(--jade) 12%, var(--card));
+  border-color:color-mix(in srgb, var(--jade) 45%, transparent)}
+.g-emoji{font-size:22px; line-height:1}
+.g-txt{display:flex; flex-direction:column; gap:5px; font-size:13.5px}
+.g-barra{display:block; width:110px; height:5px; border-radius:9px; background:var(--surface-3); overflow:hidden}
+.g-barra i{display:block; height:100%; border-radius:9px; background:var(--brand); transition:width .6s cubic-bezier(.2,.8,.3,1)}
+.gitem.done .g-barra i{background:var(--jade)}
+.g-ir{font:800 12px var(--ui); color:var(--brand-ink); margin-left:2px; white-space:nowrap}
+.flame b{animation:late 1.9s ease-in-out infinite}
+
+/* la ruta: hecho, siguiente, pendiente */
+.step.next{background:color-mix(in srgb, var(--brand) 9%, transparent); border-radius:14px}
+.step.next .step-n{background:var(--brand); border-color:var(--brand); color:#fff; animation:late 1.9s ease-in-out infinite}
+.step.next .step-go{color:#fff; background:var(--brand); padding:5px 11px; border-radius:99px}
+.step.done .step-t{color:var(--ink-2)}
+
+/* dibujos */
+.fdib{font-size:clamp(46px, 9vw, 64px); line-height:1; margin-bottom:6px; animation:bota 3s ease-in-out infinite}
+.fdib--oculto{opacity:.3; filter:grayscale(1); animation:none}
+.fcard--entra{animation:entra .4s cubic-bezier(.2,.8,.25,1) both}
+.fcard--gira{animation:gira .45s cubic-bezier(.3,.7,.3,1) both}
+@keyframes gira{0%{transform:perspective(900px) rotateY(80deg); opacity:.4} 100%{transform:perspective(900px) rotateY(0); opacity:1}}
+.ldib{display:inline-block; width:1.7em; font-size:17px}
+.mdib{display:block; font-style:normal; font-size:26px; line-height:1.1; margin-bottom:2px}
+
+/* tests */
+.qopt.ok{animation:acierto .42s ease-out}
+.qopt.no{animation:shake .32s}
+
+/* nivel en la barra lateral */
+.nivel{padding:0 6px; margin:2px 0 10px}
+.nv{
+  display:flex; align-items:center; gap:10px; padding:9px 11px; border-radius:14px;
+  background:linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, var(--card)), var(--card));
+  border:1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
+}
+.nv-medalla{
+  flex:none; width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+  font:800 15px var(--ui); color:#fff;
+  background:radial-gradient(circle at 35% 30%, #FFD66B, #F2A516 60%, #C97C0A);
+  box-shadow:0 3px 8px rgba(201,124,10,.35), inset 0 -2px 0 rgba(0,0,0,.12);
+}
+.nv-txt{flex:1; min-width:0}
+.nv-txt b{display:block; font:700 12.5px var(--ui); color:var(--ink)}
+.nv-txt em{display:block; font:400 10.5px var(--ui); font-style:normal; color:var(--ink-3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.nv-barra{height:5px; border-radius:9px; background:var(--surface-3); margin-top:5px; overflow:hidden}
+.nv-barra i{display:block; height:100%; border-radius:9px;
+  background:linear-gradient(90deg, #F5B82E, var(--brand)); transition:width .7s cubic-bezier(.2,.8,.3,1)}
+.nv--sube .nv-medalla{animation:acierto .5s ease-out}
+
+/* lo que flota por encima de todo */
+.xpflota{
+  position:fixed; z-index:9999; pointer-events:none; transform:translate(-50%,-50%);
+  font:800 14px var(--ui); color:#fff; background:linear-gradient(135deg, #F5B82E, #F08A0B);
+  padding:4px 10px; border-radius:99px; box-shadow:0 6px 16px rgba(240,138,11,.35);
+  animation:xpsube 1s ease-out forwards;
+}
+@keyframes xpsube{
+  0%{opacity:0; transform:translate(-50%,-20%) scale(.6)}
+  18%{opacity:1; transform:translate(-50%,-90%) scale(1.1)}
+  100%{opacity:0; transform:translate(-50%,-320%) scale(1)}
+}
+.confeti{
+  position:fixed; left:0; top:0; width:8px; height:13px; border-radius:2px;
+  z-index:9998; pointer-events:none; animation:confeti 1.35s cubic-bezier(.15,.65,.35,1) both;
+}
+@keyframes confeti{
+  from{transform:translate(var(--x0), var(--y0)) rotate(0); opacity:1}
+  to{transform:translate(var(--x1), var(--y1)) rotate(var(--r)); opacity:0}
+}
+.aviso{
+  position:fixed; left:50%; top:16px; z-index:9999; display:flex; align-items:center; gap:12px;
+  padding:11px 18px 11px 12px; border-radius:16px; background:var(--card); color:var(--ink);
+  border:1px solid color-mix(in srgb, var(--brand) 35%, var(--line));
+  box-shadow:0 14px 40px rgba(0,0,0,.18); max-width:calc(100vw - 32px);
+  transform:translate(-50%,-140%); opacity:0; pointer-events:none;
+  transition:transform .38s cubic-bezier(.2,.9,.3,1.2), opacity .25s;
+}
+.aviso--ve{transform:translate(-50%,0); opacity:1}
+.av-e{font-size:28px; line-height:1}
+.aviso b{display:block; font-size:15px}
+.aviso em{display:block; font-style:normal; font-size:13px; color:var(--ink-3)}
+
+/* al llegar a lo pendiente, un pulso para que se vea dónde */
+@keyframes pulso{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--brand) 55%, transparent)}
+  100%{box-shadow:0 0 0 18px transparent}
+}
+.foco-pulso{animation:pulso 1s ease-out 2; border-radius:16px}
+
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
@@ -811,6 +956,14 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .acc b{white-space:nowrap; font-size:12.5px}
   .acc .lg{display:none}
   .acc .sm{display:inline}
+  .nivel{margin:0; padding:0; flex:none}
+  .nv{padding:0; background:none; border:0}
+  .nv-txt{display:none}
+  .mision{padding:14px; gap:12px; border-radius:16px}
+  .mi-emoji{width:50px; height:50px; font-size:28px; border-radius:14px}
+  .mi-txt b{font-size:18px}
+  .mi-go{display:none}
+  .gitem{flex:1 1 100%}
   .voicebar span{display:none}
   main{padding:26px 18px 80px}
   .machine{grid-template-columns:1fr}
@@ -842,6 +995,7 @@ img{max-width:100%;height:auto}
         <span class="by" id="brandBy"></span>
       </div>
     </div>
+    <div class="nivel" id="nivel"></div>
     <div class="acciones" id="acciones"></div>
     <div class="nav" id="nav"></div>
     <div class="rail-foot">
@@ -1597,7 +1751,8 @@ const AUTOR = {
 const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              best:{tono:0, repaso:0, oido:0}, streak:{day:"", n:0},
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
-             horario:{dias:[], hora:"19:00", min:20, avisado:""}};
+             horario:{dias:[], hora:"19:00", min:20, avisado:""},
+             xpPor:{}, visitados:{}};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -1805,6 +1960,8 @@ function go(id){
     s.style.stroke = "currentColor"; s.style.fill = "none"; s.style.strokeWidth = "1.7"; s.style.flex = "none"; });
   if(marcaOff()) limpiaArbol($("#view"));
   if(VIEWS[id].init) VIEWS[id].init();
+  marcaVisita(id);
+  animaVista();
 }
 
 document.addEventListener("click", e => {
@@ -1890,6 +2047,7 @@ VIEWS.inicio = {
         <div><b>${label}</b><span>${p}% completado</span></div></div>`;
     };
     return `
+    ${xpActual() ? `<div class="misionSlot misionSlot--top">${misionHTML()}</div>` : ""}
     <div class="vhead">
       <div class="hero">
         <div>
@@ -1918,6 +2076,7 @@ VIEWS.inicio = {
       </div>
     </div>
     <div id="voiceHelp"></div>
+    ${xpActual() ? "" : `<div class="misionSlot">${misionHTML()}</div>`}
     <div id="goalBox">${goalHTML()}</div>
     <div id="hoyBox">${avisoHoyHTML()}</div>
     <div id="promoBox">${promoHTML()}</div>
@@ -1928,10 +2087,16 @@ VIEWS.inicio = {
     <h2 class="sec">${T("ruta_titulo","La ruta")} <span class="th">${T("ruta_th","")}</span></h2>
     <p class="sec-note">El orden importa. El ${idioma()} se lee en voz alta antes que en silencio: primero el oído, luego la letra.</p>
     <div class="card path">
-      ${PATH.map(([t,d,go],i) => `<div class="step" data-go="${go}" role="button" tabindex="0">
-        <div class="step-n">${i+1}</div>
-        <div><div class="step-t">${t}</div><div class="step-d">${d}</div></div>
-        <div class="step-go">Abrir →</div></div>`).join("")}
+      ${(() => {
+        const sig = PATH.findIndex(([, , g]) => pasoDisponible(g) && !visitado(g));
+        return PATH.map(([t,d,go],i) => {
+          const hecho = visitado(go), siguiente = i === sig;
+          return `<div class="step${hecho ? " done" : ""}${siguiente ? " next" : ""}" data-go="${go}" role="button" tabindex="0">
+          <div class="step-n">${hecho ? "✓" : i+1}</div>
+          <div><div class="step-t">${t}</div><div class="step-d">${d}</div></div>
+          <div class="step-go">${siguiente ? "Siguiente →" : hecho ? "Repasar" : "Abrir →"}</div></div>`;
+        }).join("");
+      })()}
     </div>
 
     <h2 class="sec">Tres cosas que conviene saber ya</h2>
@@ -2147,7 +2312,7 @@ function paintDetail(){
       </div>
     </div></div>`;
   $("#mark").addEventListener("click", () => {
-    if(S.known[c[0]]) delete S.known[c[0]]; else S.known[c[0]] = 1;
+    if(S.known[c[0]]) delete S.known[c[0]]; else { S.known[c[0]] = 1; ganaXP(5); }
     save(); paintNav(current); paintCons();
   });
 }
@@ -2361,7 +2526,7 @@ VIEWS.hablar = {
         const modelo = `«<span class="th">${esc(target[0])}</span>»`;
         spkIntentos++;
         if(mejor.estado === "ok"){
-          spkAciertos++;
+          spkAciertos++; ganaXP(10);
           out.innerHTML = `<b style="color:var(--ok)">Bien dicho.</b> Te ha entendido ${oido}.`;
           touchStreak();
         } else if(mejor.estado === "marca"){
@@ -2428,11 +2593,12 @@ VIEWS.vocabulario = {
       const c = $("#vCard"); if(!c) return;
       const w = vQueue[0];
       if(!w){ c.innerHTML = `<div class="card">No hay palabras en esta categoría.</div>`; return; }
+      const dib = `<div class="fdib" aria-hidden="true">${dibujo(w)}</div>`;
       const front = vMode === "th-es"
-        ? `<div class="fth th">${w[0]}</div>${vFlip ? `<div class="rom" style="font-size:15px">${w[1]}</div><div class="fes">${w[2]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`
-        : `<div class="fes">${w[2]}</div>${vFlip ? `<div class="fth th">${w[0]}</div><div class="rom" style="font-size:15px">${w[1]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`;
+        ? `${vFlip ? dib : `<div class="fdib fdib--oculto" aria-hidden="true">❔</div>`}<div class="fth th">${w[0]}</div>${vFlip ? `<div class="rom" style="font-size:15px">${w[1]}</div><div class="fes">${w[2]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`
+        : `${dib}<div class="fes">${w[2]}</div>${vFlip ? `<div class="fth th">${w[0]}</div><div class="rom" style="font-size:15px">${w[1]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`;
       const lvl = S.vocab[w[0]] || 0;
-      c.innerHTML = `<div class="fcard" id="fc">${front}
+      c.innerHTML = `<div class="fcard ${vFlip ? "fcard--gira" : "fcard--entra"}" id="fc">${front}
           <div class="row" style="justify-content:center;margin-top:6px">
             <span class="chip chip--media">nivel ${lvl}/4</span>
             <span class="chip chip--baja">${w[3]}</span></div></div>
@@ -2454,6 +2620,8 @@ VIEWS.vocabulario = {
       const cur = S.vocab[w[0]] || 0;
       S.vocab[w[0]] = Math.max(0, Math.min(4, cur + d));
       save(); paintNav(current); touchStreak(); bump("cards");
+      ganaXP(d > 0 ? 5 : 2);
+      if(d > 0 && cur < 4 && S.vocab[w[0]] === 4) aviso(dibujo(w), "¡Palabra dominada!", w[2]);
       vQueue.shift(); if(d < 0) vQueue.splice(Math.min(4, vQueue.length), 0, w);
       vFlip = false; paintCard();
     };
@@ -2474,7 +2642,7 @@ VIEWS.vocabulario = {
       const rows = VOCAB.filter(v => !t || v[0].includes(t) || v[1].toLowerCase().includes(t) || v[2].toLowerCase().includes(t));
       listEl.innerHTML = rows.length ? rows.map(v => `<div class="li">
         <div class="lth th" data-say="${v[0]}" role="button" tabindex="0" title="Tocar para escuchar">${v[0]}</div>
-        <div><div class="les">${v[2]}</div><div class="lrom">${v[1]} · ${v[3]}</div></div>
+        <div><div class="les"><span class="ldib" aria-hidden="true">${dibujo(v)}</span>${v[2]}</div><div class="lrom">${v[1]} · ${v[3]}</div></div>
         ${sayBtn(v[0], v[1])}</div>`).join("")
         : `<div class="li"><div></div><div class="muted">Sin resultados.</div><div></div></div>`;
     };
@@ -2643,6 +2811,8 @@ function quizEngine(root, total, make, onDone){
       root.querySelector("#qAgain").addEventListener("click", () => { i = 0; score = 0; next(); });
       if(onDone) onDone(pc);
       touchStreak(); bump("quiz");
+      ganaXP(pc >= 80 ? 30 : pc >= 50 ? 15 : 5);
+      if(pc >= 80) setTimeout(() => { celebra(); aviso("🎯", pc === 100 ? "¡Tanda perfecta!" : "¡Muy buena tanda!", pc + "% de aciertos"); }, 450);
       return;
     }
     q = make(); answered = false;
@@ -2659,7 +2829,7 @@ function quizEngine(root, total, make, onDone){
     root.querySelectorAll(".qopt").forEach((b,k) => b.addEventListener("click", () => {
       if(answered) return; answered = true;
       const ok = opts[k].ok;
-      if(ok) score++;
+      if(ok){ score++; ganaXP(10); }
       root.querySelectorAll(".qopt").forEach((x,j) => {
         x.disabled = true;
         if(opts[j].ok) x.classList.add("ok");
@@ -2750,6 +2920,7 @@ VIEWS.repaso = {
         <tr><td>Frases marcadas</td><td>${Object.keys(S.phr).length} de ${PHRASES.length}</td></tr>
         <tr><td>${T("repaso_fila","Mejor prueba de oído fino")}</td><td>${S.best.tono}%</td></tr>
         <tr><td>Mejor prueba de oído</td><td>${S.best.oido}%</td></tr>
+        <tr><td>Experiencia en este curso</td><td>${xpActual()} XP · nivel ${nivelDe(xpActual()) + 1}, ${tituloNivel(nivelDe(xpActual()))}</td></tr>
         <tr><td>Racha</td><td>${S.streak.n || 0} ${S.streak.n === 1 ? "día" : "días"}</td></tr>
       </tbody></table></div>
     <div class="row" style="margin-top:14px">
@@ -2768,29 +2939,309 @@ VIEWS.repaso = {
 
 /* el arranque vive al final de part4.js, tras registrar todas las vistas */
 
+/* ══ VIDA ════════════════════════════════════════════════
+   Lo que hace que estudiar no parezca rellenar un formulario:
+   un dibujo para cada palabra, experiencia y niveles, celebraciones
+   cuando algo sale bien, y un «siguiente paso» que lleva de la mano
+   a lo que quedó pendiente.
+
+   Va entre part3.js y part4.js: usa el estado y las vistas del motor,
+   y sus constantes tienen que existir antes de que part4 arranque.
+   Nada de aquí es de un idioma concreto: todo sale del paquete. */
+
+/* ── 1 · dibujos ──────────────────────────────────────────
+   Se buscan por el significado en español, que es lo único que
+   comparten los siete cursos. Emoji: se ven en cualquier móvil,
+   funcionan sin conexión y no pesan nada. Primero las frases
+   hechas (que «hace calor» no se quede en «hacer»), luego palabra
+   por palabra, y si nada encaja, el de su categoría. */
+const DIBUJO_FRASES = [
+  ["buenos días","☀️"], ["buenas tardes","🌇"], ["buenas noches","🌙"],
+  ["hace calor","🥵"], ["hace frío","🥶"], ["todo recto","⬆️"],
+  ["a la derecha","➡️"], ["a la izquierda","⬅️"], ["tener hambre","🤤"],
+  ["ir a pie","🚶"], ["ir en vehículo","🚗"], ["cuánto cuesta","💰"],
+  ["lo siento","😔"], ["de nada","🤗"], ["por favor","🙏"],
+  ["no pasa nada","👌"], ["está bien","👌"], ["hasta luego","👋"],
+  ["hasta la","👋"], ["me gusta","😍"], ["carne de vaca","🐄"],
+  ["está lejos","🗺️"], ["está cerca","📍"], ["es grande","🐘"],
+  ["es pequeño","🐭"], ["es caro","💎"], ["es barato","🏷️"],
+  ["es fácil","👍"], ["es difícil","🧗"], ["es divertido","🎉"],
+  ["es malo","👎"], ["es bueno","👍"], ["está rico","😋"],
+  ["por la mañana","🌅"], ["por la tarde","🌇"], ["hermano","👫"],
+  ["partícula cortés","🙏"], ["saber hacer","🛠️"], ["el mediodía","🕛"],
+  ["alérgico","🤧"]
+];
+const DIBUJO_PALABRAS = {
+  hola:"👋", adiós:"👋", chao:"👋", gracias:"🙏", perdón:"🙇", perdone:"🙇",
+  disculpe:"🙇", encantado:"🤝", "sí":"✅", no:"❌", bien:"👍", bueno:"👍",
+  malo:"👎", yo:"🙋", "tú":"👉", usted:"👉", "él":"👨", ella:"👩",
+  ellos:"👥", nosotros:"👥", vosotros:"👥", persona:"🧑", gente:"👥",
+  amigo:"🤝", familia:"👨‍👩‍👧", casa:"🏠", madre:"👩", padre:"👨",
+  hijo:"👶", niño:"🧒", chico:"🧒", estudiante:"🎓", profesor:"🧑‍🏫",
+  agua:"💧", arroz:"🍚", "café":"☕", "té":"🍵", leche:"🥛", pan:"🍞",
+  huevo:"🥚", carne:"🥩", pollo:"🍗", cerdo:"🐖", pescado:"🐟", gamba:"🦐",
+  fruta:"🍎", verdura:"🥦", verduras:"🥦", plato:"🍽️", queso:"🧀",
+  vino:"🍷", aceite:"🫒", mantequilla:"🧈", desayuno:"🥐", comida:"🍽️",
+  delicioso:"😋", rico:"😋", sabroso:"😋", picante:"🌶️", pica:"🌶️",
+  caliente:"🔥", calor:"🔥", caluroso:"🔥", "frío":"❄️", comer:"🍴",
+  beber:"🥤", restaurante:"🍽️", mercado:"🛒", tienda:"🏪", comprar:"🛍️",
+  vender:"🏷️", pagar:"💳", dinero:"💶", barato:"🏷️", caro:"💎",
+  rebajar:"📉", baht:"💵", rublo:"💵", won:"💵", yen:"💴", "cuánto":"💰",
+  hotel:"🏨", aeropuerto:"✈️", "estación":"🚉", tren:"🚆", taxi:"🚕",
+  coche:"🚗", "vehículo":"🚗", calle:"🛣️", mar:"🌊", "baño":"🚻",
+  derecha:"➡️", izquierda:"⬅️", cerca:"📍", lejos:"🗺️", "aquí":"📍",
+  "dónde":"📍", ir:"🚶", venir:"🏃", salir:"🚪", subir:"⬆️", hoy:"📅",
+  ayer:"⏪", "mañana":"🌅", "día":"☀️", noche:"🌙", tarde:"🌇",
+  semana:"🗓️", mes:"📆", "año":"🎆", ahora:"⏱️", tiempo:"⏰", hora:"⏰",
+  "cuándo":"🕰️", rojo:"🔴", azul:"🔵", verde:"🟢", amarillo:"🟡",
+  blanco:"⚪", negro:"⚫", naranja:"🟠", rosa:"🌸", color:"🎨",
+  grande:"🐘", "pequeño":"🐭", bonito:"🌷", feo:"🙈", "fácil":"👍",
+  "difícil":"🧗", divertido:"🎉", mucho:"➕", muy:"➕", poco:"🤏",
+  "qué":"❓", "quién":"❓", "cómo":"❓", "por":"❓", este:"👇", esto:"👇",
+  ese:"👉", eso:"👉", hablar:"🗣️", escuchar:"👂", leer:"📖",
+  escribir:"✍️", ver:"👀", mirar:"👀", entender:"💡", saber:"🧠",
+  conocer:"🧠", querer:"💭", pensar:"💭", necesitar:"🙏", poder:"💪",
+  hacer:"🛠️", tener:"🤲", haber:"🤲", gustar:"😍", amar:"❤️",
+  ayudar:"🤝", trabajar:"💼", vivir:"🏡", estar:"📍", ser:"✨",
+  idioma:"🗣️", "españa":"🇪🇸", rusia:"🇷🇺", corea:"🇰🇷", tailandia:"🇹🇭",
+  /* casa, salud y naturaleza */
+  "habitación":"🛏️", puerta:"🚪", ventana:"🪟", cama:"🛏️", mesa:"🍽️", silla:"🪑",
+  llave:"🔑", luz:"💡", fuego:"🔥", "médico":"🩺", medicina:"💊", doler:"🤕",
+  cabeza:"🤕", barriga:"😖", cansado:"😴", enfermo:"🤒", lluvia:"🌧️", sol:"☀️",
+  viento:"🌬️", "árbol":"🌳", flor:"🌼", "montaña":"⛰️", isla:"🏝️",
+  elefante:"🐘", gato:"🐱", perro:"🐶",
+  /* verbos y palabras de enlace */
+  dormir:"😴", despertarse:"⏰", dar:"🎁", esperar:"⏳", buscar:"🔍",
+  "allí":"👉", con:"🤝", y:"➕", pero:"↔️", o:"🔀", porque:"💬", si:"🤔",
+  despacio:"🐢", "rápido":"🐇"
+};
+const DIBUJO_CATEGORIA = {
+  saludos:"👋", personas:"🧑", comida:"🍽️", viajar:"🧳", compras:"🛍️",
+  tiempo:"⏰", colores:"🎨", "básico":"✨", casa:"🏠", salud:"🩺", naturaleza:"🌿"
+};
+function dibujo(v){
+  if(!v) return "✨";
+  const g = String(v[2] || "").toLowerCase();
+  for(const [frase, e] of DIBUJO_FRASES) if(g.indexOf(frase) >= 0) return e;
+  const partes = g.replace(/[¡!¿?().]/g, " ").split(/[\s\/,;-]+/).filter(Boolean);
+  for(const p of partes) if(DIBUJO_PALABRAS[p]) return DIBUJO_PALABRAS[p];
+  return DIBUJO_CATEGORIA[v[3]] || "✨";
+}
+
+/* ── 2 · experiencia y niveles ────────────────────────────
+   Por curso: quien estudia dos idiomas no debería ver el mismo nivel
+   en los dos. Se gana haciendo, no mirando: escuchar da poco, acertar
+   un test da mucho. */
+const NIVELES = ["Recién llegado", "Oído curioso", "Primeras palabras", "Explorador",
+                 "Conversador", "Viajero", "Con soltura", "Casi de allí", "Maestro"];
+const xpPara = n => 25 * n * (n + 1);          /* XP total para alcanzar el nivel n */
+const nivelDe = xp => { let n = 0; while(xp >= xpPara(n + 1)) n++; return n; };
+const tituloNivel = n => NIVELES[Math.min(n, NIVELES.length - 1)];
+function xpActual(){
+  if(!S.xpPor || typeof S.xpPor !== "object") S.xpPor = {};
+  return S.xpPor[LANG.id] || 0;
+}
+function ganaXP(n, flotar){
+  if(!n) return;
+  const antes = nivelDe(xpActual());
+  S.xpPor[LANG.id] = xpActual() + n;
+  save();
+  if(flotar !== false) flotaXP("+" + n + " XP");
+  pintaNivel(true);
+  const ahora = nivelDe(xpActual());
+  if(ahora > antes) setTimeout(() => {
+    celebra();
+    aviso("🏅", "¡Nivel " + (ahora + 1) + "!", tituloNivel(ahora));
+  }, 380);
+}
+function pintaNivel(animar){
+  const c = document.getElementById("nivel");
+  if(!c) return;
+  const xp = xpActual(), n = nivelDe(xp);
+  const desde = xpPara(n), hasta = xpPara(n + 1);
+  const pct = Math.round((xp - desde) / (hasta - desde) * 100);
+  c.innerHTML = `<div class="nv${animar ? " nv--sube" : ""}" title="${xp} XP en total">
+    <div class="nv-medalla">${n + 1}</div>
+    <div class="nv-txt">
+      <b>${tituloNivel(n)}</b>
+      <em>${xp - desde} / ${hasta - desde} XP para el nivel ${n + 2}</em>
+      <div class="nv-barra"><i style="width:${pct}%"></i></div>
+    </div></div>`;
+}
+
+/* ── 3 · celebraciones ────────────────────────────────────
+   Nada que moleste: se apagan solas y respetan a quien pidió al
+   sistema menos movimiento. */
+const pocoMovimiento = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let ultimoToque = null;
+document.addEventListener("pointerdown", e => { ultimoToque = {x:e.clientX, y:e.clientY}; }, true);
+
+function flotaXP(texto){
+  if(pocoMovimiento()) return;
+  const p = ultimoToque || {x:window.innerWidth / 2, y:window.innerHeight / 2};
+  const el = document.createElement("div");
+  el.className = "xpflota";
+  el.textContent = texto;
+  el.style.left = p.x + "px";
+  el.style.top = p.y + "px";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1100);
+}
+function celebra(){
+  if(pocoMovimiento()) return;
+  const colores = ["var(--brand)", "#F5B82E", "#2FA36B", "#E8508A", "#3B82F6", "#FF7A45"];
+  const p = ultimoToque || {x:window.innerWidth / 2, y:window.innerHeight / 3};
+  for(let i = 0; i < 42; i++){
+    const c = document.createElement("i");
+    c.className = "confeti";
+    const ang = Math.random() * Math.PI * 2, fuerza = 90 + Math.random() * 230;
+    c.style.setProperty("--x0", p.x + "px");
+    c.style.setProperty("--y0", p.y + "px");
+    c.style.setProperty("--x1", (p.x + Math.cos(ang) * fuerza) + "px");
+    c.style.setProperty("--y1", (p.y + Math.sin(ang) * fuerza + 160) + "px");
+    c.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+    c.style.background = colores[i % colores.length];
+    c.style.animationDelay = (Math.random() * 90) + "ms";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
+}
+let avisoTimer = null;
+function aviso(emoji, titulo, texto){
+  let a = document.getElementById("aviso");
+  if(!a){ a = document.createElement("div"); a.id = "aviso"; a.setAttribute("role", "status"); document.body.appendChild(a); }
+  a.innerHTML = `<span class="av-e">${emoji}</span><span><b>${titulo}</b>${texto ? `<em>${texto}</em>` : ""}</span>`;
+  a.className = "aviso aviso--ve";
+  clearTimeout(avisoTimer);
+  avisoTimer = setTimeout(() => { a.className = "aviso"; }, 2600);
+}
+
+/* ── 4 · el siguiente paso ────────────────────────────────
+   Lo que falta del objetivo de hoy, en orden; si está hecho, la
+   siguiente parada de la ruta que aún no has pisado; y si ya las
+   has visto todas, un repaso. Cada meta sabe a qué pantalla lleva
+   y a qué parte de ella (data-foco). */
+const METAS = {
+  cards: {emoji:"🃏", titulo:"Repasa tarjetas", go:"vocabulario", foco:"#vCard",
+          falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n} para el objetivo de hoy.`},
+  plays: {emoji:"🎧", titulo:"Escucha palabras", go:"vocabulario", foco:"#vList",
+          falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n}. Toca cualquier palabra de la lista.`},
+  quiz:  {emoji:"🎯", titulo:"Haz un test", go:"repaso", foco:"#mix",
+          falta: () => "Doce preguntas mezcladas. Es lo que cierra el día."}
+};
+const hoyCuenta = () => (S.today && S.today.day === today()) ? S.today : {cards:0, quiz:0, plays:0};
+const claveVisita = id => LANG.id + ":" + id;
+function marcaVisita(id){
+  if(!S.visitados || typeof S.visitados !== "object") S.visitados = {};
+  if(S.visitados[claveVisita(id)]) return;
+  S.visitados[claveVisita(id)] = 1;
+  save();
+}
+const visitado = id => !!(S.visitados && S.visitados[claveVisita(id)]);
+const pasoDisponible = go => LANG.secciones.indexOf(go) >= 0;
+
+function siguientePaso(){
+  /* quien llega por primera vez empieza por la ruta, no por el objetivo */
+  const nuevo = !xpActual();
+  const ruta = PATH.find(([, , go]) => pasoDisponible(go) && !visitado(go));
+  if(nuevo && ruta) return {emoji:"🧭", eyebrow:"Tu primera parada", titulo:ruta[0], detalle:ruta[1], go:ruta[2]};
+  const t = hoyCuenta();
+  for(const k of ["cards", "plays", "quiz"]){
+    if((t[k] || 0) < GOALS[k]){
+      const m = METAS[k];
+      return {emoji:m.emoji, eyebrow:"Te queda para hoy", titulo:m.titulo,
+              detalle:m.falta(GOALS[k] - (t[k] || 0)), go:m.go, foco:m.foco};
+    }
+  }
+  if(ruta) return {emoji:"🧭", eyebrow:"Objetivo cumplido · sigue la ruta", titulo:ruta[0], detalle:ruta[1], go:ruta[2]};
+  return {emoji:"🔁", eyebrow:"Todo al día", titulo:"Una tanda de repaso",
+          detalle:"Ya has pasado por todas las secciones. Repasar mezclado es lo que fija lo aprendido.",
+          go:"repaso", foco:"#mix"};
+}
+function misionHTML(){
+  const p = siguientePaso();
+  return `<div class="mision" data-go="${p.go}"${p.foco ? ` data-foco="${p.foco}"` : ""} role="button" tabindex="0">
+    <div class="mi-emoji" aria-hidden="true">${p.emoji}</div>
+    <div class="mi-txt">
+      <div class="mi-eyebrow">${p.eyebrow}</div>
+      <b>${p.titulo}</b>
+      <span>${p.detalle}</span>
+    </div>
+    <div class="mi-go">Vamos <span aria-hidden="true">→</span></div>
+  </div>`;
+}
+
+/* ir a la parte concreta de la pantalla: la navegación del motor ya ha
+   pintado la vista (se registró antes), así que el destino existe */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-foco]");
+  if(!b) return;
+  const destino = document.querySelector(b.dataset.foco);
+  if(!destino) return;
+  /* un temporizador y no requestAnimationFrame: ese se congela con la pestaña en segundo plano */
+  setTimeout(() => {
+    destino.scrollIntoView({block:"center", behavior:pocoMovimiento() ? "auto" : "smooth"});
+    destino.classList.remove("foco-pulso");
+    void destino.offsetWidth;
+    destino.classList.add("foco-pulso");
+    setTimeout(() => destino.classList.remove("foco-pulso"), 2200);
+  }, 40);
+});
+
+/* ── 5 · entrada de cada pantalla ─────────────────────────
+   Las tarjetas aparecen en cascada. Solo las primeras: una lista de
+   cien palabras entrando de una en una sería un castigo. */
+function animaVista(){
+  if(pocoMovimiento()) return;
+  const piezas = document.querySelectorAll("#view .vhead, #view .mision, #view .goal, #view .ring, #view .step, #view .card, #view h2.sec");
+  let i = 0;
+  for(const el of piezas){
+    if(i >= 26) break;
+    el.style.animationDelay = (i * 38) + "ms";
+    el.classList.add("entra");
+    i++;
+  }
+}
+
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 const GOALS = {cards:10, quiz:1, plays:20};
 function today(){ return new Date().toISOString().slice(0,10); }
 function bump(k, n){
   const d = today();
   if(!S.today || S.today.day !== d) S.today = {day:d, cards:0, quiz:0, plays:0};
+  const cumplidas = () => Object.keys(GOALS).filter(g => (S.today[g] || 0) >= GOALS[g]).length;
+  const antes = cumplidas(), yaEstaba = (S.today[k] || 0) >= GOALS[k];
   S.today[k] = (S.today[k] || 0) + (n || 1);
   save();
+  if(k === "plays") ganaXP(1, false);          /* escuchar suma, pero sin ruido */
+  const ahora = cumplidas();
+  if(ahora === Object.keys(GOALS).length && antes < ahora){
+    setTimeout(() => { celebra(); aviso("🏆", "¡Objetivo de hoy cumplido!", "+50 XP · la racha sigue viva"); ganaXP(50, false); }, 300);
+  } else if(!yaEstaba && (S.today[k] || 0) >= GOALS[k]){
+    aviso("✅", "¡Hecho!", {cards:"Tarjetas de hoy completas", plays:"Palabras de hoy escuchadas", quiz:"Test de hoy hecho"}[k]);
+  }
   const box = document.getElementById("goalBox");
   if(box) box.innerHTML = goalHTML();
+  document.querySelectorAll(".misionSlot").forEach(s => { s.innerHTML = misionHTML(); });
 }
 function goalHTML(){
-  const d = today();
-  const t = (S.today && S.today.day === d) ? S.today : {cards:0, quiz:0, plays:0};
-  const item = (k, txt) => `<div class="gitem ${t[k] >= GOALS[k] ? "done" : ""}">
-    <i class="gbox">✓</i><span>${txt} <b>${Math.min(t[k], GOALS[k])}/${GOALS[k]}</b></span></div>`;
-  const hechos = Object.keys(GOALS).filter(k => t[k] >= GOALS[k]).length;
+  const t = hoyCuenta();
+  const item = (k, txt) => {
+    const hecho = (t[k] || 0) >= GOALS[k], m = METAS[k];
+    const pct = Math.min(100, Math.round((t[k] || 0) / GOALS[k] * 100));
+    return `<button class="gitem ${hecho ? "done" : ""}"${hecho ? " disabled" : ` data-go="${m.go}" data-foco="${m.foco}"`}>
+      <span class="g-emoji" aria-hidden="true">${hecho ? "✅" : m.emoji}</span>
+      <span class="g-txt">${txt} <b>${Math.min(t[k] || 0, GOALS[k])}/${GOALS[k]}</b>
+        <i class="g-barra"><i style="width:${pct}%"></i></i></span>
+      ${hecho ? "" : `<span class="g-ir">Ir →</span>`}</button>`;
+  };
+  const hechos = Object.keys(GOALS).filter(k => (t[k] || 0) >= GOALS[k]).length;
   return `<div class="goal">
     <div style="flex:1;min-width:220px">
-      <div class="gtitle">Objetivo de hoy · ${hechos} de 3</div>
+      <div class="gtitle">Objetivo de hoy · ${hechos} de 3${hechos < 3 ? " · toca lo que te falte" : " · ¡cumplido!"}</div>
       <div class="gitems">
-        ${item("plays", "palabras escuchadas")}
         ${item("cards", "tarjetas repasadas")}
+        ${item("plays", "palabras escuchadas")}
         ${item("quiz", "test completado")}
       </div>
     </div>
@@ -2999,7 +3450,7 @@ function memNew(){
   const cartas = [];
   pares.forEach((p,i) => {
     cartas.push({p:i, kind:"th", t:p[0], say:p[0]});
-    cartas.push({p:i, kind:"es", t:p[2], say:p[0]});
+    cartas.push({p:i, kind:"es", t:p[2], say:p[0], dib:dibujo(p)});
   });
   MEM = {cartas:shuffle(cartas).map(c => ({...c, face:"down", matched:false})),
          abiertas:[], jugadas:0, hechas:0, bloqueado:false};
@@ -3008,7 +3459,7 @@ function memPaint(){
   const b = $("#board"); if(!b) return;
   b.innerHTML = MEM.cartas.map((c,i) => `<div class="mcard ${c.matched ? "matched" : ""}"
     data-face="${c.matched || c.face === "up" ? "up" : "down"}" data-i="${i}" role="button" tabindex="0">
-    <span class="${c.kind === "th" ? "mth th" : ""}">${c.t}</span></div>`).join("");
+    <span class="${c.kind === "th" ? "mth th" : ""}">${c.dib ? `<i class="mdib" aria-hidden="true">${c.dib}</i>` : ""}${c.t}</span></div>`).join("");
   $("#memStat").innerHTML = MEM.hechas === 6
     ? `<b style="color:var(--ok)">¡Completado en ${MEM.jugadas} intentos!</b>`
     : `Parejas: <b>${MEM.hechas}/6</b> · Intentos: <b>${MEM.jugadas}</b>`;
@@ -3024,8 +3475,12 @@ function memFlip(i){
   const [a,b] = MEM.abiertas.map(k => MEM.cartas[k]);
   if(a.p === b.p && a.kind !== b.kind){
     a.matched = b.matched = true; MEM.hechas++; MEM.abiertas = [];
+    ganaXP(5);
     memPaint();
-    if(MEM.hechas === 6){ touchStreak(); bump("quiz"); }
+    if(MEM.hechas === 6){
+      touchStreak(); bump("quiz"); ganaXP(40);
+      setTimeout(() => { celebra(); aviso("🎉", "¡Todas las parejas!", "En " + MEM.jugadas + " intentos"); }, 250);
+    }
   } else {
     MEM.bloqueado = true;
     const idx = MEM.abiertas.slice();
@@ -3045,10 +3500,10 @@ function dictPaint(){
   box.className = "dictbox " + DICT.state;
   box.textContent = DICT.typed || "";
   $("#dictFb").innerHTML = DICT.state === "ok"
-    ? `<b style="color:var(--ok)">¡Correcto!</b> <span class="th" style="font-size:20px">${DICT.w[0]}</span>
+    ? `<b style="color:var(--ok)">¡Correcto!</b> ${dibujo(DICT.w)} <span class="th" style="font-size:20px">${DICT.w[0]}</span>
        <span class="rom">${DICT.w[1]}</span> — ${DICT.w[2]}`
     : DICT.state === "no"
-    ? `<b style="color:var(--bad)">No es.</b> Era <span class="th" style="font-size:20px">${DICT.w[0]}</span>
+    ? `<b style="color:var(--bad)">No es.</b> Era ${dibujo(DICT.w)} <span class="th" style="font-size:20px">${DICT.w[0]}</span>
        <span class="rom">${DICT.w[1]}</span> — ${DICT.w[2]}`
     : `<span class="muted">Escribe con el teclado lo que oigas y pulsa Comprobar.</span>`;
 }
@@ -3101,6 +3556,7 @@ VIEWS.juegos = {
     $("#dictClr").addEventListener("click", () => { DICT.typed = ""; DICT.state = ""; dictPaint(); });
     $("#dictCheck").addEventListener("click", () => {
       DICT.state = sinMarca(DICT.typed) === sinMarca(DICT.w[0]) ? "ok" : "no";
+      if(DICT.state === "ok") ganaXP(15);
       dictPaint(); touchStreak();
     });
     document.querySelectorAll("[data-dk]").forEach(b => b.addEventListener("click", () => {
@@ -3438,6 +3894,7 @@ document.addEventListener('click', e => {
 paintSpeed();
 paintMarca();
 pintaAcciones();
+pintaNivel();
 vigilaHora();
 vigilaMarca();
 go((location.hash || "#inicio").slice(1));

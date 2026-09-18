@@ -53,6 +53,7 @@ Un solo motor y un paquete de datos por idioma:
 |---|---|
 | `part1.html` | Estilos y estructura, comunes a todos |
 | `part3.js`, `part4.js` | El motor: vistas, tests, juegos, progreso |
+| `vida.js` | Dibujos de las palabras, experiencia y niveles, celebraciones y el «siguiente paso». Va entre `part3.js` y `part4.js` |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
@@ -108,6 +109,24 @@ y, si se autoriza, una notificación mientras la pestaña siga abierta.
 La hora del `.ics` es **flotante** a propósito (sin `TZID` ni `Z`): la sesión es a las siete de donde
 estés, no a las siete de un huso fijo. Las líneas se pliegan a 75 octetos como pide la norma, que es
 donde Outlook se pone quisquilloso.
+
+### Lo que da vida: `vida.js`
+
+- **Dibujos.** Cada palabra lleva un emoji, buscado por su significado en español, que es lo único que
+  comparten los siete cursos: primero frases hechas («hace calor»), luego palabra a palabra y, si nada
+  encaja, el de su categoría. Salen en las tarjetas (al verse el significado, para no regalar la
+  respuesta), en la lista y en las cartas del juego de parejas. Para una palabra nueva sin dibujo, se
+  añade a `DIBUJO_PALABRAS`. **Nunca pongas ahí nombres de idioma** («ruso», «china»…): el verificador
+  los detecta como fuga, con razón.
+- **Experiencia y niveles**, por curso: escuchar +1, tarjeta +5 (o +2 si no la sabías), acierto en
+  test +10, letra aprendida +5, pareja +5, partida completa +40, dictado +15, habla +10, objetivo del
+  día +50. La tabla de niveles es `25·n·(n+1)` XP.
+- **Celebraciones**: confeti y aviso al subir de nivel, cumplir el objetivo, hacer una tanda de test de
+  80 % o más y completar las parejas. Se apagan solas con «reducir movimiento» del sistema.
+- **Siguiente paso.** La portada abre con una misión: quien llega por primera vez va a la primera
+  parada de la ruta; quien vuelve, a lo que le falta del objetivo de hoy; con todo hecho, a la ruta o a
+  un repaso. Cada meta del objetivo es un botón que lleva a la pantalla exacta (`data-foco`) y la
+  resalta. La ruta marca lo visitado y lo siguiente.
 
 ### Desplegar
 

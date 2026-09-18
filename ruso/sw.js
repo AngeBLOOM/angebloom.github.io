@@ -1,5 +1,5 @@
-/* Bukva — caché offline. Versión: ruso-20260917-fqzh */
-const CACHE = "ruso-20260917-fqzh";
+/* Bukva — caché offline. Versión: ruso-20260918-rf7t */
+const CACHE = "ruso-20260918-rf7t";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

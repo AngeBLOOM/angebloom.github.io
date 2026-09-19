@@ -2718,9 +2718,17 @@ function paintDetail(){
       </dl>
       <div class="row" style="margin-top:12px">
         <button class="btn btn--s" id="mark">${kn ? "✓ Aprendida" : "Marcar como aprendida"}</button>
-        <button class="btn btn--s" data-go="escritura">Trazarla a mano</button>
+        ${LANG.secciones.indexOf("escritura") >= 0 ? `<button class="btn btn--s" id="trazar">✍️ Trazarla a mano</button>` : ""}
       </div>
     </div></div>`;
+  traceChar = c[0];
+  const tr = $("#trazar");
+  if(tr) tr.addEventListener("click", () => {
+    traceChar = c[0];
+    go("escritura");
+    setTimeout(() => { const w = document.querySelector(".tracewrap");
+      if(w) w.scrollIntoView({block:"center", behavior:"smooth"}); }, 60);
+  });
   $("#mark").addEventListener("click", () => {
     if(S.known[c[0]]) delete S.known[c[0]]; else { S.known[c[0]] = 1; ganaXP(5); }
     save(); paintNav(current); paintCons();
@@ -2728,7 +2736,9 @@ function paintDetail(){
 }
 
 /* ══ VISTA: ESCRITURA ════════════════════════════════════ */
-let traceChar = CONS[0][0], strokes = [], curStroke = null;
+/* la letra del cuaderno: la última que abriste en el alfabeto o, si no, la primera que aún no sabes */
+let traceChar = null, strokes = [], curStroke = null;
+const letraPorAprender = () => (CONS.find(c => !c[6] && !S.known[c[0]]) || CONS[0])[0];
 /* el teclado lo aporta el paquete de idioma (KB_ROWS) */
 VIEWS.escritura = {
   html(){
@@ -2753,7 +2763,9 @@ VIEWS.escritura = {
       <button class="btn btn--s" id="tClear">Borrar</button>
       <button class="btn btn--s" id="tUndo">Deshacer</button>
       <button class="btn btn--s" id="tGhost" aria-pressed="true">Modelo visible</button>
-      <button class="btn btn--s btn--p" id="tNext">Letra al azar</button>
+      <button class="btn btn--s" id="tPrev">← Anterior</button>
+      <button class="btn btn--s btn--p" id="tNext">Siguiente →</button>
+      <button class="btn btn--s" id="tRand">Al azar</button>
       <span id="tSay"></span>
     </div>
     <div class="tracewrap"><canvas class="trace" id="tCanvas" width="1200" height="380"></canvas></div>
@@ -2823,9 +2835,17 @@ VIEWS.escritura = {
     $("#tUndo").addEventListener("click", () => { strokes.pop(); redraw(); });
     $("#tGhost").addEventListener("click", e => { ghost = !ghost;
       e.target.setAttribute("aria-pressed", ghost); e.target.textContent = ghost ? "Modelo visible" : "Modelo oculto"; redraw(); });
-    $("#tNext").addEventListener("click", () => setChar(pick(CONS)[0]));
+    /* anterior y siguiente siguen el orden del desplegable: letras, luego vocales y signos */
+    const paso = d => {
+      const ops = [...$("#tSel").options].map(o => o.value);
+      const i = ops.indexOf(traceChar);
+      setChar(ops[((i < 0 ? 0 : i + d) + ops.length) % ops.length]);
+    };
+    $("#tPrev").addEventListener("click", () => paso(-1));
+    $("#tNext").addEventListener("click", () => paso(1));
+    $("#tRand").addEventListener("click", () => setChar(pick(CONS)[0]));
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
-    setChar(traceChar);
+    setChar(traceChar || letraPorAprender());
 
     const out = $("#kbout");
     document.querySelectorAll(".kb [data-k]").forEach(b =>

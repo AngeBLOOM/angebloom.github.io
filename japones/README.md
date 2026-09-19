@@ -139,7 +139,13 @@ donde Outlook se pone quisquilloso.
 
 ### Cómo se lee: de las piezas a la palabra
 
-Sección `lectura`, solo en los idiomas que declaran `LECTURA` (de momento, el tailandés). Enseña lo
+Sección `lectura`, en los siete cursos, cada uno con su propia idea de «pieza»: consonante, vocal,
+final y tono en tailandés; sílabas de un tiempo, ん, っ y vocales largas en japonés; letras apiladas
+en bloques con su batchim en coreano; inicial, final y tono del pinyin en chino; letras, sílabas y
+acento en ruso; qué hace cada letra según sus vecinas en inglés (ahí las piezas no suenan solas,
+porque una letra inglesa suelta no se puede pronunciar, y el sonido se aprende con la palabra entera
+y parejas como cap/cape); y sílabas con sus trampas en italiano. Cada curso nombra sus piezas en
+`LECTURA.papeles`. Enseña lo
 que va antes de leer: cómo suena cada pieza sola y cómo se juntan. Arriba, las cuatro piezas
 (consonante, vocal, final, tono) con ejemplos que se oyen; debajo, palabra a palabra, de la más
 fácil a la más enredada. En cada palabra: oírla entera o muy lenta, **pieza a pieza** (suena cada
@@ -153,7 +159,8 @@ suenan solas. `orden` indica el orden en que se *dicen* las piezas cuando no coi
 declarar su `LECTURA` y añadir `"lectura"` a sus `secciones`.
 
 En la ficha de cada letra, el paquete puede declarar `suenaInicio`, `suenaFinal` y `ejemploLetra`
-para que se oiga lo que antes solo se leía. Y el test «¿de qué tipo es?» lleva una chuleta de las
+para que se oiga lo que antes solo se leía, y `nombreLetra` cuando la segunda columna de `CONS` no es
+algo pronunciable (en ruso, japonés y chino es la romanización, y la voz la leía tal cual). Y el test «¿de qué tipo es?» lleva una chuleta de las
 clases que se abre si hace falta.
 
 ### Desplegar

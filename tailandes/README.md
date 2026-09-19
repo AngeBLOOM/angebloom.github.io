@@ -128,6 +128,15 @@ donde Outlook se pone quisquilloso.
   un repaso. Cada meta del objetivo es un botón que lleva a la pantalla exacta (`data-foco`) y la
   resalta. La ruta marca lo visitado y lo siguiente.
 
+- **Repetir y que te corrija** (`repetirHTML(texto)`): un botón de micrófono que escucha, compara con
+  lo esperado y explica el fallo con la misma lógica que la sección Hablar. Está en los tests con
+  audio (tras responder, «Ahora dilo tú»), en cada frase y en la tarjeta girada. Para añadirlo en otro
+  sitio basta con pintar `repetirHTML(lo_que_hay_que_decir)`: el clic se atiende solo. Da experiencia
+  una vez por cada cosa bien dicha, para que repetir la misma palabra no sea una granja de puntos.
+- **Claro, oscuro o automático.** Las dos paletas ya existían; ahora hay un selector en la barra
+  lateral que se guarda en `S.tema`. Un pequeño script en la cabecera (lo inyecta `build.js`) lo
+  aplica antes de pintar, para que quien eligió oscuro no vea un fogonazo blanco al abrir.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

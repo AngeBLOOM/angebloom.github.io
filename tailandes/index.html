@@ -956,6 +956,96 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   border:1px solid var(--line); background:var(--card); color:var(--ink-2);
 }
 .temabtns button[aria-pressed="true"]{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+/* ══ CÓMO SE LEE ═════════════════════════════════════════ */
+/* cada papel, su color: el mismo en la explicación y en las palabras */
+.pz--inicial{--pz:var(--brand)}
+.pz--vocal{--pz:#3B82F6}
+.pz--final{--pz:#16A06A}
+.pz--tono{--pz:#E39B0B}
+
+.lec-intro{grid-template-columns:repeat(auto-fit, minmax(230px, 1fr))}
+.lec-rol{border-top:4px solid var(--pz)}
+.lec-rol-cab{display:flex; align-items:center; gap:8px}
+.lec-dot{width:12px; height:12px; border-radius:50%; background:var(--pz); flex:none}
+.lec-rol p{font-size:14px; color:var(--ink-2); margin-top:6px; line-height:1.5}
+.lec-ejs{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+.lec-ej{
+  appearance:none; font:inherit; cursor:pointer; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; min-width:56px; padding:6px 8px; border-radius:11px;
+  border:1px solid color-mix(in srgb, var(--pz) 45%, transparent);
+  background:color-mix(in srgb, var(--pz) 9%, var(--card)); transition:background .15s, color .15s;
+}
+.lec-ej:hover{background:var(--pz); color:#fff}
+.lec-ej .th{font-size:22px; line-height:1.3}
+.lec-ej small{font-size:10.5px; opacity:.8; white-space:nowrap}
+
+.lec{text-align:center; padding:22px}
+.lec-cab{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap}
+.lec-num{font:700 11px var(--ui); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.lec-puntos{display:flex; gap:5px; flex-wrap:wrap}
+.lec-puntos i{width:9px; height:9px; border-radius:50%; background:var(--surface-3); transition:transform .2s}
+.lec-puntos i.hecho{background:color-mix(in srgb, var(--brand) 45%, var(--surface-3))}
+.lec-puntos i.on{background:var(--brand); transform:scale(1.35)}
+.lec-palabra{font-size:clamp(52px, 11vw, 84px); line-height:1.25; margin-top:10px; cursor:pointer}
+.lec-rom{font:600 17px var(--mono); color:var(--brand-ink)}
+.lec-es{font-size:16px; color:var(--ink-2); margin-top:2px}
+.lec-botones{justify-content:center; margin-top:14px}
+
+.piezas{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:20px 0 8px}
+.pieza{
+  appearance:none; font:inherit; cursor:pointer; color:var(--ink);
+  min-width:76px; padding:10px 12px 8px; border-radius:16px;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  border:2px solid color-mix(in srgb, var(--pz) 55%, transparent);
+  background:color-mix(in srgb, var(--pz) 10%, var(--card));
+  transition:transform .18s, box-shadow .18s, background .18s;
+}
+.pieza:hover{transform:translateY(-2px)}
+.pieza.sel, .pieza.suena{
+  background:var(--pz); border-color:var(--pz); color:#fff;
+  transform:translateY(-4px) scale(1.07);
+  box-shadow:0 10px 22px color-mix(in srgb, var(--pz) 40%, transparent);
+}
+.pz-t{font-size:34px; line-height:1.25}
+.pz-rom{font:600 13px var(--mono); color:var(--ink-2)}
+.pz-papel{font:700 9.5px var(--ui); letter-spacing:.1em; text-transform:uppercase; color:var(--pz)}
+.pieza.sel .pz-rom, .pieza.suena .pz-rom, .pieza.sel .pz-papel, .pieza.suena .pz-papel{color:rgba(255,255,255,.92)}
+.pz--oculta{border-style:dashed}
+.pz--oculta .pz-t{font-family:var(--ui); font-size:22px; font-style:italic; padding:6px 0}
+.pz-nota{
+  min-height:46px; max-width:62ch; margin:0 auto; font-size:14.5px; color:var(--ink-2);
+  padding:10px 14px; border-radius:12px; background:color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.pz-nota .th{font-size:20px}
+.lec-explica{
+  max-width:62ch; margin:14px auto 0; font-size:15px; line-height:1.55; color:var(--ink); text-align:left;
+  padding:12px 14px; border-left:3px solid var(--brand); border-radius:0 12px 12px 0;
+  background:color-mix(in srgb, var(--brand) 6%, transparent);
+}
+.lec-compara{display:flex; align-items:center; justify-content:center; gap:10px; margin-top:14px; flex-wrap:wrap}
+.lec-par{
+  appearance:none; font:inherit; cursor:pointer; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; padding:10px 16px;
+  border-radius:14px; border:1px solid var(--line); background:var(--card);
+}
+.lec-par:hover{border-color:var(--brand)}
+.lec-par .th{font-size:30px; line-height:1.3}
+.lec-par em{font:600 13px var(--mono); font-style:normal; color:var(--brand-ink)}
+.lec-par small{color:var(--ink-3)}
+.lec-vs{font:700 11px var(--ui); color:var(--ink-3); text-transform:uppercase}
+.lec-nav{display:flex; justify-content:space-between; margin-top:18px; gap:10px}
+
+/* la chuleta de clases del test */
+.clases-ayuda{margin:12px auto 0; max-width:520px; text-align:left; font-size:13.5px}
+.clases-ayuda summary{cursor:pointer; text-align:center; color:var(--brand-ink); font-weight:600}
+.ca-fila{padding:8px 10px; margin-top:6px; border-radius:10px; background:color-mix(in srgb, var(--ink) 4%, transparent)}
+.ca-fila b{display:inline-block; min-width:5.5em; text-transform:capitalize}
+.ca-letras{font-size:19px; letter-spacing:.08em}
+.ca-fila small{display:block; color:var(--ink-3); margin-top:2px}
+
+/* botoncitos de audio dentro de la ficha de la letra */
+.detail dd .iconbtn{width:28px; height:28px; vertical-align:middle; margin-left:4px}
+
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
@@ -1044,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por los tonos</b> — Antes que el alfabeto: entrena el oído con cinco melodías.</li>
+        <li><b>Cómo se lee una palabra</b> — Cada pieza sola y luego juntas: consonante, vocal, final y tono. Doce palabras, de la más fácil a la más enredada.</li>
         <li><b>Los sonidos que el español no tiene</b> — ng-, ph, th, vocales ʉ y ɔ. Diez trampas, una por una.</li>
         <li><b>Las 44 consonantes y su clase</b> — La clase decide el tono. Aprende la clase junto con la letra, no después.</li>
         <li><b>Las vocales y las marcas</b> — Se escriben delante, detrás, arriba y abajo de la consonante.</li>
@@ -1078,7 +1169,14 @@ const LANG = {
   titulo:  "Hua Jai Thai — aprender tailandés desde cero, en español",
   desc:    "Curso de tailandés en español: los 5 tonos con audio, las 44 consonantes y sus clases, gramática esencial, trazado de letras a mano, 155 palabras en tarjetas, 61 frases de viaje y juegos. Gratis y sin registro.",
   intro:   "Once herramientas para el oído, la boca y la mano: los cinco tonos, las 44 consonantes, gramática que sí se entiende, trazado a mano, 155 palabras, 61 frases y juegos para consolidar.",
-  secciones: ["inicio","estudiar","tonos","sonidos","alfabeto","escritura","gramatica",
+  /* cómo suena cada letra, para poder oírla y no solo leerla:
+     al empezar sílaba, con la อ detrás, que es como la nombran allí;
+     al acabarla, el final que le toca pegado a una «aa»; y la palabra de su nombre */
+  suenaInicio: c => c[0] + "อ",
+  suenaFinal: c => ({"-k":"อาก", "-ng":"อาง", "-t":"อาด", "-n":"อาน", "-p":"อาบ", "-m":"อาม",
+                     "-i (semivocal)":"อาย", "-u (semivocal)":"อาว"})[c[4]] || null,
+  ejemploLetra: c => c[1].split(" ")[1] || null,
+  secciones: ["inicio","estudiar","tonos","lectura","sonidos","alfabeto","escritura","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   anillos: ["alfabeto","vocabulario","tonos","repaso"],
   particulas: true,
@@ -1454,6 +1552,7 @@ const SOUNDS = [
 /* ruta de aprendizaje */
 const PATH = [
 ["Empieza por los tonos","Antes que el alfabeto: entrena el oído con cinco melodías.","tonos"],
+["Cómo se lee una palabra","Cada pieza sola y luego juntas: consonante, vocal, final y tono. Doce palabras, de la más fácil a la más enredada.","lectura"],
 ["Los sonidos que el español no tiene","ng-, ph, th, vocales ʉ y ɔ. Diez trampas, una por una.","sonidos"],
 ["Las 44 consonantes y su clase","La clase decide el tono. Aprende la clase junto con la letra, no después.","alfabeto"],
 ["Las vocales y las marcas","Se escriben delante, detrás, arriba y abajo de la consonante.","alfabeto"],
@@ -1875,6 +1974,140 @@ const PARTICULAS = {
   botones: ["Hablo como hombre (ผม / ครับ)", "Hablo como mujer (ฉัน / ค่ะ)"]
 };
 
+/* ── cómo se lee: de las piezas a la palabra ──────────────
+   Primero cada pieza sola, después juntas. «suena» es lo que se le
+   pide a la voz para oír esa pieza: las consonantes con la อ detrás
+   (así las nombran en Tailandia: กอ, ขอ), las vocales apoyadas en อ
+   (que ahí no suena), y los finales como rima (อิน = «in»), porque un
+   final suelto no se puede pronunciar. Las marcas de tono no suenan
+   solas: se explican y se comparan. «orden» es el orden en que se
+   DICEN las piezas cuando no coincide con el orden en que se escriben
+   (las vocales que van delante). */
+const LECTURA = {
+  lede: "Antes de leer una palabra entera hay que saber dos cosas: cómo suena cada pieza sola y cómo se "
+      + "juntan. Aquí vas palabra a palabra, de la más sencilla a la más enredada. En cada una: escúchala "
+      + "entera, luego pieza a pieza, toca cada pieza para oírla sola, y al final dila tú.",
+  piezas: [
+    {papel:"inicial", titulo:"La consonante manda",
+     texto:"Toda sílaba empieza por una consonante, y es el centro: las vocales se colocan a su alrededor. "
+         + "Sola se dice con una «o» abierta detrás —กอ, ขอ, มอ—, que es como la nombran los tailandeses. "
+         + "Escucha bien ก y ข: la única diferencia es un soplo de aire.",
+     ejemplos:[["ก","กอ","k · sin soplo"], ["ข","ขอ","kh · con soplo"], ["ม","มอ","m"], ["น","นอ","n"], ["ง","งอ","ng"]]},
+    {papel:"vocal", titulo:"La vocal va alrededor",
+     texto:"Puede ir detrás, encima, debajo… o delante, aunque se diga después de la consonante. "
+         + "Para oírla sola se apoya en อ, que aquí no suena.",
+     ejemplos:[["◌า","อา","aa · detrás"], ["◌ี","อี","ii · encima"], ["◌ู","อู","uu · debajo"],
+               ["เ◌","เอ","ee · delante"], ["ไ◌","ไอ","ai · delante"]]},
+    {papel:"final", titulo:"Al final se corta",
+     texto:"Una consonante al final de sílaba no suena como al principio: se corta sin soltar aire. "
+         + "Por eso muchas letras distintas acaban sonando igual. Solo hay ocho finales posibles.",
+     ejemplos:[["-ก","อาก","-k"], ["-ด","อาด","-t"], ["-บ","อาบ","-p"], ["-น","อาน","-n"],
+               ["-ม","อาม","-m"], ["-ง","อาง","-ng"]]},
+    {papel:"tono", titulo:"La marca de tono",
+     texto:"Encima de la consonante puede ir una marca pequeña. Junto con la clase de la consonante decide "
+         + "la melodía, y la misma sílaba con otra marca es otra palabra. Escucha cada pareja.",
+     ejemplos:[["มา","มา","maa · venir"], ["ม้า","ม้า","máa · caballo"],
+               ["ขาว","ขาว","khǎaw · blanco"], ["ข้าว","ข้าว","khâaw · arroz"]]}
+  ],
+  palabras: [
+    {th:"กา", rom:"kaa", es:"cuervo", dib:"🐦",
+     nota:"La forma más simple: consonante y una vocal detrás. ก es de clase media y no lleva marca: tono medio, plano.",
+     partes:[
+       {t:"ก", papel:"inicial", suena:"กอ", rom:"k", nota:"k sin soplo: como la k de «casa», pero sin soltar aire."},
+       {t:"า", ver:"◌า", papel:"vocal", suena:"อา", rom:"aa", nota:"a larga. Se escribe detrás de la consonante."}]},
+
+    {th:"ขา", rom:"khǎa", es:"pierna", dib:"🦵",
+     nota:"Solo cambia la consonante y cambian el sonido y el tono. ข es de clase alta: sin marca, la voz sube.",
+     partes:[
+       {t:"ข", papel:"inicial", suena:"ขอ", rom:"kh", nota:"kh: como ก pero soltando un soplo de aire. Pon la mano delante de la boca: se tiene que notar."},
+       {t:"า", ver:"◌า", papel:"vocal", suena:"อา", rom:"aa", nota:"a larga, detrás."}],
+     compara:[["กา","kaa","cuervo"], ["ขา","khǎa","pierna"]]},
+
+    {th:"มา", rom:"maa", es:"venir", dib:"🏃",
+     nota:"ม es de clase baja y va sin marca: tono medio.",
+     partes:[
+       {t:"ม", papel:"inicial", suena:"มอ", rom:"m", nota:"m, igual que en español."},
+       {t:"า", ver:"◌า", papel:"vocal", suena:"อา", rom:"aa", nota:"a larga, detrás."}]},
+
+    {th:"ดี", rom:"dii", es:"bueno", dib:"👍",
+     nota:"La vocal está encima, pero se dice después. Se lee siempre la consonante primero.",
+     partes:[
+       {t:"ด", papel:"inicial", suena:"ดอ", rom:"d", nota:"d, como en español."},
+       {t:"ี", ver:"◌ี", papel:"vocal", suena:"อี", rom:"ii", nota:"i larga. Se escribe encima."}]},
+
+    {th:"ปู", rom:"puu", es:"cangrejo", dib:"🦀",
+     nota:"Ahora la vocal va debajo. Mismo orden al leer: consonante, vocal.",
+     partes:[
+       {t:"ป", papel:"inicial", suena:"ปอ", rom:"p", nota:"p sin soplo, más suave que la nuestra."},
+       {t:"ู", ver:"◌ู", papel:"vocal", suena:"อู", rom:"uu", nota:"u larga. Se escribe debajo."}]},
+
+    {th:"กิน", rom:"kin", es:"comer", dib:"🍴",
+     nota:"Primera sílaba con consonante final. Se lee en orden: consonante, vocal y final.",
+     partes:[
+       {t:"ก", papel:"inicial", suena:"กอ", rom:"k", nota:"k sin soplo."},
+       {t:"ิ", ver:"◌ิ", papel:"vocal", suena:"อิ", rom:"i", nota:"i corta, encima."},
+       {t:"น", papel:"final", suena:"อิน", rom:"-n", nota:"-n final, como en español. Suena con la vocal delante: «in»."}]},
+
+    {th:"ไป", rom:"pai", es:"ir", dib:"🚶",
+     nota:"La trampa: ไ se escribe antes que ป, pero se dice después. Lees la consonante y luego la vocal, como si la vocal hubiera saltado delante.",
+     orden:[1, 0],
+     partes:[
+       {t:"ไ", ver:"ไ◌", papel:"vocal", suena:"ไอ", rom:"ai", nota:"ai. Se escribe DELANTE aunque se pronuncia después."},
+       {t:"ป", papel:"inicial", suena:"ปอ", rom:"p", nota:"p sin soplo."}]},
+
+    {th:"แม่", rom:"mɛ̂ɛ", es:"madre", dib:"👩",
+     nota:"Tres piezas: vocal delante, consonante y marca encima. La marca ่ con una consonante de clase baja hace caer la voz desde arriba: tono descendente.",
+     orden:[1, 0],
+     partes:[
+       {t:"แ", ver:"แ◌", papel:"vocal", suena:"แอ", rom:"ɛɛ", nota:"e muy abierta y larga. Va delante."},
+       {t:"ม", papel:"inicial", suena:"มอ", rom:"m", nota:"m. Clase baja."},
+       {t:"่", ver:"◌่", papel:"tono", suena:null, rom:"ˆ", nota:"mái èek. Sobre una consonante de clase baja: tono descendente."}]},
+
+    {th:"น้ำ", rom:"náam", es:"agua", dib:"💧",
+     nota:"ำ ya lleva la m dentro. La marca ้ sobre una consonante de clase baja da tono alto.",
+     orden:[0, 2],
+     partes:[
+       {t:"น", papel:"inicial", suena:"นอ", rom:"n", nota:"n. Clase baja."},
+       {t:"้", ver:"◌้", papel:"tono", suena:null, rom:"´", nota:"mái thoo. Sobre clase baja: tono alto."},
+       {t:"ำ", ver:"◌ำ", papel:"vocal", suena:"อำ", rom:"am", nota:"am, con la m incluida. En esta palabra se alarga: «aam»."}]},
+
+    {th:"ข้าว", rom:"khâaw", es:"arroz", dib:"🍚",
+     nota:"La misma ข con la marca ้ ya no sube: cae. Sin la marca sería ขาว, «blanco». Una rayita cambia la palabra.",
+     orden:[0, 2, 3],
+     partes:[
+       {t:"ข", papel:"inicial", suena:"ขอ", rom:"kh", nota:"kh con soplo. Clase alta."},
+       {t:"้", ver:"◌้", papel:"tono", suena:null, rom:"ˆ", nota:"mái thoo. Sobre clase alta: tono descendente."},
+       {t:"า", ver:"◌า", papel:"vocal", suena:"อา", rom:"aa", nota:"a larga, detrás."},
+       {t:"ว", papel:"final", suena:"อาว", rom:"-w", nota:"Al final, ว suena como una u breve: «aaw»."}],
+     compara:[["ขาว","khǎaw","blanco"], ["ข้าว","khâaw","arroz"]]},
+
+    {th:"ขอบคุณ", rom:"khɔ̀ɔp khun", es:"gracias", dib:"🙏",
+     nota:"Dos sílabas. ขอบ: clase alta y acaba en -p cortada, así que el tono es bajo. คุณ: clase baja, sin marca, tono medio.",
+     silabas:[["ขอบ",[0,1,2]], ["คุณ",[3,4,5]]],
+     partes:[
+       {t:"ข", papel:"inicial", suena:"ขอ", rom:"kh", nota:"kh con soplo. Clase alta."},
+       {t:"อ", papel:"vocal", suena:"ออ", rom:"ɔɔ", nota:"Aquí อ hace de vocal: una o abierta y larga."},
+       {t:"บ", papel:"final", suena:"ออบ", rom:"-p", nota:"-p cortada: cierras los labios y no sueltas el aire."},
+       {t:"ค", papel:"inicial", suena:"คอ", rom:"kh", nota:"kh con soplo, igual que ข, pero de clase baja."},
+       {t:"ุ", ver:"◌ุ", papel:"vocal", suena:"อุ", rom:"u", nota:"u corta, debajo."},
+       {t:"ณ", papel:"final", suena:"อุน", rom:"-n", nota:"-n. ณ es otra n, la de las palabras cultas."}]},
+
+    {th:"สวัสดี", rom:"sà-wàt-dii", es:"hola", dib:"👋",
+     nota:"La más enredada, y la que más vas a usar. Tres cosas nuevas: la primera ส lleva una «a» que no se escribe; "
+        + "ว toma el tono de la ส que va delante (por eso es wàt y no wát); y la ส del final no suena s, suena -t. "
+        + "Los propios tailandeses lo deletrean así: สะ-หวัด-ดี.",
+     silabas:[["สะ",[0,1]], ["หวัด",[2,3,4]], ["ดี",[5,6]]],
+     partes:[
+       {t:"ส", papel:"inicial", suena:"สอ", rom:"s", nota:"s. Clase alta."},
+       {t:"ะ", ver:"(a)", papel:"vocal", oculta:true, suena:"อะ", rom:"a", nota:"Una a corta que NO se escribe. Hay que ponerla al leer: «sà»."},
+       {t:"ว", papel:"inicial", suena:"วอ", rom:"w", nota:"w, como la u de «huevo». Aquí toma el tono de la ส de delante."},
+       {t:"ั", ver:"◌ั", papel:"vocal", suena:"อะ", rom:"a", nota:"a corta. Esta marca solo aparece cuando detrás viene una final."},
+       {t:"ส", papel:"final", suena:"อัด", rom:"-t", nota:"¡Al final ส no suena s! Suena -t cortada: «wàt»."},
+       {t:"ด", papel:"inicial", suena:"ดอ", rom:"d", nota:"d, como en español."},
+       {t:"ี", ver:"◌ี", papel:"vocal", suena:"อี", rom:"ii", nota:"i larga, encima."}]}
+  ]
+};
+
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -2071,6 +2304,7 @@ const pctOf = k => Math.round((P[k] ? P[k]() : 0) * 100);
 const NAV_GROUPS = [
   ["Empezar", [["inicio","Inicio","home"], ["estudiar","Cómo estudiar","book"]]],
   ["Fundamentos", [["tonos","Tonos","wave"], ["ritmo","Ritmo y moras","wave"], ["bloques","Bloques silábicos","abc"],
+                   ["lectura","Cómo se lee","ear"],
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
                    ["escritura","Escritura","pen"], ["gramatica","Gramática","grammar"]]],
   ["Práctica", [["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
@@ -2471,9 +2705,10 @@ function paintDetail(){
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
-        <dt>Nombre</dt><dd>${c[2]}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}</dd>
-        <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final" : c[4]}</dd>
+        <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
+          : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
       </dl>
       <div class="row" style="margin-top:12px">
@@ -3009,7 +3244,9 @@ function quizEngine(root, total, make, onDone){
       });
       $("#qFb").innerHTML = `<span style="color:var(--${ok ? "ok" : "bad"});font-weight:600">${ok ? "Correcto" : "No era esa"}</span>
         ${q.after ? ` — <span style="color:var(--ink-2)">${q.after}</span>` : ""}
-        ${q.auto ? `<div class="rep-fila">${repetirHTML(q.auto, "Ahora dilo tú")}</div>` : ""}
+        ${(q.auto || q.oir) ? `<div class="rep-fila">
+          ${q.oir && !q.auto ? `<button class="btn btn--s" data-say="${esc(q.oir)}">${svg("play")} Escúchalo</button>` : ""}
+          ${repetirHTML(q.decir || q.auto, "Ahora dilo tú")}</div>` : ""}
         <div style="margin-top:10px"><button class="btn btn--p btn--s" id="qNext">Siguiente →</button></div>`;
       $("#qNext").addEventListener("click", () => { i++; next(); });
     }));
@@ -3026,26 +3263,34 @@ function makeMixed(){
     const c = pick(CONS.filter(x => !x[6]));
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
-      prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>`,
+      prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
+        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+          <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
+      oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
       after:`${c[1]} — ${c[2]}`};
   }
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
+      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+          <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
-      after:`${c[1]} — ${CLASSTHAI[c[5]]}`};
+      oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
+      after:`${c[1]} — ${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? ". " + CLASSNOTA[c[5]] : ""}`};
   }
   if(kind === "vocab-es"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[2] !== v[2])).slice(0,3);
     return {question:`¿Qué significa <span class="th" style="font-size:26px">${v[0]}</span>?`,
       options:[{label:v[2], ok:true}, ...w.map(x => ({label:x[2], ok:false}))],
+      oir:v[0], decir:v[0],
       after:`${v[1]}`};
   }
   if(kind === "vocab-th"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[0] !== v[0])).slice(0,3);
     return {question:`¿Cómo se dice «${v[2]}»?`,
       options:[{label:`<span class="th">${v[0]}</span>`, ok:true}, ...w.map(x => ({label:`<span class="th">${x[0]}</span>`, ok:false}))],
+      oir:v[0], decir:v[0],
       after:`${v[0]} · ${v[1]}`};
   }
   if(kind === "listen"){
@@ -3066,6 +3311,7 @@ function makeMixed(){
     const p = pick(PHRASES), w = shuffle(PHRASES.filter(x => x[2] !== p[2])).slice(0,3);
     return {question:`¿Qué significa <span class="th" style="font-size:22px">${renderPhrase(p[0])}</span>?`,
       options:[{label:p[2], ok:true}, ...w.map(x => ({label:x[2], ok:false}))],
+      oir:renderPhrase(p[0]), decir:renderPhrase(p[0]),
       after:renderRom(p[1])};
   }
   const n = pick(NUM.ejemplos);
@@ -3073,6 +3319,7 @@ function makeMixed(){
   return {question:`¿Qué número es <span class="th" style="font-size:24px">${th}</span>?`,
     options:shuffle([{label:String(n), ok:true},
       ...shuffle([n+1, n+10, n*2, n-1].filter(x => x > 0 && x !== n)).slice(0,3).map(x => ({label:String(x), ok:false}))]),
+    oir:th, decir:th,
     after:`${th} · ${rom}`};
 }
 VIEWS.repaso = {
@@ -3445,6 +3692,163 @@ document.addEventListener("click", e => {
   S.tema = b.dataset.tema; save();
   aplicaTema(); pintaTema();
 });
+
+/* chuleta de clases para el test «¿de qué tipo es?»: se abre si hace falta.
+   Se construye con las letras del propio paquete; la clase más grande se
+   resume como «todas las demás», que es como se aprende. */
+function clasesAyudaHTML(){
+  const grupos = Object.keys(CLASSNAME).map(k => [k, CONS.filter(x => !x[6] && x[5] === k).map(x => x[0])]);
+  const mayor = grupos.reduce((a, g) => g[1].length > a[1].length ? g : a, grupos[0]);
+  return `<details class="clases-ayuda"><summary>¿No te acuerdas? Ver los tipos</summary>
+    ${grupos.map(([k, letras]) => `<div class="ca-fila"><b>${CLASSNAME[k]}</b>
+      ${k === mayor[0] && letras.length > 14
+        ? `<span class="muted">todas las demás (${letras.length})</span>`
+        : `<span class="th ca-letras">${letras.join(" ")}</span>`}
+      ${CLASSNOTA[k] ? `<small>${CLASSNOTA[k]}</small>` : ""}</div>`).join("")}
+  </details>`;
+}
+
+/* ── 8 · cómo se lee: de las piezas a la palabra ─────────
+   Lo que va antes de leer: cómo suena cada pieza sola y cómo se
+   juntan. El contenido es del paquete (LECTURA); si un idioma no lo
+   declara, la sección no existe. Cada palabra se oye entera, pieza a
+   pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
+const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+let lecIdx = -1, lecCola = 0;
+const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
+P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
+
+const verPieza = p => p.ver || (/^\p{M}/u.test(p.t) ? conPortador(p.t) : p.t);
+function lecIntroHTML(){
+  return `<div class="grid lec-intro">${LECTURA.piezas.map(p => `<div class="card lec-rol pz--${p.papel}">
+    <div class="lec-rol-cab"><i class="lec-dot"></i><b>${p.titulo}</b></div>
+    <p>${p.texto}</p>
+    <div class="lec-ejs">${p.ejemplos.map(([ver, suena, rom]) =>
+      `<button class="lec-ej" data-say="${esc(suena)}"><span class="th">${ver}</span><small>${rom}</small></button>`).join("")}</div>
+  </div>`).join("")}</div>`;
+}
+function lecPalabraHTML(){
+  const lista = LECTURA.palabras, w = lista[lecIdx], n = lista.length;
+  return `<div class="lec card">
+    <div class="lec-cab">
+      <span class="lec-num">Palabra ${lecIdx + 1} de ${n}</span>
+      <div class="lec-puntos" aria-hidden="true">${lista.map((_, i) =>
+        `<i class="${i === lecIdx ? "on" : i <= lecMax() ? "hecho" : ""}"></i>`).join("")}</div>
+    </div>
+    <div class="lec-palabra th" data-say="${esc(w.th)}" role="button" tabindex="0" title="Tocar para oírla">${w.th}</div>
+    <div class="lec-rom">${w.rom}</div>
+    <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
+    <div class="row lec-botones">
+      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
+      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      <button class="btn" id="lecLento">Muy lenta</button>
+    </div>
+    <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
+      `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
+        <span class="pz-t th">${verPieza(p)}</span>
+        <span class="pz-rom">${p.rom}</span>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+    <p class="lec-explica">${w.nota}</p>
+    ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
+      `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
+      .join('<span class="lec-vs">o</span>')}</div>` : ""}
+    <div class="rep-fila">${repetirHTML(w.th, "Ahora dila tú")}</div>
+    <div class="lec-nav">
+      <button class="btn btn--s" id="lecAnt"${lecIdx === 0 ? " disabled" : ""}>← Anterior</button>
+      <button class="btn btn--p btn--s" id="lecSig">${lecIdx < n - 1 ? "Siguiente palabra →" : "Terminar ✓"}</button>
+    </div>
+  </div>`;
+}
+
+/* dice varias cosas seguidas iluminando la pieza que suena. No se fía
+   solo de onend: algunos navegadores no lo lanzan, así que hay un tope. */
+function lecDiSeguido(items){
+  const token = ++lecCola;
+  if(!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const piezas = () => document.querySelectorAll("#lecPiezas .pieza");
+  let k = 0;
+  const siguiente = () => {
+    if(token !== lecCola) return;
+    piezas().forEach(p => p.classList.remove("suena"));
+    if(k >= items.length) return;
+    const it = items[k++];
+    (it.marcar || []).forEach(i => { const p = piezas()[i]; if(p) p.classList.add("suena"); });
+    const u = new SpeechSynthesisUtterance(it.texto);
+    u.lang = LANG.voz;
+    if(thaiVoice) u.voice = thaiVoice;
+    u.rate = S.speed * (it.entera ? 1 : 0.85);
+    let hecho = false;
+    const fin = () => { if(hecho) return; hecho = true; setTimeout(siguiente, it.entera ? 200 : 420); };
+    u.onend = fin; u.onerror = fin;
+    setTimeout(fin, 1100 + it.texto.length * 450);
+    speechSynthesis.speak(u);
+  };
+  siguiente();
+  bump("plays");
+}
+function lecPiezaAPieza(){
+  const w = LECTURA.palabras[lecIdx];
+  const orden = w.orden || w.partes.map((_, i) => i);
+  const items = orden.filter(i => w.partes[i].suena).map(i => ({texto:w.partes[i].suena, marcar:[i]}));
+  (w.silabas || []).forEach(([texto, idx]) => items.push({texto, marcar:idx}));
+  items.push({texto:w.th, marcar:w.partes.map((_, i) => i), entera:true});
+  lecDiSeguido(items);
+}
+function lecPinta(desplazar){
+  const c = document.getElementById("lecCaja");
+  if(!c) return;
+  lecCola++;
+  c.innerHTML = lecPalabraHTML();
+  c.firstElementChild.classList.add("fcard--entra");
+  lecEnlaza();
+  if(desplazar) c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
+}
+function lecEnlaza(){
+  const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
+  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
+  $("#lecPiezas").addEventListener("click", e => {
+    const b = e.target.closest("[data-pz]"); if(!b) return;
+    const p = w.partes[+b.dataset.pz];
+    document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
+      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
+  });
+  const ant = $("#lecAnt");
+  if(ant) ant.addEventListener("click", () => { if(lecIdx > 0){ lecIdx--; lecPinta(true); } });
+  $("#lecSig").addEventListener("click", () => {
+    const nueva = lecIdx > lecMax();
+    if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
+    if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
+  });
+}
+VIEWS.lectura = {
+  html(){
+    const n = LECTURA.palabras.length;
+    if(lecIdx < 0 || lecIdx >= n) lecIdx = Math.min(Math.max(lecMax() + 1, 0), n - 1);
+    return `
+    <div class="vhead"><div class="eyebrow">Fundamento</div>
+      <h1>${T("lectura_h1", "Cómo se lee")}</h1>
+      <p class="lede">${LECTURA.lede}</p></div>
+
+    <h2 class="sec">Las cuatro piezas</h2>
+    <p class="sec-note">Toca cualquier ejemplo para oírlo. Cada pieza tiene su color, y es el mismo en las palabras de abajo.</p>
+    ${lecIntroHTML()}
+
+    <h2 class="sec">Palabra a palabra</h2>
+    <p class="sec-note">De la más sencilla a la más enredada. No pases a la siguiente hasta poder decir esta.</p>
+    <div id="lecCaja">${lecPalabraHTML()}</div>`;
+  },
+  init(){
+    lecEnlaza();
+    viewCleanup = () => { lecCola++; if(window.speechSynthesis) speechSynthesis.cancel(); };
+  }
+};
 
 function animaVista(){
   if(pocoMovimiento()) return;

@@ -1134,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por los falsos amigos</b> — Las palabras que crees entender y significan otra cosa. Cinco de ellas duelen.</li>
+        <li><b>Cómo se lee una palabra</b> — Sílaba a sílaba, con las cuatro trampas: c y g, ch, gn, gli y las dobles. Diez palabras.</li>
         <li><b>Los sonidos que no compartimos</b> — La z, la s sonora, las dobles y dónde cae el acento.</li>
         <li><b>Las veinte reglas de lectura</b> — c, g, ch, gh, gli, gn, sc. Con esto ya lees cualquier cosa en voz alta.</li>
         <li><b>Las dobles que cambian la palabra</b> — Doce parejas mínimas. La tabla más importante del curso.</li>
@@ -1172,7 +1173,9 @@ const LANG = {
   intro:   "Diez herramientas para el oído y la boca: la pronunciación real (c, g, gli, gn, sc), las consonantes dobles, "
          + "los falsos amigos, gramática que sí se entiende, 95 palabras, 38 frases y juegos para consolidar.",
   particulas: false,
-  secciones: ["inicio","estudiar","ritmo","sonidos","alfabeto","gramatica",
+  /* en la ficha de cada regla, su palabra de ejemplo se puede oír */
+  ejemploLetra: c => c[1] || null,
+  secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   etiquetas: {ritmo: "Falsos amigos", alfabeto: "Pronunciación", sonidos: "Trampas del oído"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
@@ -1721,6 +1724,7 @@ const KB_ROWS = [
 /* ── ruta y plan ── */
 const PATH = [
 ["Empieza por los falsos amigos","Las palabras que crees entender y significan otra cosa. Cinco de ellas duelen.","ritmo"],
+["Cómo se lee una palabra","Sílaba a sílaba, con las cuatro trampas: c y g, ch, gn, gli y las dobles. Diez palabras.","lectura"],
 ["Los sonidos que no compartimos","La z, la s sonora, las dobles y dónde cae el acento.","sonidos"],
 ["Las veinte reglas de lectura","c, g, ch, gh, gli, gn, sc. Con esto ya lees cualquier cosa en voz alta.","alfabeto"],
 ["Las dobles que cambian la palabra","Doce parejas mínimas. La tabla más importante del curso.","alfabeto"],
@@ -1784,6 +1788,99 @@ const SABER = [
     "Como el español, con una docena de reglas de más: <i>ce</i> suena «che», <i>gli</i> suena «lli» y <i>gn</i> es nuestra «ñ»."
   ]
 ];
+
+/* ── cómo se lee: de las sílabas a la palabra ─────────────
+   El italiano se lee casi como se escribe, así que las piezas son
+   sílabas, que la voz italiana dice solas sin problema. El color marca
+   qué tiene de especial cada una: una trampa de lectura (c, g, ch, gn,
+   gli, sc), una consonante doble o la sílaba fuerte. */
+const LECTURA = {
+  papeles: {inicial:"sílaba", vocal:"trampa", final:"doble", tono:"fuerte"},
+  lede: "El italiano se lee casi como se escribe: si sabes leer español, ya lees el 90 %. Lo que falta son cuatro "
+      + "trampas que se repiten siempre (c y g que cambian, ch, gn, gli, sc), las consonantes dobles y dónde cae la "
+      + "fuerza. Aquí vas palabra a palabra, sílaba a sílaba.",
+  piezas: [
+    {papel:"vocal", titulo:"c y g cambian según la vocal",
+     texto:"Delante de a, o, u suenan como en español. Delante de e, i se ablandan: ce es «che» y gi es una «y» fuerte, "
+         + "como en inglés «gin».",
+     ejemplos:[["ca","ca","ca · k"], ["ce","ce","ce · che"], ["ga","ga","ga · g"], ["gi","gi","gi · ye"]]},
+    {papel:"vocal", titulo:"Parejas de letras con un solo sonido",
+     texto:"ch y gh endurecen: chi es «ki», ghi es «gui». gn es nuestra ñ, gli es una ll suave, y sc delante de e, i "
+         + "suena «sh».",
+     ejemplos:[["chi","chi","ki"], ["ghi","ghi","gui"], ["gn","gnocchi","ñ · gnocchi"], ["gli","figli","ll · figli"], ["sci","sci","shi · esquí"]]},
+    {papel:"final", titulo:"Las dobles se sostienen",
+     texto:"Una consonante doble no es adorno: se sostiene un instante más, y cambia la palabra.",
+     ejemplos:[["nono","nono","nono · noveno"], ["nonno","nonno","nonno · abuelo"], ["pala","pala","pala · pala"], ["palla","palla","palla · pelota"]]},
+    {papel:"tono", titulo:"La sílaba fuerte",
+     texto:"Casi siempre cae en la penúltima sílaba. Cuando cae en la última, se escribe con tilde: città, perché, caffè.",
+     ejemplos:[["città","città","cit-TÀ"], ["perché","perché","per-CHÉ"], ["caffè","caffè","caf-FÈ"]]}
+  ],
+  palabras: [
+    {th:"casa", rom:"CA-sa", es:"casa", dib:"🏠",
+     nota:"Como en español. La fuerza va en la penúltima sílaba, la más habitual.",
+     partes:[
+       {t:"ca", papel:"tono", suena:"ca", rom:"ka", nota:"Sílaba fuerte. c + a = k."},
+       {t:"sa", papel:"inicial", suena:"sa", rom:"sa", nota:"sa. Entre vocales, en el norte, la s zumba un poco."}]},
+
+    {th:"cena", rom:"CHE-na", es:"cena", dib:"🍽️",
+     nota:"La c cambia según la vocal: ca, co, cu suenan k; ce, ci suenan ch. Se escribe como en español y se dice «chena».",
+     partes:[
+       {t:"ce", papel:"vocal", suena:"ce", rom:"che", nota:"c + e = ch. Es también la sílaba fuerte."},
+       {t:"na", papel:"inicial", suena:"na", rom:"na", nota:"na."}],
+     compara:[["casa","ka-sa","casa"], ["cena","che-na","cena"]]},
+
+    {th:"chiesa", rom:"KIE-sa", es:"iglesia", dib:"⛪",
+     nota:"Justo al revés que en español: ch es k. La h está ahí para que la c no se ablande delante de la i.",
+     partes:[
+       {t:"chie", papel:"vocal", suena:"chie", rom:"kie", nota:"ch = k. «kie»."},
+       {t:"sa", papel:"inicial", suena:"sa", rom:"sa", nota:"sa."}]},
+
+    {th:"gatto", rom:"GAT-to", es:"gato", dib:"🐱",
+     nota:"Dos t: la primera cierra la sílaba y la segunda abre la siguiente. Se sostiene la t un instante. "
+        + "Dicha simple, suena a extranjero.",
+     partes:[
+       {t:"gat", papel:"final", suena:"gat", rom:"gat", nota:"Sílaba fuerte, cerrada por la primera t."},
+       {t:"to", papel:"inicial", suena:"to", rom:"to", nota:"to, con la segunda t."}]},
+
+    {th:"nonno", rom:"NON-no", es:"abuelo", dib:"👴",
+     nota:"Una n o dos cambia la palabra: nono es «noveno» y nonno es «abuelo». Escucha la pareja.",
+     partes:[
+       {t:"non", papel:"final", suena:"non", rom:"non", nota:"La primera n cierra la sílaba."},
+       {t:"no", papel:"inicial", suena:"no", rom:"no", nota:"no."}],
+     compara:[["nono","no-no","noveno"], ["nonno","non-no","abuelo"]]},
+
+    {th:"gnocchi", rom:"ÑOK-ki", es:"ñoquis", dib:"🥟",
+     nota:"Dos trampas en una palabra: gn es ñ, y cch es una k doble. «ñok-ki».",
+     partes:[
+       {t:"gno", papel:"vocal", suena:"gno", rom:"ño", nota:"gn = ñ."},
+       {t:"cchi", papel:"final", suena:"chi", rom:"kki", nota:"cch: k doble y dura, porque la h la endurece."}]},
+
+    {th:"figlio", rom:"FI-llo", es:"hijo", dib:"👶",
+     nota:"gli es el sonido más difícil del italiano para nosotros: una ll suave, con la lengua pegada al paladar. "
+        + "La i no suena aparte.",
+     partes:[
+       {t:"fi", papel:"tono", suena:"fi", rom:"fi", nota:"Sílaba fuerte."},
+       {t:"glio", papel:"vocal", suena:"glio", rom:"llo", nota:"gli + o: «llo» suave. La i solo marca el sonido."}]},
+
+    {th:"pesce", rom:"PE-she", es:"pez", dib:"🐟",
+     nota:"sc delante de e o i suena sh. pesce se dice «peshe».",
+     partes:[
+       {t:"pe", papel:"tono", suena:"pe", rom:"pe", nota:"Sílaba fuerte."},
+       {t:"sce", papel:"vocal", suena:"sce", rom:"she", nota:"sc + e = sh."}]},
+
+    {th:"città", rom:"chit-TÀ", es:"ciudad", dib:"🏙️",
+     nota:"Dos cosas: ci suena chi, y la tilde dice que la fuerza va al final: chit-TÀ.",
+     partes:[
+       {t:"cit", papel:"vocal", suena:"cit", rom:"chit", nota:"ci = chi. La primera t cierra la sílaba."},
+       {t:"tà", papel:"tono", suena:"tà", rom:"TÀ", nota:"La tilde escrita lleva aquí la fuerza."}]},
+
+    {th:"perché", rom:"per-KÉ", es:"por qué / porque", dib:"❓",
+     nota:"ch otra vez es k, y la tilde lleva la fuerza al final: per-KÉ. Sirve para preguntar y para responder.",
+     partes:[
+       {t:"per", papel:"inicial", suena:"per", rom:"per", nota:"per."},
+       {t:"ché", papel:"tono", suena:"ché", rom:"KÉ", nota:"ch = k, y la tilde marca la sílaba fuerte."}]}
+  ]
+};
 
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
@@ -1966,6 +2063,11 @@ function countUp(el, to, ms){
     if(k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
 
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
@@ -2363,7 +2465,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2376,14 +2478,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -2941,7 +3043,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -2950,7 +3052,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3391,6 +3493,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3416,16 +3522,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3484,14 +3590,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3500,7 +3606,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

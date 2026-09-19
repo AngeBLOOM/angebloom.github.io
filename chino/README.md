@@ -137,6 +137,25 @@ donde Outlook se pone quisquilloso.
   lateral que se guarda en `S.tema`. Un pequeño script en la cabecera (lo inyecta `build.js`) lo
   aplica antes de pintar, para que quien eligió oscuro no vea un fogonazo blanco al abrir.
 
+### Cómo se lee: de las piezas a la palabra
+
+Sección `lectura`, solo en los idiomas que declaran `LECTURA` (de momento, el tailandés). Enseña lo
+que va antes de leer: cómo suena cada pieza sola y cómo se juntan. Arriba, las cuatro piezas
+(consonante, vocal, final, tono) con ejemplos que se oyen; debajo, palabra a palabra, de la más
+fácil a la más enredada. En cada palabra: oírla entera o muy lenta, **pieza a pieza** (suena cada
+pieza iluminándose, luego las sílabas, luego la palabra), tocar una pieza para oírla sola y leer qué
+hace, comparar con la palabra que cambia por una marca, y decirla tú.
+
+En los datos, `suena` es lo que se le pide a la voz para esa pieza: consonantes con la อ detrás
+(กอ, ขอ), vocales apoyadas en อ, finales como rima (อิน), y `null` para las marcas de tono, que no
+suenan solas. `orden` indica el orden en que se *dicen* las piezas cuando no coincide con el escrito
+(vocales que van delante) y `silabas` qué piezas forman cada sílaba. Para otro idioma basta con
+declarar su `LECTURA` y añadir `"lectura"` a sus `secciones`.
+
+En la ficha de cada letra, el paquete puede declarar `suenaInicio`, `suenaFinal` y `ejemploLetra`
+para que se oiga lo que antes solo se leía. Y el test «¿de qué tipo es?» lleva una chuleta de las
+clases que se abre si hace falta.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

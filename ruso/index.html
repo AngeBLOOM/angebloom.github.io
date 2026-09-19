@@ -1134,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por el acento</b> — Dónde cae la sílaba fuerte y cómo cambia las vocales. Es lo que nadie te explica.</li>
+        <li><b>Cómo se lee una palabra</b> — Letra a letra y sílaba a sílaba, con el acento que cambia las vocales. Diez palabras.</li>
         <li><b>Los sonidos que no tenemos</b> — La ы, las consonantes blandas y la о que suena «a». Diez trampas.</li>
         <li><b>Las seis letras que ya sabes</b> — А Е К М О Т. Empezar por aquí da un empujón enorme el primer día.</li>
         <li><b>Los seis falsos amigos</b> — В Н Р С У Х: parecen las nuestras y son otra cosa. Aquí está el 80% de los errores.</li>
@@ -1180,7 +1181,14 @@ const LANG = {
     off:    "Texto real",
     ayuda:  "En ruso real la tilde no se escribe nunca. Apágala cuando quieras leer como se lee fuera de clase."
   },
-  secciones: ["inicio","estudiar","ritmo","sonidos","alfabeto","escritura","gramatica",
+  /* cómo suena cada letra en la ficha del alfabeto: las vocales, solas; las
+     consonantes, con una a detrás, como en las cartillas; ь ъ й no se oyen solas */
+  suenaInicio: c => { const l = (c[0].split(" ")[1] || "").trim();
+    if(!l || "ьъй".indexOf(l) >= 0) return null;
+    return "аеёиоуыэюя".indexOf(l) >= 0 ? l : l + "а"; },
+  /* lo que se pronuncia al tocar una letra (c[1] aquí es la romanización) */
+  nombreLetra: c => (c[0].split(" ")[1] || "").trim() || null,
+  secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","escritura","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   etiquetas: {ritmo: "El acento"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
@@ -1758,6 +1766,7 @@ const KB_ROWS = [
 /* ── ruta y plan ── */
 const PATH = [
 ["Empieza por el acento","Dónde cae la sílaba fuerte y cómo cambia las vocales. Es lo que nadie te explica.","ritmo"],
+["Cómo se lee una palabra","Letra a letra y sílaba a sílaba, con el acento que cambia las vocales. Diez palabras.","lectura"],
 ["Los sonidos que no tenemos","La ы, las consonantes blandas y la о que suena «a». Diez trampas.","sonidos"],
 ["Las seis letras que ya sabes","А Е К М О Т. Empezar por aquí da un empujón enorme el primer día.","alfabeto"],
 ["Los seis falsos amigos","В Н Р С У Х: parecen las nuestras y son otra cosa. Aquí está el 80% de los errores.","alfabeto"],
@@ -1823,6 +1832,142 @@ const SABER = [
     "<span class=\"th\">за́мок</span> es «castillo» y <span class=\"th\">замо́к</span> es «candado». Mismas letras, y en un texto real no viene marcado."
   ]
 ];
+
+/* ── cómo se lee: de las letras a la palabra ──────────────
+   En ruso casi cada letra es un sonido, pero una consonante suelta no
+   se puede pronunciar (la voz diría su nombre), así que se oye con una
+   a detrás: ба, ва, ма, como en las cartillas rusas. La clave de la
+   lectura es el acento: las vocales sin acento cambian (la о suena a),
+   así que cada vocal lleva aquí lo que SUENA en esa palabra, no lo que
+   se escribe. Se lee por sílabas, como aprenden los niños rusos. */
+const LECTURA = {
+  papeles: {inicial:"consonante", vocal:"vocal", final:"signo", tono:"acento"},
+  lede: "En ruso casi cada letra es un sonido, así que leer parece fácil. La trampa es el acento: decide qué "
+      + "sílaba suena fuerte y cambia cómo suenan las demás vocales. Aquí vas palabra a palabra, letra a letra "
+      + "y sílaba a sílaba, como aprenden a leer los niños rusos.",
+  piezas: [
+    {papel:"inicial", titulo:"Consonantes: casi todas como las nuestras",
+     texto:"Muchas se parecen a las nuestras, y seis te engañan: В es v, Н es n, Р es r, С es s, Х es jota. "
+         + "Solas se oyen mejor con una a detrás: ва, на, ра.",
+     ejemplos:[["в","ва","v · no es b"], ["н","на","n · no es h"], ["р","ра","r · no es p"], ["с","са","s · no es c"],
+               ["х","ха","j · no es x"], ["ж","жа","zh · como la j francesa"]]},
+    {papel:"vocal", titulo:"Diez vocales: cinco y sus parejas",
+     texto:"а о у э ы, y sus parejas я ё ю е и, que son las mismas con una «y» delante y ablandan la consonante de "
+         + "antes. La ы es la única que no tenemos.",
+     ejemplos:[["а","а","a"], ["я","я","ya"], ["о","о","o"], ["ё","ё","yo"], ["у","у","u"], ["ю","ю","yu"], ["ы","ы","ɨ · la difícil"]]},
+    {papel:"final", titulo:"Dos letras que no suenan",
+     texto:"ь, el signo blando, no tiene sonido: ablanda la consonante de delante, como si le pusieras una i "
+         + "brevísima. ъ, el duro, casi no aparece: separa.",
+     ejemplos:[["ь","день","dyen' · día"], ["ь","мать","mat' · madre"]]},
+    {papel:"tono", titulo:"El acento lo cambia todo",
+     texto:"En los libros para aprender va marcado con una tilde; en ruso real, nunca. Decide qué sílaba suena "
+         + "fuerte, y una о sin acento se dice a. Escucha.",
+     ejemplos:[["за́мок","за́мок","zámok · castillo"], ["замо́к","замо́к","zamók · cerradura"], ["молоко́","молоко́","malakó · leche"]]}
+  ],
+  palabras: [
+    {th:"ма́ма", rom:"máma", es:"mamá", dib:"👩",
+     nota:"Todo como en español. Se lee por sílabas, como en las cartillas rusas: ма-ма. La tilde marca la sílaba fuerte.",
+     silabas:[["ма́",[0,1,2]], ["ма",[3,4]]],
+     partes:[
+       {t:"м", papel:"inicial", suena:"ма", rom:"m", nota:"m, como la nuestra."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"El acento: esta sílaba suena más fuerte. En ruso real no se escribe."},
+       {t:"м", papel:"inicial", suena:"ма", rom:"m", nota:"m."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."}]},
+
+    {th:"дом", rom:"dom", es:"casa", dib:"🏠",
+     nota:"Una sola sílaba: el acento no hace falta marcarlo. Y con acento, la о es una o de verdad.",
+     partes:[
+       {t:"д", papel:"inicial", suena:"да", rom:"d", nota:"d."},
+       {t:"о", papel:"vocal", suena:"о", rom:"o", nota:"o, porque lleva el acento."},
+       {t:"м", papel:"inicial", suena:"ма", rom:"m", nota:"m."}]},
+
+    {th:"нет", rom:"nyet", es:"no", dib:"❌",
+     nota:"е no es «e»: es «ye», y además ablanda la н de delante. Por eso suena «nyet».",
+     partes:[
+       {t:"н", papel:"inicial", suena:"на", rom:"n", nota:"Parece una H y es una n."},
+       {t:"е", papel:"vocal", suena:"е", rom:"ye", nota:"«ye». Ablanda la consonante de antes."},
+       {t:"т", papel:"inicial", suena:"та", rom:"t", nota:"t."}]},
+
+    {th:"вода́", rom:"vadá", es:"agua", dib:"💧",
+     nota:"Se escribe voda, se dice «vadá»: la о sin acento suena a. Es la regla más rentable del ruso.",
+     silabas:[["ва",[0,1]], ["да́",[2,3,4]]],
+     partes:[
+       {t:"в", papel:"inicial", suena:"ва", rom:"v", nota:"Parece una B y es una v."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"¡Sin acento, la о suena a!"},
+       {t:"д", papel:"inicial", suena:"да", rom:"d", nota:"d."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"La fuerza cae aquí, en la última."}]},
+
+    {th:"молоко́", rom:"malakó", es:"leche", dib:"🥛",
+     nota:"Tres oes y solo una suena o: la que lleva el acento. Las otras dos, a: ма-ла-ко́.",
+     silabas:[["ма",[0,1]], ["ла",[2,3]], ["ко́",[4,5,6]]],
+     partes:[
+       {t:"м", papel:"inicial", suena:"ма", rom:"m", nota:"m."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"Sin acento: suena a."},
+       {t:"л", papel:"inicial", suena:"ла", rom:"l", nota:"l, más oscura que la nuestra."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"Sin acento: suena a."},
+       {t:"к", papel:"inicial", suena:"ка", rom:"k", nota:"k."},
+       {t:"о", papel:"vocal", suena:"о", rom:"o", nota:"Con acento: esta sí es o."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"El acento, en la última."}]},
+
+    {th:"ры́ба", rom:"rýba", es:"pez", dib:"🐟",
+     nota:"ы es el sonido más raro del ruso para nosotros. Escúchala sola y luego dentro de la palabra.",
+     silabas:[["ры́",[0,1,2]], ["ба",[3,4]]],
+     partes:[
+       {t:"р", papel:"inicial", suena:"ра", rom:"r", nota:"r de un toque, como en «pero». Parece una P."},
+       {t:"ы", papel:"vocal", suena:"ы", rom:"ɨ", nota:"Di «i» echando la lengua hacia atrás, sin sonreír."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"El acento, en la primera."},
+       {t:"б", papel:"inicial", suena:"ба", rom:"b", nota:"b."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."}]},
+
+    {th:"день", rom:"dyen'", es:"día", dib:"☀️",
+     nota:"ь no se pronuncia, pero ablanda la н de delante: suena como si hubiera una i brevísima al final.",
+     partes:[
+       {t:"д", papel:"inicial", suena:"да", rom:"d", nota:"d, ablandada por la е."},
+       {t:"е", papel:"vocal", suena:"е", rom:"ye", nota:"«ye»."},
+       {t:"н", papel:"inicial", suena:"на", rom:"n", nota:"n."},
+       {t:"ь", papel:"final", suena:null, rom:"'", nota:"El signo blando: no suena, ablanda la н."}]},
+
+    {th:"спаси́бо", rom:"spasíba", es:"gracias", dib:"🙏",
+     nota:"La fuerza cae en си́. La о del final, sin acento, se queda en una a floja: spa-sí-ba.",
+     silabas:[["спа",[0,1,2]], ["си́",[3,4,5]], ["ба",[6,7]]],
+     partes:[
+       {t:"с", papel:"inicial", suena:"са", rom:"s", nota:"Parece una C y es una s."},
+       {t:"п", papel:"inicial", suena:"па", rom:"p", nota:"p."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."},
+       {t:"с", papel:"inicial", suena:"са", rom:"s", nota:"s."},
+       {t:"и", papel:"vocal", suena:"и", rom:"i", nota:"i. Parece una N al revés."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"Aquí cae la fuerza."},
+       {t:"б", papel:"inicial", suena:"ба", rom:"b", nota:"b."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"Sin acento: una a floja."}]},
+
+    {th:"хорошо́", rom:"harashó", es:"bien", dib:"👍",
+     nota:"Otra vez las oes: solo la acentuada suena o. Y х es nuestra jota.",
+     silabas:[["ха",[0,1]], ["ра",[2,3]], ["шо́",[4,5,6]]],
+     partes:[
+       {t:"х", papel:"inicial", suena:"ха", rom:"j", nota:"Parece una X y es una jota suave."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"Sin acento: a."},
+       {t:"р", papel:"inicial", suena:"ра", rom:"r", nota:"r de un toque."},
+       {t:"о", papel:"vocal", suena:"а", rom:"a", nota:"Sin acento: a."},
+       {t:"ш", papel:"inicial", suena:"ша", rom:"sh", nota:"sh."},
+       {t:"о", papel:"vocal", suena:"о", rom:"o", nota:"Con acento: o."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"El acento, al final."}]},
+
+    {th:"замо́к", rom:"zamók", es:"cerradura", dib:"🔒",
+     nota:"Mismas letras que за́мок, «castillo». Solo cambia dónde cae el acento, y en un texto real no viene marcado: "
+        + "hay que aprenderse cada palabra con él.",
+     silabas:[["за",[0,1]], ["мо́к",[2,3,4,5]]],
+     partes:[
+       {t:"з", papel:"inicial", suena:"за", rom:"z", nota:"z sonora, como una s zumbando. Parece un 3."},
+       {t:"а", papel:"vocal", suena:"а", rom:"a", nota:"a."},
+       {t:"м", papel:"inicial", suena:"ма", rom:"m", nota:"m."},
+       {t:"о", papel:"vocal", suena:"о", rom:"o", nota:"Con acento: o."},
+       {t:"́", ver:"◌́", papel:"tono", suena:null, rom:"´", nota:"El acento, en la segunda."},
+       {t:"к", papel:"inicial", suena:"ка", rom:"k", nota:"k."}],
+     compara:[["за́мок","zámok","castillo"], ["замо́к","zamók","cerradura"]]}
+  ]
+};
 
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
@@ -2005,6 +2150,11 @@ function countUp(el, to, ms){
     if(k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
 
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
@@ -2402,7 +2552,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2415,14 +2565,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -2980,7 +3130,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -2989,7 +3139,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3430,6 +3580,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3455,16 +3609,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3523,14 +3677,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3539,7 +3693,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

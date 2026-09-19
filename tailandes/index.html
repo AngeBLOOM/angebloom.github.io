@@ -2290,6 +2290,11 @@ function countUp(el, to, ms){
   requestAnimationFrame(step);
 }
 
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
+
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
   alfabeto: () => Object.keys(S.known).length / CONS.length,
@@ -2686,7 +2691,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2699,14 +2704,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -3264,7 +3269,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3273,7 +3278,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3714,6 +3719,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3739,16 +3748,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3807,14 +3816,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3823,7 +3832,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

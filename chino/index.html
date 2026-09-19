@@ -1134,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por los tonos</b> — Cuatro melodías y un neutro. Sin esto, lo demás no sirve de nada.</li>
+        <li><b>Cómo se lee una sílaba</b> — Inicial, final y tono por separado, y luego juntos. Diez palabras con sus trampas.</li>
         <li><b>Los sonidos que confundimos</b> — La q, la x, la c, la r y la ü. Diez trampas, una por una.</li>
         <li><b>El pinyin entero</b> — Veinte reglas y ya lees en voz alta cualquier sílaba del idioma.</li>
         <li><b>Las finales</b> — Las cuarenta combinaciones que forman todas las sílabas posibles.</li>
@@ -1171,7 +1172,14 @@ const LANG = {
   intro:   "Once herramientas para el oído, la boca y la mano: los cuatro tonos, el pinyin con sus veinte trampas, "
          + "los caracteres trazados a mano, gramática que sí se entiende, 96 palabras, 38 frases y juegos para consolidar.",
   particulas: false,
-  secciones: ["inicio","estudiar","tonos","sonidos","alfabeto","escritura","gramatica",
+  /* cómo suena cada letra en la ficha del alfabeto: las iniciales con su
+     vocal de apoyo, como en las escuelas chinas; y el carácter de ejemplo */
+  suenaInicio: c => ({b:"玻",p:"坡",m:"摸",f:"佛",d:"得",t:"特",n:"讷",l:"勒",g:"哥",k:"科",h:"喝",
+                      j:"基",q:"欺",x:"希",zh:"知",ch:"吃",sh:"诗",r:"日",z:"资",c:"词",s:"思"})[c[0]] || null,
+  ejemploLetra: c => c[1].split(" ")[1] || null,
+  /* lo que se pronuncia al tocar una letra (c[1] aquí es la romanización) */
+  nombreLetra: c => c[1].split(" ")[1] || null,
+  secciones: ["inicio","estudiar","tonos","lectura","sonidos","alfabeto","escritura","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   etiquetas: {tonos: "Los cuatro tonos", alfabeto: "Pinyin", escritura: "Caracteres"},
   anillos: ["alfabeto","vocabulario","tonos","repaso"],
@@ -1729,6 +1737,7 @@ const KB_ROWS = [
 /* ── ruta y plan ── */
 const PATH = [
 ["Empieza por los tonos","Cuatro melodías y un neutro. Sin esto, lo demás no sirve de nada.","tonos"],
+["Cómo se lee una sílaba","Inicial, final y tono por separado, y luego juntos. Diez palabras con sus trampas.","lectura"],
 ["Los sonidos que confundimos","La q, la x, la c, la r y la ü. Diez trampas, una por una.","sonidos"],
 ["El pinyin entero","Veinte reglas y ya lees en voz alta cualquier sílaba del idioma.","alfabeto"],
 ["Las finales","Las cuarenta combinaciones que forman todas las sílabas posibles.","alfabeto"],
@@ -1794,6 +1803,129 @@ const SABER = [
     "Cada uno vale una sílaba y un significado. No se leen letra a letra, pero tampoco son dibujos: se construyen con piezas que se repiten."
   ]
 ];
+
+/* ── cómo se lee: de las piezas a la sílaba ───────────────
+   Un carácter chino no se descompone en letras, pero su sílaba sí: el
+   pinyin la parte en inicial, final y tono. Una inicial suelta no se
+   puede pronunciar, así que se oye como la practican en las escuelas
+   chinas, con su vocal de apoyo (b → 玻 bō, m → 摸 mō). Las finales se
+   oyen con un carácter que es solo esa final (an → 安). El tono no
+   suena solo: se explica y se compara. */
+const LECTURA = {
+  papeles: {inicial:"inicial", vocal:"final", tono:"tono"},
+  lede: "Un carácter chino no dice cómo suena: para eso está el pinyin. Y el pinyin parte cada sílaba en tres "
+      + "piezas: la inicial (la consonante del principio), la final (la vocal y lo que la cierra) y el tono. "
+      + "Aprende a oír las tres por separado y podrás leer en voz alta cualquier sílaba del idioma.",
+  piezas: [
+    {papel:"inicial", titulo:"La inicial: la consonante del principio",
+     texto:"Una consonante sola no se puede decir, así que en las escuelas chinas cada inicial se practica con "
+         + "su vocal de apoyo: bo, po, mo, fo. Escucha la diferencia entre b y p: es solo el aire.",
+     ejemplos:[["b","玻","b · sin aire"], ["p","坡","p · con aire"], ["m","摸","m"], ["f","佛","f"], ["d","得","d"], ["t","特","t · con aire"]]},
+    {papel:"vocal", titulo:"La final: la vocal y lo que la cierra",
+     texto:"Todo lo que va detrás de la inicial: una vocal, varias seguidas, o una vocal con -n o -ng. "
+         + "Cada una de estas se puede decir sola.",
+     ejemplos:[["a","啊","a"], ["ao","熬","ao"], ["an","安","an"], ["ang","昂","ang"], ["ie","耶","ie"], ["ü","迂","ü"]]},
+    {papel:"tono", titulo:"El tono: la melodía de la sílaba",
+     texto:"Es la marca sobre la vocal. No se oye sola: es la melodía de toda la sílaba, y cambia el significado. "
+         + "Escucha «ma» con los cuatro tonos.",
+     ejemplos:[["mā","妈","1 · alto y plano: mamá"], ["má","麻","2 · sube: cáñamo"],
+               ["mǎ","马","3 · baja y sube: caballo"], ["mà","骂","4 · cae: regañar"]]}
+  ],
+  palabras: [
+    {th:"妈", rom:"mā", es:"mamá", dib:"👩",
+     nota:"Una sílaba, tres piezas: m + a + tono alto y plano. Así se descompone cualquier sílaba del chino.",
+     partes:[
+       {t:"m", papel:"inicial", suena:"摸", rom:"m", nota:"m, como en español. Aquí suena con su vocal de apoyo: mo."},
+       {t:"a", papel:"vocal", suena:"啊", rom:"a", nota:"a, como en español."},
+       {t:"ˉ", papel:"tono", suena:null, rom:"1.º", nota:"Primer tono: alto y plano, como una nota sostenida."}]},
+
+    {th:"马", rom:"mǎ", es:"caballo", dib:"🐎",
+     nota:"Las mismas piezas que 妈, con otro tono: otra palabra. Por eso el tono no es un adorno. Escucha los cuatro.",
+     partes:[
+       {t:"m", papel:"inicial", suena:"摸", rom:"m", nota:"m."},
+       {t:"a", papel:"vocal", suena:"啊", rom:"a", nota:"a."},
+       {t:"ˇ", papel:"tono", suena:null, rom:"3.º", nota:"Tercer tono: baja hasta el fondo y vuelve a subir un poco."}],
+     compara:[["妈","mā","mamá"], ["麻","má","cáñamo"], ["马","mǎ","caballo"], ["骂","mà","regañar"]]},
+
+    {th:"茶", rom:"chá", es:"té", dib:"🍵",
+     nota:"La ch del pinyin no es nuestra ch: se dice con la punta de la lengua doblada hacia arriba y soltando aire. "
+        + "Y el segundo tono sube, como cuando preguntas «¿qué?».",
+     partes:[
+       {t:"ch", papel:"inicial", suena:"吃", rom:"ch", nota:"ch con la lengua doblada hacia atrás, y con aire."},
+       {t:"a", papel:"vocal", suena:"啊", rom:"a", nota:"a."},
+       {t:"ˊ", papel:"tono", suena:null, rom:"2.º", nota:"Segundo tono: sube, como una pregunta."}]},
+
+    {th:"你好", rom:"nǐ hǎo", es:"hola", dib:"👋",
+     nota:"Dos terceros tonos seguidos: el primero se convierte en segundo. Se escribe nǐ hǎo y se dice «ní hǎo». "
+        + "No es una excepción: pasa siempre.",
+     silabas:[["你",[0,1,2]], ["好",[3,4,5]]],
+     partes:[
+       {t:"n", papel:"inicial", suena:"讷", rom:"n", nota:"n."},
+       {t:"i", papel:"vocal", suena:"衣", rom:"i", nota:"i, como en español."},
+       {t:"ˇ", papel:"tono", suena:null, rom:"3.º → 2.º", nota:"Escrito tercero, pero delante de otro tercero se dice segundo: sube."},
+       {t:"h", papel:"inicial", suena:"喝", rom:"h", nota:"h con roce en la garganta: casi nuestra jota, más suave."},
+       {t:"ao", papel:"vocal", suena:"熬", rom:"ao", nota:"a-o seguidas, como en «Bilbao»."},
+       {t:"ˇ", papel:"tono", suena:null, rom:"3.º", nota:"Tercer tono: baja y sube."}]},
+
+    {th:"谢谢", rom:"xièxie", es:"gracias", dib:"🙏",
+     nota:"La segunda sílaba no lleva marca: es el tono neutro, corto y sin fuerza. Se dice xiè-xie, no xiè-xiè.",
+     silabas:[["谢",[0,1,2]], ["谢",[3,4,5]]],
+     partes:[
+       {t:"x", papel:"inicial", suena:"希", rom:"x", nota:"Entre s y sh, con la punta de la lengua abajo y los labios estirados. Nunca es «ks» ni jota."},
+       {t:"ie", papel:"vocal", suena:"耶", rom:"ie", nota:"i-e seguidas, como en «hierba»."},
+       {t:"ˋ", papel:"tono", suena:null, rom:"4.º", nota:"Cuarto tono: cae de golpe, como una orden."},
+       {t:"x", papel:"inicial", suena:"希", rom:"x", nota:"x otra vez."},
+       {t:"ie", papel:"vocal", suena:"耶", rom:"ie", nota:"ie."},
+       {t:"·", papel:"tono", suena:null, rom:"neutro", nota:"Sin marca: tono neutro, corto y flojo."}]},
+
+    {th:"去", rom:"qù", es:"ir", dib:"🚶",
+     nota:"Dos trampas en una sílaba: la q no es k, y la u que ves escrita es en realidad ü.",
+     partes:[
+       {t:"q", papel:"inicial", suena:"欺", rom:"q", nota:"Una ch muy suave con aire, la lengua abajo. Nunca es k."},
+       {t:"u", papel:"vocal", suena:"迂", rom:"ü", nota:"¡Esta u es ü! Detrás de j, q y x la ü pierde los puntos, pero sigue sonando ü: labios de u, lengua de i."},
+       {t:"ˋ", papel:"tono", suena:null, rom:"4.º", nota:"Cuarto tono: cae."}]},
+
+    {th:"吃饭", rom:"chīfàn", es:"comer", dib:"🍚",
+     nota:"chī no se dice «chi»: esa i no suena como i, solo alarga el zumbido de la ch. Literalmente es «comer arroz».",
+     silabas:[["吃",[0,1,2]], ["饭",[3,4,5]]],
+     partes:[
+       {t:"ch", papel:"inicial", suena:"吃", rom:"ch", nota:"ch con la lengua doblada."},
+       {t:"i", papel:"vocal", suena:null, rom:"-i", nota:"¡No es una i! Detrás de zh, ch, sh, r, z, c y s solo marca que la consonante se alarga, zumbando."},
+       {t:"ˉ", papel:"tono", suena:null, rom:"1.º", nota:"Primer tono: alto y plano."},
+       {t:"f", papel:"inicial", suena:"佛", rom:"f", nota:"f."},
+       {t:"an", papel:"vocal", suena:"安", rom:"an", nota:"an."},
+       {t:"ˋ", papel:"tono", suena:null, rom:"4.º", nota:"Cuarto tono: cae."}]},
+
+    {th:"水", rom:"shuǐ", es:"agua", dib:"💧",
+     nota:"El pinyin abrevia: ui es en realidad uei. Por eso suena «shuei», no «shui».",
+     partes:[
+       {t:"sh", papel:"inicial", suena:"诗", rom:"sh", nota:"sh con la lengua doblada hacia atrás."},
+       {t:"ui", papel:"vocal", suena:"威", rom:"ui", nota:"Se escribe ui, se dice «uei»."},
+       {t:"ˇ", papel:"tono", suena:null, rom:"3.º", nota:"Tercer tono: baja y sube."}]},
+
+    {th:"再见", rom:"zàijiàn", es:"adiós", dib:"👋",
+     nota:"Dos cuartos tonos seguidos, los dos caen. Y la trampa: ian no suena «ian», suena «ien».",
+     silabas:[["再",[0,1,2]], ["见",[3,4,5]]],
+     partes:[
+       {t:"z", papel:"inicial", suena:"资", rom:"z", nota:"Como «ts», sin aire. Nunca es nuestra z."},
+       {t:"ai", papel:"vocal", suena:"哀", rom:"ai", nota:"ai, como en «hay»."},
+       {t:"ˋ", papel:"tono", suena:null, rom:"4.º", nota:"Cuarto tono: cae."},
+       {t:"j", papel:"inicial", suena:"基", rom:"j", nota:"Como una ch suave, la lengua abajo. Nunca es jota."},
+       {t:"ian", papel:"vocal", suena:"烟", rom:"ian", nota:"¡Se escribe ian y se dice «ien»!"},
+       {t:"ˋ", papel:"tono", suena:null, rom:"4.º", nota:"Cuarto tono: cae."}]},
+
+    {th:"北京", rom:"Běijīng", es:"Pekín", dib:"🏯",
+     nota:"Un tercer tono delante de otro que no es tercero se queda a medias: baja y no llega a subir. Běi-jīng.",
+     silabas:[["北",[0,1,2]], ["京",[3,4,5]]],
+     partes:[
+       {t:"b", papel:"inicial", suena:"玻", rom:"b", nota:"Como una p sin aire."},
+       {t:"ei", papel:"vocal", suena:"诶", rom:"ei", nota:"ei, como en «rey»."},
+       {t:"ˇ", papel:"tono", suena:null, rom:"3.º", nota:"Tercero a medias: solo baja."},
+       {t:"j", papel:"inicial", suena:"基", rom:"j", nota:"Ch suave, lengua abajo."},
+       {t:"ing", papel:"vocal", suena:"英", rom:"ing", nota:"i con una ng nasal detrás."},
+       {t:"ˉ", papel:"tono", suena:null, rom:"1.º", nota:"Primer tono: alto y plano."}]}
+  ]
+};
 
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
@@ -1976,6 +2108,11 @@ function countUp(el, to, ms){
     if(k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
 
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
@@ -2373,7 +2510,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2386,14 +2523,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -2951,7 +3088,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -2960,7 +3097,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3401,6 +3538,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3426,16 +3567,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3494,14 +3635,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3510,7 +3651,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

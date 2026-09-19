@@ -1134,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por tus errores</b> — Los ocho fallos que te delatan en tres frases. Corregirlos vale más que cien palabras.</li>
+        <li><b>Cómo se lee una palabra</b> — Qué hace cada letra según las de al lado: la e mágica, las mudas, la sílaba fuerte. Nueve palabras.</li>
         <li><b>Los sonidos que no tenemos</b> — La /æ/, la schwa, la diferencia entre larga y corta. Diez trampas, una por una.</li>
         <li><b>Los 20 sonidos clave</b> — Con sus palabras de ejemplo. Aprende sonidos, no letras.</li>
         <li><b>La ortografía que engaña</b> — Por qué «through», «though» y «tough» no riman.</li>
@@ -1172,7 +1173,9 @@ const LANG = {
   intro:   "Diez herramientas para el oído y la boca: los sonidos que el español no tiene, la ortografía que engaña, "
          + "los errores que cometemos todos, gramática que sí se entiende, 100 palabras, 40 frases y juegos para consolidar.",
   particulas: false,
-  secciones: ["inicio","estudiar","ritmo","sonidos","alfabeto","gramatica",
+  /* en la ficha de cada sonido, su palabra de ejemplo se puede oír */
+  ejemploLetra: c => c[1] || null,
+  secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   etiquetas: {ritmo: "Errores típicos", alfabeto: "Los 20 sonidos", sonidos: "Trampas del oído"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
@@ -1729,6 +1732,7 @@ const KB_ROWS = [
 /* ── ruta y plan ── */
 const PATH = [
 ["Empieza por tus errores","Los ocho fallos que te delatan en tres frases. Corregirlos vale más que cien palabras.","ritmo"],
+["Cómo se lee una palabra","Qué hace cada letra según las de al lado: la e mágica, las mudas, la sílaba fuerte. Nueve palabras.","lectura"],
 ["Los sonidos que no tenemos","La /æ/, la schwa, la diferencia entre larga y corta. Diez trampas, una por una.","sonidos"],
 ["Los 20 sonidos clave","Con sus palabras de ejemplo. Aprende sonidos, no letras.","alfabeto"],
 ["La ortografía que engaña","Por qué «through», «though» y «tough» no riman.","alfabeto"],
@@ -1793,6 +1797,116 @@ const SABER = [
     "Sujeto, verbo, objeto, y el sujeto nunca se omite. Donde el español dice «llueve», el inglés necesita un «it» que no significa nada."
   ]
 ];
+
+/* ── cómo se lee: de las letras al sonido ─────────────────
+   En inglés una letra suelta no se puede pronunciar: la voz diría su
+   nombre («ei», «bi»). Por eso aquí las piezas no suenan solas: cada
+   una explica qué sonido hace EN ESA PALABRA, y el sonido se oye en la
+   palabra entera y en parejas que solo se diferencian en ese sonido. */
+const LECTURA = {
+  papeles: {inicial:"suena normal", vocal:"sonido nuevo", final:"muda", tono:"sílaba fuerte"},
+  lede: "En inglés las letras no tienen un sonido fijo: la a de «cat», la de «cake» y la de «car» son tres sonidos "
+      + "distintos, y muchas letras se escriben y no se dicen. Leer es aprender qué hace cada letra según las que "
+      + "tiene al lado. Aquí vas palabra a palabra: toca cada pieza para ver qué hace, escucha la palabra y compárala "
+      + "con su pareja.",
+  piezas: [
+    {papel:"inicial", titulo:"Las que suenan como esperas",
+     texto:"b, d, f, m, n, p, s, t… casi todas las consonantes suenan como en español. El problema no son ellas.",
+     ejemplos:[["b","bed","bed · cama"], ["m","map","map · mapa"], ["s","sun","sun · sol"]]},
+    {papel:"vocal", titulo:"Las que cambian de sonido",
+     texto:"Las vocales no tienen un sonido fijo. Y algunas parejas de letras hacen un sonido nuevo: sh, ch, th, ee, oo.",
+     ejemplos:[["a","cat","cat · /æ/"], ["a","cake","cake · /eɪ/"], ["a","car","car · /ɑː/"],
+               ["sh","ship","ship · /ʃ/"], ["th","think","think · /θ/"]]},
+    {papel:"final", titulo:"Las que no suenan",
+     texto:"Muchas letras se escriben y no se dicen: la k de «knife», la gh de «night», la b de «lamb» o la e del final "
+         + "de «cake». Esa e muda, además, cambia la vocal de antes.",
+     ejemplos:[["k","knife","knife · naif"], ["gh","night","night · nait"], ["b","lamb","lamb · lam"]]},
+    {papel:"tono", titulo:"La sílaba fuerte",
+     texto:"Cada palabra tiene una sílaba que se dice más fuerte y más larga, y las demás se encogen hasta sonar a «ə». "
+         + "Si la cambias de sitio, no te entienden.",
+     ejemplos:[["PHO·to","photo","PHO-to"], ["pho·TOG·ra·pher","photographer","pho-TOG-ra-pher"], ["WA·ter","water","WA-ter"]]}
+  ],
+  palabras: [
+    {th:"cat", rom:"/kæt/", es:"gato", dib:"🐱",
+     nota:"Tres letras, tres sonidos, pero la a ya no es nuestra a. Es el sonido más típico del inglés: abre la boca "
+        + "como para decir «a» y di «e».",
+     partes:[
+       {t:"c", papel:"inicial", suena:null, rom:"/k/", nota:"Delante de a, o y u, la c suena k."},
+       {t:"a", papel:"vocal", suena:null, rom:"/æ/", nota:"Ni a ni e: algo en medio, con la boca muy abierta."},
+       {t:"t", papel:"inicial", suena:null, rom:"/t/", nota:"t."}],
+     compara:[["cut","/kʌt/","cortar"], ["cat","/kæt/","gato"]]},
+
+    {th:"cake", rom:"/keɪk/", es:"pastel", dib:"🍰",
+     nota:"La regla de la e mágica: una e muda al final hace que la vocal de antes diga su nombre. cap → cape, "
+        + "kit → kite, hop → hope.",
+     partes:[
+       {t:"c", papel:"inicial", suena:null, rom:"/k/", nota:"k."},
+       {t:"a", papel:"vocal", suena:null, rom:"/eɪ/", nota:"Dice su nombre, «ei», por culpa de la e del final."},
+       {t:"k", papel:"inicial", suena:null, rom:"/k/", nota:"k."},
+       {t:"e", papel:"final", suena:null, rom:"—", nota:"No suena, pero cambia la a: sin ella sería otra palabra."}],
+     compara:[["cap","/kæp/","gorra"], ["cape","/keɪp/","capa"]]},
+
+    {th:"ship", rom:"/ʃɪp/", es:"barco", dib:"🚢",
+     nota:"sh son dos letras y un solo sonido. Y la i es corta y relajada: si la alargas, dices «sheep», oveja.",
+     partes:[
+       {t:"sh", papel:"vocal", suena:null, rom:"/ʃ/", nota:"Dos letras, un sonido: el «shh» de pedir silencio."},
+       {t:"i", papel:"vocal", suena:null, rom:"/ɪ/", nota:"i corta y floja, casi e."},
+       {t:"p", papel:"inicial", suena:null, rom:"/p/", nota:"p, con un poco de aire."}],
+     compara:[["ship","/ʃɪp/","barco"], ["sheep","/ʃiːp/","oveja"]]},
+
+    {th:"think", rom:"/θɪŋk/", es:"pensar", dib:"💭",
+     nota:"th no es t ni s: se dice con la lengua entre los dientes, soplando. Para un español de España, es la z de «zapato».",
+     partes:[
+       {t:"th", papel:"vocal", suena:null, rom:"/θ/", nota:"Lengua entre los dientes y soplas: nuestra z."},
+       {t:"i", papel:"vocal", suena:null, rom:"/ɪ/", nota:"i corta."},
+       {t:"n", papel:"vocal", suena:null, rom:"/ŋ/", nota:"Delante de k, la n suena «ng», como en «tengo»."},
+       {t:"k", papel:"inicial", suena:null, rom:"/k/", nota:"k."}],
+     compara:[["sink","/sɪŋk/","fregadero"], ["think","/θɪŋk/","pensar"]]},
+
+    {th:"knife", rom:"/naɪf/", es:"cuchillo", dib:"🔪",
+     nota:"Dos letras que no suenan: la k del principio y la e del final. Se escribe knife y se dice «naif».",
+     partes:[
+       {t:"k", papel:"final", suena:null, rom:"—", nota:"Muda. Delante de n, la k no se dice nunca: know, knee, knock."},
+       {t:"n", papel:"inicial", suena:null, rom:"/n/", nota:"n."},
+       {t:"i", papel:"vocal", suena:null, rom:"/aɪ/", nota:"Con la e muda del final, la i dice su nombre: «ai»."},
+       {t:"f", papel:"inicial", suena:null, rom:"/f/", nota:"f."},
+       {t:"e", papel:"final", suena:null, rom:"—", nota:"Muda: solo cambia la i."}]},
+
+    {th:"night", rom:"/naɪt/", es:"noche", dib:"🌙",
+     nota:"igh suena «ai» y la gh no se dice. Y ojo: night y knight (caballero) suenan exactamente igual.",
+     partes:[
+       {t:"n", papel:"inicial", suena:null, rom:"/n/", nota:"n."},
+       {t:"i", papel:"vocal", suena:null, rom:"/aɪ/", nota:"Delante de gh, la i suena «ai»."},
+       {t:"gh", papel:"final", suena:null, rom:"—", nota:"Mudas las dos."},
+       {t:"t", papel:"inicial", suena:null, rom:"/t/", nota:"t."}],
+     compara:[["night","/naɪt/","noche"], ["knight","/naɪt/","caballero"]]},
+
+    {th:"phone", rom:"/fəʊn/", es:"teléfono", dib:"📱",
+     nota:"ph suena f, siempre. Y otra vez la e mágica: la o dice su nombre, «ou».",
+     partes:[
+       {t:"ph", papel:"vocal", suena:null, rom:"/f/", nota:"ph es una f."},
+       {t:"o", papel:"vocal", suena:null, rom:"/əʊ/", nota:"Dice su nombre, «ou», por la e del final."},
+       {t:"n", papel:"inicial", suena:null, rom:"/n/", nota:"n."},
+       {t:"e", papel:"final", suena:null, rom:"—", nota:"Muda."}]},
+
+    {th:"water", rom:"/ˈwɔːtə/", es:"agua", dib:"💧",
+     nota:"La fuerza va en WA-ter. La segunda sílaba se encoge: la e se queda en «ə», y en inglés británico la r del final ni se oye.",
+     partes:[
+       {t:"w", papel:"inicial", suena:null, rom:"/w/", nota:"Como la u de «huevo»."},
+       {t:"a", papel:"tono", suena:null, rom:"/ɔː/", nota:"Sílaba fuerte. Detrás de w, la a suena como una o larga."},
+       {t:"t", papel:"inicial", suena:null, rom:"/t/", nota:"t."},
+       {t:"e", papel:"vocal", suena:null, rom:"/ə/", nota:"Sílaba débil: la vocal se queda en «ə», un sonido flojo y neutro."},
+       {t:"r", papel:"final", suena:null, rom:"—", nota:"En inglés británico, la r al final no suena."}]},
+
+    {th:"comfortable", rom:"/ˈkʌmftəbl/", es:"cómodo", dib:"🛋️",
+     nota:"Se escribe con cuatro sílabas y se dice con tres: «KUMF-tə-bl». La fuerza va al principio y todo lo demás se encoge.",
+     partes:[
+       {t:"com", papel:"tono", suena:null, rom:"/kʌm/", nota:"Sílaba fuerte. La o suena como una a corta: «kam»."},
+       {t:"for", papel:"final", suena:null, rom:"/f/", nota:"Casi desaparece: solo queda la f."},
+       {t:"ta", papel:"vocal", suena:null, rom:"/tə/", nota:"Débil: «tə»."},
+       {t:"ble", papel:"vocal", suena:null, rom:"/bl/", nota:"Débil del todo: la e no suena, «bl»."}]}
+  ]
+};
 
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
@@ -1975,6 +2089,11 @@ function countUp(el, to, ms){
     if(k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
 
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
@@ -2372,7 +2491,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2385,14 +2504,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -2950,7 +3069,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -2959,7 +3078,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3400,6 +3519,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3425,16 +3548,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3493,14 +3616,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3509,7 +3632,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

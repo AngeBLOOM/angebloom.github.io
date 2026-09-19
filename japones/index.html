@@ -1134,6 +1134,7 @@ img{max-width:100%;height:auto}
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
         <li><b>Empieza por el ritmo</b> — Antes que las letras: entrena el oído con las moras y las vocales largas.</li>
+        <li><b>Cómo se lee una palabra</b> — Cada letra ya es una sílaba; lo difícil son ん, la っ muda y las vocales largas. Once palabras, pieza a pieza.</li>
         <li><b>Los sonidos que el español no tiene</b> — La ら, la ふ, la つ y la u que desaparece. Diez trampas, una por una.</li>
         <li><b>Los 46 hiragana</b> — Fila por fila, de cinco en cinco. Es la base de toda la gramática.</li>
         <li><b>Los 46 katakana</b> — Los mismos sonidos con otra forma, para todo lo que viene de fuera.</li>
@@ -1171,7 +1172,11 @@ const LANG = {
   intro:   "Once herramientas para el oído, la boca y la mano: los 46 hiragana, los 46 katakana, el ritmo de las moras, "
          + "gramática que sí se entiende, trazado a mano, 98 palabras, 38 frases y juegos para consolidar.",
   particulas: false,
-  secciones: ["inicio","estudiar","ritmo","sonidos","alfabeto","escritura","gramatica",
+  /* cómo suena cada letra en la ficha del alfabeto: el kana ya es su sonido */
+  suenaInicio: c => c[0],
+  /* lo que se pronuncia al tocar una letra (c[1] aquí es la romanización) */
+  nombreLetra: c => c[0],
+  secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","escritura","gramatica",
               "vocabulario","frases","numeros","hablar","juegos","repaso"],
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
 
@@ -1755,6 +1760,7 @@ const KB_ROWS = [
 /* ── ruta y plan ── */
 const PATH = [
 ["Empieza por el ritmo","Antes que las letras: entrena el oído con las moras y las vocales largas.","ritmo"],
+["Cómo se lee una palabra","Cada letra ya es una sílaba; lo difícil son ん, la っ muda y las vocales largas. Once palabras, pieza a pieza.","lectura"],
 ["Los sonidos que el español no tiene","La ら, la ふ, la つ y la u que desaparece. Diez trampas, una por una.","sonidos"],
 ["Los 46 hiragana","Fila por fila, de cinco en cinco. Es la base de toda la gramática.","alfabeto"],
 ["Los 46 katakana","Los mismos sonidos con otra forma, para todo lo que viene de fuera.","alfabeto"],
@@ -1820,6 +1826,119 @@ const SABER = [
     "Cada kana dura lo mismo, y <span class=\"th\">ん</span> y <span class=\"th\">っ</span> cuentan uno entero. Por eso <span class=\"th\">にほん</span> son tres tiempos y no dos."
   ]
 ];
+
+/* ── cómo se lee: de las piezas a la palabra ──────────────
+   En japonés cada kana ya es una sílaba entera, así que «suena» es el
+   propio kana. Las piezas que no suenan solas son la っ pequeña (un
+   silencio) y lo que alarga una vocal (la ー y la う detrás de o). */
+const LECTURA = {
+  papeles: {inicial:"sílaba", vocal:"vocal", final:"ん · っ", tono:"alarga"},
+  lede: "En japonés no hay que juntar consonante y vocal: cada letra ya es una sílaba entera, y todas duran "
+      + "lo mismo. Lo que hay que aprender es otra cosa: las letras que no son sílaba (ん y la っ pequeña) y "
+      + "las vocales largas, que cambian la palabra. Aquí vas palabra a palabra, de la más sencilla a la más enredada.",
+  piezas: [
+    {papel:"inicial", titulo:"Cada letra es una sílaba",
+     texto:"か no es una k: es «ka» entero. Se lee de una en una, y cada una dura lo mismo, como las notas "
+         + "de un metrónomo. Esa medida se llama mora.",
+     ejemplos:[["か","か","ka"], ["ね","ね","ne"], ["す","す","su"], ["し","し","shi · no «si»"], ["つ","つ","tsu"]]},
+    {papel:"vocal", titulo:"Cinco vocales, siempre iguales",
+     texto:"Suenan como las nuestras y no cambian nunca. Solo la う es distinta: se dice sin redondear los labios.",
+     ejemplos:[["あ","あ","a"], ["い","い","i"], ["う","う","u"], ["え","え","e"], ["お","お","o"]]},
+    {papel:"final", titulo:"Las dos que no son sílaba",
+     texto:"ん es una n que vale un tiempo entero. La っ pequeña no suena: es un silencio que duplica la "
+         + "consonante siguiente. Escúchalas dentro de una palabra.",
+     ejemplos:[["ん","ほん","hon · libro"], ["っ","きって","kitte · sello"], ["っ","がっこう","gakkō · escuela"]]},
+    {papel:"tono", titulo:"Alargar también cuenta",
+     texto:"Una vocal larga dura el doble, y cambia la palabra. En hiragana se alarga escribiendo otra vocal; "
+         + "en katakana, con una raya ー. Escucha la pareja.",
+     ejemplos:[["おばさん","おばさん","obasan · tía"], ["おばあさん","おばあさん","obaasan · abuela"], ["ー","コーヒー","kōhī · café"]]}
+  ],
+  palabras: [
+    {th:"あい", rom:"ai", es:"amor", dib:"❤️",
+     nota:"Dos vocales, dos tiempos: a-i. Cada letra dura lo mismo que la otra.",
+     partes:[
+       {t:"あ", papel:"vocal", suena:"あ", rom:"a", nota:"a, como en español."},
+       {t:"い", papel:"vocal", suena:"い", rom:"i", nota:"i, como en español."}]},
+
+    {th:"ねこ", rom:"neko", es:"gato", dib:"🐱",
+     nota:"Dos letras, dos sílabas: ne-ko. Así se lee casi todo el japonés: una letra detrás de otra.",
+     partes:[
+       {t:"ね", papel:"inicial", suena:"ね", rom:"ne", nota:"ne, una sola letra."},
+       {t:"こ", papel:"inicial", suena:"こ", rom:"ko", nota:"ko, una sola letra."}]},
+
+    {th:"さかな", rom:"sakana", es:"pez", dib:"🐟",
+     nota:"Tres sílabas y tres tiempos iguales: sa-ka-na. No hay una sílaba fuerte que dé el golpe, como en español: "
+        + "la voz sube o baja, pero todas duran lo mismo.",
+     partes:[
+       {t:"さ", papel:"inicial", suena:"さ", rom:"sa", nota:"sa."},
+       {t:"か", papel:"inicial", suena:"か", rom:"ka", nota:"ka."},
+       {t:"な", papel:"inicial", suena:"な", rom:"na", nota:"na."}]},
+
+    {th:"すし", rom:"sushi", es:"sushi", dib:"🍣",
+     nota:"Se escribe su-shi, pero la u de す casi desaparece entre dos consonantes sordas: suena casi «sshi». "
+        + "Y し es «shi», nunca «si».",
+     partes:[
+       {t:"す", papel:"inicial", suena:"す", rom:"su", nota:"su. Aquí la u apenas se oye."},
+       {t:"し", papel:"inicial", suena:"し", rom:"shi", nota:"shi. En japonés no existe la sílaba «si»."}]},
+
+    {th:"ほん", rom:"hon", es:"libro", dib:"📖",
+     nota:"ん vale un tiempo entero: ho-n son dos tiempos, aunque a nosotros nos parezca una sílaba.",
+     partes:[
+       {t:"ほ", papel:"inicial", suena:"ほ", rom:"ho", nota:"ho, con una h suave, de aire."},
+       {t:"ん", papel:"final", suena:"ん", rom:"n", nota:"n. Es la única letra que no lleva vocal, y aun así ocupa un tiempo."}]},
+
+    {th:"きって", rom:"kitte", es:"sello", dib:"✉️",
+     nota:"La っ pequeña no se pronuncia: es un silencio del tamaño de una sílaba, que hace que la t suene doble. "
+        + "きて (ven) y きって (sello) solo se distinguen por ese hueco.",
+     partes:[
+       {t:"き", papel:"inicial", suena:"き", rom:"ki", nota:"ki."},
+       {t:"っ", papel:"final", suena:null, rom:"·", nota:"No suena: es una pausa que duplica la consonante siguiente, la t."},
+       {t:"て", papel:"inicial", suena:"て", rom:"te", nota:"te."}],
+     compara:[["きて","kite","ven"], ["きって","kitte","sello"]]},
+
+    {th:"おばあさん", rom:"obaasan", es:"abuela", dib:"👵",
+     nota:"La あ de después de ば alarga la a: ba-a. Sin ella sería おばさん, «tía». Cinco tiempos contra cuatro.",
+     partes:[
+       {t:"お", papel:"vocal", suena:"お", rom:"o", nota:"o."},
+       {t:"ば", papel:"inicial", suena:"ば", rom:"ba", nota:"ba: es は con las dos comillas ゛, que convierten la h en b."},
+       {t:"あ", papel:"tono", suena:"あ", rom:"a", nota:"Alarga la a de ば: «baa». Es un tiempo más."},
+       {t:"さ", papel:"inicial", suena:"さ", rom:"sa", nota:"sa."},
+       {t:"ん", papel:"final", suena:"ん", rom:"n", nota:"n, con su tiempo entero."}],
+     compara:[["おばさん","obasan","tía"], ["おばあさん","obaasan","abuela"]]},
+
+    {th:"がっこう", rom:"gakkō", es:"escuela", dib:"🏫",
+     nota:"Tres cosas nuevas: が es か con comillas (k → g); la っ hace doble la k; y la う de detrás de こ no se "
+        + "dice «u»: alarga la o. ga-k-ko-o.",
+     partes:[
+       {t:"が", papel:"inicial", suena:"が", rom:"ga", nota:"ga: か con las comillas ゛, que convierten la k en g."},
+       {t:"っ", papel:"final", suena:null, rom:"·", nota:"Silencio que duplica la k siguiente."},
+       {t:"こ", papel:"inicial", suena:"こ", rom:"ko", nota:"ko."},
+       {t:"う", papel:"tono", suena:null, rom:"o", nota:"Detrás de una o, la う no dice «u»: alarga la o. こう se lee «kō»."}]},
+
+    {th:"きょう", rom:"kyō", es:"hoy", dib:"📅",
+     nota:"La ょ pequeña se funde con la letra de delante: きょ es una sola sílaba, «kyo», no «ki-yo». Y la う alarga la o.",
+     partes:[
+       {t:"きょ", papel:"inicial", suena:"きょ", rom:"kyo", nota:"き + ょ pequeña: una sola sílaba, «kyo»."},
+       {t:"う", papel:"tono", suena:null, rom:"o", nota:"Alarga la o: «kyō»."}]},
+
+    {th:"コーヒー", rom:"kōhī", es:"café", dib:"☕",
+     nota:"Katakana, la escritura de las palabras extranjeras. La raya ー alarga la vocal de delante: ko-o-hi-i.",
+     partes:[
+       {t:"コ", papel:"inicial", suena:"コ", rom:"ko", nota:"ko en katakana. Suena igual que こ."},
+       {t:"ー", papel:"tono", suena:null, rom:"o", nota:"La raya alarga la vocal anterior."},
+       {t:"ヒ", papel:"inicial", suena:"ヒ", rom:"hi", nota:"hi, con la h suave."},
+       {t:"ー", papel:"tono", suena:null, rom:"i", nota:"Otra vez: alarga la i."}]},
+
+    {th:"ありがとう", rom:"arigatō", es:"gracias", dib:"🙏",
+     nota:"Todo junto: sílabas de un tiempo, una g con comillas y una o larga al final. a-ri-ga-to-o.",
+     partes:[
+       {t:"あ", papel:"vocal", suena:"あ", rom:"a", nota:"a."},
+       {t:"り", papel:"inicial", suena:"り", rom:"ri", nota:"ri: la r japonesa es un toque muy suave, entre r y l."},
+       {t:"が", papel:"inicial", suena:"が", rom:"ga", nota:"ga: か con comillas."},
+       {t:"と", papel:"inicial", suena:"と", rom:"to", nota:"to."},
+       {t:"う", papel:"tono", suena:null, rom:"o", nota:"Alarga la o de と: «tō»."}]}
+  ]
+};
 
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
@@ -2002,6 +2121,11 @@ function countUp(el, to, ms){
     if(k < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+
+/* qué decir al tocar una letra: el nombre si el paquete no dice otra cosa */
+const letraNombre = c => (LANG.nombreLetra && LANG.nombreLetra(c)) || c[1];
+/* el sonido suelto de la letra, o null si esa letra no lo tiene */
+const letraSuena = c => (LANG.suenaInicio && LANG.suenaInicio(c)) || null;
 
 /* ══ PROGRESO ════════════════════════════════════════════ */
 const P = {
@@ -2399,7 +2523,7 @@ function paintCons(){
   g.querySelectorAll("[data-c]").forEach(el => {
     const open = () => {
       selCons = el.dataset.c; paintCons(); paintDetail();
-      const c = CONS.find(x => x[0] === selCons); if(c) speak(c[1]);
+      const c = CONS.find(x => x[0] === selCons); if(c) speak(letraNombre(c));
     };
     el.addEventListener("click", open);
     el.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); } });
@@ -2412,14 +2536,14 @@ function paintDetail(){
   const c = CONS.find(x => x[0] === selCons);
   const kn = !!S.known[c[0]];
   d.innerHTML = `<div class="detail">
-    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(c[1], c[2])}</div>
+    <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
         <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
-        <dt>Al inicio</dt><dd>${c[3]}${LANG.suenaInicio ? " " + sayBtn(LANG.suenaInicio(c), "cómo suena al empezar") : ""}</dd>
+        <dt>Al inicio</dt><dd>${c[3]}${letraSuena(c) ? " " + sayBtn(letraSuena(c), "cómo suena al empezar") : ""}</dd>
         <dt>Al final</dt><dd>${c[4] === "—" ? "no se usa como final"
           : c[4] + (LANG.suenaFinal && LANG.suenaFinal(c) ? " " + sayBtn(LANG.suenaFinal(c), "cómo suena al acabar") : "")}</dd>
         <dt>Clase</dt><dd>${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? " — " + CLASSNOTA[c[5]] : ""}</dd>
@@ -2977,7 +3101,7 @@ function makeMixed(){
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
     return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
-        ${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+        ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
       options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -2986,7 +3110,7 @@ function makeMixed(){
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
-      prompt:`${LANG.suenaInicio ? `<div class="row" style="justify-content:center">${sayBtn(LANG.suenaInicio(c), "la letra")}
+      prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
@@ -3427,6 +3551,10 @@ function clasesAyudaHTML(){
    declara, la sección no existe. Cada palabra se oye entera, pieza a
    pieza —iluminando la que suena— y por sílabas, y al final la dices tú. */
 const PAPELES = {inicial:"consonante", vocal:"vocal", final:"final", tono:"tono"};
+/* cada idioma puede llamar a sus piezas a su manera («batchim», «inicial», «sílaba»…) */
+const papelDe = k => (LECTURA.papeles && LECTURA.papeles[k]) || PAPELES[k];
+/* ¿hay algo que decir pieza a pieza? Donde las letras sueltas no se pueden pronunciar, no */
+const lecHayPiezas = w => w.partes.some(p => p.suena) || (w.silabas || []).length > 0;
 let lecIdx = -1, lecCola = 0;
 const lecMax = () => (S.lecMax && S.lecMax[LANG.id] != null) ? S.lecMax[LANG.id] : -1;
 P.lectura = () => (typeof LECTURA === "undefined") ? 0 : (lecMax() + 1) / LECTURA.palabras.length;
@@ -3452,16 +3580,16 @@ function lecPalabraHTML(){
     <div class="lec-rom">${w.rom}</div>
     <div class="lec-es"><span aria-hidden="true">${w.dib || dibujo([w.th, w.rom, w.es, ""])}</span> ${w.es}</div>
     <div class="row lec-botones">
-      <button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>
-      <button class="btn" data-say="${esc(w.th)}">${svg("play")} Entera</button>
+      ${lecHayPiezas(w) ? `<button class="btn btn--p" id="lecPasos">${svg("play")} Pieza a pieza</button>` : ""}
+      <button class="btn${lecHayPiezas(w) ? "" : " btn--p"}" data-say="${esc(w.th)}">${svg("play")} Entera</button>
       <button class="btn" id="lecLento">Muy lenta</button>
     </div>
     <div class="piezas" id="lecPiezas">${w.partes.map((p, i) =>
       `<button class="pieza pz--${p.papel}${p.oculta ? " pz--oculta" : ""}" data-pz="${i}">
         <span class="pz-t th">${verPieza(p)}</span>
         <span class="pz-rom">${p.rom}</span>
-        <span class="pz-papel">${p.oculta ? "no se escribe" : PAPELES[p.papel]}</span></button>`).join("")}</div>
-    <div class="pz-nota" id="lecNota" aria-live="polite">Toca cada pieza para oírla sola y saber qué hace.</div>
+        <span class="pz-papel">${p.oculta ? "no se escribe" : papelDe(p.papel)}</span></button>`).join("")}</div>
+    <div class="pz-nota" id="lecNota" aria-live="polite">${w.partes.some(p => p.suena) ? "Toca cada pieza para oírla sola y saber qué hace." : "Toca cada pieza para ver qué hace. Escucha la palabra entera y compárala."}</div>
     <p class="lec-explica">${w.nota}</p>
     ${w.compara ? `<div class="lec-compara">${w.compara.map(([th, rom, es]) =>
       `<button class="lec-par" data-say="${esc(th)}"><span class="th">${th}</span><em>${rom}</em><small>${es}</small></button>`)
@@ -3520,14 +3648,14 @@ function lecPinta(desplazar){
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
-  $("#lecPasos").addEventListener("click", lecPiezaAPieza);
+  if($("#lecPasos")) $("#lecPasos").addEventListener("click", lecPiezaAPieza);
   $("#lecLento").addEventListener("click", () => speak(w.th, null, 0.45));
   $("#lecPiezas").addEventListener("click", e => {
     const b = e.target.closest("[data-pz]"); if(!b) return;
     const p = w.partes[+b.dataset.pz];
     document.querySelectorAll("#lecPiezas .pieza").forEach(x => x.classList.toggle("sel", x === b));
-    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : PAPELES[p.papel]}
-      · <span class="rom">${p.rom}</span> — ${p.nota}${p.suena ? "" : " <em>(no suena sola: cambia la melodía)</em>"}`;
+    $("#lecNota").innerHTML = `<b class="th">${verPieza(p)}</b> · ${p.oculta ? "vocal que no se escribe" : papelDe(p.papel)}
+      ${p.rom && p.rom !== "—" ? `· <span class="rom">${p.rom}</span>` : ""} — ${p.nota}`;
     if(p.suena){ lecCola++; speak(p.suena, null, S.speed * 0.85); }
   });
   const ant = $("#lecAnt");
@@ -3536,7 +3664,7 @@ function lecEnlaza(){
     const nueva = lecIdx > lecMax();
     if(nueva){ S.lecMax = Object.assign({}, S.lecMax || {}); S.lecMax[LANG.id] = lecIdx; save(); ganaXP(5); paintNav(current); }
     if(lecIdx < n - 1){ lecIdx++; lecPinta(true); return; }
-    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", "Doce palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
+    if(nueva) setTimeout(() => { celebra(); aviso("📖", "¡Ya lees por piezas!", n + " palabras, de la más fácil a la más enredada"); ganaXP(20); }, 200);
     else aviso("📖", "Repaso terminado", "Puedes volver a cualquier palabra con ← Anterior");
   });
 }

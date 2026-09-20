@@ -1046,6 +1046,42 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 /* botoncitos de audio dentro de la ficha de la letra */
 .detail dd .iconbtn{width:28px; height:28px; vertical-align:middle; margin-left:4px}
 
+
+/* ══ EJERCICIOS ══════════════════════════════════════════ */
+.ej-frase{font-size:clamp(28px, 6vw, 42px); line-height:1.5; text-align:center; margin:6px 0 4px}
+.hueco{
+  display:inline-block; width:2.2em; height:.12em; vertical-align:.18em; margin:0 .12em;
+  border-radius:9px; background:var(--brand); animation:late 1.6s ease-in-out infinite;
+}
+.ej-es{text-align:center; font-size:15.5px; color:var(--ink-2); font-style:italic; margin-bottom:6px}
+.son{text-align:center}
+.son-cab{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; text-align:left}
+.son-cab b{font-family:var(--disp); font-size:19px}
+.son-cartas{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px}
+.son-carta{
+  padding:14px 12px; border-radius:16px; border:1px solid var(--line); background:var(--card);
+  transition:border-color .15s, transform .15s, box-shadow .15s;
+}
+.son-carta:hover{border-color:var(--brand)}
+.son-carta.suena{
+  border-color:var(--brand); background:var(--accent-soft);
+  transform:translateY(-3px) scale(1.03); box-shadow:0 10px 24px color-mix(in srgb, var(--brand) 28%, transparent);
+}
+.son-th{font-size:clamp(30px, 6vw, 40px); line-height:1.3; cursor:pointer}
+.son-rom{font:600 14px var(--mono); color:var(--brand-ink)}
+.son-es{font-size:13.5px; color:var(--ink-3); margin-bottom:8px}
+.son-carta .rep-fila{margin-top:4px}
+.son-carta .repetir{flex-direction:column; gap:4px}
+
+.ej-dib{font-size:44px; line-height:1; text-align:center; margin-bottom:6px; animation:bota 2.8s ease-in-out infinite}
+.hueco-lleno{
+  display:inline-block; padding:0 .12em; border-radius:8px; color:var(--brand-ink);
+  background:var(--accent-soft); animation:entraHueco .45s cubic-bezier(.2,.9,.3,1.3) both;
+}
+@keyframes entraHueco{from{opacity:0; transform:translateY(-14px) scale(.7)} to{opacity:1; transform:none}}
+.son-dib{font-size:34px; line-height:1; margin-bottom:2px}
+.son-carta.suena .son-dib{animation:bota 1s ease-in-out infinite}
+.son-carta.suena .son-th{animation:late 1s ease-in-out infinite}
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
@@ -1139,6 +1175,7 @@ img{max-width:100%;height:auto}
         <li><b>Los 20 sonidos clave</b> — Con sus palabras de ejemplo. Aprende sonidos, no letras.</li>
         <li><b>La ortografía que engaña</b> — Por qué «through», «though» y «tough» no riman.</li>
         <li><b>Catorce puntos de gramática</b> — Los que en español funcionan al revés. Con un constructor para probarlos.</li>
+        <li><b>Completa frases muy sencillas</b> — Elige la pieza que falta, y oye cómo un solo sonido cambia la palabra.</li>
         <li><b>Cien palabras de uso diario</b> — Con tarjetas por niveles y su transcripción fonética.</li>
         <li><b>Cuarenta frases naturales</b> — Las que se dicen de verdad, no las del libro de texto.</li>
         <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
@@ -1176,7 +1213,7 @@ const LANG = {
   /* en la ficha de cada sonido, su palabra de ejemplo se puede oír */
   ejemploLetra: c => c[1] || null,
   secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","gramatica",
-              "vocabulario","frases","numeros","hablar","juegos","repaso"],
+              "ejercicios","vocabulario","frases","numeros","hablar","juegos","repaso"],
   etiquetas: {ritmo: "Errores típicos", alfabeto: "Los 20 sonidos", sonidos: "Trampas del oído"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
 
@@ -1737,6 +1774,7 @@ const PATH = [
 ["Los 20 sonidos clave","Con sus palabras de ejemplo. Aprende sonidos, no letras.","alfabeto"],
 ["La ortografía que engaña","Por qué «through», «though» y «tough» no riman.","alfabeto"],
 ["Catorce puntos de gramática","Los que en español funcionan al revés. Con un constructor para probarlos.","gramatica"],
+["Completa frases muy sencillas","Elige la pieza que falta, y oye cómo un solo sonido cambia la palabra.","ejercicios"],
 ["Cien palabras de uso diario","Con tarjetas por niveles y su transcripción fonética.","vocabulario"],
 ["Cuarenta frases naturales","Las que se dicen de verdad, no las del libro de texto.","frases"],
 ["Juega para consolidar","Emparejar y escribir de oído: lo que más cuesta y más fija.","juegos"],
@@ -2063,6 +2101,7 @@ const ICON = {
   book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
   grammar:'<path d="M4 6h16M4 11.5h11M4 17h14"/><circle cx="19" cy="11.5" r="1.6"/>',
   game:'<rect x="2" y="7" width="20" height="10" rx="4.5"/><path d="M7 10.2v3.6M5.2 12h3.6M15.4 11h.01M18 13.2h.01"/>',
+  hueco:'<path d="M3 12h3.5"/><path d="M17.5 12H21"/><rect x="8" y="7" width="8" height="10" rx="2" stroke-dasharray="3 2.5"/>',
   clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5.4l3.4 2"/>',
   down:'<path d="M12 3v12"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4 20h16"/>',
   play:'<path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"/>'
@@ -2112,7 +2151,7 @@ const NAV_GROUPS = [
                    ["lectura","Cómo se lee","ear"],
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
                    ["escritura","Escritura","pen"], ["gramatica","Gramática","grammar"]]],
-  ["Práctica", [["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
+  ["Práctica", [["ejercicios","Ejercicios","hueco"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
                 ["hablar","Hablar","mic"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
 ];
 const NAV_ALL = NAV_GROUPS.reduce((a, g) => a.concat(g[1]), []);
@@ -3067,6 +3106,7 @@ function quizEngine(root, total, make, onDone){
         if(opts[j].ok) x.classList.add("ok");
         else if(j === k) x.classList.add("no");
       });
+      if(q.alAcertar) q.alAcertar(root, ok);
       $("#qFb").innerHTML = `<span style="color:var(--${ok ? "ok" : "bad"});font-weight:600">${ok ? "Correcto" : "No era esa"}</span>
         ${q.after ? ` — <span style="color:var(--ink-2)">${q.after}</span>` : ""}
         ${(q.auto || q.oir) ? `<div class="rep-fila">
@@ -3258,7 +3298,21 @@ const DIBUJO_PALABRAS = {
   /* verbos y palabras de enlace */
   dormir:"😴", despertarse:"⏰", dar:"🎁", esperar:"⏳", buscar:"🔍",
   "allí":"👉", con:"🤝", y:"➕", pero:"↔️", o:"🔀", porque:"💬", si:"🤔",
-  despacio:"🐢", "rápido":"🐇"
+  despacio:"🐢", "rápido":"🐇",
+  /* las que aparecen en los ejercicios y en los grupos de sonido */
+  abuela:"👵", abuelo:"👴", amigos:"🧑‍🤝‍🧑", asiento:"💺", ayuda:"🆘", barco:"🚢",
+  baya:"🫐", besar:"😘", bota:"👢", caballo:"🐎", camisa:"👕", candado:"🔒",
+  carpa:"⛺", castillo:"🏰", cebolla:"🧅", cena:"🍽️", copia:"📄", coser:"🧵",
+  cuervo:"🐦", "español":"🇪🇸", estera:"🧺", estudio:"📚", excavar:"⛏️",
+  helado:"🍦", hierba:"🌿", hija:"👧", instituto:"🏫", luna:"🌙", mujer:"👩",
+  "máscara":"🎭", noticias:"📰", ojo:"👁️", oro:"🥇", osito:"🧸", oveja:"🐑",
+  papel:"📄", pareja:"💑", pizza:"🍕", preguntar:"❓", "ratón":"🐭",
+  "regañar":"😠", "río":"🏞️", sed:"🥤", sello:"✉️", sentarse:"🪑",
+  "señora":"👩", sopa:"🍲", "sueño":"😴", taza:"☕", tela:"🧵", tigre:"🐅",
+  tortuga:"🐢", trabajo:"💼", caminar:"🚶", billete:"🎫", ciudad:"🏙️",
+  cuenta:"🧾", "película":"🎬", pregunta:"❓", respuesta:"💬",
+  "televisión":"📺", libro:"📖", recuerdo:"🎁", regalo:"🎁", entrada:"🎫",
+  "periódico":"📰", tonto:"🤪", valor:"💰", nueve:"9️⃣", siete:"7️⃣", cuatro:"4️⃣"
 };
 const DIBUJO_CATEGORIA = {
   saludos:"👋", personas:"🧑", comida:"🍽️", viajar:"🧳", compras:"🛍️",
@@ -3592,11 +3646,11 @@ function lecPalabraHTML(){
 
 /* dice varias cosas seguidas iluminando la pieza que suena. No se fía
    solo de onend: algunos navegadores no lo lanzan, así que hay un tope. */
-function lecDiSeguido(items){
+function lecDiSeguido(items, sel){
   const token = ++lecCola;
   if(!window.speechSynthesis) return;
   speechSynthesis.cancel();
-  const piezas = () => document.querySelectorAll("#lecPiezas .pieza");
+  const piezas = () => document.querySelectorAll(sel || "#lecPiezas .pieza");
   let k = 0;
   const siguiente = () => {
     if(token !== lecCola) return;
@@ -3679,6 +3733,104 @@ VIEWS.lectura = {
   }
 };
 
+
+/* ── 9 · ejercicios ──────────────────────────────────────
+   Completar frases y oír cómo cambia una palabra. Las frases las arma el
+   constructor del propio curso, con sujeto, verbo y complemento suyos: así
+   siempre están bien y no se repiten. Se tapa el verbo (o el complemento si
+   el verbo no aparece tal cual en la frase montada). */
+let sonIdx = 0;
+function huecoQuiz(){
+  const modos = BMODES.slice(0, 2);          /* los dos primeros: afirmar y negar */
+  for(let intento = 0; intento < 12; intento++){
+    const s = pick(SUBJ), vb = pick(BVERBS), m = pick(modos).k;
+    const o = pick(vb.obj || []);
+    if(!o) continue;
+    let r; try{ r = BUILD.arma(s, vb, o, m); }catch(e){ continue; }
+    if(!r || !r.th) continue;
+    /* se tapa el verbo; si no aparece literal en la frase montada, el complemento */
+    /* solo vale tapar una palabra entera: «speak» dentro de «speaks» dejaría la s suelta */
+    const palabraEntera = (frase, p) => !/\s/.test(frase) ? frase.indexOf(p) >= 0
+      : frase.split(/\s+/).some(t => t.replace(/[.,!?¡¿'«»]/g, "") === p);
+    const tapaVerbo = palabraEntera(r.th, vb.th);
+    const pieza = tapaVerbo ? vb.th : o.th;
+    if(!palabraEntera(r.th, pieza)) continue;
+    const otras = tapaVerbo
+      ? BVERBS.filter(x => x.th !== vb.th).map(x => x.th)
+      : BVERBS.reduce((a, x) => a.concat(x.obj || []), []).filter(x => x.th !== o.th).map(x => x.th);
+    const malas = shuffle([...new Set(otras)]).slice(0, 3);
+    if(malas.length < 2) continue;
+    /* se tapa solo la primera aparición */
+    const corte = r.th.indexOf(pieza);
+    const hueco = r.th.slice(0, corte) + '<span class="hueco" id="elHueco"></span>' + r.th.slice(corte + pieza.length);
+    return {
+      prompt:`<div class="ej-dib" aria-hidden="true">${dibujo([o.th, o.rom, o.es, ""])}</div>
+        <div class="ej-frase th">${hueco}</div>
+        <div class="ej-es">“${r.es}”</div>`,
+      question: tapaVerbo ? "¿Qué verbo falta?" : "¿Qué palabra falta?",
+      options:[{label:`<span class="th">${pieza}</span>`, ok:true},
+               ...malas.map(x => ({label:`<span class="th">${x}</span>`, ok:false}))],
+      oir:r.th, decir:r.th,
+      /* el hueco se rellena solo con la respuesta, acertada o no: se ve dónde encajaba */
+      alAcertar(root){
+        const h = root.querySelector("#elHueco");
+        if(h) h.outerHTML = `<span class="hueco-lleno">${pieza}</span>`;
+      },
+      after:`<span class="th">${r.th}</span> · ${r.rom}${r.nota ? " — " + r.nota : ""}`
+    };
+  }
+  return null;
+}
+function sonidosHTML(){
+  const [titulo, nota, palabras] = PAIRS[sonIdx % PAIRS.length];
+  return `<div class="card son">
+    <div class="son-cab"><b>${titulo}</b><span class="lec-num">${(sonIdx % PAIRS.length) + 1} de ${PAIRS.length}</span></div>
+    <p class="muted" style="font-size:14px;margin:6px 0 14px">${nota}</p>
+    <div class="son-cartas">${palabras.map(([th, rom, es]) => `<div class="son-carta">
+      <div class="son-dib" aria-hidden="true">${dibujo([th, rom, es, ""])}</div>
+      <div class="th son-th" data-say="${esc(th)}" role="button" tabindex="0" title="Tocar para oírla">${th}</div>
+      <div class="son-rom">${rom}</div>
+      <div class="son-es">${es}</div>
+      <div class="rep-fila">${repetirHTML(th, "Dila tú")}</div></div>`).join("")}</div>
+    <div class="row" style="justify-content:center;margin-top:14px">
+      <button class="btn btn--p" id="sonTodas">${svg("play")} Escuchar seguidas</button>
+      <button class="btn" id="sonOtro">Otro grupo →</button>
+    </div></div>`;
+}
+function pintaSonidos(){
+  const c = document.getElementById("sonCaja");
+  if(!c) return;
+  c.innerHTML = sonidosHTML();
+  const palabras = PAIRS[sonIdx % PAIRS.length][2];
+  $("#sonTodas").addEventListener("click", () =>
+    lecDiSeguido(palabras.map((p, i) => ({texto:p[0], marcar:[i]})), "#sonCaja .son-carta"));
+  $("#sonOtro").addEventListener("click", () => { sonIdx++; pintaSonidos(); });
+}
+VIEWS.ejercicios = {
+  html(){
+    return `
+    <div class="vhead"><div class="eyebrow">Práctica</div>
+      <h1>Ejercicios</h1>
+      <p class="lede">Dos ejercicios para empezar de cero: completar frases muy cortas, y oír cómo una sola
+      letra cambia la palabra entera. Los dos se pueden hacer en dos minutos.</p></div>
+
+    <h2 class="sec">Completa la frase</h2>
+    <p class="sec-note">Frases de tres o cuatro palabras, de las más sencillas que hay. Te digo lo que significan
+    y tú eliges la pieza que falta. Al acertar puedes oírla entera y decirla tú.</p>
+    <div class="card" id="ejHueco"></div>
+
+    <h2 class="sec">Una palabra, varios sonidos</h2>
+    <p class="sec-note">Palabras que se diferencian en un solo sonido. Tócalas, escúchalas seguidas y dilas tú:
+    es la forma más rápida de aprender a oír la diferencia.</p>
+    <div id="sonCaja"></div>`;
+  },
+  init(){
+    quizEngine($("#ejHueco"), 8, huecoQuiz);
+    sonIdx = Math.floor(Math.random() * PAIRS.length);
+    pintaSonidos();
+    viewCleanup = () => { lecCola++; if(window.speechSynthesis) speechSynthesis.cancel(); };
+  }
+};
 function animaVista(){
   if(pocoMovimiento()) return;
   const piezas = document.querySelectorAll("#view .vhead, #view .mision, #view .goal, #view .ring, #view .step, #view .card, #view h2.sec");

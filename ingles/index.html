@@ -2592,7 +2592,7 @@ VIEWS.escritura = {
     </div>
 
     <h2 class="sec">Cuaderno de trazado</h2>
-    <p class="sec-note">Elige una letra, repásala encima del modelo con el ratón o el dedo, y luego intenta escribirla en el hueco de la derecha sin modelo.</p>
+    <p class="sec-note">Elige una letra, repásala encima del modelo con el ratón o el dedo, y luego intenta escribirla en el hueco de la derecha sin modelo. Con <b>▶ Ver cómo se forma</b> la letra se pinta sola siguiendo su forma, con un punto por delante: te enseña de dónde sale cada parte, no el orden exacto de los trazos a mano, que es lo que explican las reglas de aquí arriba.</p>
     <div class="row" style="margin-bottom:10px">
       <select id="tSel" style="max-width:320px">
         <optgroup label="${T("alfa_sec1","Letras")}">${CONS.map(c => `<option value="${c[0]}">${c[0]} — ${c[1]}</option>`).join("")}</optgroup>
@@ -2605,6 +2605,7 @@ VIEWS.escritura = {
       <button class="btn btn--s" id="tPrev">← Anterior</button>
       <button class="btn btn--s btn--p" id="tNext">Siguiente →</button>
       <button class="btn btn--s" id="tRand">Al azar</button>
+      <button class="btn btn--s" id="tAnim">▶ Ver cómo se forma</button>
       <span id="tSay"></span>
     </div>
     <div class="tracewrap"><canvas class="trace" id="tCanvas" width="1200" height="380"></canvas></div>
@@ -2630,6 +2631,107 @@ VIEWS.escritura = {
     const cv = $("#tCanvas"), ctx = cv.getContext("2d");
     let ghost = true;
     const CSSVAR = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    /* ── cómo se forma la letra ──────────────────────────
+       No es el orden exacto de los trazos a mano (eso lo explican las
+       reglas de arriba): la letra se va pintando siguiendo su propia
+       forma, desde donde empieza, para ver de dónde sale cada parte. */
+    const fuenteTrazo = () => '220px ' + (CSSVAR('--thai') || 'sans-serif');
+    let animComp = null, animPunto = null, animId = null;
+
+    function rejillaTinta(){
+      const W = cv.width, H = cv.height, paso = 5;
+      const g = document.createElement('canvas'); g.width = W; g.height = H;
+      const gx = g.getContext('2d');
+      gx.font = fuenteTrazo(); gx.textAlign = 'center'; gx.textBaseline = 'alphabetic';
+      gx.fillStyle = '#000'; gx.fillText(traceChar, W/4, 268);
+      const d = gx.getImageData(0, 0, W, H).data;
+      const cols = Math.ceil(W/paso), filas = Math.ceil(H/paso);
+      const tinta = new Uint8Array(cols*filas);
+      for(let y = 0; y < filas; y++) for(let x = 0; x < cols; x++)
+        if(d[((y*paso)*W + x*paso)*4 + 3] > 100) tinta[y*cols + x] = 1;
+      return {cols, filas, paso, tinta};
+    }
+    /* el bucle de la letra: un hueco cerrado, o sea, fondo que no llega al borde */
+    function celdaDelBucle(r){
+      const {cols, filas, tinta} = r;
+      const fuera = new Uint8Array(cols*filas), pila = [];
+      for(let x = 0; x < cols; x++){ pila.push([x,0], [x,filas-1]); }
+      for(let y = 0; y < filas; y++){ pila.push([0,y], [cols-1,y]); }
+      while(pila.length){
+        const [x,y] = pila.pop(); const i = y*cols + x;
+        if(x < 0 || y < 0 || x >= cols || y >= filas || fuera[i] || tinta[i]) continue;
+        fuera[i] = 1;
+        pila.push([x+1,y], [x-1,y], [x,y+1], [x,y-1]);
+      }
+      let mejor = null;
+      for(let y = 0; y < filas; y++) for(let x = 0; x < cols; x++){
+        const i = y*cols + x;
+        if(!tinta[i] && !fuera[i] && (!mejor || x < mejor[0])) mejor = [x,y];
+      }
+      if(!mejor) return null;
+      /* la celda con tinta más cercana al hueco */
+      let cerca = null, dist = 1e9;
+      for(let y = 0; y < filas; y++) for(let x = 0; x < cols; x++){
+        if(!tinta[y*cols + x]) continue;
+        const dd = (x-mejor[0])*(x-mejor[0]) + (y-mejor[1])*(y-mejor[1]);
+        if(dd < dist){ dist = dd; cerca = [x,y]; }
+      }
+      return cerca;
+    }
+    function ordenDeDibujo(r){
+      const {cols, filas, tinta} = r;
+      const visto = new Uint8Array(cols*filas), orden = [];
+      const arranque = (LANG.trazoBucle && celdaDelBucle(r)) || null;
+      const siguientesSinVer = () => {
+        for(let x = 0; x < cols; x++) for(let y = 0; y < filas; y++)
+          if(tinta[y*cols + x] && !visto[y*cols + x]) return [x,y];
+        return null;
+      };
+      let inicio = arranque && tinta[arranque[1]*cols + arranque[0]] ? arranque : siguientesSinVer();
+      while(inicio){
+        const cola = [inicio]; visto[inicio[1]*cols + inicio[0]] = 1;
+        while(cola.length){
+          const [x,y] = cola.shift(); orden.push([x,y]);
+          for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]){
+            const nx = x+dx, ny = y+dy, ni = ny*cols + nx;
+            if(nx < 0 || ny < 0 || nx >= cols || ny >= filas || visto[ni] || !tinta[ni]) continue;
+            visto[ni] = 1; cola.push([nx,ny]);
+          }
+        }
+        inicio = siguientesSinVer();
+      }
+      return orden;
+    }
+    function verComoSeForma(){
+      if(animId){ clearTimeout(animId); animId = null; }
+      const W = cv.width, H = cv.height;
+      const r = rejillaTinta(), orden = ordenDeDibujo(r);
+      if(!orden.length) return;
+      const glifo = document.createElement('canvas'); glifo.width = W; glifo.height = H;
+      const glx = glifo.getContext('2d');
+      glx.font = fuenteTrazo(); glx.textAlign = 'center'; glx.textBaseline = 'alphabetic';
+      glx.fillStyle = CSSVAR('--accent') || '#000'; glx.fillText(traceChar, W/4, 268);
+      const mask = document.createElement('canvas'); mask.width = W; mask.height = H;
+      const mx = mask.getContext('2d'); mx.fillStyle = '#000';
+      animComp = document.createElement('canvas'); animComp.width = W; animComp.height = H;
+      const cx = animComp.getContext('2d');
+      const total = orden.length, dura = 2400, porFrame = Math.max(1, Math.ceil(total/(dura/16)));
+      let k = 0;
+      const paso = () => {
+        for(let n = 0; n < porFrame && k < total; n++, k++){
+          const [x,y] = orden[k];
+          mx.beginPath(); mx.arc(x*r.paso, y*r.paso, r.paso*1.6, 0, 7); mx.fill();
+          animPunto = [x*r.paso, y*r.paso];
+        }
+        cx.clearRect(0,0,W,H); cx.globalCompositeOperation = 'source-over';
+        cx.drawImage(mask,0,0); cx.globalCompositeOperation = 'source-in';
+        cx.drawImage(glifo,0,0); cx.globalCompositeOperation = 'source-over';
+        redraw();
+        if(k < total) animId = setTimeout(paso, 16);
+        else { animId = null; animPunto = null; setTimeout(() => { animComp = null; redraw(); }, 900); }
+      };
+      paso();
+    }
     function redraw(){
       const W = cv.width, H = cv.height;
       ctx.clearRect(0,0,W,H);
@@ -2645,7 +2747,7 @@ VIEWS.escritura = {
         ctx.setLineDash([]); ctx.globalAlpha = 1;
         if(i === 0 && ghost){
           ctx.fillStyle = acc; ctx.globalAlpha = .18;
-          ctx.font = '220px "Noto Sans Thai Looped","Leelawadee UI",Tahoma,sans-serif';
+          ctx.font = fuenteTrazo();
           ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
           ctx.fillText(traceChar, W/4, 268);
           ctx.globalAlpha = 1;
@@ -2656,6 +2758,14 @@ VIEWS.escritura = {
       });
       ctx.strokeStyle = line; ctx.globalAlpha = .8;
       ctx.beginPath(); ctx.moveTo(W/2, 20); ctx.lineTo(W/2, H-20); ctx.stroke(); ctx.globalAlpha = 1;
+      if(animComp){
+        ctx.drawImage(animComp, 0, 0);
+        if(animPunto){
+          ctx.fillStyle = CSSVAR("--accent"); ctx.beginPath();
+          ctx.arc(animPunto[0], animPunto[1], 9, 0, 7); ctx.fill();
+          ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
+        }
+      }
       ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = ink; ctx.lineWidth = 5;
       strokes.forEach(st => { if(st.length < 2) return;
         ctx.beginPath(); ctx.moveTo(st[0][0], st[0][1]);
@@ -2667,7 +2777,9 @@ VIEWS.escritura = {
     cv.addEventListener("pointermove", e => { if(!curStroke) return; curStroke.push(pos(e)); redraw(); });
     cv.addEventListener("pointerup", () => { curStroke = null; });
     cv.addEventListener("pointerleave", () => { curStroke = null; });
-    const setChar = c => { traceChar = c; strokes = []; redraw();
+    const setChar = c => { traceChar = c; strokes = [];
+      if(animId){ clearTimeout(animId); animId = null; }
+      animComp = null; animPunto = null; redraw();
       $("#tSay").innerHTML = sayBtn(c, c); $("#tSel").value = c; };
     $("#tSel").addEventListener("change", e => setChar(e.target.value));
     $("#tClear").addEventListener("click", () => { strokes = []; redraw(); });
@@ -2683,6 +2795,7 @@ VIEWS.escritura = {
     $("#tPrev").addEventListener("click", () => paso(-1));
     $("#tNext").addEventListener("click", () => paso(1));
     $("#tRand").addEventListener("click", () => setChar(pick(CONS)[0]));
+    $("#tAnim").addEventListener("click", verComoSeForma);
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
     setChar(traceChar || letraPorAprender());
 

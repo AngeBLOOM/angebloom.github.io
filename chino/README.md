@@ -163,6 +163,15 @@ para que se oiga lo que antes solo se leía, y `nombreLetra` cuando la segunda c
 algo pronunciable (en ruso, japonés y chino es la romanización, y la voz la leía tal cual). Y el test «¿de qué tipo es?» lleva una chuleta de las
 clases que se abre si hace falta.
 
+### Ejercicios
+
+Sección `ejercicios`, en los siete cursos. **Completa la frase**: las frases no están escritas a mano,
+las arma el constructor del propio curso (`BUILD.arma` con `SUBJ`, `BVERBS` y sus complementos), así que
+siempre son correctas y no se acaban; se tapa el verbo, o el complemento si el verbo no aparece como
+palabra entera. Al contestar, el hueco se rellena con la respuesta y se puede oír la frase y decirla.
+**Una palabra, varios sonidos**: los grupos de `PAIRS`, con su dibujo, para oír cómo cambia la palabra
+cuando cambia un solo sonido.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

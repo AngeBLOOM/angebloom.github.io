@@ -3375,6 +3375,7 @@ VIEWS.numeros = {
           <div class="row" style="justify-content:center"><button class="btn btn--s" data-say="${txt}">${svg("play")} Escuchar</button></div>`,
         question:"¿Qué número es?",
         options:shuffle([{label:String(n), ok:true}, ...malos.map(w => ({label:String(w), ok:false}))]),
+        oir:txt, decir:txt, decirAlt:[String(n), enCifras(n)],
         after:`${txt} · ${rom} = ${n}`
       };
     });
@@ -3426,7 +3427,7 @@ function quizEngine(root, total, make, onDone){
         ${q.after ? ` — <span style="color:var(--ink-2)">${q.after}</span>` : ""}
         ${(q.auto || q.oir) ? `<div class="rep-fila">
           ${q.oir && !q.auto ? `<button class="btn btn--s" data-say="${esc(q.oir)}">${svg("play")} Escúchalo</button>` : ""}
-          ${repetirHTML(q.decir || q.auto, "Ahora dilo tú")}</div>` : ""}
+          ${repetirHTML(q.decir || q.auto, "Ahora dilo tú", q.decirAlt)}</div>` : ""}
         <div style="margin-top:10px"><button class="btn btn--p btn--s" id="qNext">Siguiente →</button></div>`;
       $("#qNext").addEventListener("click", () => { i++; next(); });
     }));
@@ -3499,7 +3500,7 @@ function makeMixed(){
   return {question:`¿Qué número es <span class="th" style="font-size:24px">${th}</span>?`,
     options:shuffle([{label:String(n), ok:true},
       ...shuffle([n+1, n+10, n*2, n-1].filter(x => x > 0 && x !== n)).slice(0,3).map(x => ({label:String(x), ok:false}))]),
-    oir:th, decir:th,
+    oir:th, decir:th, decirAlt:[String(n), enCifras(n)],
     after:`${th} · ${rom}`};
 }
 VIEWS.repaso = {
@@ -3812,15 +3813,19 @@ document.addEventListener("click", e => {
    cada frase y en las tarjetas. La corrección es la misma de la
    sección Hablar: primero los sonidos, luego la marca. */
 const repAcertados = new Set();
-function repetirHTML(objetivo, etiqueta){
+/* `otras` son otras formas válidas de decir lo mismo: por ejemplo, el
+   reconocedor devuelve los números en cifra, no la palabra escrita. */
+function repetirHTML(objetivo, etiqueta, otras){
   if(!SR || !objetivo) return "";
+  const alt = (otras || []).filter(x => x && x !== objetivo).join("|");
   return `<span class="repetir">
-    <button class="btn btn--s rep-btn" data-rep="${esc(objetivo)}" title="Dilo tú y te corrijo">
+    <button class="btn btn--s rep-btn" data-rep="${esc(objetivo)}"${alt ? ` data-rep-alt="${esc(alt)}"` : ""} title="Dilo tú y te corrijo">
       ${svg("mic")} ${etiqueta || "Repítelo tú"}</button>
     <span class="rep-out" aria-live="polite"></span></span>`;
 }
 function escuchaRepeticion(btn){
   const objetivo = btn.dataset.rep;
+  const validos = [objetivo].concat((btn.dataset.repAlt || "").split("|").filter(Boolean));
   const caja = btn.parentElement.querySelector(".rep-out");
   const pinta = h => { if(caja) caja.innerHTML = h; };
   const r = new SR();
@@ -3831,8 +3836,8 @@ function escuchaRepeticion(btn){
     const alts = [...ev.results[0]].map(a => a.transcript);
     const orden = {ok:0, marca:1, casi:2, no:3};
     let mejor = null, dicho = alts[0];
-    for(const a of alts){
-      const c = comparaHabla(a, objetivo);
+    for(const a of alts) for(const obj of validos){
+      const c = comparaHabla(a, obj);
       if(!mejor || orden[c.estado] < orden[mejor.estado]){ mejor = c; dicho = a; }
     }
     const oido = `«<span class="th">${esc(dicho)}</span>»`;

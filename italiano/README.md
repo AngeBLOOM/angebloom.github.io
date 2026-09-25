@@ -172,6 +172,17 @@ palabra entera. Al contestar, el hueco se rellena con la respuesta y se puede o�
 **Una palabra, varios sonidos**: los grupos de `PAIRS`, con su dibujo, para oír cómo cambia la palabra
 cuando cambia un solo sonido.
 
+### Dilo y escríbelo
+
+Primer ejercicio de la sección `ejercicios`: se da el significado en español y hay que producirlo, en voz
+alta o escrito con el teclado del idioma. La corrección es deliberadamente generosa, porque dar por
+malo algo bien dicho desanima más que cualquier otra cosa: se ignoran espacios, puntuación y
+mayúsculas; se aceptan las **formas válidas** que devuelve `formasValidas()` (por ejemplo la frase sin
+la partícula de cortesía, avisando de que falta); donde la marca no forma parte de la escritura real
+(`LANG.marcaOpcional`) se ignora; y cuando solo fallan las marcas se dice eso —«las letras, bien; las
+marcas, no»— en vez de un «no» seco. Al dictar números, el reconocedor devuelve cifras, así que
+`repetirHTML` acepta otras formas del mismo contenido.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

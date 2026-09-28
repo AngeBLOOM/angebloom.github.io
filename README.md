@@ -191,6 +191,20 @@ con un hash de la fecha, así que es la misma todo el día y cambia al siguiente
 botón de decirla) y **¿cuál es?**, un juego de tres segundos: una palabra y tres dibujos. Las tres
 salen de `VOCAB` y de `dibujo()`, así que funcionan en los siete cursos sin escribir contenido nuevo.
 
+### El cuaderno de ejercicios (lo que se vende)
+
+`node gen-cuadernillo.js [idiomas…]` saca un HTML imprimible por idioma en
+`C:\Users\angel\OneDrive\Documentos\CLAUDE\cuadernillos`. **No va al repositorio**: es el producto.
+Para el PDF: abrirlo en Chrome, Ctrl+P, «Guardar como PDF», con «Gráficos de fondo» activado.
+
+Todo el contenido sale de los paquetes, igual que la web, así que no hay texto escrito a mano que pueda
+colarse en otro idioma. Si existe `cuadernillos/imagenes/<idioma>-portada.jpg` (o .png/.webp), se usa
+en la portada; si no, va el glifo del curso.
+
+La tarjeta de compra de la web se configura en el bloque `COMPRA` de `part3.js`: para cambiar el precio
+hay que tocar `precio` **y** el número del enlace de PayPal. `activo:false` la esconde en los siete
+cursos. La entrega es a mano: PayPal avisa del pago con el correo de quien compra.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

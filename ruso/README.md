@@ -172,7 +172,7 @@ palabra entera. Al contestar, el hueco se rellena con la respuesta y se puede o�
 **Una palabra, varios sonidos**: los grupos de `PAIRS`, con su dibujo, para oír cómo cambia la palabra
 cuando cambia un solo sonido.
 
-### Dilo y escríbelo
+### Ejercicios: uno cada vez, y de boca
 
 Primer ejercicio de la sección `ejercicios`: se da el significado en español y hay que producirlo, en voz
 alta o escrito con el teclado del idioma. La corrección es deliberadamente generosa, porque dar por

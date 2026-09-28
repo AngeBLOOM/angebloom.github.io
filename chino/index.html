@@ -1142,6 +1142,28 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .cual-op.ok{border-color:var(--ok); background:color-mix(in srgb, var(--ok) 14%, var(--card)); animation:acierto .45s}
 .cual-op.no{border-color:var(--bad); animation:shake .32s}
 .cual-fb{min-height:26px; margin-top:12px; font-size:14px; color:var(--ink-2)}
+/* ejercicios: una pestaña por ejercicio */
+.ejtabs{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:10px; margin-bottom:18px}
+.ejtab{
+  appearance:none; cursor:pointer; font:inherit; text-align:left; display:flex; align-items:center; gap:11px;
+  padding:14px 16px; border-radius:16px; border:2px solid transparent; color:var(--ink);
+  background:color-mix(in srgb, var(--tono) 12%, var(--card));
+  border-color:color-mix(in srgb, var(--tono) 30%, transparent); transition:transform .15s, box-shadow .15s;
+}
+.ejtab--a{--tono:var(--brand)}
+.ejtab--b{--tono:#3B82F6}
+.ejtab--c{--tono:#16A06A}
+.ejtab:hover{transform:translateY(-2px)}
+.ejtab[aria-pressed="true"]{
+  background:var(--tono); border-color:var(--tono); color:#fff;
+  box-shadow:0 10px 24px color-mix(in srgb, var(--tono) 35%, transparent);
+}
+.ejtab-e{font-size:26px; line-height:1}
+.ejtab[aria-pressed="true"] .ejtab-e{animation:bota 2.4s ease-in-out infinite}
+.ejtab-t{font:700 14.5px var(--ui); line-height:1.25}
+.ej-nota{margin-bottom:14px}
+.tj-pista{min-height:22px; margin-top:6px}
+.tj-pista .rom{font-size:17px}
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
@@ -4008,18 +4030,17 @@ function pintaSonidos(){
   $("#sonOtro").addEventListener("click", () => { sonIdx++; pintaSonidos(); });
 }
 
-/* ── 10 · tarjetas de decir y escribir ───────────────────
-   Te damos el significado en español y tú produces: lo dices en voz alta o
-   lo escribes con el teclado del idioma. Primero palabras sueltas, luego
-   frases enteras.
+/* ── 10 · ejercicios, uno cada vez ───────────────────────
+   Tres ejercicios, todos de boca: decir lo que se te pide, completar una
+   frase y distinguir sonidos parecidos. Se muestra uno solo, elegido con
+   las pestañas de arriba: así no hay que bajar media pantalla para llegar
+   al siguiente.
 
-   Lo importante aquí es NO dar por malo algo que está bien. Por eso se
-   comparan varias formas válidas de lo mismo (con y sin la partícula de
-   cortesía), se ignoran espacios y puntuación, y cuando solo fallan las
-   marcas se dice exactamente eso en vez de un «no» seco. */
-let tjLista = null, tjIdx = 0, tjModo = "decir", tjEscrito = "", tjHechas = 0;
+   Lo importante de la corrección sigue siendo no dar por malo lo que está
+   bien: `formasValidas` da las otras maneras correctas de decir lo mismo
+   (por ejemplo, la frase sin la partícula de cortesía). */
+let tjLista = null, tjIdx = 0, tjPista = false, tjHechas = 0;
 
-/* otras maneras correctas de escribir o decir lo mismo */
 function formasValidas(th){
   const f = [th];
   if(LANG.particulas && typeof PARTICULAS !== "undefined"){
@@ -4030,24 +4051,6 @@ function formasValidas(th){
   }
   return [...new Set(f.filter(Boolean))];
 }
-const limpiaTexto = t => (t || "").toLowerCase().replace(/[\s.,!?¡¿'"«»。、·]/gu, "");
-
-function compruebaEscrito(dicho, objetivo){
-  const d = limpiaTexto(dicho);
-  if(!d) return {estado:"vacio"};
-  const formas = formasValidas(objetivo);
-  for(const f of formas){
-    if(d === limpiaTexto(f)) return {estado:"ok", corto: f !== objetivo};
-  }
-  /* mismas letras, distinta marca: eso no es un fallo cualquiera, se dice cuál */
-  for(const f of formas){
-    if(stripThai(d) === stripThai(limpiaTexto(f))) return MARCA ? {estado:"ok"} : {estado:"marca"};
-  }
-  const o = limpiaTexto(objetivo);
-  if(o.indexOf(d) === 0 && d.length >= Math.max(2, Math.ceil(o.length * 0.5))) return {estado:"casi"};
-  return {estado:"no"};
-}
-
 function tjNuevas(){
   const palabras = shuffle(VOCAB.filter(v => v[0].length <= 12))
     .slice(0, 8).map(v => ({th:v[0], rom:v[1], es:v[2], tipo:"palabra", dib:dibujo(v)}));
@@ -4055,132 +4058,107 @@ function tjNuevas(){
     .map(p => ({th:renderPhrase(p[0]), rom:renderRom(p[1]), es:p[2], tipo:"frase",
                 dib:dibujo([p[0], p[1], p[2], ""])}));
   tjLista = palabras.concat(frases);      /* de lo corto a lo largo */
-  tjIdx = 0; tjHechas = 0; tjEscrito = "";
+  tjIdx = 0; tjHechas = 0; tjPista = false;
 }
 function tjHTML(){
   const it = tjLista[tjIdx], n = tjLista.length;
   return `<div class="tj card">
     <div class="tj-cab">
-      <span class="lec-num">Tarjeta ${tjIdx + 1} de ${n}</span>
+      <span class="lec-num">${tjIdx + 1} de ${n}</span>
       <span class="chip chip--media">${it.tipo}</span>
       <span class="lec-num" style="margin-left:auto">${tjHechas} ✓</span>
     </div>
     <div class="tj-dib" aria-hidden="true">${it.dib}</div>
+    <div class="mi-eyebrow" style="color:var(--ink-3)">¿Cómo se dice en ${idioma()}?</div>
     <div class="tj-es">${it.es}</div>
-    <div class="tj-modos" role="group" aria-label="Cómo quieres responder">
-      <button data-tjm="decir" aria-pressed="${tjModo === "decir"}">${svg("mic")} ¿Cómo se dice?</button>
-      <button data-tjm="escribir" aria-pressed="${tjModo === "escribir"}">✍️ ¿Cómo se escribe?</button>
-    </div>
-    <div id="tjZona">${tjModo === "decir" ? tjZonaDecir(it) : tjZonaEscribir(it)}</div>
-    <div class="tj-resp" id="tjResp" aria-live="polite"></div>
+    ${SR ? `<div class="tj-decir">${repetirHTML(it.th, "Dilo ahora", formasValidas(it.th).slice(1))}</div>`
+         : `<p class="muted">Tu navegador no puede escuchar. Dilo en voz alta igualmente y compáralo con la respuesta.</p>`}
+    <div class="tj-pista">${tjPista ? `<span class="rom">${it.rom}</span>` : ""}</div>
     <div class="lec-nav">
-      <button class="btn btn--s" id="tjVer">Ver la respuesta</button>
+      <button class="btn btn--s" id="tjPista">${tjPista ? "Ver la respuesta" : "Dame una pista"}</button>
       <button class="btn btn--p btn--s" id="tjSig">${tjIdx < n - 1 ? "Siguiente →" : "Otra tanda →"}</button>
     </div>
-  </div>`;
-}
-function tjZonaDecir(it){
-  if(!SR) return `<p class="muted" style="text-align:center">Tu navegador no puede escuchar.
-    Dila en voz alta igualmente y compárala con «Ver la respuesta».</p>`;
-  return `<div class="tj-decir">${repetirHTML(it.th, "Dilo ahora", formasValidas(it.th).slice(1))}</div>`;
-}
-function tjZonaEscribir(it){
-  return `<div class="tj-escribir">
-    <input id="tjIn" class="th" value="${esc(tjEscrito)}" autocomplete="off" autocapitalize="off"
-      spellcheck="false" placeholder="Escríbelo aquí…">
-    <div class="row" style="justify-content:center;margin:10px 0">
-      <button class="btn btn--s" id="tjDel">Borrar último</button>
-      <button class="btn btn--s" id="tjClr">Vaciar</button>
-      <button class="btn btn--p" id="tjOk">Comprobar</button>
-    </div>
-    <div class="kb">${tecladoHTML("tk")}</div>
+    <div class="tj-resp" id="tjResp" aria-live="polite"></div>
   </div>`;
 }
 function tjPinta(){
   const c = document.getElementById("tjCaja");
   if(!c) return;
   c.innerHTML = tjHTML();
-  tjEnlaza();
-}
-function tjResultado(html){ const r = $("#tjResp"); if(r) r.innerHTML = html; }
-
-function tjEnlaza(){
   const it = tjLista[tjIdx];
-  document.querySelectorAll("[data-tjm]").forEach(b => b.addEventListener("click", () => {
-    tjModo = b.dataset.tjm; tjEscrito = ""; tjPinta();
-  }));
-  $("#tjVer").addEventListener("click", () => {
-    tjResultado(`<div class="tj-sol"><span class="th">${it.th}</span>
-      <span class="rom">${it.rom}</span> ${sayBtn(it.th, it.rom)}</div>`);
+  $("#tjPista").addEventListener("click", () => {
+    if(!tjPista){ tjPista = true; tjPinta(); return; }      /* primero la romanización */
+    $("#tjResp").innerHTML = `<div class="tj-sol"><span class="th">${it.th}</span>
+      <span class="rom">${it.rom}</span> ${sayBtn(it.th, it.rom)}</div>`;
   });
   $("#tjSig").addEventListener("click", () => {
-    if(tjIdx < tjLista.length - 1){ tjIdx++; tjEscrito = ""; tjPinta(); }
-    else { tjNuevas(); tjPinta(); aviso("🃏", "Tanda nueva", "Catorce tarjetas más"); }
+    tjPista = false;
+    if(tjIdx < tjLista.length - 1){ tjIdx++; tjPinta(); }
+    else { tjNuevas(); tjPinta(); aviso("🎤", "Tanda nueva", "Catorce más para decir"); }
   });
-  if(tjModo !== "escribir") return;
-
-  const inp = $("#tjIn");
-  const pon = t => { tjEscrito = t; inp.value = t; inp.focus(); };
-  inp.addEventListener("input", () => { tjEscrito = inp.value; });
-  document.querySelectorAll("#tjZona [data-tk]").forEach(b =>
-    b.addEventListener("click", () => pon(tjEscrito + b.dataset.tk)));
-  $("#tjDel").addEventListener("click", () => pon(tjEscrito.slice(0, -1)));
-  $("#tjClr").addEventListener("click", () => pon(""));
-  $("#tjOk").addEventListener("click", () => {
-    const r = compruebaEscrito(tjEscrito, it.th);
-    const solucion = `<div class="tj-sol"><span class="th">${it.th}</span>
-      <span class="rom">${it.rom}</span> ${sayBtn(it.th, it.rom)}</div>`;
-    if(r.estado === "vacio"){ tjResultado(`<span class="muted">Escribe algo primero, con el teclado de abajo o con el tuyo.</span>`); return; }
-    if(r.estado === "ok"){
-      tjHechas++; ganaXP(8); touchStreak();
-      tjResultado(`<b style="color:var(--ok)">¡Bien escrito!</b>
-        ${r.corto ? "Te falta solo la partícula de cortesía, pero la palabra está bien." : ""}${solucion}`);
-      const cab = document.querySelector(".tj-cab .lec-num:last-child");
-      if(cab) cab.textContent = tjHechas + " ✓";
-    } else if(r.estado === "marca"){
-      tjResultado(`<b style="color:var(--brand-ink)">Las letras, bien. Las marcas, no.</b>
-        ${T("hablar_marca", "Fíjate en las marcas de encima.")}${solucion}`);
-    } else if(r.estado === "casi"){
-      tjResultado(`<b style="color:var(--gold, var(--brand-ink))">Vas bien, pero falta el final.</b>
-        Sigue escribiendo.`);
-    } else {
-      tjResultado(`<b style="color:var(--bad)">Todavía no.</b> Mira la respuesta y vuelve a intentarlo.${solucion}`);
-    }
+  /* cuando el repetidor da por buena la palabra, se apunta */
+  const btn = c.querySelector("[data-rep]");
+  if(btn) btn.addEventListener("click", () => {
+    setTimeout(() => {
+      const t = c.querySelector(".rep-out");
+      if(t && /Bien dicho/.test(t.textContent)){
+        tjHechas++;
+        const marca = c.querySelector(".tj-cab .lec-num:last-child");
+        if(marca) marca.textContent = tjHechas + " ✓";
+      }
+    }, 700);
   });
 }
 
+/* ── las tres pestañas ── */
+const EJERCICIOS = [
+  {k:"decir", emoji:"🎤", titulo:"¿Cómo se dice?", tono:"a",
+   nota:"Te damos el significado en español y tú lo dices en voz alta. Te corrijo al momento. Primero palabras sueltas y luego frases enteras; si lo dices bien cuenta, aunque te dejes la partícula de cortesía.",
+   caja:'<div id="tjCaja"></div>'},
+  {k:"completar", emoji:"🧩", titulo:"Completa la frase", tono:"b",
+   nota:"Frases de tres o cuatro palabras, de las más sencillas que hay. Te digo lo que significan y tú eliges la pieza que falta. Al acertar puedes oírla entera y decirla tú.",
+   caja:'<div class="card" id="ejHueco"></div>'},
+  {k:"sonidos", emoji:"👂", titulo:"Una palabra, varios sonidos", tono:"c",
+   nota:"Palabras que se diferencian en un solo sonido. Tócalas, escúchalas seguidas y dilas tú: es la forma más rápida de aprender a oír la diferencia.",
+   caja:'<div id="sonCaja"></div>'}
+];
+let ejActivo = "decir";
+function pintaEjercicio(){
+  const e = EJERCICIOS.find(x => x.k === ejActivo) || EJERCICIOS[0];
+  const z = document.getElementById("ejZona");
+  if(!z) return;
+  z.innerHTML = `<p class="sec-note ej-nota">${e.nota}</p>${e.caja}`;
+  document.querySelectorAll("[data-ej]").forEach(b =>
+    b.setAttribute("aria-pressed", b.dataset.ej === ejActivo));
+  if(e.k === "decir"){ tjNuevas(); tjPinta(); }
+  if(e.k === "completar") quizEngine($("#ejHueco"), 8, huecoQuiz);
+  if(e.k === "sonidos"){ sonIdx = Math.floor(Math.random() * PAIRS.length); pintaSonidos(); }
+  animaVista();
+}
 VIEWS.ejercicios = {
   html(){
     return `
     <div class="vhead"><div class="eyebrow">Práctica</div>
       <h1>Ejercicios</h1>
-      <p class="lede">Tres ejercicios para empezar de cero: decir y escribir lo que te pedimos, completar
-      frases muy cortas, y oír cómo una sola letra cambia la palabra entera. Cada uno se hace en dos minutos.</p></div>
+      <p class="lede">Tres ejercicios de boca, para soltarse. Elige uno: se hace en dos minutos y puedes
+      cambiar cuando quieras.</p></div>
 
-    <h2 class="sec">Dilo y escríbelo</h2>
-    <p class="sec-note">Te damos el significado en español y tú lo produces: lo dices en voz alta o lo escribes
-    con el teclado. Primero palabras sueltas, luego frases enteras. Si algo está bien dicho o bien escrito,
-    cuenta como bueno aunque te dejes un espacio, un punto o la partícula de cortesía.</p>
-    <div id="tjCaja"></div>
-
-    <h2 class="sec">Completa la frase</h2>
-    <p class="sec-note">Frases de tres o cuatro palabras, de las más sencillas que hay. Te digo lo que significan
-    y tú eliges la pieza que falta. Al acertar puedes oírla entera y decirla tú.</p>
-    <div class="card" id="ejHueco"></div>
-
-    <h2 class="sec">Una palabra, varios sonidos</h2>
-    <p class="sec-note">Palabras que se diferencian en un solo sonido. Tócalas, escúchalas seguidas y dilas tú:
-    es la forma más rápida de aprender a oír la diferencia.</p>
-    <div id="sonCaja"></div>`;
+    <div class="ejtabs" role="group" aria-label="Elige ejercicio">
+      ${EJERCICIOS.map(e => `<button class="ejtab ejtab--${e.tono}" data-ej="${e.k}" aria-pressed="${e.k === ejActivo}">
+        <span class="ejtab-e" aria-hidden="true">${e.emoji}</span>
+        <span class="ejtab-t">${e.titulo}</span></button>`).join("")}
+    </div>
+    <div id="ejZona"></div>`;
   },
   init(){
-    tjNuevas(); tjPinta();
-    quizEngine($("#ejHueco"), 8, huecoQuiz);
-    sonIdx = Math.floor(Math.random() * PAIRS.length);
-    pintaSonidos();
+    document.querySelectorAll("[data-ej]").forEach(b => b.addEventListener("click", () => {
+      ejActivo = b.dataset.ej; pintaEjercicio();
+    }));
+    pintaEjercicio();
     viewCleanup = () => { lecCola++; if(window.speechSynthesis) speechSynthesis.cancel(); };
   }
 };
+
 
 /* ── 11 · la portada: semana, palabra del día y «¿cuál es?» ──
    Tres cosas cortas y con dibujo nada más abrir: qué días has estudiado,

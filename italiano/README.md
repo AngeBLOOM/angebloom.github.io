@@ -183,6 +183,14 @@ la partícula de cortesía, avisando de que falta); donde la marca no forma part
 marcas, no»— en vez de un «no» seco. Al dictar números, el reconocedor devuelve cifras, así que
 `repetirHTML` acepta otras formas del mismo contenido.
 
+### La portada
+
+Además de la misión y el objetivo del día: **tu semana** (siete círculos, uno por día, marcados con los
+días estudiados que apunta `marcaDiaEstudiado()` desde `touchStreak`), **la palabra del día** (elegida
+con un hash de la fecha, así que es la misma todo el día y cambia al siguiente, con su dibujo y su
+botón de decirla) y **¿cuál es?**, un juego de tres segundos: una palabra y tres dibujos. Las tres
+salen de `VOCAB` y de `dibujo()`, así que funcionan en los siete cursos sin escribir contenido nuevo.
+
 ### Desplegar
 
 **Usa `node desplegar.js "mensaje del commit"`**, no copies a mano. Este repositorio no aloja solo los

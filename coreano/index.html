@@ -1180,42 +1180,202 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .compra-btn{background:#FFD66B; border-color:#FFD66B; color:#241F14; text-decoration:none}
 .compra-btn:hover{filter:brightness(1.06)}
 .compra-nota{margin:10px 0 0; font-size:12.5px; opacity:.75; line-height:1.5}
+/* ── el menú ────────────────────────────────────────────────
+   En pantalla ancha, la barra de la izquierda de siempre, con los
+   grupos plegables. En estrecha, un cajón que se abre: antes era una
+   fila que se iba a lo ancho sin fin. */
+#topbar{display:none}
+#velo{display:none}
+.tb-cerrar{display:none}
+
+/* grupos plegables de la barra lateral */
+.ngrupo{border-radius:12px}
+.ngtit{
+  display:flex; align-items:center; gap:7px; width:100%; margin-top:6px;
+  padding:8px 9px; border:0; border-radius:10px; cursor:pointer; background:transparent;
+  font:700 10px var(--ui); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+  transition:background .13s, color .13s;
+}
+.ngtit:hover{background:var(--surface-2); color:var(--ink-2)}
+.ngrupo.abierto .ngtit{color:var(--ink-2)}
+.ngtit svg{
+  width:14px; height:14px; flex:none; stroke:currentColor; fill:none; stroke-width:2.4;
+  stroke-linecap:round; stroke-linejoin:round; transition:transform .18s;
+}
+.ngrupo.abierto .ngtit svg{transform:rotate(90deg)}
+.ngtit em{
+  margin-left:auto; font-style:normal; font-size:9.5px; letter-spacing:.06em;
+  padding:2px 7px; border-radius:20px; background:var(--surface-2); color:var(--ink-3);
+}
+.ngrupo.aqui .ngtit em{background:var(--accent-soft); color:var(--accent-ink)}
+.nglista{display:none; flex-direction:column; gap:2px; padding-bottom:4px}
+.ngrupo.abierto .nglista{display:flex}
+
+/* ── el interior de cada pantalla, en bloques ───────────────
+   Cada título de sección abre y cierra lo que lleva debajo, y el
+   índice de arriba salta al que quieras. */
+.indice{
+  position:sticky; top:0; z-index:15;
+  display:flex; flex-wrap:nowrap; gap:9px; align-items:center;
+  padding:12px 0 11px; margin:0 0 4px;
+  background:var(--ground); border-bottom:1px solid var(--line);
+}
+.ichips{display:flex; flex-wrap:wrap; gap:7px; align-items:center; min-width:0}
+.indice > b{
+  font:700 9.5px var(--ui); letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); margin-right:2px; white-space:nowrap; flex:none; align-self:flex-start; padding-top:7px;
+}
+.ichip{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+  border-radius:20px; padding:5px 11px; cursor:pointer;
+  font:600 12.5px var(--ui); transition:border-color .13s, color .13s, background .13s;
+}
+.ichip:hover{border-color:var(--accent); color:var(--accent-ink)}
+.ichip[aria-current="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+.itodo{
+  margin-left:auto; border:0; background:transparent; cursor:pointer;
+  font:600 12px var(--ui); color:var(--ink-3); text-decoration:underline;
+  text-decoration-color:var(--line); text-underline-offset:3px; padding:5px 2px;
+  white-space:nowrap; flex:none; align-self:flex-start;
+}
+.itodo:hover{color:var(--accent-ink)}
+
+.bloque{scroll-margin-top:72px}
+.bl-cab{
+  display:flex; align-items:center; gap:12px; width:100%;
+  margin-top:26px; padding:10px 10px 12px 0; border:0; border-bottom:1px solid var(--line);
+  background:transparent; color:inherit; font:inherit; text-align:left; cursor:pointer;
+  border-radius:10px 10px 0 0; transition:background .13s;
+}
+.bl-cab:hover{background:var(--surface-2)}
+.bloque--primero .bl-cab{margin-top:14px}   /* el índice ya queda justo encima */
+.bl-cab h2.sec{margin:0; padding-top:13px; flex:1 1 auto; min-width:0}
+.bl-num{
+  width:25px; height:25px; flex:none; border-radius:8px; display:grid; place-items:center;
+  font:800 11.5px var(--mono); background:var(--surface-2); color:var(--ink-3); margin-left:10px;
+}
+.bloque.abierto .bl-num{background:var(--accent-soft); color:var(--accent-ink)}
+.bl-ver{
+  font:700 10px var(--ui); letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); flex:none; margin-right:2px;
+}
+.bloque.abierto .bl-ver{display:none}
+.bl-cab:hover .bl-ver{color:var(--accent-ink)}
+.bl-chev{
+  width:19px; height:19px; flex:none; margin-right:4px;
+  stroke:var(--ink-3); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+  transform:rotate(90deg); transition:transform .2s;
+}
+.bloque.abierto .bl-chev{transform:rotate(-90deg)}
+.bl-cuerpo{display:none}
+.bloque.abierto .bl-cuerpo{display:block; animation:despliega .24s cubic-bezier(.2,.8,.3,1) both}
+@keyframes despliega{from{opacity:0; transform:translateY(-5px)} to{opacity:1; transform:none}}
+
+/* volver arriba */
+.arriba{
+  position:fixed; right:18px; bottom:18px; z-index:35;
+  width:44px; height:44px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+  box-shadow:0 8px 22px rgba(0,0,0,.15);
+  opacity:0; visibility:hidden; transform:translateY(10px);
+  transition:opacity .2s, visibility .2s, transform .2s;
+}
+.arriba.ver{opacity:1; visibility:visible; transform:none}
+.arriba:hover{border-color:var(--accent); color:var(--accent-ink)}
+.arriba svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round}
+
 /* ── responsive ─────────────────────────────────────────── */
 @media (max-width:860px){
   #shell{grid-template-columns:1fr}
-  #rail{
-    position:sticky; top:0; z-index:20; height:auto; flex-direction:row; align-items:center;
-    gap:10px; padding:10px 12px; border-right:0; border-bottom:1px solid var(--line);
-    overflow-x:auto; overflow-y:hidden;
+
+  /* la barra fija de arriba: el botón del menú, dónde estás y el nivel */
+  #topbar{
+    display:flex; align-items:center; gap:12px;
+    position:sticky; top:0; z-index:45; min-height:55px; padding:8px 13px;
+    background:color-mix(in srgb, var(--surface) 90%, var(--ground));
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(9px); backdrop-filter:blur(9px);
   }
-  .brand{padding:0 6px 0 0; flex:none}
-  .brand .txt{display:none}
-  .navlab{display:none}
-  .nav{flex-direction:row; gap:4px}
-  .nav button{white-space:nowrap; padding:7px 11px; font-size:13.5px}
-  .nav .n-badge{display:none}
-  .rail-foot{margin-top:0; padding-top:0; border-top:0; flex-direction:row; align-items:center; flex:none; gap:6px}
-  .acciones{flex-direction:row; margin:0; padding:0; flex:none; gap:6px}
-  .acc{padding:7px 10px}
-  .acc em{display:none}
-  .acc b{white-space:nowrap; font-size:12.5px}
-  .acc .lg{display:none}
-  .acc .sm{display:inline}
-  .nivel{margin:0; padding:0; flex:none}
-  .nv{padding:0; background:none; border:0}
-  .nv-txt{display:none}
+  .tb-btn{
+    display:flex; align-items:center; gap:7px; flex:none; cursor:pointer;
+    padding:8px 12px 8px 10px; border-radius:11px;
+    border:1px solid var(--line); background:var(--surface);
+    font:700 12.5px var(--ui); color:var(--ink-2);
+  }
+  .tb-btn:active{background:var(--surface-2)}
+  .tb-btn svg{width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:2;
+    stroke-linecap:round; stroke-linejoin:round}
+  .tb-tit{display:flex; flex-direction:column; min-width:0; line-height:1.2}
+  .tb-tit b{font:600 15.5px var(--disp); letter-spacing:-.01em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .tb-tit em{font:700 9px var(--ui); font-style:normal; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--ink-3)}
+  .tb-nv{display:flex; align-items:center; gap:7px; margin-left:auto; flex:none}
+  .tbnv{
+    position:relative; display:grid; place-items:center; width:30px; height:30px;
+    border-radius:50%; background:var(--surface-2); overflow:hidden;
+    font:800 12px var(--mono); color:var(--accent-ink);
+  }
+  .tbnv i{position:absolute; left:0; bottom:0; height:3px; background:var(--accent)}
+  .tbdias{font:700 12px var(--ui); color:var(--ink-2); white-space:nowrap}
+
+  /* el cajón y su velo */
+  #velo{
+    display:block; position:fixed; inset:0; z-index:50; background:rgba(12,11,16,.46);
+    opacity:0; visibility:hidden; transition:opacity .22s, visibility .22s;
+  }
+  body.menu-abierto{overflow:hidden}
+  body.menu-abierto #velo{opacity:1; visibility:visible}
+  #rail{
+    position:fixed; top:0; left:0; bottom:0; z-index:60;
+    width:min(87vw, 318px); height:100dvh; max-height:100dvh;
+    flex-direction:column; gap:4px; padding:18px 13px 22px;
+    overflow-y:auto; overscroll-behavior:contain;
+    border-right:1px solid var(--line); border-bottom:0;
+    box-shadow:14px 0 40px rgba(0,0,0,.2);
+    transform:translateX(-102%); visibility:hidden;
+    transition:transform .24s cubic-bezier(.2,.8,.3,1), visibility .24s;
+  }
+  body.menu-abierto #rail{transform:none; visibility:visible}
+  .tb-cerrar{
+    display:grid; place-items:center; position:absolute; top:13px; right:13px;
+    width:34px; height:34px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2);
+  }
+  .tb-cerrar svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2.2;
+    stroke-linecap:round}
+  .brand{padding:0 46px 14px 2px}
+
+  /* el índice de la pantalla se queda justo debajo de la barra. En una
+     sola línea: si se parte en dos, se come media pantalla de móvil. */
+  .indice{top:55px; padding:9px 0 8px; gap:8px}
+  .indice > b{display:none}
+  .ichips{
+    flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-x:contain;
+    scrollbar-width:none; -ms-overflow-style:none; gap:6px; padding-right:4px;
+    /* se desvanece por la derecha: así se ve que hay más pastillas */
+    -webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 20px), transparent);
+    mask-image:linear-gradient(90deg, #000 calc(100% - 20px), transparent);
+  }
+  .ichips::-webkit-scrollbar{display:none}
+  .ichip{flex:none; padding:5px 10px; font-size:12px}
+  .itodo{margin-left:0; flex:none; white-space:nowrap; font-size:11.5px}
+  .bloque{scroll-margin-top:108px}
+  .bl-cab{margin-top:20px}
+  .bl-cab h2.sec{font-size:20px}
+
   .mision{padding:14px; gap:12px; border-radius:16px}
   .mi-emoji{width:50px; height:50px; font-size:28px; border-radius:14px}
   .mi-txt b{font-size:18px}
   .mi-go{display:none}
   .gitem{flex:1 1 100%}
-  #temabar{padding:0; flex:none}
   .temabtns button{padding:5px 8px}
   .repetir{gap:6px}
-  .voicebar span{display:none}
-  main{padding:26px 18px 80px}
+  main{padding:22px 18px 80px}
   .machine{grid-template-columns:1fr}
-  .detail{grid-template-columns:1fr; text-align:center; gap:10px; top:66px}
+  /* la ficha de la letra se pega por debajo de la barra y del índice */
+  .detail{grid-template-columns:1fr; text-align:center; gap:10px; top:102px}
   .detail dl{text-align:left}
 }
 @media (prefers-reduced-motion:reduce){
@@ -1234,7 +1394,21 @@ img{max-width:100%;height:auto}
 </head>
 <body>
 <div id="shell">
+  <!-- barra de arriba: solo se ve en pantalla estrecha, donde el menú es un cajón -->
+  <header id="topbar">
+    <button id="tbMenu" class="tb-btn" type="button" aria-expanded="false" aria-controls="rail">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span>Menú</span>
+    </button>
+    <div class="tb-tit"><b id="tbSec">Inicio</b><em id="tbMarca"></em></div>
+    <div class="tb-nv" id="tbNivel"></div>
+  </header>
+  <div id="velo" aria-hidden="true"></div>
+
   <nav id="rail" aria-label="Herramientas">
+    <button id="tbCerrar" class="tb-cerrar" type="button" aria-label="Cerrar el menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
     <div class="brand">
       <div class="mark" aria-hidden="true"></div>
       <div class="txt">
@@ -2098,7 +2272,7 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              best:{tono:0, repaso:0, oido:0}, streak:{day:"", n:0},
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
-             xpPor:{}, visitados:{}, dias:{}};
+             xpPor:{}, visitados:{}, dias:{}, navAb:null};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -2268,13 +2442,24 @@ const GRUPOS_NAV = NAV_GROUPS
   .map(g => [g[0], g[1].filter(n => LANG.secciones.indexOf(n[0]) >= 0)
       .map(n => [n[0], (LANG.etiquetas && LANG.etiquetas[n[0]]) || n[1], n[2]])])
   .filter(g => g[1].length);
+/* los grupos se pliegan (ver menu.js): con diecisiete secciones, la
+   lista entera no cabe de una vez en ninguna pantalla */
 function paintNav(cur){
-  $("#nav").innerHTML = GRUPOS_NAV.map(([titulo, items]) =>
-    `<div class="navlab">${titulo}</div>` + items.map(([id,label,ic]) => {
-      const p = P[id] ? `<span class="n-badge">${pctOf(id)}%</span>` : "";
-      return `<button data-go="${id}" aria-current="${id===cur}">${svg(ic)}<span>${label}</span>${p}</button>`;
-    }).join("")
-  ).join("");
+  const abiertos = gruposAbiertos(cur);
+  $("#nav").innerHTML = GRUPOS_NAV.map(([titulo, items], gi) => {
+    const abierto = abiertos.indexOf(gi) >= 0;
+    const aqui = items.some(([id]) => id === cur);
+    return `<div class="ngrupo ${abierto ? "abierto" : ""} ${aqui ? "aqui" : ""}">
+      <button class="ngtit" data-grupo="${gi}" aria-expanded="${abierto}">
+        ${svg("chev")}<span>${titulo}</span>
+        <em>${aqui ? "aquí" : items.length}</em>
+      </button>
+      <div class="nglista">${items.map(([id,label,ic]) => {
+        const p = P[id] ? `<span class="n-badge">${pctOf(id)}%</span>` : "";
+        return `<button data-go="${id}" aria-current="${id===cur}">${svg(ic)}<span>${label}</span>${p}</button>`;
+      }).join("")}</div>
+    </div>`;
+  }).join("");
 }
 
 const VIEWS = {};
@@ -2314,7 +2499,12 @@ function go(id){
   document.querySelectorAll(".hintbar svg").forEach(s => { s.style.width = "18px"; s.style.height = "18px";
     s.style.stroke = "currentColor"; s.style.fill = "none"; s.style.strokeWidth = "1.7"; s.style.flex = "none"; });
   if(marcaOff()) limpiaArbol($("#view"));
+  cierraMenu();
+  pintaTopbar(id);
   if(VIEWS[id].init) VIEWS[id].init();
+  /* después de init: varias vistas rellenan sus listas ahí, y organizar
+     mide lo largas que son para decidir qué recoge */
+  organizaVista();
   marcaVisita(id);
   animaVista();
 }
@@ -2677,7 +2867,7 @@ function paintDetail(){
     traceChar = c[0];
     go("escritura");
     setTimeout(() => { const w = document.querySelector(".tracewrap");
-      if(w) w.scrollIntoView({block:"center", behavior:"smooth"}); }, 60);
+      if(w){ abreBloquesDe(w); w.scrollIntoView({block:"center", behavior:"smooth"}); } }, 60);
   });
   $("#mark").addEventListener("click", () => {
     if(S.known[c[0]]) delete S.known[c[0]]; else { S.known[c[0]] = 1; ganaXP(5); }
@@ -3217,8 +3407,17 @@ VIEWS.frases = {
       document.querySelectorAll("#pList .list").forEach(l => {
         const any = [...l.querySelectorAll(".li")].some(x => x.style.display !== "none");
         l.style.display = any ? "" : "none";
-        if(l.previousElementSibling) l.previousElementSibling.style.display = any ? "" : "none";
+        /* cada situación es un bloque plegable: se esconde entera, y si
+           tiene resultados se abre sola mientras se busca */
+        const grupo = l.closest(".bloque");
+        if(grupo){
+          grupo.style.display = any ? "" : "none";
+          const chip = document.querySelector('.ichip[data-ir="' + grupo.id + '"]');
+          if(chip) chip.style.display = any ? "" : "none";
+          if(t && any) abreBloque(grupo, true);
+        }else if(l.previousElementSibling) l.previousElementSibling.style.display = any ? "" : "none";
       });
+      sincronizaIndice();
     });
   }
 };
@@ -3579,6 +3778,7 @@ function ganaXP(n, flotar){
   }, 380);
 }
 function pintaNivel(animar){
+  pintaNivelTop();                       /* la copia pequeña de la barra de arriba */
   const c = document.getElementById("nivel");
   if(!c) return;
   const xp = xpActual(), n = nivelDe(xp);
@@ -3704,6 +3904,7 @@ document.addEventListener("click", e => {
   if(!destino) return;
   /* un temporizador y no requestAnimationFrame: ese se congela con la pestaña en segundo plano */
   setTimeout(() => {
+    abreBloquesDe(destino);
     destino.scrollIntoView({block:"center", behavior:pocoMovimiento() ? "auto" : "smooth"});
     destino.classList.remove("foco-pulso");
     void destino.offsetWidth;
@@ -3915,7 +4116,7 @@ function lecPinta(desplazar){
   c.innerHTML = lecPalabraHTML();
   c.firstElementChild.classList.add("fcard--entra");
   lecEnlaza();
-  if(desplazar) c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
+  if(desplazar){ abreBloquesDe(c); c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"}); }
 }
 function lecEnlaza(){
   const w = LECTURA.palabras[lecIdx], n = LECTURA.palabras.length;
@@ -4306,15 +4507,320 @@ function compraHTML(){
 }
 function animaVista(){
   if(pocoMovimiento()) return;
-  const piezas = document.querySelectorAll("#view .vhead, #view .mision, #view .goal, #view .ring, #view .step, #view .card, #view h2.sec");
+  const piezas = document.querySelectorAll("#view .vhead, #view .mision, #view .goal, #view .ring, #view .step, #view .card, #view .bloque");
   let i = 0;
   for(const el of piezas){
     if(i >= 26) break;
+    /* lo que está dentro de un bloque recogido no se anima: si no,
+       al abrirlo aparecería en blanco esperando su turno */
+    if(!el.offsetParent) continue;
     el.style.animationDelay = (i * 38) + "ms";
     el.classList.add("entra");
     i++;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   NAVEGACIÓN · el menú y el orden de cada pantalla
+   ══════════════════════════════════════════════════════════
+   Tres cosas, todas para lo mismo: que no haya que desplazarse
+   sin fin para encontrar algo.
+
+   1 · En móvil el menú era una fila que se iba a lo ancho con
+       diecisiete secciones dentro. Ahora es un cajón que se abre
+       desde la izquierda, con la lista en vertical, y arriba queda
+       solo una barra con el botón, el nivel y dónde estás.
+   2 · Los grupos de la barra lateral se pliegan. Se abre el del
+       sitio donde estás y los demás quedan recogidos.
+   3 · Dentro de cada pantalla, cada «h2.sec» pasa a ser un bloque
+       que se abre y se cierra, con un índice arriba para saltar.
+       Así una pantalla larga se lee en trozos.
+
+   Este archivo va DESPUÉS de vida.js y ANTES de part4.js: usa
+   funciones del motor y tiene que estar listo antes del arranque. */
+
+ICON.menu = '<path d="M4 7h16M4 12h16M4 17h16"/>';
+ICON.chev = '<path d="M9 6l6 6-6 6"/>';
+ICON.cerrar = '<path d="M6 6l12 12M18 6L6 18"/>';
+ICON.arriba = '<path d="M12 20V5"/><path d="M6 11l6-6 6 6"/>';
+
+/* ── 1 · el cajón de la izquierda (solo móvil) ─────────────
+   En pantalla grande la barra lateral está siempre visible y esto
+   no hace nada: la clase en <body> es lo único que la mueve. */
+let devolverFoco = null;
+
+function menuAbierto(){ return document.body.classList.contains("menu-abierto"); }
+
+function abreMenu(){
+  if(menuAbierto()) return;
+  devolverFoco = document.activeElement;
+  document.body.classList.add("menu-abierto");
+  const b = document.getElementById("tbMenu");
+  if(b) b.setAttribute("aria-expanded", "true");
+  /* el foco entra en el cajón para que el teclado y el lector de
+     pantalla no se queden detrás */
+  const primero = document.querySelector("#rail .nav button, #rail .ngtit");
+  if(primero) setTimeout(() => primero.focus(), 120);
+}
+
+function cierraMenu(){
+  if(!menuAbierto()) return;
+  document.body.classList.remove("menu-abierto");
+  const b = document.getElementById("tbMenu");
+  if(b) b.setAttribute("aria-expanded", "false");
+  if(devolverFoco && document.contains(devolverFoco)) devolverFoco.focus();
+  devolverFoco = null;
+}
+
+document.addEventListener("click", e => {
+  if(e.target.closest("#tbMenu")){ menuAbierto() ? cierraMenu() : abreMenu(); return; }
+  if(e.target.closest("#tbCerrar") || e.target.closest("#velo")){ cierraMenu(); return; }
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && menuAbierto()){ e.preventDefault(); cierraMenu(); }
+});
+
+/* qué pone la barra de arriba: dónde estás y cómo vas */
+function pintaTopbar(id){
+  const t = document.getElementById("tbSec");
+  if(t){
+    const n = NAV.find(x => x[0] === id);
+    t.textContent = n ? n[1] : (LANG.marca || "");
+  }
+  const m = document.getElementById("tbMarca");
+  if(m && !m.textContent) m.textContent = LANG.marca || "";
+  pintaNivelTop();
+}
+
+function pintaNivelTop(){
+  const c = document.getElementById("tbNivel");
+  if(!c) return;
+  const xp = xpActual(), n = nivelDe(xp);
+  const desde = xpPara(n), hasta = xpPara(n + 1);
+  const pct = Math.round((xp - desde) / (hasta - desde) * 100);
+  c.innerHTML =
+    `<span class="tbnv" title="Nivel ${n + 1} · ${xp} XP en total">
+       <b>${n + 1}</b><i style="width:${pct}%"></i></span>` +
+    (S.streak && S.streak.n > 1
+      ? `<span class="tbdias" title="${S.streak.n} días seguidos">🔥 ${S.streak.n}</span>` : "");
+}
+
+/* ── 2 · grupos plegables de la barra lateral ──────────────
+   Se recuerda cuáles dejaste abiertos. El grupo de la sección en
+   la que estás se abre siempre, aunque lo hubieras cerrado. */
+function gruposAbiertos(cur){
+  const dentro = GRUPOS_NAV.findIndex(g => g[1].some(n => n[0] === cur));
+  const guardados = Array.isArray(S.navAb) ? S.navAb.slice() : null;
+  const abiertos = guardados || (dentro >= 0 ? [dentro] : [0]);
+  if(dentro >= 0 && abiertos.indexOf(dentro) < 0) abiertos.push(dentro);
+  return abiertos;
+}
+function alternaGrupo(i){
+  const abiertos = gruposAbiertos(current);
+  const k = abiertos.indexOf(i);
+  if(k >= 0) abiertos.splice(k, 1); else abiertos.push(i);
+  S.navAb = abiertos;
+  save();
+  paintNav(current);
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-grupo]");
+  if(g) alternaGrupo(+g.dataset.grupo);
+});
+
+/* ── 3 · el interior de cada pantalla, en bloques ──────────
+   Cada «h2.sec» y lo que lleva detrás se envuelve en un bloque que
+   se abre y se cierra. De tres bloques en adelante se deja abierto
+   el primero y los demás recogidos, con un índice arriba.
+
+   Se hace sobre el HTML ya puesto, así que las vistas no saben nada
+   de esto: ninguna tuvo que cambiar. */
+const CORTA_BLOQUE = ".nextbar, .sitefoot, .indice, .hintbar";
+
+function tituloBloque(sec){
+  const h = sec.querySelector("h2.sec");
+  if(!h) return "Sección";
+  const c = h.cloneNode(true);
+  c.querySelectorAll(".th").forEach(x => x.remove());   /* fuera la grafía nativa */
+  const t = c.textContent.replace(/\s+/g, " ").trim();
+  return t.length > 30 ? t.slice(0, 29).trim() + "…" : t;
+}
+
+/* dónde viven los títulos: casi siempre sueltos en la vista, pero en
+   frases cuelgan de la caja de la búsqueda */
+const cuentaCabs = el => Array.from(el.children)
+  .filter(c => c.tagName === "H2" && c.classList.contains("sec")).length;
+function anfitrion(v){
+  if(cuentaCabs(v) >= 2) return v;
+  for(const c of v.children) if(c.children && cuentaCabs(c) >= 2) return c;
+  return null;
+}
+
+function organizaVista(){
+  const raiz = document.querySelector("#view .view");
+  if(!raiz) return;
+  const v = anfitrion(raiz);
+  if(!v) return;                              /* una sola sección no gana nada */
+  const cabs = Array.from(v.children).filter(el => el.tagName === "H2" && el.classList.contains("sec"));
+
+  cabs.forEach((h2, i) => {
+    const sec = document.createElement("section");
+    sec.className = "bloque";
+    sec.id = "bl" + (i + 1);
+    v.insertBefore(sec, h2);
+
+    const cab = document.createElement("button");
+    cab.type = "button";
+    cab.className = "bl-cab";
+    cab.innerHTML = `<span class="bl-num" aria-hidden="true">${i + 1}</span>`;
+    sec.appendChild(cab);
+
+    const cuerpo = document.createElement("div");
+    cuerpo.className = "bl-cuerpo";
+    sec.appendChild(cuerpo);
+
+    cab.appendChild(h2);                      /* el título pasa a ser el botón */
+    cab.insertAdjacentHTML("beforeend",
+      `<span class="bl-ver">abrir</span>
+       <svg class="bl-chev" viewBox="0 0 24 24" aria-hidden="true">${ICON.chev}</svg>`);
+
+    /* todo lo que venga detrás, hasta el siguiente título o el pie */
+    let sig = sec.nextSibling;
+    while(sig){
+      if(sig.nodeType === 1){
+        if(sig.tagName === "H2" && sig.classList.contains("sec")) break;
+        if(sig.matches(CORTA_BLOQUE)) break;
+      }
+      const mover = sig;
+      sig = sig.nextSibling;
+      cuerpo.appendChild(mover);
+    }
+
+    sec.classList.add("abierto");
+    cab.setAttribute("aria-expanded", "true");
+    cab.setAttribute("aria-controls", sec.id + "-c");
+    cuerpo.id = sec.id + "-c";
+  });
+
+  const bloques = Array.from(v.children).filter(el => el.classList.contains("bloque"));
+  if(!bloques.length) return;
+  bloques[0].classList.add("bloque--primero");
+
+  /* Ahora que están montados se miden, y con eso se decide qué recoger.
+     Se deja abierto el primero si cabe en un par de pantallas; si el
+     primero ya es kilométrico (los catorce patrones de gramática), se
+     recogen todos y el índice hace de portada. */
+  const pantalla = window.innerHeight || 800;
+  const altos = bloques.map(b => b.getBoundingClientRect().height);
+  const total = altos.reduce((a, b) => a + b, 0);
+  const plegar = bloques.length >= 3 || total > pantalla * 2;
+  if(plegar) bloques.forEach((b, i) => abreBloque(b, i === 0 && altos[0] <= pantalla * 2));
+
+  const ind = document.createElement("div");
+  ind.className = "indice";
+  /* las pastillas van en su propia caja: así, en móvil, se deslizan
+     sin llevarse por delante el botón de abrir todo */
+  ind.innerHTML = `<b>En esta pantalla</b><div class="ichips">` +
+    bloques.map((b, i) => `<button class="ichip" data-ir="${b.id}"
+      aria-current="${b.classList.contains("abierto") && i === 0}">${esc(tituloBloque(b))}</button>`).join("") +
+    `</div><button class="itodo" data-todo></button>`;
+  v.insertBefore(ind, bloques[0]);
+  pintaTodoIndice();
+  sincronizaIndice();
+}
+
+function abreBloque(sec, abrir){
+  if(!sec) return;
+  const cab = sec.querySelector(":scope > .bl-cab");
+  const quiero = abrir === undefined ? !sec.classList.contains("abierto") : !!abrir;
+  sec.classList.toggle("abierto", quiero);
+  if(cab) cab.setAttribute("aria-expanded", String(quiero));
+  if(quiero){
+    /* la cascada de entrada ya pasó: si quedó pendiente en algo que
+       estaba escondido, se quita para que no aparezca en blanco */
+    sec.querySelectorAll(".entra").forEach(el => { el.classList.remove("entra"); el.style.animationDelay = ""; });
+  }
+  pintaTodoIndice();
+}
+
+/* abre los bloques que tapen a este elemento, para que llevarle el
+   foco funcione aunque estuviera recogido */
+function abreBloquesDe(el){
+  let n = el;
+  while(n && n !== document.body){
+    if(n.classList && n.classList.contains("bloque")) abreBloque(n, true);
+    n = n.parentNode;
+  }
+}
+
+function pintaTodoIndice(){
+  const b = document.querySelector("[data-todo]");
+  if(!b) return;
+  const cerrados = document.querySelectorAll("#view .bloque:not(.abierto)").length;
+  b.textContent = cerrados ? "Abrir todo" : "Cerrar todo";
+}
+
+/* qué pastilla del índice se marca: el último bloque cuyo título ya
+   quedó por encima de la línea de lectura; si ninguno, el primero */
+function sincronizaIndice(){
+  const chips = document.querySelectorAll(".ichip");
+  if(!chips.length) return;
+  const bloques = document.querySelectorAll("#view .bloque");
+  let activo = bloques.length ? bloques[0].id : null;
+  bloques.forEach(b => { if(b.getBoundingClientRect().top <= 150) activo = b.id; });
+  chips.forEach(c => c.setAttribute("aria-current", String(c.dataset.ir === activo)));
+}
+
+document.addEventListener("click", e => {
+  const cab = e.target.closest(".bl-cab");
+  if(cab){ abreBloque(cab.closest(".bloque")); return; }
+
+  const ir = e.target.closest("[data-ir]");
+  if(ir){
+    const sec = document.getElementById(ir.dataset.ir);
+    if(!sec) return;
+    abreBloque(sec, true);
+    sec.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
+    setTimeout(sincronizaIndice, 400);
+    return;
+  }
+
+  if(e.target.closest("[data-todo]")){
+    const cerrados = document.querySelectorAll("#view .bloque:not(.abierto)").length > 0;
+    document.querySelectorAll("#view .bloque").forEach(b => abreBloque(b, cerrados));
+    return;
+  }
+
+  if(e.target.closest("#alTope")){
+    window.scrollTo({top:0, behavior:pocoMovimiento() ? "auto" : "smooth"});
+    return;
+  }
+});
+
+/* ── 4 · el botón de volver arriba ─────────────────────────
+   Aparece cuando ya hay bastante recorrido por detrás. */
+(function botonArriba(){
+  const b = document.createElement("button");
+  b.id = "alTope";
+  b.className = "arriba";
+  b.type = "button";
+  b.setAttribute("aria-label", "Volver arriba");
+  b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON.arriba}</svg>`;
+  document.addEventListener("DOMContentLoaded", () => document.body.appendChild(b));
+  if(document.body) document.body.appendChild(b);
+
+  let pendiente = 0;
+  window.addEventListener("scroll", () => {
+    if(pendiente) return;
+    /* un temporizador y no requestAnimationFrame: ese se congela con
+       la pestaña en segundo plano */
+    pendiente = setTimeout(() => {
+      pendiente = 0;
+      b.classList.toggle("ver", window.scrollY > 700);
+      sincronizaIndice();
+    }, 140);
+  }, {passive:true});
+})();
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 const GOALS = {cards:10, quiz:1, plays:20};
@@ -4936,7 +5442,7 @@ async function instalar(){
   pasosVisibles = !pasosVisibles;
   pintaPromo();
   const p = document.getElementById('promoBox');
-  if(p && pasosVisibles) p.scrollIntoView({block:'center', behavior:'smooth'});
+  if(p && pasosVisibles){ abreBloquesDe(p); p.scrollIntoView({block:'center', behavior:'smooth'}); }
 }
 
 function pasosHTML(){
@@ -4989,7 +5495,7 @@ document.addEventListener('click', e => {
   if(e.target.closest('[data-horario]')){
     if(current !== 'estudiar') go('estudiar');
     const t = document.getElementById('tuHorario');
-    if(t) t.scrollIntoView({block:'start', behavior:'smooth'});
+    if(t){ abreBloquesDe(t); t.scrollIntoView({block:'start', behavior:'smooth'}); }
   }
 });
 /* ══ ARRANQUE ════════════════════════════════════════════ */

@@ -54,6 +54,7 @@ Un solo motor y un paquete de datos por idioma:
 | `part1.html` | Estilos y estructura, comunes a todos |
 | `part3.js`, `part4.js` | El motor: vistas, tests, juegos, progreso |
 | `vida.js` | Dibujos de las palabras, experiencia y niveles, celebraciones y el «siguiente paso». Va entre `part3.js` y `part4.js` |
+| `menu.js` | El menú (cajón en móvil, grupos plegables en escritorio) y el troceado de cada pantalla. Va entre `vida.js` y `part4.js` |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
@@ -83,6 +84,34 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
+
+### El menú y el largo de cada pantalla: `menu.js`
+
+Con diecisiete secciones, la lista entera no cabe en ninguna pantalla. Tres cosas lo arreglan, y las
+tres viven en `menu.js`.
+
+**El cajón.** Por debajo de 860 px la barra lateral deja de ser una fila que se iba a lo ancho y pasa
+a ser un cajón que entra desde la izquierda. Arriba queda una barra con el botón, dónde estás y el
+nivel. Se cierra al elegir sección, al tocar fuera y con Escape; mientras está abierta, el fondo no se
+desplaza. El HTML del cajón es el mismo `#rail` de siempre: solo cambia dónde se coloca.
+
+**Los grupos.** «Empezar», «Fundamentos» y «Práctica» se pliegan. Se abre el de la sección en la que
+estás —aunque lo hubieras cerrado— y lo que abras a mano se recuerda en `S.navAb`.
+
+**Los bloques.** Cada `h2.sec` de una vista y todo lo que lleva detrás se envuelven en un bloque que
+se abre y se cierra, con un índice de pastillas encima para saltar. Las vistas no saben nada de esto:
+se hace sobre el HTML ya pintado, después de `init()`, porque varias rellenan sus listas ahí y hay que
+medirlas para decidir qué se recoge. La regla: se pliega si hay tres bloques o más, o si entre todos
+pasan de dos pantallas; y el primero se deja abierto solo si él solo cabe en dos pantallas. Por eso el
+vocabulario pasó de catorce pantallas a menos de dos, y la gramática abre como un índice.
+
+Dos detalles que hay que respetar al tocar esto:
+
+- Lo que esté dentro de un bloque recogido **no se anima** (`animaVista` se salta lo que no se ve). Si
+  no, al abrirlo aparecería en blanco esperando su turno en la cascada.
+- Cualquier sitio que lleve el foco a un trozo de pantalla llama antes a `abreBloquesDe(elemento)`: si
+  no, el desplazamiento apunta a algo escondido. Lo hacen la misión del inicio, «Trazarla a mano», el
+  horario y las tarjetas de «Cómo se lee».
 
 ### Marcas que se estudian pero no se escriben
 
@@ -193,9 +222,16 @@ salen de `VOCAB` y de `dibujo()`, así que funcionan en los siete cursos sin esc
 
 ### El cuaderno de ejercicios (lo que se vende)
 
+`node bajar-fuentes.js` (una vez, con internet) baja la letra tailandesa con bucles; sin ella, al
+generar el PDF sin ventana Chrome la sustituye por una sin bucles, que es justo lo contrario de lo que
+el cuaderno enseña a trazar. Japonés, coreano y chino usan las de Windows (Yu Gothic, Malgun, YaHei),
+nombradas a propósito en `RESPALDOS`: la pila de la web empieza por las de Google y sin internet el
+texto no se dibujaba.
+
 `node gen-cuadernillo.js [idiomas…]` saca un HTML imprimible por idioma en
 `C:\Users\angel\OneDrive\Documentos\CLAUDE\cuadernillos`. **No va al repositorio**: es el producto.
-Para el PDF: abrirlo en Chrome, Ctrl+P, «Guardar como PDF», con «Gráficos de fondo» activado.
+`node gen-pdf.js` los convierte en PDF con el Chrome instalado, sin abrir ventana. (A mano también:
+Ctrl+P → Guardar como PDF.) Cómo se venden y se envían: `COMO-ENVIAR.txt`, en esa misma carpeta.
 
 Todo el contenido sale de los paquetes, igual que la web, así que no hay texto escrito a mano que pueda
 colarse en otro idioma. Si existe `cuadernillos/imagenes/<idioma>-portada.jpg` (o .png/.webp), se usa

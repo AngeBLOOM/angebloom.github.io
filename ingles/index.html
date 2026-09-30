@@ -1180,6 +1180,34 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .compra-btn{background:#FFD66B; border-color:#FFD66B; color:#241F14; text-decoration:none}
 .compra-btn:hover{filter:brightness(1.06)}
 .compra-nota{margin:10px 0 0; font-size:12.5px; opacity:.75; line-height:1.5}
+/* ── las tareas de hoy, siempre a la vista ──────────────────
+   El recuadro grande está en el inicio; esto es el recordatorio que
+   viaja contigo por todas las pantallas. */
+#hoyRail{padding:0 6px; margin:2px 0 12px}
+.tareas{
+  display:flex; align-items:center; gap:10px; width:100%; cursor:pointer;
+  padding:9px 11px; border-radius:13px; text-align:left;
+  border:1px solid var(--line); background:var(--surface-2); color:inherit; font:inherit;
+  transition:border-color .13s, transform .13s;
+}
+.tareas:hover{border-color:var(--brand); transform:translateY(-1px)}
+.tareas--ok{border-color:var(--jade); background:color-mix(in srgb, var(--jade) 12%, var(--surface-2))}
+.tareas-e{font-size:19px; line-height:1; flex:none}
+.tareas-t{display:flex; flex-direction:column; min-width:0}
+.tareas-t b{font:700 12.5px var(--ui); line-height:1.25}
+.tareas-t em{font:400 11px var(--ui); font-style:normal; color:var(--ink-3); line-height:1.3}
+.tareas-p{display:flex; gap:3px; margin-left:auto; flex:none}
+.tareas-p i, .tbhoy i{
+  width:7px; height:7px; border-radius:50%; display:block;
+  background:var(--surface-3); box-shadow:inset 0 0 0 1px var(--line);
+}
+.tareas-p i.ok, .tbhoy i.ok{background:var(--jade); box-shadow:none}
+.tbhoy{
+  display:flex; gap:4px; align-items:center; cursor:pointer;
+  padding:8px 9px; border-radius:11px; border:1px solid var(--line); background:var(--surface);
+}
+.tbhoy--ok{border-color:var(--jade)}
+
 /* ── el menú ────────────────────────────────────────────────
    En pantalla ancha, la barra de la izquierda de siempre, con los
    grupos plegables. En estrecha, un cajón que se abre: antes era una
@@ -1311,7 +1339,9 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .tb-tit em{font:700 9px var(--ui); font-style:normal; letter-spacing:.13em;
     text-transform:uppercase; color:var(--ink-3)}
-  .tb-nv{display:flex; align-items:center; gap:7px; margin-left:auto; flex:none}
+  .tb-hoy{display:flex; margin-left:auto; flex:none}
+  .tb-nv{display:flex; align-items:center; gap:7px; flex:none}
+  .tbhoy{padding:7px 8px}
   .tbnv{
     position:relative; display:grid; place-items:center; width:30px; height:30px;
     border-radius:50%; background:var(--surface-2); overflow:hidden;
@@ -1401,6 +1431,7 @@ img{max-width:100%;height:auto}
       <span>Menú</span>
     </button>
     <div class="tb-tit"><b id="tbSec">Inicio</b><em id="tbMarca"></em></div>
+    <div class="tb-hoy" id="tbHoy"></div>
     <div class="tb-nv" id="tbNivel"></div>
   </header>
   <div id="velo" aria-hidden="true"></div>
@@ -1418,6 +1449,7 @@ img{max-width:100%;height:auto}
       </div>
     </div>
     <div class="nivel" id="nivel"></div>
+    <div id="hoyRail"></div>
     <div class="acciones" id="acciones"></div>
     <div class="nav" id="nav"></div>
     <div class="rail-foot">
@@ -2600,6 +2632,9 @@ VIEWS.inicio = {
     };
     return `
     ${xpActual() ? `<div class="misionSlot misionSlot--top">${misionHTML()}</div>` : ""}
+    <!-- las tres tareas del día van arriba del todo: son lo que se mira a diario,
+         y enterradas bajo la portada no las encontraba nadie -->
+    <div id="goalBox">${goalHTML()}</div>
     <div class="vhead">
       <div class="hero">
         <div>
@@ -2629,7 +2664,6 @@ VIEWS.inicio = {
     </div>
     <div id="voiceHelp"></div>
     ${xpActual() ? "" : `<div class="misionSlot">${misionHTML()}</div>`}
-    <div id="goalBox">${goalHTML()}</div>
     <div id="semanaBox">${semanaHTML()}</div>
     <div id="hoyBox">${avisoHoyHTML()}</div>
     <div id="promoBox">${promoHTML()}</div>
@@ -4597,6 +4631,33 @@ function pintaTopbar(id){
   const m = document.getElementById("tbMarca");
   if(m && !m.textContent) m.textContent = LANG.marca || "";
   pintaNivelTop();
+  pintaHoy();
+}
+
+/* ── las tres tareas del día, siempre a mano ───────────────
+   El recuadro grande vive en el inicio, pero desde cualquier pantalla
+   se ve cómo va el día y se llega a él de un toque: en la barra de
+   arriba con tres puntos, y en el menú con su nombre.
+   Lleva data-go + data-foco, que es el camino que ya usan las propias
+   tareas: el motor navega y luego resalta el trozo. */
+function pintaHoy(){
+  const t = hoyCuenta(), claves = Object.keys(GOALS);
+  const hechos = claves.filter(k => (t[k] || 0) >= GOALS[k]).length;
+  const cumplido = hechos === claves.length;
+  const puntos = claves.map(k => {
+    const ok = (t[k] || 0) >= GOALS[k];
+    return `<i class="${ok ? "ok" : ""}" title="${METAS[k].titulo}: ${Math.min(t[k] || 0, GOALS[k])} de ${GOALS[k]}"></i>`;
+  }).join("");
+
+  const rail = document.getElementById("hoyRail");
+  if(rail) rail.innerHTML = `<button class="tareas ${cumplido ? "tareas--ok" : ""}" data-go="inicio" data-foco="#goalBox">
+    <span class="tareas-e" aria-hidden="true">${cumplido ? "🏆" : "☑️"}</span>
+    <span class="tareas-t"><b>Tareas de hoy</b><em>${hechos} de ${claves.length}${cumplido ? " · ¡cumplido!" : " hechas"}</em></span>
+    <span class="tareas-p" aria-hidden="true">${puntos}</span></button>`;
+
+  const tb = document.getElementById("tbHoy");
+  if(tb) tb.innerHTML = `<button class="tbhoy ${cumplido ? "tbhoy--ok" : ""}" data-go="inicio" data-foco="#goalBox"
+    aria-label="Tareas de hoy: ${hechos} de ${claves.length} cumplidas">${puntos}</button>`;
 }
 
 function pintaNivelTop(){
@@ -4849,6 +4910,7 @@ function bump(k, n){
   const box = document.getElementById("goalBox");
   if(box) box.innerHTML = goalHTML();
   document.querySelectorAll(".misionSlot").forEach(s => { s.innerHTML = misionHTML(); });
+  pintaHoy();                                  /* la copia del menú y la barra */
 }
 function goalHTML(){
   const t = hoyCuenta();

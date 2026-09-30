@@ -85,6 +85,22 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
 
+### Las tareas del día
+
+`GOALS` (en `part4.js`) son las tres de cada día: 10 tarjetas, 20 palabras escuchadas y un test.
+`bump()` las cuenta, marca el check y celebra al completarlas; se reinician solas al cambiar de día.
+
+El recuadro grande (`#goalBox`) va **lo primero del inicio**, encima de la portada. Estuvo un tiempo
+por debajo de los demás recuadros, a 3.200 px del borde, y allí no lo encontraba nadie: es lo que se
+mira a diario, así que va arriba.
+
+Además `pintaHoy()` deja una copia pequeña en dos sitios que se ven desde cualquier pantalla: la barra
+lateral (y por tanto el cajón del móvil) y la barra de arriba, con tres puntos que se ponen verdes.
+Las dos llevan `data-go="inicio" data-foco="#goalBox"`, el mismo camino que usan las propias tareas.
+
+Ojo con el nombre: `.hoy` **ya existía** para los avisos del horario y apila en columna. Lo de aquí se
+llama `.tareas`.
+
 ### El menú y el largo de cada pantalla: `menu.js`
 
 Con diecisiete secciones, la lista entera no cabe en ninguna pantalla. Tres cosas lo arreglan, y las

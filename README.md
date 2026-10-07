@@ -55,6 +55,7 @@ Un solo motor y un paquete de datos por idioma:
 | `part3.js`, `part4.js` | El motor: vistas, tests, juegos, progreso |
 | `vida.js` | Dibujos de las palabras, experiencia y niveles, celebraciones y el «siguiente paso». Va entre `part3.js` y `part4.js` |
 | `menu.js` | El menú (cajón en móvil, grupos plegables en escritorio) y el troceado de cada pantalla. Va entre `vida.js` y `part4.js` |
+| `charla.js` | Las conversaciones, la barra de lo que suena y el juego de ordenar. Va entre `menu.js` y `part4.js` |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
@@ -84,6 +85,73 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
+
+### Los grupos de letras, en color
+
+Los siete cursos reparten sus letras en grupos, y cada uno quiere decir algo distinto: clase de tono,
+si son aspiradas, si se parecen al castellano. Antes eso se contaba con un párrafo y se marcaba con
+puntos negro, blanco y gris. Exacto e imposible de recordar.
+
+Ahora cada grupo tiene **un color**, `--k1`..`--k4`, y es el mismo en todas partes: en la rejilla de
+letras, en la ficha, en la chuleta del test, en las propias opciones del test y en el mapa. El color se
+elige por la **posición** del grupo en `CLASSNAME` (`claseN()`), no por su nombre, que cambia en cada
+idioma.
+
+`mapaAlfabetoHTML()` pinta el mapa: un panel por grupo, con su color, cuántas letras tiene, una barra
+con la proporción y todas sus letras como fichas (letra grande + dibujo + nombre). Dos detalles que
+importan:
+
+- **El grupo más numeroso no se memoriza.** Si uno dobla al siguiente y pasa de diez, se marca como
+  «todas las demás»: la regla de verdad es que si una letra no está en los otros grupos, está en ese.
+  Lo decide `grupoDeDescarte()` solo, sin que el paquete diga nada.
+- **Con más de cuatro grupos no se pinta.** Los colores se repetirían y dejarían de significar nada;
+  ahí se queda la tabla de siempre. (Pasa donde los grupos son las filas del silabario, que son once.)
+
+Los dibujos de las fichas salen de `dibujo()`, que busca por el significado en castellano del nombre de
+la letra. Si falta la palabra en `DIBUJO_PALABRAS`, la ficha sale sin dibujo y no pasa nada.
+
+### Que se oiga: `diAlgo()`
+
+Había un «a veces no se escucha nada» que no era casualidad. Tres causas, las tres reales:
+
+1. En Chrome, `cancel()` y `speak()` en el mismo tick dejan la locución muda. No lanza error: no suena.
+2. El motor se queda **en pausa** con la pestaña de fondo, al bloquear el móvil o al cancelar a media
+   palabra. A partir de ahí todo lo que pidas se encola y no suena nunca. `resume()` lo despierta.
+3. Aun con las dos cosas, alguna se pierde.
+
+Por eso ahora todo el audio pasa por `diAlgo()`: espera 40 ms tras cancelar, llama a `resume()`, y si en
+400 ms no ha arrancado lo reintenta una vez desde cero. `lecDiSeguido()` hace lo mismo. Si tocas algo del
+motor de voz, respeta las tres: quitar cualquiera de ellas devuelve el fallo.
+
+### La barra de lo que suena
+
+`subtitula()` enseña abajo lo que se acaba de pronunciar —palabra, romanización y significado— con un
+botón para repetirlo muy lento. El índice sale de VOCAB, PHRASES, CONS y los números, y cada fuente se
+lee protegida: si un paquete cambia de forma se pierde esa fuente, no el índice. Se guarda solo cuando
+está entero, que si no una fuente rota lo deja a medias para siempre.
+
+### Las conversaciones: `charla.js`
+
+Una escena, alguien te habla y te toca contestar en voz alta; corrige con el mismo `comparaHabla` que
+el resto del curso, y `escuchaRepeticion` avisa del veredicto llamando a `trasRepetir()`.
+
+Lo importante es de dónde sale el texto. **Las frases de los paquetes son todas cosas que dice quien
+aprende**: no hay guiones del otro lado. Así que el otro lado solo habla cuando la frase existe y vale
+para ambos (saludos, cortesía, preguntas), y el resto del hilo lo lleva la escena, en castellano. Nada
+de lo que suena está inventado: todo sale del paquete.
+
+Los guiones (`GUIONES`) se escriben una vez para los siete idiomas y se resuelven contra cada paquete
+buscando por el significado en castellano, sin tildes ni signos y por el principio («Hola», «Hola (de
+día)», «¡Hola! (informal)» son la misma). Si una frase no existe en un idioma, ese turno se cae y las
+escenas vecinas se juntan; si quedan menos de tres cosas que decir, el guion no se ofrece. Hoy los cinco
+salen enteros en los siete.
+
+### El juego de ordenar
+
+Empezó siendo «monta la frase», partiendo la frase por espacios. No valía: **en tailandés, japonés y
+chino la escritura no separa palabras**, así que en tres de los siete idiomas no había nada que partir.
+Ahora se ordenan las frases de una conversación, que funciona igual en todos y entrena algo que ninguna
+otra pantalla toca: cómo se encadena un intercambio de verdad.
 
 ### Las tareas del día
 

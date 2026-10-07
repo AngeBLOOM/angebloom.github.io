@@ -372,7 +372,6 @@ tr:last-child td{border-bottom:0}
 .lt .n{font-family:var(--thai); font-size:12px; color:var(--ink-2); display:block; line-height:1.3}
 .lt .s{font:500 11px var(--mono); color:var(--ink-3); display:block; margin-top:2px}
 .lt .cl{position:absolute; top:6px; right:6px; width:6px;height:6px;border-radius:50%}
-.cl-h{background:var(--ink)} .cl-m{background:transparent; box-shadow:inset 0 0 0 1.4px var(--line-2)} .cl-l{background:var(--surface-3); box-shadow:inset 0 0 0 1px var(--line-2)}
 .lt.known::after{content:""; position:absolute; bottom:5px; left:50%; transform:translateX(-50%); width:16px; height:2px; border-radius:2px; background:var(--jade)}
 
 .detail{
@@ -1180,6 +1179,200 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .compra-btn{background:#FFD66B; border-color:#FFD66B; color:#241F14; text-decoration:none}
 .compra-btn:hover{filter:brightness(1.06)}
 .compra-nota{margin:10px 0 0; font-size:12.5px; opacity:.75; line-height:1.5}
+/* ── los grupos de letras, en color ─────────────────────────
+   Un color por grupo, y el mismo en todas partes. Antes eran negro,
+   blanco y gris: exactos y absolutamente imposibles de recordar. */
+:root{
+  --k1:#E8A33D;   /* ámbar  */
+  --k2:#3B82F6;   /* azul   */
+  --k3:#16A06A;   /* verde  */
+  --k4:#8B5CF6;   /* morado */
+}
+.kd-1,.mg--k1 .mg-punto{background:var(--k1)}
+.kd-2,.mg--k2 .mg-punto{background:var(--k2)}
+.kd-3,.mg--k3 .mg-punto{background:var(--k3)}
+.kd-4,.mg--k4 .mg-punto{background:var(--k4)}
+.ca-fila--k1 .mg-punto{background:var(--k1)} .ca-fila--k2 .mg-punto{background:var(--k2)}
+.ca-fila--k3 .mg-punto{background:var(--k3)} .ca-fila--k4 .mg-punto{background:var(--k4)}
+.kl-1{background:color-mix(in srgb,var(--k1) 20%,transparent); color:var(--ink)}
+.kl-2{background:color-mix(in srgb,var(--k2) 20%,transparent); color:var(--ink)}
+.kl-3{background:color-mix(in srgb,var(--k3) 20%,transparent); color:var(--ink)}
+.kl-4{background:color-mix(in srgb,var(--k4) 20%,transparent); color:var(--ink)}
+/* el punto del grupo: también suelto, fuera de la rejilla (en el test) */
+.cl{display:inline-block; width:9px; height:9px; border-radius:50%; flex:none; vertical-align:middle}
+
+/* el mapa */
+.mapa{display:grid; gap:14px}
+.mg{border:1px solid var(--line); border-radius:18px; padding:15px 16px 16px; background:var(--surface)}
+.mg--k1{border-left:5px solid var(--k1)} .mg--k2{border-left:5px solid var(--k2)}
+.mg--k3{border-left:5px solid var(--k3)} .mg--k4{border-left:5px solid var(--k4)}
+.mg-cab{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.mg-punto{width:13px; height:13px; border-radius:50%; flex:none}
+.mg-cab b{font-family:var(--disp); font-size:19px; text-transform:capitalize}
+.mg-n{font:800 21px var(--mono); color:var(--ink)}
+.mg-barra{flex:1 1 70px; min-width:50px; height:7px; border-radius:9px; background:var(--surface-3); overflow:hidden}
+.mg-barra i{display:block; height:100%; border-radius:9px; background:currentColor; opacity:.55}
+.mg--k1 .mg-barra{color:var(--k1)} .mg--k2 .mg-barra{color:var(--k2)}
+.mg--k3 .mg-barra{color:var(--k3)} .mg--k4 .mg-barra{color:var(--k4)}
+.mg-nota, .mg-truco{margin:9px 0 0; font-size:13.5px; line-height:1.45; color:var(--ink-2)}
+.mg-truco{padding:9px 12px; border-radius:11px; background:var(--surface-2); color:var(--ink)}
+.mg-letras{display:grid; gap:7px; margin-top:13px;
+  grid-template-columns:repeat(auto-fill,minmax(74px,1fr))}
+.ml{
+  display:flex; flex-direction:column; align-items:center; gap:1px; cursor:pointer;
+  padding:9px 5px 7px; border-radius:13px; font:inherit; color:inherit;
+  border:1px solid var(--line); background:var(--ground);
+  transition:transform .13s, border-color .13s, box-shadow .13s;
+}
+.ml:hover{transform:translateY(-3px); border-color:currentColor; box-shadow:0 8px 18px -12px rgba(0,0,0,.5)}
+.mg--k1 .ml:hover{color:var(--k1)} .mg--k2 .ml:hover{color:var(--k2)}
+.mg--k3 .ml:hover{color:var(--k3)} .mg--k4 .ml:hover{color:var(--k4)}
+.ml-dib{font-size:19px; line-height:1.1; min-height:21px}
+.ml-g{font-family:var(--thai); font-size:27px; line-height:1.15; color:var(--ink)}
+.ml-n{font-size:10.5px; color:var(--ink-3); text-align:center; line-height:1.2}
+
+/* ── la barra de lo que suena ───────────────────────────────
+   Aparece abajo con lo que se acaba de pronunciar y se va sola. */
+.subt{
+  position:fixed; left:50%; bottom:16px; transform:translate(-50%, 14px); z-index:38;
+  display:flex; align-items:center; gap:12px; max-width:min(92vw, 560px);
+  padding:11px 14px; border-radius:16px;
+  background:color-mix(in srgb, var(--ink) 92%, transparent); color:var(--ground);
+  box-shadow:0 14px 34px rgba(0,0,0,.28);
+  opacity:0; visibility:hidden; transition:opacity .2s, visibility .2s, transform .2s;
+  /* no tapa lo que haya debajo: solo sus propios botones reciben el toque */
+  pointer-events:none;
+}
+.subt.ver{opacity:1; visibility:visible; transform:translate(-50%, 0)}
+.subt button{pointer-events:auto}
+.sub-txt{display:flex; flex-direction:column; min-width:0; gap:1px}
+.sub-txt b{font-size:21px; line-height:1.25; color:var(--ground)}
+.sub-txt .rom{font:500 13px var(--mono); opacity:.78; color:var(--ground)}
+.sub-txt em{font-style:normal; font-size:12.5px; opacity:.62}
+.sub-mudo{opacity:.95 !important; color:var(--gold); max-width:46ch; line-height:1.4; margin-top:3px}
+.subt--mudo{border:1px solid color-mix(in srgb, var(--gold) 55%, transparent)}
+.sub-b{
+  margin-left:auto; flex:none; cursor:pointer; white-space:nowrap;
+  padding:7px 11px; border-radius:11px; font:700 12px var(--ui);
+  border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.1); color:var(--ground);
+}
+.sub-b:hover{background:rgba(255,255,255,.2)}
+.sub-x{
+  flex:none; cursor:pointer; width:26px; height:26px; border-radius:8px; font-size:17px; line-height:1;
+  border:0; background:transparent; color:var(--ground); opacity:.6;
+}
+.sub-x:hover{opacity:1}
+
+/* ── la conversación ────────────────────────────────────────── */
+.ch-lista{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.ch-card{
+  display:flex; align-items:center; gap:13px; cursor:pointer; text-align:left;
+  padding:14px 15px; border-radius:16px; font:inherit; color:inherit;
+  border:1px solid var(--line); background:var(--surface);
+  transition:border-color .14s, transform .14s, box-shadow .14s;
+}
+.ch-card:hover{border-color:var(--brand); transform:translateY(-2px); box-shadow:0 10px 24px -14px var(--brand)}
+.ch-card--ok{border-color:var(--jade)}
+.ch-emoji{font-size:30px; line-height:1; flex:none}
+.ch-t{display:flex; flex-direction:column; min-width:0; gap:2px}
+.ch-t b{font:700 15.5px var(--ui); line-height:1.25}
+.ch-t em{font-style:normal; font-size:13px; color:var(--ink-2); line-height:1.35}
+.ch-t i{font-style:normal; font:600 11px var(--ui); color:var(--ink-3); letter-spacing:.03em}
+.ch-ir{margin-left:auto; flex:none; font:700 12px var(--ui); color:var(--accent-ink); white-space:nowrap}
+.ch-card--ok .ch-ir{color:var(--jade)}
+
+.ch-cab{display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap}
+.ch-cab b{font-family:var(--disp); font-size:18px}
+.ch-prog{flex:1 1 90px; min-width:70px; height:6px; border-radius:9px; background:var(--surface-3); overflow:hidden}
+.ch-prog i{display:block; height:100%; border-radius:9px; background:var(--jade); transition:width .5s cubic-bezier(.2,.8,.3,1)}
+.ch-n{font:700 12px var(--mono); color:var(--ink-3)}
+
+.ch-hilo{display:flex; flex-direction:column; gap:12px}
+.ch-escena{
+  align-self:center; max-width:60ch; text-align:center;
+  font-size:13.5px; line-height:1.5; color:var(--ink-2); font-style:italic;
+  padding:9px 14px; border-radius:12px; background:var(--surface-2);
+}
+.ch-fila{display:flex; align-items:flex-end; gap:9px; max-width:86%}
+.ch-fila--tu{align-self:flex-end; flex-direction:row}
+.ch-av{
+  width:34px; height:34px; border-radius:50%; flex:none; display:grid; place-items:center;
+  font-size:18px; background:var(--surface-2); border:1px solid var(--line);
+}
+.ch-bur{
+  display:flex; flex-direction:column; gap:2px; padding:11px 14px;
+  border-radius:16px 16px 16px 4px; background:var(--surface); border:1px solid var(--line);
+}
+.ch-bur--tu{border-radius:16px 16px 4px 16px; background:var(--accent-soft); border-color:transparent}
+.ch-bur b{font-size:20px; line-height:1.35; cursor:pointer}
+.ch-bur .rom{font:500 13px var(--mono); color:var(--ink-3)}
+.ch-bur em{font-style:normal; font-size:13px; color:var(--ink-2)}
+
+.ch-turno{
+  padding:16px 17px; border-radius:18px; border:2px dashed var(--accent);
+  background:color-mix(in srgb, var(--accent-soft) 45%, var(--surface));
+}
+.ch-pide{font:700 10px var(--ui); letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink)}
+.ch-es{display:block; font-family:var(--disp); font-size:22px; line-height:1.25; margin-top:5px}
+.ch-modelo{margin-top:9px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+/* display:flex pisa al atributo hidden, así que hay que decirlo aparte */
+.ch-modelo[hidden]{display:none}
+.ch-modelo b{font-size:24px}
+.ch-modelo .rom{font:500 14px var(--mono); color:var(--ink-3)}
+
+.ch-fin{
+  text-align:center; padding:26px 20px; border-radius:18px;
+  background:var(--surface); border:1px solid var(--line);
+}
+.ch-fin-e{font-size:42px; line-height:1; animation:bota 2.4s ease-in-out infinite}
+.ch-fin b{display:block; font-family:var(--disp); font-size:22px; margin:8px 0 6px}
+.ch-fin span{display:block; max-width:52ch; margin:0 auto; font-size:14px; color:var(--ink-2); line-height:1.5}
+
+/* ── juego: ordena la conversación ──────────────────────────── */
+.ord-pide{font:700 10px var(--ui); letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink)}
+.ord-es{display:block; font-family:var(--disp); font-size:21px; line-height:1.25; margin:5px 0 8px}
+.ord-huecos{
+  display:flex; flex-direction:column; gap:7px; min-height:70px;
+  padding:12px; border-radius:14px; border:2px dashed var(--line); background:var(--surface-2);
+  transition:border-color .2s, background .2s;
+}
+.ord-huecos--ok{border-color:var(--jade); border-style:solid;
+  background:color-mix(in srgb, var(--jade) 10%, var(--surface-2))}
+.ord-vacio{color:var(--ink-3); font-size:13.5px; font-style:italic; padding:6px 2px}
+.ord-n{font:700 10px var(--mono); color:var(--ink-3); margin:4px 0 -4px 2px}
+.ord-banco{display:flex; flex-direction:column; gap:8px; margin-top:14px}
+.ord-p{
+  display:flex; align-items:center; gap:11px; width:100%; text-align:left; cursor:pointer;
+  padding:10px 13px; border-radius:13px; font:inherit; color:var(--ink);
+  border:1px solid var(--line); background:var(--surface);
+  transition:transform .13s, border-color .13s, box-shadow .13s;
+  animation:ordEntra .3s cubic-bezier(.2,.9,.3,1) both;
+}
+.ord-p:hover{border-color:var(--brand); transform:translateY(-2px); box-shadow:0 7px 16px -10px var(--brand)}
+.ord-p--puesta{background:var(--accent-soft); border-color:transparent}
+.ord-p--mal{animation:ordMal .42s ease both; border-color:var(--bad)}
+.ord-quien{font-size:21px; line-height:1; flex:none}
+.ord-tx{display:flex; flex-direction:column; min-width:0; gap:1px}
+.ord-tx b{font-size:19px; line-height:1.4}
+.ord-tx .rom{font:500 12.5px var(--mono); color:var(--ink-3)}
+.ord-tx em{font-style:normal; font-size:12.5px; color:var(--ink-2)}
+@keyframes ordEntra{from{opacity:0; transform:scale(.94) translateY(6px)} to{opacity:1; transform:none}}
+@keyframes ordMal{
+  0%,100%{transform:translateX(0)}
+  15%{transform:translateX(-7px) rotate(-1.2deg)}
+  35%{transform:translateX(6px) rotate(1deg)}
+  55%{transform:translateX(-4px) rotate(-.7deg)}
+  75%{transform:translateX(3px)}
+}
+.ord-bien{margin-top:14px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  animation:chEntra .34s cubic-bezier(.2,.9,.3,1) both}
+.ord-bien b{color:var(--jade); font-size:15px}
+.ord-bien em{font-style:normal; font-size:13px; color:var(--ink-3)}
+
+/* cada burbuja entra, no aparece de golpe */
+.ch-nueva{animation:chEntra .34s cubic-bezier(.2,.9,.3,1) both}
+@keyframes chEntra{from{opacity:0; transform:translateY(10px) scale(.97)} to{opacity:1; transform:none}}
+
 /* ── las tareas de hoy, siempre a la vista ──────────────────
    El recuadro grande está en el inicio; esto es el recordatorio que
    viaja contigo por todas las pantallas. */
@@ -1395,6 +1588,14 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .bl-cab{margin-top:20px}
   .bl-cab h2.sec{font-size:20px}
 
+  /* en el móvil caben cuatro por fila: el mapa se lee de un vistazo,
+     que es justo para lo que está */
+  .mg{padding:13px 12px 14px}
+  .mg-letras{grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); gap:6px}
+  .ml{padding:7px 3px 6px}
+  .ml-g{font-size:24px}
+  .ml-n{font-size:9.5px}
+
   .mision{padding:14px; gap:12px; border-radius:16px}
   .mi-emoji{width:50px; height:50px; font-size:28px; border-radius:14px}
   .mi-txt b{font-size:18px}
@@ -1487,6 +1688,8 @@ img{max-width:100%;height:auto}
       </ul>
     </div></main>
 </div>
+<!-- lo que acaba de sonar, por si no se ha pillado -->
+<div id="subt" class="subt" aria-live="polite"></div>
 <script>
 /* ══════════════════════════════════════════════════════════
    PAQUETE DE IDIOMA · ITALIANO
@@ -1518,7 +1721,7 @@ const LANG = {
   ejemploLetra: c => c[1] || null,
   cuadernoPaginas: 33,
   secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","gramatica",
-              "ejercicios","vocabulario","frases","numeros","hablar","juegos","repaso"],
+              "ejercicios","vocabulario","frases","numeros","hablar","charla","juegos","repaso"],
   etiquetas: {ritmo: "Falsos amigos", alfabeto: "Pronunciación", sonidos: "Trampas del oído"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
 
@@ -2337,17 +2540,81 @@ if(window.speechSynthesis){
   setTimeout(findVoice, 900);
 }
 let lastBtn = null;
-function speak(text, btn, rate){
-  if(!window.speechSynthesis || !text) return;
-  speechSynthesis.cancel();
+
+/* Por qué no ha sonado. La causa de lejos más común no es un fallo del
+   código: es que el sistema no tiene instalada la voz de este idioma, y
+   entonces el navegador se calla sin decir nada. */
+let avisosMudo = 0;
+function motivoDelSilencio(){
+  if(!window.speechSynthesis) return "Este navegador no sabe leer en voz alta.";
+  if(!thaiVoice) return "Aquí no hay voz de " + LANG.nombre.toLowerCase()
+    + ": lo que oyes es otra voz leyendo las letras, y no vale. Guíate por la lectura de aquí arriba."
+    + " En Inicio te explico cómo instalar la voz buena.";
+  return "No ha sonado. Vuelve a tocarlo; si sigue mudo, recarga la página.";
+}
+
+/* Arma una locución con la voz y la velocidad del curso. */
+function locucion(text, rate){
   const u = new SpeechSynthesisUtterance(text);
   u.lang = LANG.voz;
   if(thaiVoice) u.voice = thaiVoice;
   u.rate = rate || S.speed;
+  return u;
+}
+
+/* Por qué esto no es simplemente cancel() + speak():
+   1. En Chrome, cancelar y hablar en el mismo tick se come la locución.
+      No falla: se queda muda. De ahí la espera mínima.
+   2. El motor se queda en pausa con la pestaña de fondo, al bloquear el
+      móvil o al cancelar a media palabra, y a partir de ahí todo lo que
+      pidas se encola y no suena nunca. resume() lo despierta.
+   3. Aun así alguna se pierde, así que hay un vigilante: si en 400 ms no
+      ha arrancado, se reintenta una vez desde cero.
+   Era el «a veces no se escucha nada». */
+let ultimaLocucion = 0;
+function diAlgo(text, rate, alArrancar, alTerminar, alFallar){
+  if(!window.speechSynthesis || !text) return;
+  const sintesis = window.speechSynthesis;
+  sintesis.cancel();
+  const mio = ++ultimaLocucion;
+
+  const lanzar = reintento => {
+    if(mio !== ultimaLocucion) return;
+    try{ sintesis.resume(); }catch(e){}
+    const u = locucion(text, rate);
+    let arranco = false, acabo = false;
+    const fin = () => { if(acabo) return; acabo = true; if(alTerminar) alTerminar(); };
+    u.onstart = () => { arranco = true; if(alArrancar) alArrancar(); };
+    u.onend = fin;
+    u.onerror = fin;
+    sintesis.speak(u);
+    setTimeout(() => {
+      if(mio !== ultimaLocucion || arranco || sintesis.speaking) return;
+      /* ya se intentó dos veces. No se insiste más, pero sí se avisa: un
+         silencio sin explicación es lo que más desespera. */
+      if(reintento){ if(alFallar) alFallar(); fin(); return; }
+      sintesis.cancel();
+      lanzar(true);
+    }, 400);
+  };
+  /* el respiro entre cancelar y hablar es lo que arregla el caso 1 */
+  setTimeout(() => lanzar(false), 40);
+}
+
+function speak(text, btn, rate){
+  if(!window.speechSynthesis || !text) return;
   if(lastBtn) lastBtn.classList.remove("playing");
-  if(btn){ btn.classList.add("playing"); lastBtn = btn;
-    u.onend = u.onerror = () => btn.classList.remove("playing"); }
-  speechSynthesis.speak(u);
+  if(btn){ btn.classList.add("playing"); lastBtn = btn; }
+  const apaga = () => { if(btn) btn.classList.remove("playing"); };
+  /* Sin voz del idioma el navegador NO se calla: lee el texto con la voz
+     que tenga a mano, normalmente la del sistema, y sale un ruido que no
+     se parece a nada. Eso es lo que se vive como «no se entiende lo que
+     dice». Se avisa las primeras veces y luego se deja en paz: la barra
+     ya enseña la palabra y cómo se lee. */
+  subtitula(text, (!thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
+  diAlgo(text, rate, null, apaga, () => subtitula(text, motivoDelSilencio()));
+  /* por si el navegador no avisa del final: el botón no se queda encendido */
+  setTimeout(apaga, 900 + text.length * 260);
   touchStreak();
   bump("plays");
 }
@@ -2446,7 +2713,7 @@ const NAV_GROUPS = [
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
                    ["escritura","Escritura","pen"], ["gramatica","Gramática","grammar"]]],
   ["Práctica", [["ejercicios","Ejercicios","hueco"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
-                ["hablar","Hablar","mic"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
+                ["hablar","Hablar","mic"], ["charla","Conversaciones","chat"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
 ];
 const NAV_ALL = NAV_GROUPS.reduce((a, g) => a.concat(g[1]), []);
 const NAV = NAV_ALL.filter(n => LANG.secciones.indexOf(n[0]) >= 0)
@@ -2785,11 +3052,17 @@ VIEWS.alfabeto = {
 
     <div class="banner"><div>${T("alfa_banner","")}</div></div>
 
+    ${mapaAlfabetoHTML() ? `
+    <h2 class="sec">De un vistazo</h2>
+    <p class="sec-note">Las letras repartidas en grupos, cada uno con su color. Ese color es el mismo
+    en toda la página: en la lista, en la ficha de cada letra y en los tests. Toca cualquiera para oírla.</p>
+    ${mapaAlfabetoHTML()}` : ""}
+
     <h2 class="sec">${T("alfa_sec1","Letras")} <span class="th">${T("alfa_sec1th","")}</span></h2>
     <div class="filters" id="cFilters">
       ${FILTROS.map(([v,t]) => `<button data-f="${v}" aria-pressed="${consFilter===v}">${t}</button>`).join("")}
     </div>
-    ${LANG.leyenda ? `<div class="legend">${LANG.leyenda.map(([c,t]) => `<span><i class="cl cl-${c}"></i> ${t}</span>`).join("")}<span style="margin-left:auto">${T("alfa_sec1nota","")}</span></div>` : `<p class="sec-note">${T("alfa_sec1nota","")}</p>`}
+    ${LANG.leyenda ? `<div class="legend">${LANG.leyenda.map(([c,t]) => `<span><i class="cl kd-${claseN(c)}"></i> ${t}</span>`).join("")}<span style="margin-left:auto">${T("alfa_sec1nota","")}</span></div>` : `<p class="sec-note">${T("alfa_sec1nota","")}</p>`}
     <div id="cDetail"></div>
     <div class="letters" id="cGrid"></div>
 
@@ -2832,7 +3105,7 @@ function paintCons(){
   const list = consList();
   g.innerHTML = list.length ? list.map((c,i) => `<div class="lt pop ${S.known[c[0]] ? "known" : ""}" data-c="${c[0]}"
       role="button" tabindex="0" aria-selected="${selCons === c[0]}" style="animation-delay:${Math.min(i,24)*18}ms">
-      ${LANG.leyenda ? `<i class="cl cl-${c[5]}" title="clase ${CLASSNAME[c[5]]}"></i>` : ""}
+      ${LANG.leyenda ? `<i class="cl kd-${claseN(c[5])}" title="${esc(CLASSNAME[c[5]])}"></i>` : ""}
       <span class="g th">${c[0]}</span><span class="n th">${c[1]}</span><span class="s">${c[2].split(" · ")[0]}</span>
       <button class="tick" data-tick="${c[0]}" title="${S.known[c[0]] ? "Quitar de aprendidas" : "Marcar como aprendida"}"
         aria-label="${S.known[c[0]] ? "Quitar de aprendidas" : "Marcar como aprendida"}">✓</button></div>`).join("")
@@ -2862,7 +3135,7 @@ function paintDetail(){
     <div style="text-align:center"><div class="big th">${c[0]}</div>${sayBtn(letraNombre(c), c[2])}</div>
     <div>
       <div class="row"><b class="th" style="font-size:20px">${c[1]}</b>
-        <span class="chip chip--${CLASSNAME[c[5]]}">clase ${CLASSNAME[c[5]]}</span>
+        <span class="chip kl-${claseN(c[5])}">${esc(CLASSNAME[c[5]])}</span>
         ${c[6] ? '<span class="chip chip--baja">en desuso</span>' : ""}</div>
       <dl>
         <dt>Nombre</dt><dd>${c[2]}${LANG.ejemploLetra && LANG.ejemploLetra(c) ? " " + sayBtn(LANG.ejemploLetra(c), "el ejemplo") : ""}</dd>
@@ -3579,7 +3852,10 @@ function makeMixed(){
     return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
       prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
-      options:Object.keys(CLASSNAME).map(k => ({label:CLASSNAME[k], ok:k === c[5]})),
+      /* con su color: es la pista que se recuerda, y es el mismo de la
+         lista de letras y del mapa */
+      options:Object.keys(CLASSNAME).map(k =>
+        ({label:`<i class="cl kd-${claseN(k)}" style="margin-right:7px"></i>${esc(CLASSNAME[k])}`, ok:k === c[5]})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
       after:`${c[1]} — ${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? ". " + CLASSNOTA[c[5]] : ""}`};
   }
@@ -3696,6 +3972,16 @@ const DIBUJO_FRASES = [
   ["alérgico","🤧"]
 ];
 const DIBUJO_PALABRAS = {
+  /* Las palabras con las que se nombran las letras del alfabeto. Cada
+     letra se aprende con su dibujo —así se enseñan a los niños allí—, y
+     sin estos la mitad del abecedario salía con el comodín. */
+  botella:"🍾", "búfalo":"🐃", campana:"🔔", serpiente:"🐍", platillos:"🎶",
+  cadena:"⛓️", tocado:"👑", "aguijón":"🪡", pedestal:"🏛️", anciano:"👴",
+  novicio:"🧘", bolsa:"👜", soldado:"💂", bandera:"🚩", hoja:"🍃",
+  pez:"🐟", abeja:"🐝", tapa:"🎩", bandeja:"🍽️", diente:"🦷",
+  junco:"⛵", gigante:"👹", barca:"🛶", mono:"🐒", anillo:"💍",
+  "pabellón":"⛩️", ermitaño:"🧙", cofre:"🧰", cometa:"🪁", barreño:"🏺",
+  "búho":"🦉", "hormiguero":"🐜", "mano":"✋", "pie":"🦶",
   hola:"👋", adiós:"👋", chao:"👋", gracias:"🙏", perdón:"🙇", perdone:"🙇",
   disculpe:"🙇", encantado:"🤝", "sí":"✅", no:"❌", bien:"👍", bueno:"👍",
   malo:"👎", yo:"🙋", "tú":"👉", usted:"👉", "él":"👨", ella:"👩",
@@ -3979,6 +4265,9 @@ function escuchaRepeticion(btn){
       pinta(`Te ha entendido ${oido}, que no es lo que buscábamos.
         ${T("hablar_falla", "Vuelve a escuchar el modelo y repite exagerando.")}`);
     }
+    /* la conversación usa este mismo botón y necesita saber el veredicto
+       para pasar de turno (charla.js) */
+    trasRepetir(btn, mejor.estado);
   };
   r.onerror = ev => {
     pinta(ev.error === "not-allowed" || ev.error === "service-not-allowed"
@@ -4020,15 +4309,79 @@ document.addEventListener("click", e => {
 /* chuleta de clases para el test «¿de qué tipo es?»: se abre si hace falta.
    Se construye con las letras del propio paquete; la clase más grande se
    resume como «todas las demás», que es como se aprende. */
+/* ── los grupos de letras, en colores ─────────────────────
+   Cada idioma reparte sus letras en grupos: por clase de tono, por si
+   son aspiradas, por si se parecen al castellano… Lo que el grupo
+   signifique lo dice el paquete; el motor solo se ocupa de que se vean.
+
+   Un color por grupo, y SIEMPRE el mismo: en la lista de letras, en la
+   ficha, en la ayuda y en el mapa. Un color se recuerda; un párrafo que
+   dice «clase alta» no. */
+const CLAVES_CLASE = () => Object.keys(CLASSNAME);
+/* el número del grupo (1..4) es lo que elige el color */
+const claseN = k => CLAVES_CLASE().indexOf(k) + 1;
+const letrasDe = k => CONS.filter(c => !c[6] && c[5] === k);
+/* el grupo más numeroso se aprende por descarte, no de memoria */
+function grupoDeDescarte(){
+  const g = CLAVES_CLASE().map(k => [k, letrasDe(k).length]).sort((a, b) => b[1] - a[1]);
+  return (g[0] && g[1] && g[0][1] >= g[1][1] * 2 && g[0][1] >= 10) ? g[0][0] : null;
+}
+
+/* una letra del mapa: la letra grande, su dibujo y su nombre */
+function fichaLetraHTML(c){
+  const dib = dibujo(c);
+  return `<button class="ml" data-say="${esc(LANG.nombreLetra ? LANG.nombreLetra(c) : c[1])}"
+      title="${esc(c[2])}">
+    <span class="ml-dib" aria-hidden="true">${dib === "✨" ? "" : dib}</span>
+    <span class="ml-g th">${c[0]}</span>
+    <span class="ml-n">${esc(String(c[2]).split(" · ").pop())}</span>
+  </button>`;
+}
+
+function mapaAlfabetoHTML(){
+  if(typeof CLASSNAME === "undefined" || !CLASSNAME) return "";
+  const claves = CLAVES_CLASE().filter(k => letrasDe(k).length);
+  /* Con más de cuatro grupos los colores se repiten y dejan de decir
+     nada: ahí el mapa estorba más que ayuda y se queda la tabla de
+     siempre. (Pasa donde los «grupos» son las filas del silabario.) */
+  if(claves.length < 2 || claves.length > 4) return "";
+  const total = claves.reduce((n, k) => n + letrasDe(k).length, 0);
+  const descarte = grupoDeDescarte();
+  return `<div class="mapa">
+    ${claves.map(k => {
+      const ls = letrasDe(k), n = claseN(k);
+      return `<section class="mg mg--k${n}">
+        <header class="mg-cab">
+          <span class="mg-punto" aria-hidden="true"></span>
+          <b>${esc(CLASSNAME[k])}</b>
+          <span class="mg-n">${ls.length}</span>
+          <span class="mg-barra" aria-hidden="true"><i style="width:${Math.round(ls.length / total * 100)}%"></i></span>
+        </header>
+        ${k === descarte
+          ? `<p class="mg-truco">👉 Estas no hay que aprendérselas: son <b>todas las demás</b>.
+               Si una letra no está en los otros grupos, está aquí.</p>`
+          : (CLASSNOTA && CLASSNOTA[k] ? `<p class="mg-nota">${CLASSNOTA[k]}</p>` : "")}
+        <div class="mg-letras">${ls.map(fichaLetraHTML).join("")}</div>
+      </section>`;
+    }).join("")}
+  </div>`;
+}
+
+/* la chuleta de dentro del test: los mismos colores, sin párrafos */
 function clasesAyudaHTML(){
-  const grupos = Object.keys(CLASSNAME).map(k => [k, CONS.filter(x => !x[6] && x[5] === k).map(x => x[0])]);
-  const mayor = grupos.reduce((a, g) => g[1].length > a[1].length ? g : a, grupos[0]);
-  return `<details class="clases-ayuda"><summary>¿No te acuerdas? Ver los tipos</summary>
-    ${grupos.map(([k, letras]) => `<div class="ca-fila"><b>${CLASSNAME[k]}</b>
-      ${k === mayor[0] && letras.length > 14
-        ? `<span class="muted">todas las demás (${letras.length})</span>`
-        : `<span class="th ca-letras">${letras.join(" ")}</span>`}
-      ${CLASSNOTA[k] ? `<small>${CLASSNOTA[k]}</small>` : ""}</div>`).join("")}
+  const claves = CLAVES_CLASE().filter(k => letrasDe(k).length);
+  const descarte = grupoDeDescarte();
+  return `<details class="clases-ayuda"><summary>¿No te acuerdas? Ver los grupos</summary>
+    ${claves.map(k => {
+      const ls = letrasDe(k);
+      return `<div class="ca-fila ca-fila--k${claseN(k)}">
+        <span class="mg-punto" aria-hidden="true"></span>
+        <b>${esc(CLASSNAME[k])}</b>
+        ${k === descarte
+          ? `<span class="muted">todas las demás (${ls.length})</span>`
+          : `<span class="th ca-letras">${ls.map(c => c[0]).join(" ")}</span>`}
+      </div>`;
+    }).join("")}
   </details>`;
 }
 
@@ -4103,17 +4456,17 @@ function lecDiSeguido(items, sel){
     if(k >= items.length) return;
     const it = items[k++];
     (it.marcar || []).forEach(i => { const p = piezas()[i]; if(p) p.classList.add("suena"); });
-    const u = new SpeechSynthesisUtterance(it.texto);
-    u.lang = LANG.voz;
-    if(thaiVoice) u.voice = thaiVoice;
-    u.rate = S.speed * (it.entera ? 1 : 0.85);
+    subtitula(it.texto);
+    const u = locucion(it.texto, S.speed * (it.entera ? 1 : 0.85));
     let hecho = false;
     const fin = () => { if(hecho) return; hecho = true; setTimeout(siguiente, it.entera ? 200 : 420); };
     u.onend = fin; u.onerror = fin;
     setTimeout(fin, 1100 + it.texto.length * 450);
+    try{ speechSynthesis.resume(); }catch(e){}   /* el motor se queda dormido */
     speechSynthesis.speak(u);
   };
-  siguiente();
+  /* cancelar y hablar en el mismo tick deja a Chrome mudo */
+  setTimeout(siguiente, 40);
   bump("plays");
 }
 function lecPiezaAPieza(){
@@ -4864,6 +5217,513 @@ document.addEventListener("click", e => {
   }, {passive:true});
 })();
 
+/* ══════════════════════════════════════════════════════════
+   CONVERSACIÓN · y la barra de lo que suena
+   ══════════════════════════════════════════════════════════
+   Dos cosas, las dos contra el mismo problema: oyes algo, no lo pillas,
+   y no tienes dónde mirar.
+
+   1 · La barra de abajo enseña lo que acaba de sonar: la palabra, cómo
+       se lee y qué significa, con un botón para repetirla más lenta. Si
+       el navegador no llega a pronunciarlo, al menos lo lees.
+   2 · La conversación: una escena, alguien te habla, y te toca contestar
+       en voz alta. Te corrige con el mismo motor que el resto del curso.
+
+   Importante sobre el material: las frases de los paquetes son todas
+   cosas que dice QUIEN APRENDE. No hay guiones del otro lado, y no me
+   voy a inventar texto en siete idiomas que nadie ha revisado. Así que
+   el otro lado habla cuando la frase existe y sirve para ambos (saludos,
+   cortesía, preguntas); el resto del hilo lo lleva la escena, en
+   castellano. Lo que se oye y lo que se te corrige sale siempre del
+   paquete del idioma.
+
+   Va después de vida.js (usa repetirHTML y comparaHabla) y antes de
+   part4.js, que es quien arranca la app. */
+
+/* ── 1 · la barra de lo que suena ──────────────────────────
+   El índice se arma una sola vez, la primera vez que hace falta. */
+let fichero = null;
+function ficheroDeSonidos(){
+  if(fichero) return fichero;
+  const f = new Map();
+  const mete = (txt, rom, es) => {
+    if(!txt || f.has(txt)) return;
+    f.set(txt, {rom:rom || "", es:es || ""});
+  };
+  /* Cada fuente va aparte y protegida: si un paquete cambia de forma, se
+     pierde esa fuente y no el índice entero. NUM, por ejemplo, no es una
+     lista sino la configuración de la calculadora de números. */
+  const lista = x => (typeof x !== "undefined" && Array.isArray(x)) ? x : [];
+  try{ lista(typeof VOCAB !== "undefined" ? VOCAB : null).forEach(v => mete(v[0], v[1], v[2])); }catch(e){}
+  try{
+    lista(typeof PHRASES !== "undefined" ? PHRASES : null).forEach(p => {
+      mete(renderPhrase(p[0]), renderRom(p[1]), p[2]);
+      mete(p[0], p[1], p[2]);                  /* sin resolver, por si acaso */
+    });
+  }catch(e){}
+  try{ lista(typeof CONS !== "undefined" ? CONS : null).forEach(c => mete(c[1], c[2], "la letra " + c[0])); }catch(e){}
+  try{
+    const pal = typeof NUM_WORDS !== "undefined" ? NUM_WORDS : null;
+    const rom = typeof NUM_ROM !== "undefined" ? NUM_ROM : null;
+    lista(pal).forEach((w, i) => mete(w, rom && rom[i], "el número " + i));
+  }catch(e){}
+  /* solo se guarda si se ha montado entero: si no, la próxima lo reintenta */
+  fichero = f;
+  return f;
+}
+
+let subTimer = null;
+function subtitula(texto, aviso){
+  const caja = document.getElementById("subt");
+  if(!caja || !texto) return;
+  const d = ficheroDeSonidos().get(texto) || {rom:"", es:""};
+  caja.innerHTML = `
+    <div class="sub-txt">
+      <b class="th">${esc(texto)}</b>
+      ${d.rom ? `<span class="rom">${esc(d.rom)}</span>` : ""}
+      ${d.es ? `<em>${esc(d.es)}</em>` : ""}
+      ${aviso ? `<em class="sub-mudo">${esc(aviso)}</em>` : ""}
+    </div>
+    <button class="sub-b" data-sub-lento title="Repetirlo muy despacio">🐢 Más lento</button>
+    <button class="sub-x" data-sub-x aria-label="Cerrar">&times;</button>`;
+  caja.dataset.txt = texto;
+  caja.classList.toggle("subt--mudo", !!aviso);
+  caja.classList.add("ver");
+  clearTimeout(subTimer);
+  /* si no ha sonado, el texto es lo único que hay: se queda más rato */
+  subTimer = setTimeout(() => caja.classList.remove("ver"), aviso ? 12000 : 7000);
+}
+document.addEventListener("click", e => {
+  const caja = document.getElementById("subt");
+  if(e.target.closest("[data-sub-x]")){ caja.classList.remove("ver"); return; }
+  if(e.target.closest("[data-sub-lento]") && caja && caja.dataset.txt){
+    /* 0.45 es el mínimo que casi todos los motores respetan sin romperse */
+    diAlgo(caja.dataset.txt, 0.45);
+    clearTimeout(subTimer);
+    subTimer = setTimeout(() => caja.classList.remove("ver"), 9000);
+  }
+});
+
+/* ── 2 · buscar una frase del paquete por su significado ───
+   Los siete paquetes dicen lo mismo con palabras algo distintas
+   («Hola», «Hola (de día)», «¡Hola! (informal)»…), así que se compara
+   sin tildes, sin signos y por el principio. */
+const sinTildes = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+const llano = s => sinTildes(String(s).toLowerCase()).replace(/[¿?¡!.,;:()/]/g, " ")
+                   .replace(/\s+/g, " ").trim();
+function frasePorSentido(claves){
+  const lista = typeof PHRASES !== "undefined" ? PHRASES : [];
+  for(const clave of claves){
+    const k = llano(clave);
+    for(const p of lista) if(llano(p[2]).startsWith(k)) return p;
+    for(const p of lista) if(llano(p[2]).indexOf(k) >= 0) return p;
+  }
+  return null;
+}
+
+/* ── 3 · los guiones ───────────────────────────────────────
+   «ellos» solo habla cuando la frase existe en el paquete y vale para
+   los dos lados. Si falta, el turno se cae y la escena lo cubre. */
+const GUIONES = [
+  {id:"saludo", emoji:"👋", titulo:"Te saludan por la calle",
+   pie:"Lo primero que te va a pasar, el primer día.",
+   turnos:[
+     {q:"escena", t:"Alguien del barrio te ve, sonríe y se acerca."},
+     {q:"ellos", busca:["hola"]},
+     {q:"tu", busca:["hola"]},
+     {q:"ellos", busca:["que tal", "como estas"]},
+     {q:"tu", busca:["estoy bien", "bien gracias", "no pasa nada"]},
+     {q:"ellos", busca:["como te llamas", "como se llama"]},
+     {q:"tu", busca:["me llamo"]},
+     {q:"ellos", busca:["encantado de conocerte", "un placer"]},
+     {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]},
+     {q:"escena", t:"Te pregunta de dónde eres."},
+     {q:"tu", busca:["vengo de espana", "soy de espana", "soy espanol"]},
+     {q:"escena", t:"Mira el reloj: tiene que irse."},
+     {q:"ellos", busca:["adios", "hasta luego", "hasta la proxima", "hasta manana"]},
+     {q:"tu", busca:["adios", "hasta luego", "hasta la proxima", "hasta manana"]}
+   ]},
+
+  {id:"resto", emoji:"🍜", titulo:"Comer en un sitio pequeño",
+   pie:"De sentarte a pagar, sin señalar con el dedo.",
+   turnos:[
+     {q:"escena", t:"Te sientas en una mesa del fondo. El camarero se acerca."},
+     {q:"ellos", busca:["hola", "buenos dias"]},
+     {q:"tu", busca:["la carta por favor", "me trae la carta", "una mesa para dos"]},
+     {q:"escena", t:"Te la deja en la mesa. Hay treinta platos y no entiendes ninguno."},
+     {q:"tu", busca:["que me recomienda"]},
+     {q:"escena", t:"Señala uno con el dedo y te mira esperando."},
+     {q:"tu", busca:["quiero esto", "voy a tomar esto", "esto por favor"]},
+     {q:"escena", t:"Apunta y te pregunta algo sobre el picante."},
+     {q:"tu", busca:["sin picante", "que no pique", "poco picante"]},
+     {q:"escena", t:"Llega el plato. Está buenísimo y él te mira de reojo a ver qué cara pones."},
+     {q:"tu", busca:["esta buenisimo"]},
+     {q:"escena", t:"Sonríe. Terminas, y toca pedir la cuenta."},
+     {q:"tu", busca:["la cuenta"]},
+     {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]}
+   ]},
+
+  {id:"taxi", emoji:"🚕", titulo:"Coger un taxi",
+   pie:"Decir a dónde vas, y conseguir que pare donde quieres.",
+   turnos:[
+     {q:"escena", t:"Levantas la mano. Un taxi para y te subes atrás."},
+     {q:"ellos", busca:["hola", "buenos dias"]},
+     {q:"tu", busca:["al aeropuerto", "quiero ir al aeropuerto", "cuanto cuesta ir al aeropuerto"]},
+     {q:"escena", t:"Asiente y arranca. Llevas un rato y no sabes cuánto queda."},
+     {q:"tu", busca:["esta lejos"]},
+     {q:"escena", t:"Hace un gesto de «un poco». Más adelante reconoces la calle."},
+     {q:"tu", busca:["pare aqui"]},
+     {q:"escena", t:"Frena y se gira a cobrarte."},
+     {q:"tu", busca:["cuanto cuesta esto", "cuanto cuesta"]},
+     {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]}
+   ]},
+
+  {id:"mercado", emoji:"🧺", titulo:"Regatear en el mercado",
+   pie:"Preguntar el precio, decir que es mucho, y pagar.",
+   turnos:[
+     {q:"escena", t:"En un puesto ves algo que te gusta. La vendedora te ve mirarlo."},
+     {q:"ellos", busca:["hola", "buenos dias"]},
+     {q:"tu", busca:["cuanto cuesta esto", "cuanto cuesta"]},
+     {q:"escena", t:"Te dice un precio que es el triple de lo que vale."},
+     {q:"tu", busca:["es demasiado caro", "es caro"]},
+     {q:"tu", busca:["me hace un descuento", "me hace descuento", "me lo deja mas barato"]},
+     {q:"escena", t:"Resopla, se lo piensa, y baja un poco."},
+     {q:"tu", busca:["aceptan tarjeta", "puedo pagar con tarjeta"]},
+     {q:"escena", t:"Niega con la cabeza: solo efectivo. Pagas."},
+     {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]}
+   ]},
+
+  {id:"nopillo", emoji:"🫠", titulo:"No te enteras de nada",
+   pie:"La conversación más útil de todas: pedir que vayan más despacio.",
+   turnos:[
+     {q:"escena", t:"Te sueltan una parrafada a toda velocidad. No has cogido ni una palabra."},
+     {q:"tu", busca:["no entiendo"]},
+     {q:"escena", t:"Te miran, y lo repiten igual de rápido."},
+     {q:"tu", busca:["puedes hablar mas despacio", "hable mas despacio", "mas despacio por favor",
+                     "puede hablar mas despacio"]},
+     {q:"escena", t:"Ahora sí, van más lentos. Pero se te ha escapado el final."},
+     {q:"tu", busca:["puedes repetirlo", "repitalo", "repitamelo", "otra vez por favor", "puede repetirlo"]},
+     {q:"escena", t:"Lo repiten. Esta vez lo pillas. Conviene explicar por qué cuesta."},
+     {q:"tu", busca:["hablo un poco", "entiendo un poco"]},
+     {q:"escena", t:"Sonríen y bajan el ritmo para el resto de la charla."},
+     {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]}
+   ]}
+];
+
+/* Resuelve un guion contra el paquete del idioma. Los turnos hablados
+   que no existan se caen; si quedan menos de tres cosas que decir, el
+   guion entero no se ofrece. */
+function montaGuion(g){
+  const turnos = [];
+  for(const t of g.turnos){
+    if(t.q === "escena"){ turnos.push(t); continue; }
+    const p = frasePorSentido(t.busca);
+    if(!p) continue;
+    turnos.push({q:t.q, th:renderPhrase(p[0]), rom:renderRom(p[1]), es:p[2]});
+  }
+  /* Si un turno hablado no existe en este idioma se cae, y pueden quedar
+     dos escenas seguidas. No se tira ninguna: se juntan, que si no el
+     hilo de la historia se rompe. */
+  const limpio = [];
+  for(const t of turnos){
+    const ult = limpio[limpio.length - 1];
+    if(t.q === "escena" && ult && ult.q === "escena") ult.t += " " + t.t;
+    else limpio.push(t.q === "escena" ? {q:"escena", t:t.t} : t);
+  }
+  while(limpio.length && limpio[limpio.length-1].q === "escena") limpio.pop();
+  const mias = limpio.filter(t => t.q === "tu").length;
+  return mias >= 3 ? Object.assign({}, g, {turnos:limpio, mias}) : null;
+}
+let GUIONES_OK = null;
+const guionesListos = () => (GUIONES_OK = GUIONES_OK || GUIONES.map(montaGuion).filter(Boolean));
+
+/* ── 4 · la vista ──────────────────────────────────────────── */
+let chId = null, chPaso = 0, chBien = 0;
+const chClave = id => LANG.id + ":charla:" + id;
+const chHecha = id => !!(S.charlas && S.charlas[chClave(id)]);
+
+VIEWS.charla = {
+  html(){
+    const gs = guionesListos();
+    return `
+    <div class="vhead"><div class="eyebrow">Práctica</div>
+      <h1>Conversaciones</h1>
+      <p class="lede">Una escena, alguien que te habla y tu turno de contestar en voz alta.
+      Lo que dices se compara con el modelo y se te corrige, igual que en el resto del curso.
+      Todo lo que vas a oír y a decir sale de las frases que ya has visto.</p></div>
+
+    <h2 class="sec">Elige una situación</h2>
+    <p class="sec-note">Empieza por la primera: es la que te va a pasar antes.
+    ${SR ? "Necesitas el micrófono; si prefieres no usarlo, puedes pasar de turno igualmente."
+         : "Tu navegador no deja usar el micrófono, así que no podrá corregirte: aun así puedes seguir la conversación y practicar en voz alta."}</p>
+    <div class="ch-lista">
+      ${gs.map(g => `<button class="ch-card ${chHecha(g.id) ? "ch-card--ok" : ""}" data-charla="${g.id}">
+        <span class="ch-emoji" aria-hidden="true">${g.emoji}</span>
+        <span class="ch-t"><b>${esc(g.titulo)}</b><em>${esc(g.pie)}</em>
+          <i>${g.mias} cosas que decir</i></span>
+        <span class="ch-ir">${chHecha(g.id) ? "✓ hecha" : "Empezar →"}</span>
+      </button>`).join("")}
+    </div>
+
+    <h2 class="sec">La conversación</h2>
+    <div id="chCaja"><p class="muted">Elige una situación de arriba y empieza.</p></div>`;
+  },
+  init(){
+    document.querySelectorAll("[data-charla]").forEach(b => b.addEventListener("click", () => {
+      chId = b.dataset.charla; chPaso = 0; chBien = 0;
+      chPinta();
+      const c = document.getElementById("chCaja");
+      if(c){ abreBloquesDe(c); c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"}); }
+    }));
+    viewCleanup = () => { if(window.speechSynthesis) speechSynthesis.cancel(); };
+  }
+};
+
+const chGuion = () => guionesListos().find(g => g.id === chId);
+
+function chPinta(){
+  const caja = document.getElementById("chCaja");
+  if(!caja) return;
+  const g = chGuion();
+  if(!g){ caja.innerHTML = `<p class="muted">Elige una situación de arriba y empieza.</p>`; return; }
+
+  const vistos = g.turnos.slice(0, chPaso);
+  const ahora = g.turnos[chPaso];
+  const total = g.mias;
+  const hechas = vistos.filter(t => t.q === "tu").length;
+
+  caja.innerHTML = `
+    <div class="ch-cab">
+      <span class="ch-emoji" aria-hidden="true">${g.emoji}</span>
+      <b>${esc(g.titulo)}</b>
+      <span class="ch-prog"><i style="width:${Math.round(hechas / total * 100)}%"></i></span>
+      <span class="ch-n">${hechas}/${total}</span>
+      <button class="btn btn--s" data-ch-salir>Salir</button>
+    </div>
+    <div class="ch-hilo" id="chHilo">
+      ${vistos.map(t => chBurbuja(t, true)).join("")}
+      ${ahora ? chBurbuja(ahora, false) : chFinal(g)}
+    </div>`;
+
+  /* el turno de ellos suena solo, en cuanto aparece */
+  if(ahora && ahora.q === "ellos"){
+    setTimeout(() => speak(ahora.th), 420);
+    setTimeout(() => { if(chGuion() === g) { chPaso++; chPinta(); } }, 1500 + ahora.th.length * 160);
+  }
+  if(ahora && ahora.q === "escena"){
+    setTimeout(() => { if(chGuion() === g){ chPaso++; chPinta(); } }, 1400 + ahora.t.length * 22);
+  }
+  const h = document.getElementById("chHilo");
+  if(h){
+    const ult = h.lastElementChild;
+    if(ult && chPaso > 0) ult.scrollIntoView({block:"nearest", behavior:pocoMovimiento() ? "auto" : "smooth"});
+  }
+}
+
+function chBurbuja(t, pasado){
+  if(t.q === "escena")
+    return `<div class="ch-escena ${pasado ? "" : "ch-nueva"}">${esc(t.t)}</div>`;
+  if(t.q === "ellos")
+    return `<div class="ch-fila ch-fila--ellos ${pasado ? "" : "ch-nueva"}">
+      <span class="ch-av" aria-hidden="true">🧑</span>
+      <div class="ch-bur">
+        <b class="th" data-say="${esc(t.th)}" role="button" tabindex="0" title="Tocar para oírlo otra vez">${t.th}</b>
+        <span class="rom">${esc(t.rom)}</span>
+        <em>${esc(t.es)}</em>
+      </div></div>`;
+  /* turno tuyo */
+  if(pasado)
+    return `<div class="ch-fila ch-fila--tu">
+      <div class="ch-bur ch-bur--tu">
+        <b class="th">${t.th}</b><span class="rom">${esc(t.rom)}</span><em>${esc(t.es)}</em>
+      </div>
+      <span class="ch-av" aria-hidden="true">🙂</span></div>`;
+  return `<div class="ch-turno ch-nueva">
+    <div class="ch-pide">Te toca decir:</div>
+    <b class="ch-es">${esc(t.es)}</b>
+    <div class="ch-modelo" id="chModelo" hidden>
+      <b class="th">${t.th}</b><span class="rom">${esc(t.rom)}</span>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn btn--s" data-ch-oir>${svg("play")} Oír el modelo</button>
+      ${repetirHTML(t.th, "Dilo tú")}
+      <button class="btn btn--s" data-ch-pasar style="margin-left:auto">Pasar →</button>
+    </div>`;
+}
+
+function chFinal(g){
+  return `<div class="ch-fin">
+    <div class="ch-fin-e" aria-hidden="true">🎉</div>
+    <b>Conversación terminada</b>
+    <span>Has dicho ${chBien} de ${g.mias} como el modelo. Repetirla entera un par de veces
+    es lo que hace que salga sola cuando te pase de verdad.</span>
+    <div class="row" style="justify-content:center;margin-top:14px">
+      <button class="btn btn--p" data-ch-otra>Repetirla</button>
+      <button class="btn" data-ch-salir>Elegir otra</button>
+    </div></div>`;
+}
+
+/* avanza cuando el turno tuyo se da por bueno (o lo pasas) */
+function chAvanza(acertado){
+  const g = chGuion();
+  if(!g) return;
+  if(acertado) chBien++;
+  chPaso++;
+  if(chPaso >= g.turnos.length){
+    if(!S.charlas || typeof S.charlas !== "object") S.charlas = {};
+    S.charlas[chClave(g.id)] = 1;
+    save();
+    ganaXP(20);
+    celebra();
+  }
+  chPinta();
+}
+
+/* ── 5 · juego: ordena la conversación ─────────────────────
+   Las frases de una escena, revueltas. Hay que ponerlas en el orden en
+   que pasarían. Cada acierto suena, y el fallo solo sacude la ficha.
+
+   Nació como «monta la frase» partiendo por espacios, y no valía: hay
+   escrituras que no separan las palabras, y en tres de los siete cursos
+   no quedaba nada que partir. Ordenar frases enteras funciona igual de
+   bien en todos y además entrena algo que ninguna otra pantalla toca:
+   cómo se encadena una conversación de verdad.
+   (El motor es compartido: aquí no se nombra ningún idioma. Ver el
+   README, «verificar.js».) */
+const ORD_MAX = 6;
+let ordEsc = null, ordPuestas = [], ordRevueltas = [], ordFallos = 0, ordSeguidas = 0;
+
+function ordNueva(){
+  const gs = guionesListos();
+  if(!gs.length){ ordEsc = null; return; }
+  let g;
+  do { g = gs[Math.floor(Math.random() * gs.length)]; }
+  while(gs.length > 1 && ordEsc && g.id === ordEsc.id);
+  const dichas = g.turnos.filter(t => t.q !== "escena").slice(0, ORD_MAX)
+    .map((t, i) => ({i, quien:t.q, th:t.th, rom:t.rom, es:t.es}));
+  ordEsc = {id:g.id, emoji:g.emoji, titulo:g.titulo, piezas:dichas};
+  ordPuestas = [];
+  ordFallos = 0;
+  do { ordRevueltas = dichas.slice().sort(() => Math.random() - 0.5); }
+  while(dichas.length > 1 && ordRevueltas.every((p, k) => p.i === k));
+}
+
+function ordFicha(p, puesta){
+  return `<button class="ord-p ${puesta ? "ord-p--puesta" : ""}"
+      data-ord-${puesta ? "quita" : "pon"}="${p.i}">
+    <span class="ord-quien" aria-hidden="true">${p.quien === "tu" ? "🙂" : "🧑"}</span>
+    <span class="ord-tx"><b class="th">${p.th}</b><span class="rom">${esc(p.rom)}</span>
+      <em>${esc(p.es)}</em></span>
+  </button>`;
+}
+
+function ordHTML(){
+  if(!ordEsc) return `<p class="muted">Este curso aún no tiene frases suficientes para este juego.</p>`;
+  const total = ordEsc.piezas.length;
+  const listo = ordPuestas.length === total;
+  const quedan = ordRevueltas.filter(p => !ordPuestas.some(x => x.i === p.i));
+  return `
+    <div class="ord-pide">${ordEsc.emoji} ${esc(ordEsc.titulo)}</div>
+    <b class="ord-es">¿En qué orden pasa?</b>
+    <p class="sec-note" style="margin:0 0 12px">Toca las frases en el orden en que se dirían.
+    🧑 es lo que dicen ellos, 🙂 lo que dices tú.</p>
+
+    <div class="ord-huecos ${listo ? "ord-huecos--ok" : ""}">
+      ${ordPuestas.length
+        ? ordPuestas.map((p, n) => `<span class="ord-n">${n+1}</span>` + ordFicha(p, true)).join("")
+        : `<span class="ord-vacio">Empieza por la primera…</span>`}
+    </div>
+
+    ${listo
+      ? `<div class="ord-bien">
+           <b>✓ En orden.</b>
+           ${ordFallos ? `<em>${ordFallos} ${ordFallos === 1 ? "fallo" : "fallos"} por el camino.</em>`
+                       : `<em>Entera a la primera.</em>`}
+         </div>
+         <div class="row" style="margin-top:12px">
+           <button class="btn btn--s" data-ord-toda>${svg("play")} Oírla entera</button>
+           <button class="btn btn--s" data-go="charla">Hacerla hablando →</button>
+           <button class="btn btn--p btn--s" data-ord-otra style="margin-left:auto">Otra escena →</button>
+         </div>`
+      : `<div class="ord-banco">${quedan.map(p => ordFicha(p, false)).join("")}</div>
+         <div class="row" style="margin-top:12px">
+           <button class="btn btn--s" data-ord-otra style="margin-left:auto">Otra escena →</button>
+         </div>`}`;
+}
+function ordPinta(){
+  const c = document.getElementById("ordCaja");
+  if(c) c.innerHTML = ordHTML();
+}
+
+document.addEventListener("click", e => {
+  const pon = e.target.closest("[data-ord-pon]");
+  if(pon && ordEsc){
+    const i = +pon.dataset.ordPon;
+    if(i === ordPuestas.length){
+      const pieza = ordRevueltas.find(p => p.i === i);
+      ordPuestas.push(pieza);
+      speak(pieza.th);
+      ordPinta();
+      if(ordPuestas.length === ordEsc.piezas.length){
+        ganaXP(ordFallos ? 8 : 15);
+        touchStreak();
+        if(!ordFallos){ ordSeguidas++; if(ordSeguidas % 2 === 0) celebra(); }
+        else ordSeguidas = 0;
+      }
+    } else {
+      ordFallos++;
+      pon.classList.remove("ord-p--mal");
+      void pon.offsetWidth;                 /* reinicia la animación */
+      pon.classList.add("ord-p--mal");
+    }
+    return;
+  }
+  const quita = e.target.closest("[data-ord-quita]");
+  if(quita && ordEsc){
+    /* se quita esa y todas las de después: el orden es una cadena */
+    ordPuestas = ordPuestas.slice(0, +quita.dataset.ordQuita);
+    ordPinta();
+    return;
+  }
+  if(e.target.closest("[data-ord-otra]")){ ordNueva(); ordPinta(); return; }
+  if(e.target.closest("[data-ord-toda]") && ordEsc){
+    lecDiSeguido(ordEsc.piezas.map(p => ({texto:p.th, entera:true})), ".no-hay-piezas");
+    return;
+  }
+});
+
+/* Lo llama escuchaRepeticion con el veredicto. Fuera de la conversación
+   no hace nada: el botón de repetir se usa en media página. */
+function trasRepetir(btn, estado){
+  if(!chGuion() || !btn.closest("#chCaja")) return;
+  /* «marca» es acierto de sonidos con el tono o el acento mal: en una
+     conversación eso sigue siendo haberse hecho entender, así que pasa
+     de turno. Si no se le ha entendido, se queda: que lo reintente, o
+     que use «Pasar →» si no le sale. */
+  if(estado !== "ok" && estado !== "marca") return;
+  setTimeout(() => chAvanza(estado === "ok"), 1500);
+}
+
+document.addEventListener("click", e => {
+  if(e.target.closest("[data-ch-oir]")){
+    const g = chGuion(); if(!g) return;
+    const t = g.turnos[chPaso];
+    const m = document.getElementById("chModelo");
+    if(m) m.hidden = false;
+    if(t) speak(t.th);
+    return;
+  }
+  if(e.target.closest("[data-ch-pasar]")){ chAvanza(false); return; }
+  if(e.target.closest("[data-ch-otra]")){ chPaso = 0; chBien = 0; chPinta(); return; }
+  if(e.target.closest("[data-ch-salir]")){
+    chId = null; chPinta();
+    if(window.speechSynthesis) speechSynthesis.cancel();
+    const l = document.querySelector(".ch-lista");
+    if(l) l.scrollIntoView({block:"center", behavior:pocoMovimiento() ? "auto" : "smooth"});
+    return;
+  }
+});
+
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 const GOALS = {cards:10, quiz:1, plays:20};
 function today(){ return new Date().toISOString().slice(0,10); }
@@ -5174,8 +6034,13 @@ VIEWS.juegos = {
     return `
     <div class="vhead"><div class="eyebrow">Práctica</div>
       <h1>Juegos</h1>
-      <p class="lede">Dos ejercicios que trabajan lo que las tarjetas no llegan a tocar: asociar sin pistas
-      y escribir de oído. Son los que más cansan y los que más consolidan.</p></div>
+      <p class="lede">Tres ejercicios que trabajan lo que las tarjetas no llegan a tocar: encadenar una conversación,
+      asociar sin pistas y escribir de oído. Son los que más cansan y los que más consolidan.</p></div>
+
+    <h2 class="sec">Ordena la conversación</h2>
+    <p class="sec-note">Las frases de una escena, revueltas. Ponlas en el orden en que pasarían. Cada una suena
+    al colocarla, así que oyes la conversación montarse; si te equivocas, la ficha se sacude y no pasa nada.</p>
+    <div class="card" id="ordCaja"></div>
 
     <h2 class="sec">${T("juego1_titulo","Emparejar")} <span class="th">${T("juego1_th","")}</span></h2>
     <p class="sec-note">Seis palabras, doce cartas. Encuentra cada una con su español.
@@ -5206,6 +6071,7 @@ VIEWS.juegos = {
     </div>`;
   },
   init(){
+    ordNueva(); ordPinta();
     memNew(); memPaint();
     $("#memNew").addEventListener("click", () => { memNew(); memPaint(); });
 

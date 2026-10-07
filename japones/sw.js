@@ -1,5 +1,5 @@
-/* Kana no Michi — caché offline. Versión: japones-20260930-07rq */
-const CACHE = "japones-20260930-07rq";
+/* Kana no Michi — caché offline. Versión: japones-20261007-lhtw */
+const CACHE = "japones-20261007-lhtw";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

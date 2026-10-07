@@ -88,6 +88,47 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
 
+### Las tareas del día cambian
+
+Eran tres fijas para siempre (10 tarjetas, 20 palabras, 1 test). Ahora hay un catálogo de ocho
+(`TAREAS`, en `part4.js`) y cada día se eligen tres. `GOALS` dejó de ser una constante: lo rellena
+`fijaMetasDeHoy()` a partir de `S.today.tareas`, así que todo lo que ya leía `GOALS` sigue igual.
+
+- **La elección se siembra con la fecha.** No cambia al recargar a media mañana y cambia sola al día
+  siguiente.
+- **`vale()` por tarea.** No se pide una conversación donde no hay conversaciones, ni hablar en voz
+  alta si el navegador no trae micrófono.
+- **Siempre entra una ligera** (tarjetas o escuchar). Si las tres salen largas, el día que andas justo
+  se rompe la racha y se abandona. Con eso, cada tarea sale aproximadamente cada tres días.
+
+Las tareas nuevas necesitan que alguien las cuente: hay `bump("letras")` al marcar una letra,
+`bump("marcar")` al marcar una frase, `bump("decir")` al decir algo bien, `bump("charla")` al terminar
+una conversación y `bump("orden")` al ordenar una escena. Si añades una tarea, añade su `bump`.
+
+### El tono mal no es «bien dicho»
+
+En la conversación, `comparaHabla` puede devolver `marca`: los sonidos están bien y el tono o el acento
+no. Eso **pasaba de turno**, y estaba mal. Donde el tono distingue una palabra de otra, decirla con el
+tono cambiado es decir otra cosa; darlo por bueno contradice lo primero que enseña el curso.
+
+Ahora solo avanza solo con `ok`. Con `marca` se para y se elige: oírlo muy lento, intentarlo otra vez,
+o seguir sabiendo que esa queda floja. A partir del tercer intento se dice explícitamente que puede
+seguir y repasarla al final, para que nadie se atasque. Las flojas se juntan en `chFlojas` y salen al
+terminar, cada una con su micrófono para practicarla.
+
+### La barra no puede cantar la respuesta
+
+La barra de lo que suena enseñaba palabra, lectura **y significado**. En un «¿qué palabra has oído?»
+eso es la respuesta servida; en el dictado, directamente lo que hay que escribir.
+
+`tapaChivatos(true)` la deja en «🔊 Escucha…» mientras hay una pregunta sin contestar. Se activa en el
+motor de tests, en el dictado y en el memorama, y `go()` la desactiva al cambiar de pantalla para que
+no se quede tapada por ahí.
+
+Cuidado con una trampa en la que caí: el aviso de «no hay voz de este idioma» se saltaba el tapado y
+enseñaba el texto igual. Justo en los dispositivos sin voz, que son los que más lo necesitan. El
+tapado manda sobre todo lo demás; el aviso se sigue dando porque no delata nada.
+
 ### El cuerpo: `cuerpo.js`
 
 Un muñeco en SVG, siempre el mismo, y las palabras las pone el paquete en `CUERPO`

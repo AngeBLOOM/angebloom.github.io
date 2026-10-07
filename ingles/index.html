@@ -1314,6 +1314,18 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .sub-txt b{font-size:21px; line-height:1.25; color:var(--ground)}
 .sub-txt .rom{font:500 13px var(--mono); opacity:.78; color:var(--ground)}
 .sub-txt em{font-style:normal; font-size:12.5px; opacity:.62}
+.sub-tapado{opacity:.85}
+.sub-txt .sub-tapado + em{opacity:.5; font-size:11.5px}
+/* la elección cuando el tono sale mal */
+.ch-elige{margin-top:14px; padding-top:13px; border-top:1px dashed var(--line)}
+.ch-elige p{font-size:13.5px; line-height:1.45; color:var(--ink-2); margin-bottom:10px}
+.ch-flojas{margin-top:18px; padding-top:15px; border-top:1px solid var(--line); text-align:left}
+.ch-flojas > b{display:block; font:700 10px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3); margin-bottom:9px}
+.ch-floja{padding:11px 13px; border-radius:13px; background:var(--surface-2); margin-bottom:8px}
+.ch-floja-t{display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; margin-bottom:8px}
+.ch-floja-t b{font-size:20px}
+.ch-floja-t .rom{font:500 12.5px var(--mono); color:var(--ink-3)}
+.ch-floja-t em{font-style:normal; font-size:12.5px; color:var(--ink-2)}
 .sub-mudo{opacity:.95 !important; color:var(--gold); max-width:46ch; line-height:1.4; margin-top:3px}
 .subt--mudo{border:1px solid color-mix(in srgb, var(--gold) 55%, transparent)}
 .sub-b{
@@ -2899,6 +2911,7 @@ function go(id){
     s.style.stroke = "currentColor"; s.style.fill = "none"; s.style.strokeWidth = "1.7"; s.style.flex = "none"; });
   if(marcaOff()) limpiaArbol($("#view"));
   cierraMenu();
+  tapaChivatos(false);   /* cada pantalla empieza sin nada tapado */
   pintaTopbar(id);
   if(VIEWS[id].init) VIEWS[id].init();
   /* después de init: varias vistas rellenan sus listas ahí, y organizar
@@ -3233,7 +3246,7 @@ function paintCons(){
   g.querySelectorAll("[data-tick]").forEach(b => b.addEventListener("click", e => {
     e.stopPropagation();
     const k = b.dataset.tick;
-    if(S.known[k]) delete S.known[k]; else S.known[k] = 1;
+    if(S.known[k]) delete S.known[k]; else { S.known[k] = 1; bump("letras"); }
     save(); paintNav(current); paintCons();
   }));
   g.querySelectorAll("[data-c]").forEach(el => {
@@ -3278,7 +3291,7 @@ function paintDetail(){
       if(w){ abreBloquesDe(w); w.scrollIntoView({block:"center", behavior:"smooth"}); } }, 60);
   });
   $("#mark").addEventListener("click", () => {
-    if(S.known[c[0]]) delete S.known[c[0]]; else { S.known[c[0]] = 1; ganaXP(5); }
+    if(S.known[c[0]]) delete S.known[c[0]]; else { S.known[c[0]] = 1; ganaXP(5); bump("letras"); }
     save(); paintNav(current); paintCons();
   });
 }
@@ -3811,7 +3824,7 @@ VIEWS.frases = {
       S.gender = b.dataset.g; save(); go("frases"); }));
     document.querySelectorAll("[data-phr]").forEach(b => b.addEventListener("click", () => {
       const k = b.dataset.phr;
-      if(S.phr[k]) delete S.phr[k]; else S.phr[k] = 1;
+      if(S.phr[k]) delete S.phr[k]; else { S.phr[k] = 1; bump("marcar"); }
       save(); paintNav(current); b.textContent = S.phr[k] ? "✓" : "○";
     }));
     $("#pSearch").addEventListener("input", e => {
@@ -3918,6 +3931,7 @@ function quizEngine(root, total, make, onDone){
         <button class="btn btn--p btn--lg" id="qAgain">Otra tanda</button></div>`;
       countUp(root.querySelector("#qScore"), pc, 900);
       root.querySelector("#qAgain").addEventListener("click", () => { i = 0; score = 0; next(); });
+      tapaChivatos(false);
       if(onDone) onDone(pc);
       touchStreak(); bump("quiz");
       ganaXP(pc >= 80 ? 30 : pc >= 50 ? 15 : 5);
@@ -3925,6 +3939,7 @@ function quizEngine(root, total, make, onDone){
       return;
     }
     q = make(); answered = false;
+    tapaChivatos(true);        /* la barra de abajo no puede dar la respuesta */
     const opts = q.options.length > 5 ? q.options : shuffle(q.options);
     root.innerHTML = `
       <div class="qprog"><span>${i+1} / ${total}</span>
@@ -3937,6 +3952,7 @@ function quizEngine(root, total, make, onDone){
     if(q.auto) setTimeout(() => speak(q.auto), 260);
     root.querySelectorAll(".qopt").forEach((b,k) => b.addEventListener("click", () => {
       if(answered) return; answered = true;
+      tapaChivatos(false);
       const ok = opts[k].ok;
       if(ok){ score++; ganaXP(10); }
       root.querySelectorAll(".qopt").forEach((x,j) => {
@@ -4284,12 +4300,22 @@ function aviso(emoji, titulo, texto){
    has visto todas, un repaso. Cada meta sabe a qué pantalla lleva
    y a qué parte de ella (data-foco). */
 const METAS = {
-  cards: {emoji:"🃏", titulo:"Repasa tarjetas", go:"vocabulario", foco:"#vCard",
-          falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n} para el objetivo de hoy.`},
-  plays: {emoji:"🎧", titulo:"Escucha palabras", go:"vocabulario", foco:"#vList",
-          falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n}. Toca cualquier palabra de la lista.`},
-  quiz:  {emoji:"🎯", titulo:"Haz un test", go:"repaso", foco:"#mix",
-          falta: () => "Doce preguntas mezcladas. Es lo que cierra el día."}
+  cards:  {emoji:"🃏", titulo:"Repasa tarjetas", texto:"tarjetas repasadas", go:"vocabulario", foco:"#vCard",
+           falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n} para el objetivo de hoy.`},
+  plays:  {emoji:"🎧", titulo:"Escucha palabras", texto:"palabras escuchadas", go:"vocabulario", foco:"#vList",
+           falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n}. Toca cualquier palabra de la lista.`},
+  quiz:   {emoji:"🎯", titulo:"Haz un test", texto:"test completado", go:"repaso", foco:"#mix",
+           falta: () => "Doce preguntas mezcladas. Es lo que cierra el día."},
+  decir:  {emoji:"🎤", titulo:"Habla en voz alta", texto:"dichas bien", go:"hablar", foco:"#spk",
+           falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n}. Di la palabra y deja que te corrija.`},
+  charla: {emoji:"💬", titulo:"Ten una conversación", texto:"conversación entera", go:"charla", foco:"#chCaja",
+           falta: () => "Una escena de principio a fin, contestando en voz alta."},
+  orden:  {emoji:"🧩", titulo:"Ordena una escena", texto:"escenas ordenadas", go:"juegos", foco:"#ordCaja",
+           falta: n => `Te ${n === 1 ? "falta 1" : "faltan " + n}. Las frases revueltas, a su sitio.`},
+  letras: {emoji:"🔤", titulo:"Aprende letras", texto:"letras nuevas", go:"alfabeto", foco:"#cGrid",
+           falta: n => `Marca ${n === 1 ? "1 letra más" : n + " letras más"} como aprendidas.`},
+  marcar: {emoji:"📌", titulo:"Marca frases", texto:"frases marcadas", go:"frases", foco:"#pList",
+           falta: n => `Marca ${n === 1 ? "1 frase más" : n + " frases más"} de las que ya te salen.`}
 };
 const hoyCuenta = () => (S.today && S.today.day === today()) ? S.today : {cards:0, quiz:0, plays:0};
 const claveVisita = id => LANG.id + ":" + id;
@@ -4308,7 +4334,7 @@ function siguientePaso(){
   const ruta = PATH.find(([, , go]) => pasoDisponible(go) && !visitado(go));
   if(nuevo && ruta) return {emoji:"🧭", eyebrow:"Tu primera parada", titulo:ruta[0], detalle:ruta[1], go:ruta[2]};
   const t = hoyCuenta();
-  for(const k of ["cards", "plays", "quiz"]){
+  for(const k of Object.keys(GOALS)){
     if((t[k] || 0) < GOALS[k]){
       const m = METAS[k];
       return {emoji:m.emoji, eyebrow:"Te queda para hoy", titulo:m.titulo,
@@ -4393,6 +4419,7 @@ function escuchaRepeticion(btn){
       pinta(`<b style="color:var(--ok)">Bien dicho.</b> Te ha entendido ${oido}.`);
       if(!repAcertados.has(objetivo)){ repAcertados.add(objetivo); ganaXP(10); }
       touchStreak();
+      bump("decir");
     } else if(mejor.estado === "marca"){
       pinta(`<b style="color:var(--brand-ink)">Los sonidos, bien. La marca, no.</b>
         Has dicho ${oido}. ${T("hablar_marca", "Escucha el modelo en Lento y fíjate solo en eso.")}`);
@@ -5409,10 +5436,36 @@ function ficheroDeSonidos(){
   return f;
 }
 
+/* Mientras hay una pregunta sin contestar, la barra no puede enseñar ni
+   la palabra ni lo que significa: sería darte la respuesta hecha. En los
+   tests, en el dictado y en el memorama se tapa; en todo lo demás se ve
+   entera, que para eso está. */
+let sinChivatos = false;
+const tapaChivatos = si => { sinChivatos = !!si; };
+
 let subTimer = null;
 function subtitula(texto, aviso){
   const caja = document.getElementById("subt");
   if(!caja || !texto) return;
+
+  /* Tapado manda sobre todo lo demás. El aviso de «no hay voz» se sigue
+     dando —no delata nada— pero el texto no se enseña: si no, en el
+     dispositivo sin voz, que es donde más falta hace, el test se
+     respondía solo leyendo la barra. */
+  if(sinChivatos){
+    caja.innerHTML = `<div class="sub-txt"><b class="sub-tapado">🔊 Escucha…</b>
+        <em>La respuesta se ve al contestar</em>
+        ${aviso ? `<em class="sub-mudo">${esc(aviso)}</em>` : ""}</div>
+      <button class="sub-b" data-sub-lento title="Repetirlo muy despacio">🐢 Más lento</button>
+      <button class="sub-x" data-sub-x aria-label="Cerrar">&times;</button>`;
+    caja.dataset.txt = texto;
+    caja.classList.toggle("subt--mudo", !!aviso);
+    caja.classList.add("ver");
+    clearTimeout(subTimer);
+    subTimer = setTimeout(() => caja.classList.remove("ver"), aviso ? 10000 : 6000);
+    return;
+  }
+
   const d = ficheroDeSonidos().get(texto) || {rom:"", es:""};
   caja.innerHTML = `
     <div class="sub-txt">
@@ -5576,6 +5629,8 @@ const guionesListos = () => (GUIONES_OK = GUIONES_OK || GUIONES.map(montaGuion).
 
 /* ── 4 · la vista ──────────────────────────────────────────── */
 let chId = null, chPaso = 0, chBien = 0;
+/* intentos en el turno de ahora, y las frases que quedaron flojas */
+let chIntentos = 0, chFlojas = [];
 const chClave = id => LANG.id + ":charla:" + id;
 const chHecha = id => !!(S.charlas && S.charlas[chClave(id)]);
 
@@ -5607,7 +5662,7 @@ VIEWS.charla = {
   },
   init(){
     document.querySelectorAll("[data-charla]").forEach(b => b.addEventListener("click", () => {
-      chId = b.dataset.charla; chPaso = 0; chBien = 0;
+      chId = b.dataset.charla; chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = [];
       chPinta();
       const c = document.getElementById("chCaja");
       if(c){ abreBloquesDe(c); c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"}); }
@@ -5690,10 +5745,21 @@ function chBurbuja(t, pasado){
 
 function chFinal(g){
   return `<div class="ch-fin">
-    <div class="ch-fin-e" aria-hidden="true">🎉</div>
+    <div class="ch-fin-e" aria-hidden="true">${chFlojas.length ? "🙂" : "🎉"}</div>
     <b>Conversación terminada</b>
-    <span>Has dicho ${chBien} de ${g.mias} como el modelo. Repetirla entera un par de veces
+    <span>Has clavado ${chBien} de ${g.mias}. Repetirla entera un par de veces
     es lo que hace que salga sola cuando te pase de verdad.</span>
+    ${chFlojas.length ? `<div class="ch-flojas">
+      <b>Estas se te resistieron:</b>
+      ${chFlojas.map(t => `<div class="ch-floja">
+        <div class="ch-floja-t"><b class="th">${t.th}</b>
+          <span class="rom">${esc(t.rom)}</span>
+          <em>${esc(t.es)}</em></div>
+        <div class="row">
+          <button class="btn btn--s" data-say="${esc(t.th)}">${svg("play")} Oírla</button>
+          ${repetirHTML(t.th, "Dila tú")}
+        </div></div>`).join("")}
+    </div>` : ""}
     <div class="row" style="justify-content:center;margin-top:14px">
       <button class="btn btn--p" data-ch-otra>Repetirla</button>
       <button class="btn" data-ch-salir>Elegir otra</button>
@@ -5704,13 +5770,17 @@ function chFinal(g){
 function chAvanza(acertado){
   const g = chGuion();
   if(!g) return;
+  const t = g.turnos[chPaso];
   if(acertado) chBien++;
+  else if(t && t.q === "tu" && !chFlojas.some(x => x.th === t.th)) chFlojas.push(t);
+  chIntentos = 0;
   chPaso++;
   if(chPaso >= g.turnos.length){
     if(!S.charlas || typeof S.charlas !== "object") S.charlas = {};
     S.charlas[chClave(g.id)] = 1;
     save();
     ganaXP(20);
+    bump("charla");
     celebra();
   }
   chPinta();
@@ -5804,6 +5874,7 @@ document.addEventListener("click", e => {
       if(ordPuestas.length === ordEsc.piezas.length){
         ganaXP(ordFallos ? 8 : 15);
         touchStreak();
+        bump("orden");
         if(!ordFallos){ ordSeguidas++; if(ordSeguidas % 2 === 0) celebra(); }
         else ordSeguidas = 0;
       }
@@ -5833,12 +5904,29 @@ document.addEventListener("click", e => {
    no hace nada: el botón de repetir se usa en media página. */
 function trasRepetir(btn, estado){
   if(!chGuion() || !btn.closest("#chCaja")) return;
-  /* «marca» es acierto de sonidos con el tono o el acento mal: en una
-     conversación eso sigue siendo haberse hecho entender, así que pasa
-     de turno. Si no se le ha entendido, se queda: que lo reintente, o
-     que use «Pasar →» si no le sale. */
-  if(estado !== "ok" && estado !== "marca") return;
-  setTimeout(() => chAvanza(estado === "ok"), 1500);
+  chIntentos++;
+
+  if(estado === "ok"){ setTimeout(() => chAvanza(true), 1400); return; }
+
+  /* «marca» son los sonidos bien y el tono o el acento mal. Esto antes
+     pasaba de turno, y estaba mal: donde el tono distingue una palabra
+     de otra, decirlo con el tono cambiado es decir otra cosa. Darlo por
+     bueno contradice lo primero que enseña el curso. Ahora se para y se
+     elige: repetir, o seguir sabiendo que esa queda floja. */
+  const caja = document.querySelector(".ch-turno");
+  if(!caja || caja.querySelector(".ch-elige")) return;
+  const aviso = estado === "marca"
+    ? "Los sonidos están bien, pero el tono no. Esa diferencia cambia la palabra."
+    : "No se te ha entendido del todo.";
+  caja.insertAdjacentHTML("beforeend", `<div class="ch-elige">
+    <p>${aviso}${chIntentos >= 3
+      ? " Llevas " + chIntentos + " intentos: puedes seguir y repasarla al final, no pasa nada."
+      : ""}</p>
+    <div class="row">
+      <button class="btn btn--s" data-ch-lento>🐢 Oírlo muy lento</button>
+      <button class="btn btn--p btn--s" data-ch-otravez>Lo intento otra vez</button>
+      <button class="btn btn--s" data-ch-pasar style="margin-left:auto">Seguir igual →</button>
+    </div></div>`);
 }
 
 document.addEventListener("click", e => {
@@ -5851,7 +5939,20 @@ document.addEventListener("click", e => {
     return;
   }
   if(e.target.closest("[data-ch-pasar]")){ chAvanza(false); return; }
-  if(e.target.closest("[data-ch-otra]")){ chPaso = 0; chBien = 0; chPinta(); return; }
+  if(e.target.closest("[data-ch-otravez]")){
+    /* se quita el aviso y se deja el micrófono listo otra vez */
+    const el = document.querySelector(".ch-elige");
+    if(el) el.remove();
+    const mic = document.querySelector(".ch-turno [data-rep]");
+    if(mic) mic.focus();
+    return;
+  }
+  if(e.target.closest("[data-ch-lento]")){
+    const g = chGuion(), t = g && g.turnos[chPaso];
+    if(t) diAlgo(t.th, 0.45);
+    return;
+  }
+  if(e.target.closest("[data-ch-otra]")){ chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = []; chPinta(); return; }
   if(e.target.closest("[data-ch-salir]")){
     chId = null; chPinta();
     if(window.speechSynthesis) speechSynthesis.cancel();
@@ -6140,21 +6241,72 @@ document.addEventListener("click", e => {
 });
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
-const GOALS = {cards:10, quiz:1, plays:20};
+/* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:
+   siempre las mismas tres cansaba y dejaba media aplicación sin tocar.
+
+   «vale» dice si la tarea tiene sentido en este curso: no se puede pedir
+   una conversación donde no hay conversaciones, ni hablar en voz alta si
+   el navegador no trae micrófono. */
+const TAREAS = {
+  cards:  {n:10, vale: () => LANG.secciones.indexOf("vocabulario") >= 0, ligera:true},
+  plays:  {n:20, vale: () => true, ligera:true},
+  quiz:   {n:1,  vale: () => LANG.secciones.indexOf("repaso") >= 0},
+  decir:  {n:5,  vale: () => !!SR && LANG.secciones.indexOf("hablar") >= 0},
+  charla: {n:1,  vale: () => LANG.secciones.indexOf("charla") >= 0 && guionesListos().length > 0},
+  orden:  {n:2,  vale: () => LANG.secciones.indexOf("juegos") >= 0},
+  letras: {n:3,  vale: () => LANG.secciones.indexOf("alfabeto") >= 0},
+  marcar: {n:3,  vale: () => LANG.secciones.indexOf("frases") >= 0}
+};
+let GOALS = {};
+
+/* La elección se siembra con la fecha: así no cambia al recargar la
+   página a media mañana, y cambia sola al día siguiente. */
+function eligeTareas(dia){
+  const pool = Object.keys(TAREAS).filter(k => { try{ return TAREAS[k].vale(); }catch(e){ return false; } });
+  let semilla = 0;
+  for(let i = 0; i < dia.length; i++) semilla = (semilla * 31 + dia.charCodeAt(i)) >>> 0;
+  const rnd = () => ((semilla = (semilla * 1103515245 + 12345) >>> 0) / 4294967296);
+  const b = pool.slice();
+  for(let i = b.length - 1; i > 0; i--){
+    const j = Math.floor(rnd() * (i + 1));
+    const t = b[i]; b[i] = b[j]; b[j] = t;
+  }
+  const elegidas = b.slice(0, 3);
+  /* al menos una que se pueda cumplir de pasada: si las tres son largas,
+     el día que andas justo de tiempo se rompe la racha y se abandona */
+  if(!elegidas.some(k => TAREAS[k].ligera)){
+    const ligera = b.find(k => TAREAS[k].ligera);
+    if(ligera) elegidas[elegidas.length - 1] = ligera;
+  }
+  return elegidas;
+}
+
+function fijaMetasDeHoy(){
+  const d = today();
+  if(!S.today || S.today.day !== d) S.today = {day:d};
+  if(!Array.isArray(S.today.tareas) || !S.today.tareas.length ||
+     S.today.tareas.some(k => !TAREAS[k])){
+    S.today.tareas = eligeTareas(d);
+    save();
+  }
+  GOALS = {};
+  S.today.tareas.forEach(k => { GOALS[k] = TAREAS[k].n; });
+  if(!Object.keys(GOALS).length) GOALS = {plays:TAREAS.plays.n};
+}
 function today(){ return new Date().toISOString().slice(0,10); }
 function bump(k, n){
   const d = today();
-  if(!S.today || S.today.day !== d) S.today = {day:d, cards:0, quiz:0, plays:0};
+  if(!S.today || S.today.day !== d) fijaMetasDeHoy();
   const cumplidas = () => Object.keys(GOALS).filter(g => (S.today[g] || 0) >= GOALS[g]).length;
   const antes = cumplidas(), yaEstaba = (S.today[k] || 0) >= GOALS[k];
   S.today[k] = (S.today[k] || 0) + (n || 1);
   save();
   if(k === "plays") ganaXP(1, false);          /* escuchar suma, pero sin ruido */
   const ahora = cumplidas();
-  if(ahora === Object.keys(GOALS).length && antes < ahora){
+  if(ahora === Object.keys(GOALS).length && antes < ahora && ahora > 0){
     setTimeout(() => { celebra(); aviso("🏆", "¡Objetivo de hoy cumplido!", "+50 XP · la racha sigue viva"); ganaXP(50, false); }, 300);
   } else if(!yaEstaba && (S.today[k] || 0) >= GOALS[k]){
-    aviso("✅", "¡Hecho!", {cards:"Tarjetas de hoy completas", plays:"Palabras de hoy escuchadas", quiz:"Test de hoy hecho"}[k]);
+    aviso("✅", "¡Hecho!", (METAS[k] ? METAS[k].titulo : "Tarea") + ": lista por hoy");
   }
   const box = document.getElementById("goalBox");
   if(box) box.innerHTML = goalHTML();
@@ -6172,14 +6324,13 @@ function goalHTML(){
         <i class="g-barra"><i style="width:${pct}%"></i></i></span>
       ${hecho ? "" : `<span class="g-ir">Ir →</span>`}</button>`;
   };
-  const hechos = Object.keys(GOALS).filter(k => (t[k] || 0) >= GOALS[k]).length;
+  const claves = Object.keys(GOALS);
+  const hechos = claves.filter(k => (t[k] || 0) >= GOALS[k]).length;
   return `<div class="goal">
     <div style="flex:1;min-width:220px">
-      <div class="gtitle">Objetivo de hoy · ${hechos} de 3${hechos < 3 ? " · toca lo que te falte" : " · ¡cumplido!"}</div>
+      <div class="gtitle">Tareas de hoy · ${hechos} de ${claves.length}${hechos < claves.length ? " · toca lo que te falte" : " · ¡cumplido!"}</div>
       <div class="gitems">
-        ${item("cards", "tarjetas repasadas")}
-        ${item("plays", "palabras escuchadas")}
-        ${item("quiz", "test completado")}
+        ${claves.map(k => item(k, METAS[k].texto)).join("")}
       </div>
     </div>
     <div class="flame"><b>${S.streak.n || 0}</b><span>${S.streak.n === 1 ? "día" : "días"} seguidos</span></div>
@@ -6406,6 +6557,7 @@ function memFlip(i){
   const c = MEM.cartas[i];
   if(MEM.bloqueado || c.matched || c.face === "up") return;
   c.face = "up"; MEM.abiertas.push(i); memPaint();
+  tapaChivatos(true);
   speak(c.say);
   if(MEM.abiertas.length < 2) return;
   MEM.jugadas++;
@@ -6415,7 +6567,7 @@ function memFlip(i){
     ganaXP(5);
     memPaint();
     if(MEM.hechas === 6){
-      touchStreak(); bump("quiz"); ganaXP(40);
+      touchStreak(); bump("quiz"); ganaXP(40); tapaChivatos(false);
       setTimeout(() => { celebra(); aviso("🎉", "¡Todas las parejas!", "En " + MEM.jugadas + " intentos"); }, 250);
     }
   } else {
@@ -6491,14 +6643,16 @@ VIEWS.juegos = {
     $("#memNew").addEventListener("click", () => { memNew(); memPaint(); });
 
     dictNew(); dictPaint();
-    const play = (rate) => speak(DICT.w[0], null, rate);
+    /* en el dictado la palabra ES la respuesta: tapada hasta comprobar */
+    const play = (rate) => { tapaChivatos(DICT.state !== "ok" && DICT.state !== "no"); speak(DICT.w[0], null, rate); };
     $("#dictPlay").addEventListener("click", () => play());
     $("#dictSlow").addEventListener("click", () => play(0.5));
-    $("#dictNext").addEventListener("click", () => { dictNew(); dictPaint(); play(); });
+    $("#dictNext").addEventListener("click", () => { dictNew(); dictPaint(); tapaChivatos(true); play(); });
     $("#dictDel").addEventListener("click", () => { DICT.typed = DICT.typed.slice(0,-1); DICT.state = ""; dictPaint(); });
     $("#dictClr").addEventListener("click", () => { DICT.typed = ""; DICT.state = ""; dictPaint(); });
     $("#dictCheck").addEventListener("click", () => {
       DICT.state = sinMarca(DICT.typed) === sinMarca(DICT.w[0]) ? "ok" : "no";
+      tapaChivatos(false);
       if(DICT.state === "ok") ganaXP(15);
       dictPaint(); touchStreak();
     });
@@ -6834,6 +6988,7 @@ document.addEventListener('click', e => {
   document.documentElement.lang = "es";
   document.documentElement.style.setProperty("--glifo", '"' + LANG.glifo + '"');
 })();
+fijaMetasDeHoy();
 paintSpeed();
 paintMarca();
 pintaAcciones();

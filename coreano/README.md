@@ -56,6 +56,8 @@ Un solo motor y un paquete de datos por idioma:
 | `vida.js` | Dibujos de las palabras, experiencia y niveles, celebraciones y el «siguiente paso». Va entre `part3.js` y `part4.js` |
 | `menu.js` | El menú (cajón en móvil, grupos plegables en escritorio) y el troceado de cada pantalla. Va entre `vida.js` y `part4.js` |
 | `charla.js` | Las conversaciones, la barra de lo que suena y el juego de ordenar. Va entre `menu.js` y `part4.js` |
+| `cuerpo.js` | El muñeco de las partes del cuerpo |
+| `examen.js` | Un examen por lección, con su estado |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
@@ -85,6 +87,46 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
+
+### El cuerpo: `cuerpo.js`
+
+Un muñeco en SVG, siempre el mismo, y las palabras las pone el paquete en `CUERPO`
+(`[parte, nativo, romanización, etiqueta]`). Tocas un trozo del dibujo y se enciende, suena y sale su
+ficha; debajo está la lista entera, que además es lo que lee un lector de pantalla.
+
+**Si un idioma no tiene una parte, ese trozo se dibuja apagado y no se puede tocar.** No es un
+descuido: hay idiomas que no separan la mano del brazo, ni el pie de la pierna. Inventar la diferencia
+sería enseñar algo falso, así que la lista de cada paquete manda y el dibujo se adapta.
+
+Ojo con una trampa de HTML que ya me comí una vez: el `<g>` lleva **un solo** atributo `class`. Si se
+escriben dos (uno fijo y otro calculado), el navegador se queda con el primero y el resto se pierde.
+
+### Los exámenes por lección: `examen.js`
+
+El repaso mezclado pregunta de todo a la vez y no dice si una lección concreta está sabida. Esto sí:
+un examen por lección, en una fila, con tres estados y nada más.
+
+| | |
+|---|---|
+| 🔒 cerrado | aún no has estudiado esa lección |
+| ⏳ pendiente | estudiada, y el examen sin aprobar |
+| ✓ aprobado | 80 % o más, con la nota |
+
+No fabrica preguntas nuevas: llama a `makeMixed(tipos)` con los tipos de esa lección, para no
+preguntar de lo que todavía no has visto. Por eso `makeMixed` acepta ahora una lista; sin argumento
+sigue mezclando de todo, como siempre.
+
+**Qué cuenta como «haberla estudiado».** Al principio bastaba con `visitado()`, y así pasar por el menú
+una vez desbloqueaba los cinco exámenes. Ahora, donde se puede medir el avance (`P[seccion]`), se pide
+además que haya algo hecho: una letra marcada, una tarjeta superada, una frase. Donde no hay medida,
+basta con haber entrado.
+
+La fila sale en dos sitios: en **Repaso** se puede tocar y el examen se abre ahí mismo; en el **inicio**
+solo informa y lleva al repaso. Un examen que no exista en un idioma no se ofrece: los tonos solo
+aparecen donde el paquete trae ejemplos de tono.
+
+Y cuidado con el resumen de la cabecera: cero pendientes puede ser por haberlos aprobado todos o por
+no haber abierto ninguno. No es lo mismo y no dice lo mismo (`exResumen()`).
 
 ### Los grupos de letras, en color
 

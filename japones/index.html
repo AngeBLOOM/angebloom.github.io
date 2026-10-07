@@ -1179,6 +1179,71 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .compra-btn{background:#FFD66B; border-color:#FFD66B; color:#241F14; text-decoration:none}
 .compra-btn:hover{filter:brightness(1.06)}
 .compra-nota{margin:10px 0 0; font-size:12.5px; opacity:.75; line-height:1.5}
+/* ── el cuerpo ──────────────────────────────────────────────
+   El muñeco se toca: cada trozo es un botón. La parte elegida se
+   pinta del color de marca y el resto se queda apagado. */
+.cu{display:grid; gap:16px; grid-template-columns:minmax(200px,260px) 1fr; align-items:start}
+.cu-dibujo{
+  padding:14px; border-radius:18px; background:var(--surface-2); border:1px solid var(--line);
+  position:sticky; top:14px;
+}
+.cu-svg{width:100%; height:auto; display:block}
+.cu-g{fill:var(--surface); stroke:var(--ink-3); stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.cu-g[data-parte]{cursor:pointer; transition:fill .14s, stroke .14s}
+.cu-g[data-parte]:hover{fill:var(--accent-soft); stroke:var(--accent)}
+.cu-g.activa{fill:var(--accent); stroke:var(--accent-ink)}
+.cu-g .cu-linea{fill:none}
+.cu-g .cu-miembro{fill:none; stroke-width:17}   /* brazos y piernas, con cuerpo */
+.cu-g.sin{opacity:.45}            /* lo que este idioma no nombra */
+.cu-g[data-parte]:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+.cu-pide{color:var(--ink-3); font-size:14px; padding:14px 2px}
+.cu-ficha{padding:15px 16px; border-radius:16px; border:1px solid var(--line); background:var(--surface)}
+.cu-f-txt{display:flex; flex-direction:column; gap:2px}
+.cu-f-es{font:700 10px var(--ui); letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink)}
+.cu-ficha b{font-size:30px; line-height:1.3; cursor:pointer}
+.cu-ficha .rom{font:500 14px var(--mono); color:var(--ink-3)}
+
+.cu-lista{display:flex; flex-wrap:wrap; gap:7px; margin-top:14px}
+.cu-chip{
+  display:flex; flex-direction:column; align-items:flex-start; gap:1px; cursor:pointer;
+  padding:7px 11px; border-radius:11px; font:inherit; color:inherit;
+  border:1px solid var(--line); background:var(--surface);
+  transition:border-color .13s, transform .13s;
+}
+.cu-chip:hover{border-color:var(--brand); transform:translateY(-2px)}
+.cu-chip.activa{border-color:var(--accent); background:var(--accent-soft)}
+.cu-chip b{font-size:17px; line-height:1.3}
+.cu-chip span{font-size:11px; color:var(--ink-3)}
+
+/* ── los exámenes por lección ───────────────────────────────
+   Una fila y tres estados. Lo pendiente tiene que saltar a la vista. */
+.ex{margin:2px 0 4px}
+.ex-cab{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:9px}
+.ex-cab b{font:700 10.5px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3)}
+.ex-resumen{font:700 12.5px var(--ui); color:var(--brand-ink)}
+.ex-fila{display:flex; flex-wrap:wrap; gap:8px}
+.ex-chip{
+  display:flex; align-items:center; gap:9px; cursor:pointer; text-align:left;
+  padding:9px 13px; border-radius:13px; font:inherit; color:inherit;
+  border:1px solid var(--line); background:var(--surface);
+  transition:border-color .13s, transform .13s, box-shadow .13s;
+}
+.ex-chip:hover{transform:translateY(-2px); box-shadow:0 8px 18px -12px rgba(0,0,0,.45)}
+.ex-marca{font-size:17px; line-height:1; flex:none}
+.ex-t{display:flex; flex-direction:column; min-width:0}
+.ex-t b{font:700 13.5px var(--ui); line-height:1.25; white-space:nowrap}
+.ex-t em{font-style:normal; font:600 10.5px var(--ui); color:var(--ink-3); letter-spacing:.04em}
+.ex-chip--pendiente{border-color:var(--brand); background:var(--accent-soft)}
+.ex-chip--pendiente .ex-t em{color:var(--brand-ink)}
+.ex-chip--aprobado{border-color:var(--jade)}
+.ex-chip--aprobado .ex-t em{color:var(--jade)}
+.ex-chip--cerrado{opacity:.6}
+.ex-chip--cerrado:hover{opacity:1}
+.ex-cab2{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:16px 0 10px}
+.ex-cab2 b{font-family:var(--disp); font-size:18px}
+.ex-cab2 span[aria-hidden]{font-size:22px; line-height:1}
+
 /* ── los grupos de letras, en color ─────────────────────────
    Un color por grupo, y el mismo en todas partes. Antes eran negro,
    blanco y gris: exactos y absolutamente imposibles de recordar. */
@@ -1587,6 +1652,11 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .bloque{scroll-margin-top:108px}
   .bl-cab{margin-top:20px}
   .bl-cab h2.sec{font-size:20px}
+
+  .cu{grid-template-columns:1fr}
+  .cu-dibujo{position:static; max-width:260px; margin:0 auto}
+  .ex-fila{gap:7px}
+  .ex-chip{padding:8px 11px}
 
   /* en el móvil caben cuatro por fila: el mapa se lee de un vistazo,
      que es justo para lo que está */
@@ -2486,6 +2556,28 @@ const LECTURA = {
   ]
 };
 
+/* ══ EL CUERPO ═══════════════════════════════════════════ */
+/* [parte, nativo, romanización, etiqueta]. «parte» es la clave del
+   dibujo: lo que no esté aquí, no sale señalado en el muñeco. */
+const CUERPO = [
+["pelo","かみ","kami","el pelo"],
+["cabeza","あたま","atama","la cabeza"],
+["ojo","め","me","el ojo"],
+["oreja","みみ","mimi","la oreja"],
+["nariz","はな","hana","la nariz"],
+["boca","くち","kuchi","la boca"],
+["diente","は","ha","el diente"],
+["cuello","くび","kubi","el cuello"],
+["hombro","かた","kata","el hombro"],
+["brazo","うで","ude","el brazo"],
+["mano","て","te","la mano"],
+["dedo","ゆび","yubi","el dedo"],
+["barriga","おなか","onaka","la barriga"],
+["espalda","せなか","senaka","la espalda"],
+["rodilla","ひざ","hiza","la rodilla"],
+["pie","あし","ashi","el pie (y la pierna)"]
+];
+
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -2963,6 +3055,7 @@ VIEWS.inicio = {
     </div>
     <div id="voiceHelp"></div>
     ${xpActual() ? "" : `<div class="misionSlot">${misionHTML()}</div>`}
+    <div id="exBox">${examenesHTML(false)}</div>
     <div id="semanaBox">${semanaHTML()}</div>
     <div id="hoyBox">${avisoHoyHTML()}</div>
     <div id="promoBox">${promoHTML()}</div>
@@ -3608,6 +3701,12 @@ VIEWS.vocabulario = {
       Con teclado: <kbd>espacio</kbd> gira la tarjeta y la da por sabida ·
       <kbd>1</kbd> no la sabía · <kbd>2</kbd> la sabía · <kbd>S</kbd> escuchar</p>
 
+    ${cuerpoHTML() ? `
+    <h2 class="sec">El cuerpo</h2>
+    <p class="sec-note">Toca una parte del dibujo y te la digo. Debajo las tienes todas escritas,
+    y puedes decirlas tú para que te corrija.</p>
+    ${cuerpoHTML()}` : ""}
+
     <h2 class="sec">Todas las palabras</h2>
     <input type="search" id="vSearch" placeholder="${T("vocab_buscar","Buscar en español, " + idioma() + " o romanización…")}" style="margin-bottom:12px">
     <div class="list" id="vList"></div>`;
@@ -3890,9 +3989,14 @@ function quizEngine(root, total, make, onDone){
 }
 
 /* ══ VISTA: REPASO ═══════════════════════════════════════ */
-function makeMixed(){
-  const tipos = ["cons-sound","cons-class","vocab-es","vocab-th","listen","phrase","num"];
+/* Sin argumento, mezcla de todo (el repaso de siempre). Con una lista,
+   solo esos tipos: así los exámenes de cada lección preguntan de lo
+   suyo y no de lo que aún no has estudiado (examen.js). */
+function makeMixed(soloEstos){
+  let tipos = ["cons-sound","cons-class","vocab-es","vocab-th","listen","phrase","num"];
   if(typeof TONE_DEMO !== "undefined") tipos.push("tone");
+  if(soloEstos && soloEstos.length) tipos = soloEstos.filter(t => tipos.indexOf(t) >= 0);
+  if(!tipos.length) tipos = ["vocab-es"];
   const kind = pick(tipos);
   if(kind === "cons-sound"){
     const c = pick(CONS.filter(x => !x[6]));
@@ -3967,6 +4071,12 @@ VIEWS.repaso = {
       <h1>Repaso mezclado</h1>
       <p class="lede">${T("repaso_lede","Doce preguntas de todo: letras, clases, vocabulario, escucha, frases y números.")}
       Mejor marca hasta ahora: <b>${S.best.repaso}%</b>.</p></div>
+    <h2 class="sec">Exámenes por lección</h2>
+    <p class="sec-note">Uno por lección, que pregunta de lo suyo y nada más. Se abre cuando ya has
+    entrado en esa lección, y se aprueba con el 80 %. Lo que llevas pendiente se ve de un golpe.</p>
+    ${examenesHTML(true)}
+
+    <h2 class="sec">Repaso mezclado de todo</h2>
     <div class="card" id="mix"></div>
 
     <h2 class="sec">Tu progreso</h2>
@@ -5778,6 +5888,284 @@ document.addEventListener("click", e => {
     if(window.speechSynthesis) speechSynthesis.cancel();
     const l = document.querySelector(".ch-lista");
     if(l) l.scrollIntoView({block:"center", behavior:pocoMovimiento() ? "auto" : "smooth"});
+    return;
+  }
+});
+
+/* ══════════════════════════════════════════════════════════
+   EL CUERPO · un muñeco que se toca
+   ══════════════════════════════════════════════════════════
+   Un dibujo de una persona. Tocas una parte y se enciende, suena y te
+   dice cómo se escribe y cómo se lee. Debajo, la lista entera por si
+   prefieres ir leyendo, y para quien use lector de pantalla.
+
+   El dibujo es siempre el mismo; las palabras las pone el paquete
+   (CUERPO). Si un idioma no tiene una parte —porque no distingue la
+   mano del brazo, por ejemplo— ese punto sencillamente no se dibuja.
+   Nada de inventar diferencias que en ese idioma no existen.
+
+   Va después de charla.js (usa subtitula y repetirHTML) y antes de
+   part4.js. */
+
+const HAY_CUERPO = () => typeof CUERPO !== "undefined" && Array.isArray(CUERPO) && CUERPO.length > 0;
+const parteDe = k => HAY_CUERPO() ? CUERPO.find(p => p[0] === k) : null;
+
+/* el muñeco. Cada trozo lleva data-parte, así que se toca el dibujo
+   mismo y no un puntito aparte. Los que el idioma no nombre se quitan
+   al pintar. */
+function munecoSVG(){
+  /* Toda la clase en un solo atributo: dos «class» en la misma etiqueta
+     y el navegador se queda con el primero, así que la parte sin palabra
+     perdía el estilo y salía en negro. */
+  const P = k => {
+    const p = parteDe(k);
+    return p
+      ? `class="cu-g" data-parte="${k}" tabindex="0" role="button" aria-label="${esc(p[3])}"`
+      : `class="cu-g sin" aria-hidden="true"`;
+  };
+  /* Los brazos y las piernas son trazos gruesos con la punta redonda:
+     así parecen miembros y no alambres, y además se tocan fácil con el
+     dedo, que es de lo que se trata. */
+  return `<svg viewBox="0 0 240 450" class="cu-svg" role="img" aria-label="Dibujo de una persona">
+    <!-- piernas y pies -->
+    <g ${P("pierna")}><path class="cu-miembro" d="M105 244 L99 378"/><path class="cu-miembro" d="M135 244 L141 378"/></g>
+    <g ${P("pie")}><ellipse cx="94" cy="390" rx="22" ry="11"/><ellipse cx="146" cy="390" rx="22" ry="11"/></g>
+    <g ${P("rodilla")}><circle cx="102" cy="312" r="12"/><circle cx="138" cy="312" r="12"/></g>
+    <!-- tronco -->
+    <g ${P("espalda")}><rect x="76" y="116" width="88" height="128" rx="30"/></g>
+    <g ${P("barriga")}><circle cx="120" cy="200" r="24"/></g>
+    <!-- brazos, manos y dedos -->
+    <g ${P("brazo")}><path class="cu-miembro" d="M82 140 L60 216"/><path class="cu-miembro" d="M158 140 L180 216"/></g>
+    <g ${P("mano")}><circle cx="57" cy="231" r="14"/><circle cx="183" cy="231" r="14"/></g>
+    <g ${P("dedo")}>
+      <circle cx="45" cy="246" r="5"/><circle cx="57" cy="250" r="5"/><circle cx="69" cy="246" r="5"/>
+      <circle cx="171" cy="246" r="5"/><circle cx="183" cy="250" r="5"/><circle cx="195" cy="246" r="5"/>
+    </g>
+    <g ${P("hombro")}><circle cx="82" cy="134" r="14"/><circle cx="158" cy="134" r="14"/></g>
+    <!-- cabeza -->
+    <g ${P("cuello")}><rect x="110" y="96" width="20" height="26" rx="9"/></g>
+    <g ${P("cabeza")}><circle cx="120" cy="62" r="38"/></g>
+    <g ${P("pelo")}><path d="M82 58a38 38 0 0 1 76 0c3-32-17-42-38-42S79 26 82 58z"/></g>
+    <g ${P("oreja")}><ellipse cx="81" cy="64" rx="7" ry="11"/><ellipse cx="159" cy="64" rx="7" ry="11"/></g>
+    <g ${P("ojo")}><circle cx="106" cy="58" r="5.5"/><circle cx="134" cy="58" r="5.5"/></g>
+    <g ${P("nariz")}><path class="cu-linea" d="M120 66 L120 79"/></g>
+    <g ${P("boca")}><path class="cu-linea" d="M107 87 q13 11 26 0"/></g>
+    <g ${P("diente")}><rect x="114" y="87" width="12" height="7" rx="2"/></g>
+  </svg>`;
+}
+
+let cuSel = null;
+function cuFichaHTML(){
+  if(!cuSel) return `<p class="cu-pide">👆 Toca una parte del dibujo</p>`;
+  const p = parteDe(cuSel);
+  if(!p) return "";
+  return `<div class="cu-ficha pop">
+    <div class="cu-f-txt">
+      <span class="cu-f-es">${esc(p[3])}</span>
+      <b class="th" data-say="${esc(p[1])}" role="button" tabindex="0" title="Tocar para oírlo">${p[1]}</b>
+      <span class="rom">${esc(p[2])}</span>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn btn--s" data-say="${esc(p[1])}">${svg("play")} Oírlo</button>
+      ${repetirHTML(p[1], "Dilo tú")}
+    </div>
+  </div>`;
+}
+
+function cuerpoHTML(){
+  if(!HAY_CUERPO()) return "";
+  return `<div class="cu">
+    <div class="cu-dibujo">${munecoSVG()}</div>
+    <div class="cu-lado">
+      <div id="cuFicha">${cuFichaHTML()}</div>
+      <div class="cu-lista">
+        ${CUERPO.map(p => `<button class="cu-chip" data-parte="${p[0]}">
+          <b class="th">${p[1]}</b><span>${esc(p[3])}</span></button>`).join("")}
+      </div>
+    </div>
+  </div>`;
+}
+
+function cuPinta(){
+  const f = document.getElementById("cuFicha");
+  if(f) f.innerHTML = cuFichaHTML();
+  document.querySelectorAll("#view [data-parte]").forEach(el =>
+    el.classList.toggle("activa", el.dataset.parte === cuSel));
+}
+
+function cuElige(k){
+  if(!parteDe(k)) return;
+  cuSel = k;
+  cuPinta();
+  speak(parteDe(k)[1]);
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("#view [data-parte]");
+  /* ojo: los botones de oír y de repetir llevan lo suyo y no son esto */
+  if(el && !e.target.closest("[data-say]") && !e.target.closest("[data-rep]")) cuElige(el.dataset.parte);
+});
+document.addEventListener("keydown", e => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  const el = e.target.closest && e.target.closest('#view [data-parte][tabindex="0"]');
+  if(el){ e.preventDefault(); cuElige(el.dataset.parte); }
+});
+
+/* ══════════════════════════════════════════════════════════
+   EXÁMENES POR LECCIÓN
+   ══════════════════════════════════════════════════════════
+   El repaso mezclado pregunta de todo a la vez, y eso no dice si una
+   lección concreta está sabida o no. Esto sí: un examen por lección,
+   en una fila, y a simple vista cuál llevas pendiente.
+
+   Tres estados y nada más:
+     🔒 cerrado   — aún no has entrado en esa lección
+     ⏳ pendiente — la has estudiado y el examen está sin aprobar
+     ✓  aprobado  — 80 % o más, con la nota
+
+   El examen no se inventa preguntas nuevas: usa el mismo motor del
+   repaso (makeMixed), pero limitado a los tipos de esa lección, para
+   que no te pregunte de lo que todavía no has visto.
+
+   Va después de cuerpo.js y antes de part4.js. */
+
+const APRUEBA = 80;
+
+/* [id, sección de la que sale, título, tipos de pregunta, nº de preguntas] */
+const EXAMENES = [
+  {id:"alfabeto",    seccion:"alfabeto",    titulo:"El alfabeto", emoji:"🔤",
+   tipos:["cons-sound","cons-class"], n:10},
+  {id:"tonos",       seccion:"tonos",       titulo:"Los tonos", emoji:"🎵",
+   tipos:["tone"], n:8},
+  {id:"vocabulario", seccion:"vocabulario", titulo:"Vocabulario", emoji:"🗂️",
+   tipos:["vocab-es","vocab-th","listen"], n:10},
+  {id:"frases",      seccion:"frases",      titulo:"Frases", emoji:"💬",
+   tipos:["phrase"], n:8},
+  {id:"numeros",     seccion:"numeros",     titulo:"Números", emoji:"🔢",
+   tipos:["num"], n:8}
+];
+
+/* Un examen solo existe si su lección existe en este curso y si sus
+   preguntas se pueden fabricar. Los tonos, por ejemplo, solo en los
+   idiomas que traen ejemplos de tono. */
+function examenesDeEsteCurso(){
+  return EXAMENES.filter(e => {
+    if(LANG.secciones.indexOf(e.seccion) < 0) return false;
+    if(e.tipos.indexOf("tone") >= 0 && typeof TONE_DEMO === "undefined") return false;
+    if(e.tipos.indexOf("num") >= 0 && !(typeof NUM !== "undefined" && NUM.ejemplos)) return false;
+    return true;
+  }).map(e => Object.assign({}, e, {
+    /* el nombre que lleve la sección en este idioma manda sobre el mío */
+    titulo: (LANG.etiquetas && LANG.etiquetas[e.seccion]) || e.titulo
+  }));
+}
+
+const exClave = id => LANG.id + ":" + id;
+const exNota = id => (S.examenes && S.examenes[exClave(id)] != null) ? S.examenes[exClave(id)] : null;
+/* Abrir la lección y mirarla por encima no es haberla estudiado: con
+   eso solo, pasar por el menú desbloqueaba los cinco exámenes. Donde se
+   puede medir el avance (letras marcadas, tarjetas superadas, frases
+   hechas…) se pide además que haya algo hecho. */
+function exAbierto(e){
+  if(!visitado(e.seccion)) return false;
+  const avance = P[e.seccion];
+  return avance ? avance() > 0 : true;
+}
+function exEstado(e){
+  const n = exNota(e.id);
+  if(n != null && n >= APRUEBA) return "aprobado";
+  if(!exAbierto(e)) return "cerrado";
+  return "pendiente";
+}
+function exPendientes(){
+  return examenesDeEsteCurso().filter(e => exEstado(e) === "pendiente").length;
+}
+/* Cero pendientes puede ser por haberlos aprobado todos o por no haber
+   abierto ninguno todavía. No es lo mismo y no puede decir lo mismo. */
+function exResumen(){
+  const lista = examenesDeEsteCurso();
+  const pend = lista.filter(e => exEstado(e) === "pendiente").length;
+  if(pend) return pend + (pend === 1 ? " pendiente" : " pendientes");
+  const ok = lista.filter(e => exEstado(e) === "aprobado").length;
+  if(ok === lista.length) return "todos aprobados 🎉";
+  return "estudia una lección y se abre su examen";
+}
+
+/* la fila. En el inicio solo informa y lleva al repaso; en el repaso
+   se puede tocar para empezar. */
+function examenesHTML(interactivo){
+  const lista = examenesDeEsteCurso();
+  if(!lista.length) return "";
+  return `<div class="ex">
+    <div class="ex-cab">
+      <b>Exámenes por lección</b>
+      <span class="ex-resumen">${exResumen()}</span>
+    </div>
+    <div class="ex-fila" id="exFila">
+      ${lista.map(e => {
+        const est = exEstado(e), nota = exNota(e.id);
+        const marca = est === "aprobado" ? "✓" : est === "cerrado" ? "🔒" : "⏳";
+        const pie = est === "aprobado" ? nota + "%"
+                  : est === "cerrado" ? "estudia primero" : "pendiente";
+        const attr = est === "cerrado"
+          ? ` data-go="${e.seccion}" title="Primero entra en la lección"`
+          : (interactivo ? ` data-examen="${e.id}"` : ` data-go="repaso" data-foco="#exFila"`);
+        return `<button class="ex-chip ex-chip--${est}"${attr}>
+          <span class="ex-marca" aria-hidden="true">${marca}</span>
+          <span class="ex-t"><b>${esc(e.titulo)}</b><em>${pie}</em></span>
+        </button>`;
+      }).join("")}
+    </div>
+    ${interactivo ? `<div id="exCaja"></div>` : ""}
+  </div>`;
+}
+
+let exActual = null;
+function exArranca(id, silencioso){
+  const e = examenesDeEsteCurso().find(x => x.id === id);
+  const caja = document.getElementById("exCaja");
+  if(!e || !caja) return;
+  exActual = id;
+  caja.innerHTML = `<div class="ex-cab2">
+      <span aria-hidden="true">${e.emoji}</span>
+      <b>Examen · ${esc(e.titulo)}</b>
+      <span class="muted">${e.n} preguntas · se aprueba con ${APRUEBA}%</span>
+      <button class="btn btn--s" data-ex-salir style="margin-left:auto">Salir</button>
+    </div>
+    <div class="card" id="exQuiz"></div>`;
+  quizEngine(document.getElementById("exQuiz"), e.n, () => makeMixed(e.tipos), pct => {
+    if(!S.examenes || typeof S.examenes !== "object") S.examenes = {};
+    const antes = exNota(e.id);
+    if(antes == null || pct > antes){ S.examenes[exClave(e.id)] = pct; save(); }
+    if(pct >= APRUEBA && (antes == null || antes < APRUEBA)){
+      ganaXP(40);
+      setTimeout(() => aviso("🏅", "Examen aprobado", e.titulo + " · " + pct + "%"), 600);
+    }
+    /* la fila de arriba se entera en el momento */
+    document.querySelectorAll(".ex-fila").forEach(f => {
+      const c = f.querySelector('[data-examen="' + e.id + '"]');
+      if(!c) return;
+      const est = exEstado(e);
+      c.className = "ex-chip ex-chip--" + est;
+      c.querySelector(".ex-marca").textContent = est === "aprobado" ? "✓" : "⏳";
+      c.querySelector("em").textContent = est === "aprobado" ? exNota(e.id) + "%" : "pendiente";
+    });
+    const cab = document.querySelector(".ex-resumen");
+    if(cab) cab.textContent = exResumen();
+  });
+  if(!silencioso){
+    const c = document.getElementById("exCaja");
+    if(c){ abreBloquesDe(c); c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"}); }
+  }
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-examen]");
+  if(b){ exArranca(b.dataset.examen); return; }
+  if(e.target.closest("[data-ex-salir]")){
+    exActual = null;
+    const c = document.getElementById("exCaja");
+    if(c) c.innerHTML = "";
     return;
   }
 });

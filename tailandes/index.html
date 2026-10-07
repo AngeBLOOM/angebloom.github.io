@@ -1179,6 +1179,29 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .compra-btn{background:#FFD66B; border-color:#FFD66B; color:#241F14; text-decoration:none}
 .compra-btn:hover{filter:brightness(1.06)}
 .compra-nota{margin:10px 0 0; font-size:12.5px; opacity:.75; line-height:1.5}
+/* ── quién eres: país y nombre ───────────────────────────────
+   Plegada en cuanto está contestada: lo resuelto no ocupa sitio. */
+.qe{margin-bottom:16px; border:1px solid var(--line); border-radius:16px; background:var(--surface); overflow:hidden}
+.qe--listo{border-color:var(--jade)}
+.qe summary{display:flex; align-items:center; gap:12px; padding:13px 15px; cursor:pointer; list-style:none}
+.qe summary::-webkit-details-marker{display:none}
+.qe summary:hover{background:var(--surface-2)}
+.qe-e{font-size:24px; line-height:1; flex:none}
+.qe-t{display:flex; flex-direction:column; min-width:0}
+.qe-t b{font:700 15px var(--ui); line-height:1.3}
+.qe-t em{font-style:normal; font-size:12.5px; color:var(--ink-3); line-height:1.35}
+.qe-cuerpo{padding:4px 15px 16px}
+.qe-lab{font:700 10px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3); display:block; margin-bottom:6px}
+.qe-lab span{text-transform:none; letter-spacing:0; font-weight:400}
+.qe-cuerpo input{width:100%; max-width:280px; padding:9px 12px; border-radius:11px;
+  border:1px solid var(--line); background:var(--ground); color:var(--ink); font:inherit; font-size:15px}
+.qe-paises{display:flex; flex-wrap:wrap; gap:6px}
+.qe-p{padding:6px 11px; border-radius:20px; cursor:pointer; font:600 12.5px var(--ui);
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); transition:.13s}
+.qe-p:hover{border-color:var(--brand); color:var(--brand-ink)}
+.qe-p[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
+.qe-nota{margin-top:11px; font-size:12.5px; color:var(--ink-3); line-height:1.45; max-width:58ch}
+
 /* ── el cuerpo ──────────────────────────────────────────────
    El muñeco se toca: cada trozo es un botón. La parte elegida se
    pinta del color de marca y el resto se queda apagado. */
@@ -2100,8 +2123,8 @@ const PHRASES = [
 ["ราตรีสวัสดิ์{p}","raa-trii sà-wàt {p}","Buenas noches (al despedirse)","Primeros contactos"],
 ["คุณชื่ออะไร{q}","khun chʉ̂ʉ à-rai {q}","¿Cómo te llamas?","Presentarse"],
 ["{i}ชื่อ…","{i} chʉ̂ʉ …","Me llamo…","Presentarse"],
-["{i}มาจากสเปน","{i} maa càak sà-peen","Vengo de España","Presentarse"],
-["{i}เป็นคนสเปน","{i} pen khon sà-peen","Soy español / española","Presentarse"],
+["{i}มาจาก{pais}","{i} maa càak {pais}","Vengo de {PAIS}","Presentarse"],
+["{i}เป็นคน{pais}","{i} pen khon {pais}","Soy de {PAIS}","Presentarse"],
 ["{i}พูดภาษาไทยได้นิดหน่อย","{i} phûut phaa-sǎa thai dâai nít-nɔ̀i","Hablo un poco de tailandés","Presentarse"],
 ["{i}ไม่เข้าใจ","{i} mâi khâo-cai","No entiendo","Presentarse"],
 ["พูดช้าๆ ได้ไหม{q}","phûut cháa-cháa dâai mǎi {q}","¿Puedes hablar más despacio?","Presentarse"],
@@ -2345,7 +2368,7 @@ VOCAB.push(
 
 PHRASES.push(
 ["คุณมาจากไหน{q}","khun maa càak nǎi {q}","¿De dónde eres?","Presentarse"],
-["{i}อยู่ที่มาดริด","{i} yùu thîi maa-drìt","Vivo en Madrid","Presentarse"],
+["{i}อยู่ที่{pais}","{i} yùu thîi {pais}","Vivo en {PAIS}","Presentarse"],
 ["ที่นี่สวยมาก{p}","thîi-nîi sǔai mâak {p}","Esto es precioso","Primeros contactos"],
 ["วันนี้อากาศร้อนมาก{p}","wan-níi aa-kàat rɔ́ɔn mâak {p}","Hoy hace muchísimo calor","Primeros contactos"],
 ["ขอถ่ายรูปได้ไหม{q}","khɔ̌ɔ thàai rûup dâai mǎi {q}","¿Puedo hacer una foto?","Primeros contactos"],
@@ -2761,6 +2784,35 @@ const CUERPO = [
 ["pie","เท้า","tháao","el pie"]
 ];
 
+/* ══ DE DÓNDE ERES ═══════════════════════════════════════ */
+/* La forma exacta que entra en la frase, ya con la preposición o el caso
+   que pida este idioma: el motor sustituye y no tiene que saber nada.
+   [país, lectura] y, donde hace falta, [, gentilicio, en femenino]. */
+const PAISES = {
+  "mx":["เม็กซิโก","mék-sì-koo"],
+  "co":["โคลอมเบีย","khoo-lɔm-bia"],
+  "es":["สเปน","sà-peen"],
+  "ar":["อาร์เจนตินา","aa-cen-tì-naa"],
+  "pe":["เปรู","pee-ruu"],
+  "ve":["เวเนซุเอลา","wee-nee-sù-ee-laa"],
+  "cl":["ชิลี","chi-lii"],
+  "gt":["กัวเตมาลา","kua-tee-maa-laa"],
+  "ec":["เอกวาดอร์","èek-waa-dɔɔ"],
+  "bo":["โบลิเวีย","boo-lí-wia"],
+  "cu":["คิวบา","khiu-baa"],
+  "do":["สาธารณรัฐโดมินิกัน","sǎa-thaa-rá-ná-rát doo-mí-ní-kan"],
+  "hn":["ฮอนดูรัส","hɔn-duu-rát"],
+  "py":["ปารากวัย","paa-raa-kwai"],
+  "sv":["เอลซัลวาดอร์","een-san-waa-dɔɔ"],
+  "ni":["นิการากัว","ní-kaa-raa-kua"],
+  "cr":["คอสตาริกา","khɔɔt-taa-rii-kaa"],
+  "pa":["ปานามา","paa-naa-maa"],
+  "uy":["อุรุกวัย","ù-rú-kwai"],
+  "pr":["เปอร์โตริโก","pəə-too-rii-koo"],
+  "gq":["อิเควทอเรียลกินี","ì-khwee-thɔɔ-rîan kí-nii"],
+  "us":["อเมริกา","à-mee-rí-kaa"]
+};
+
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -2821,7 +2873,8 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              best:{tono:0, repaso:0, oido:0}, streak:{day:"", n:0},
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
-             xpPor:{}, visitados:{}, dias:{}, navAb:null};
+             xpPor:{}, visitados:{}, dias:{}, navAb:null,
+             pais:"", nombre:""};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -3124,6 +3177,14 @@ function go(id){
 }
 
 document.addEventListener("click", e => {
+  const pb = e.target.closest("[data-pais]");
+  if(pb){
+    S.pais = S.pais === pb.dataset.pais ? "" : pb.dataset.pais;
+    save();
+    olvidaFichero();        /* la barra de abajo guarda los significados */
+    go(current || "frases");
+    return;
+  }
   const nav = e.target.closest("[data-go]");
   if(nav){ go(nav.dataset.go); return; }
   const say = e.target.closest("[data-say]");
@@ -3134,6 +3195,18 @@ document.addEventListener("click", e => {
   }
   const sp = e.target.closest("[data-speed]");
   if(sp){ S.speed = +sp.dataset.speed; save(); paintSpeed(); }
+});
+document.addEventListener("input", e => {
+  if(e.target && e.target.id === "qeNombre"){
+    S.nombre = e.target.value.slice(0, 24);
+    save();
+    /* se repintan las frases sin rehacer la pantalla: si no, se pierde
+       el foco del teclado a cada letra */
+    olvidaFichero();
+    document.querySelectorAll("[data-nombre-vivo]").forEach(el => {
+      el.textContent = miNombre() || "____";
+    });
+  }
 });
 document.addEventListener("keydown", e => {
   if(e.key !== "Enter" && e.key !== " ") return;
@@ -3979,19 +4052,113 @@ VIEWS.vocabulario = {
 
 /* ══ VISTA: FRASES ═══════════════════════════════════════ */
 /* las partículas de cortesía las declara el paquete (PARTICULAS); sin ellas, no se toca nada */
+const PAIS_ES = {
+  mx:"México", co:"Colombia", es:"España", ar:"Argentina", pe:"Perú",
+  ve:"Venezuela", cl:"Chile", gt:"Guatemala", ec:"Ecuador", bo:"Bolivia",
+  cu:"Cuba", do:"República Dominicana", hn:"Honduras", py:"Paraguay",
+  sv:"El Salvador", ni:"Nicaragua", cr:"Costa Rica", pa:"Panamá",
+  uy:"Uruguay", pr:"Puerto Rico", gq:"Guinea Ecuatorial", us:"Estados Unidos"
+};
+/* el gentilicio EN CASTELLANO: la traducción tiene que leerse en
+   castellano, no colar la palabra del idioma que se estudia */
+const PAIS_GENT_ES = {
+  mx:["mexicano","mexicana"], co:["colombiano","colombiana"], es:["español","española"],
+  ar:["argentino","argentina"], pe:["peruano","peruana"], ve:["venezolano","venezolana"],
+  cl:["chileno","chilena"], gt:["guatemalteco","guatemalteca"], ec:["ecuatoriano","ecuatoriana"],
+  bo:["boliviano","boliviana"], cu:["cubano","cubana"], do:["dominicano","dominicana"],
+  hn:["hondureño","hondureña"], py:["paraguayo","paraguaya"], sv:["salvadoreño","salvadoreña"],
+  ni:["nicaragüense","nicaragüense"], cr:["costarricense","costarricense"],
+  pa:["panameño","panameña"], uy:["uruguayo","uruguaya"], pr:["puertorriqueño","puertorriqueña"],
+  gq:["ecuatoguineano","ecuatoguineana"], us:["estadounidense","estadounidense"]
+};
+
+/* ── DE DÓNDE ERES Y CÓMO TE LLAMAS ──────────────────────
+   Las frases de presentarse decían «vengo de España» a todo el mundo, y
+   en dos idiomas hasta llevaban escrito el nombre del autor. Ahora el
+   país y el nombre son huecos que rellena quien estudia.
+
+   Si no ha elegido país todavía, el hueco se queda como una raya: se ve
+   el patrón, que es lo que de verdad se aprende. */
+const PAIS_CLAVES = () => (typeof PAISES !== "undefined" && PAISES) ? Object.keys(PAISES) : [];
+const miPais = () => (S.pais && typeof PAISES !== "undefined" && PAISES[S.pais]) ? PAISES[S.pais] : null;
+const miNombre = () => (S.nombre || "").trim();
+
+function ponHuecos(txt, lectura){
+  if(txt.indexOf("{") < 0) return txt;
+  const p = miPais();
+  const fem = S.gender === "f";
+  const pais = p ? (lectura ? p[1] : p[0]) : "____";
+  /* el gentilicio solo lo trae el paquete donde su idioma lo pide; donde
+     «soy de X» se forma con el país, no hace falta */
+  /* el paquete da [país, lectura, gentilicio, en femenino, lectura, lectura fem] */
+  const g0 = lectura ? 4 : 2, g1 = lectura ? 5 : 3;
+  const gent = (p && p[g0]) ? ((fem && p[g1]) ? p[g1] : p[g0]) : "____";
+  const nombre = miNombre() || "____";
+  return txt.replace(/\{pais\}/g, pais)
+            .replace(/\{gent\}/g, gent)
+            .replace(/\{nombre\}/g, nombre);
+}
+/* y lo mismo para el castellano de la ficha */
+function ponHuecosEs(txt){
+  if(!txt || txt.indexOf("{") < 0) return txt;
+  const fem = S.gender === "f";
+  const ge = S.pais && PAIS_GENT_ES[S.pais];
+  const gent = ge ? ge[fem ? 1 : 0] : "____";
+  return txt.replace(/\{PAIS\}/g, (S.pais && PAIS_ES[S.pais]) || "____")
+            .replace(/\{GENT\}/g, gent)
+            .replace(/\{NOMBRE\}/g, miNombre() || "____");
+}
+
+/* La tarjeta de «quién eres». Sale donde se usan estas frases, y se
+   recoge sola en cuanto has contestado: lo que ya está contestado no
+   tiene que seguir ocupando sitio. */
+function quienEresHTML(){
+  if(!PAIS_CLAVES().length) return "";
+  const listo = !!S.pais;
+  return `<div class="qe ${listo ? "qe--listo" : ""}">
+    <details ${listo ? "" : "open"}>
+      <summary>
+        <span class="qe-e" aria-hidden="true">${listo ? "🌎" : "👋"}</span>
+        <span class="qe-t"><b>${listo
+          ? (miNombre() ? esc(miNombre()) + ", de " : "De ") + esc(PAIS_ES[S.pais])
+          : "¿De dónde eres?"}</b>
+          <em>${listo ? "Toca para cambiarlo" : "Para no enseñarte a decir que eres de un sitio donde no vives"}</em></span>
+      </summary>
+      <div class="qe-cuerpo">
+        <label class="qe-lab" for="qeNombre">Cómo te llamas <span>(para la frase «me llamo…»)</span></label>
+        <input id="qeNombre" type="text" maxlength="24" placeholder="Tu nombre"
+          value="${esc(miNombre())}" autocomplete="given-name">
+        <div class="qe-lab" style="margin-top:12px">De dónde eres</div>
+        <div class="qe-paises">
+          ${PAIS_CLAVES().map(k => `<button class="qe-p" data-pais="${k}"
+            aria-pressed="${S.pais === k}">${esc(PAIS_ES[k] || k)}</button>`).join("")}
+        </div>
+        <p class="qe-nota">Si tu país no está, deja el hueco: verás el patrón de la frase
+        con una raya, y ahí dices el nombre de tu país.</p>
+      </div>
+    </details>
+  </div>`;
+}
+
 function renderPhrase(s){
-  if(!LANG.particulas) return s;
-  const i = S.gender === "m" ? 0 : 1;
-  return s.replace(/\{p\}/g, PARTICULAS.p[i])
-          .replace(/\{q\}/g, PARTICULAS.q[i])
-          .replace(/\{i\}/g, PARTICULAS.i[i]);
+  let out = s;
+  if(LANG.particulas){
+    const i = S.gender === "m" ? 0 : 1;
+    out = out.replace(/\{p\}/g, PARTICULAS.p[i])
+             .replace(/\{q\}/g, PARTICULAS.q[i])
+             .replace(/\{i\}/g, PARTICULAS.i[i]);
+  }
+  return ponHuecos(out, false);
 }
 function renderRom(s){
-  if(!LANG.particulas) return s;
-  const i = S.gender === "m" ? 0 : 1;
-  return s.replace(/\{p\}/g, PARTICULAS.pRom[i])
-          .replace(/\{q\}/g, PARTICULAS.qRom[i])
-          .replace(/\{i\}/g, PARTICULAS.iRom[i]);
+  let out = s;
+  if(LANG.particulas){
+    const i = S.gender === "m" ? 0 : 1;
+    out = out.replace(/\{p\}/g, PARTICULAS.pRom[i])
+             .replace(/\{q\}/g, PARTICULAS.qRom[i])
+             .replace(/\{i\}/g, PARTICULAS.iRom[i]);
+  }
+  return ponHuecos(out, true);
 }
 VIEWS.frases = {
   html(){
@@ -4000,6 +4167,8 @@ VIEWS.frases = {
     <div class="vhead"><div class="eyebrow">Herramienta 7</div>
       <h1>Frases para usar hoy</h1>
       <p class="lede">${T("frases_lede","")}</p></div>
+
+    ${quienEresHTML()}
 
     ${LANG.particulas ? `<div class="banner"><div>${PARTICULAS.aviso}
     <div class="row" style="margin-top:10px">
@@ -4012,18 +4181,18 @@ VIEWS.frases = {
       <h2 class="sec">${s}</h2>
       <div class="list">${PHRASES.filter(p => p[3] === s).map(p => {
         const th = renderPhrase(p[0]), rom = renderRom(p[1]), done = !!S.phr[p[0]];
-        return `<div class="li" data-q="${esc((p[2] + " " + th + " " + rom).toLowerCase())}">
+        return `<div class="li" data-q="${esc((ponHuecosEs(p[2]) + " " + th + " " + rom).toLowerCase())}">
           <button class="btn btn--s" data-phr="${esc(p[0])}" style="min-width:34px;padding:6px 9px" title="Marcar como aprendida">${done ? "✓" : "○"}</button>
           <div><div class="th" style="font-size:21px;line-height:1.45" data-say="${esc(th)}" role="button" tabindex="0" title="Tocar para escuchar">${th}</div>
             <div class="lrom">${rom}</div>
-            <div class="les" style="color:var(--ink-2)">${p[2]}</div>
+            <div class="les" style="color:var(--ink-2)">${ponHuecosEs(p[2])}</div>
             <div class="rep-fila rep-fila--frase">${repetirHTML(th)}</div></div>
           ${sayBtn(th, rom)}</div>`; }).join("")}</div>`).join("")}
     </div>`;
   },
   init(){
     document.querySelectorAll("[data-g]").forEach(b => b.addEventListener("click", () => {
-      S.gender = b.dataset.g; save(); go("frases"); }));
+      S.gender = b.dataset.g; save(); olvidaFichero(); go("frases"); }));
     document.querySelectorAll("[data-phr]").forEach(b => b.addEventListener("click", () => {
       const k = b.dataset.phr;
       if(S.phr[k]) delete S.phr[k]; else { S.phr[k] = 1; bump("marcar"); }
@@ -4239,7 +4408,7 @@ function makeMixed(soloEstos){
   if(kind === "phrase"){
     const p = pick(PHRASES), w = shuffle(PHRASES.filter(x => x[2] !== p[2])).slice(0,3);
     return {question:`¿Qué significa <span class="th" style="font-size:22px">${renderPhrase(p[0])}</span>?`,
-      options:[{label:p[2], ok:true}, ...w.map(x => ({label:x[2], ok:false}))],
+      options:[{label:ponHuecosEs(p[2]), ok:true}, ...w.map(x => ({label:ponHuecosEs(x[2]), ok:false}))],
       oir:renderPhrase(p[0]), decir:renderPhrase(p[0]),
       after:renderRom(p[1])};
   }
@@ -5609,6 +5778,10 @@ document.addEventListener("click", e => {
 /* ── 1 · la barra de lo que suena ──────────────────────────
    El índice se arma una sola vez, la primera vez que hace falta. */
 let fichero = null;
+/* Todo lo que guarda texto YA resuelto hay que tirarlo cuando cambia
+   quien habla: el país, el nombre o el género. Si no, las frases se
+   quedan con la raya o con el género de antes. */
+const olvidaFichero = () => { fichero = null; GUIONES_OK = null; };
 function ficheroDeSonidos(){
   if(fichero) return fichero;
   const f = new Map();
@@ -5623,8 +5796,8 @@ function ficheroDeSonidos(){
   try{ lista(typeof VOCAB !== "undefined" ? VOCAB : null).forEach(v => mete(v[0], v[1], v[2])); }catch(e){}
   try{
     lista(typeof PHRASES !== "undefined" ? PHRASES : null).forEach(p => {
-      mete(renderPhrase(p[0]), renderRom(p[1]), p[2]);
-      mete(p[0], p[1], p[2]);                  /* sin resolver, por si acaso */
+      mete(renderPhrase(p[0]), renderRom(p[1]), ponHuecosEs(p[2]));
+      mete(p[0], p[1], ponHuecosEs(p[2]));                  /* sin resolver, por si acaso */
     });
   }catch(e){}
   try{ lista(typeof CONS !== "undefined" ? CONS : null).forEach(c => mete(c[1], c[2], "la letra " + c[0])); }catch(e){}
@@ -5730,7 +5903,7 @@ const GUIONES = [
      {q:"ellos", busca:["encantado de conocerte", "un placer"]},
      {q:"tu", busca:["muchas gracias", "gracias", "muchisimas gracias"]},
      {q:"escena", t:"Te pregunta de dónde eres."},
-     {q:"tu", busca:["vengo de espana", "soy de espana", "soy espanol"]},
+     {q:"tu", busca:["vengo de", "soy de"]},
      {q:"escena", t:"Mira el reloj: tiene que irse."},
      {q:"ellos", busca:["adios", "hasta luego", "hasta la proxima", "hasta manana"]},
      {q:"tu", busca:["adios", "hasta luego", "hasta la proxima", "hasta manana"]}
@@ -5811,7 +5984,7 @@ function montaGuion(g){
     if(t.q === "escena"){ turnos.push(t); continue; }
     const p = frasePorSentido(t.busca);
     if(!p) continue;
-    turnos.push({q:t.q, th:renderPhrase(p[0]), rom:renderRom(p[1]), es:p[2]});
+    turnos.push({q:t.q, th:renderPhrase(p[0]), rom:renderRom(p[1]), es:ponHuecosEs(p[2])});
   }
   /* Si un turno hablado no existe en este idioma se cae, y pueden quedar
      dos escenas seguidas. No se tira ninguna: se juntan, que si no el
@@ -5845,6 +6018,8 @@ VIEWS.charla = {
       <p class="lede">Una escena, alguien que te habla y tu turno de contestar en voz alta.
       Lo que dices se compara con el modelo y se te corrige, igual que en el resto del curso.
       Todo lo que vas a oír y a decir sale de las frases que ya has visto.</p></div>
+
+    ${quienEresHTML()}
 
     <h2 class="sec">Elige una situación</h2>
     <p class="sec-note">Empieza por la primera: es la que te va a pasar antes.

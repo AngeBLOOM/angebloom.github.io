@@ -88,6 +88,38 @@ para el índice que ven los buscadores y quien tenga JavaScript desactivado.
 **Añadir un idioma nuevo** es copiar un `data-*.js`, traducir su contenido y añadirlo a esos dos comandos.
 El paquete declara qué secciones tiene, cómo se llaman, qué voz usa y con qué tipografía se escribe.
 
+### De dónde eres
+
+Las frases de presentarse decían **«vengo de España»** a todo el mundo, y en dos cursos llevaban escrito
+el nombre del autor («Me llamo Ángel»). Para quien aprende desde Venezuela o México eso no es un detalle:
+es enseñarle a decir algo que no es verdad.
+
+Ahora el país y el nombre son huecos: `{pais}`, `{gent}`, `{nombre}` en el texto del idioma, y
+`{PAIS}`, `{GENT}`, `{NOMBRE}` en la traducción. Los resuelven `ponHuecos()` y `ponHuecosEs()`. Sin país
+elegido el hueco queda en `____`, que enseña el patrón, que es lo que de verdad se aprende.
+
+**Cada paquete declara `PAISES` con la forma exacta que entra en el hueco**, ya con la preposición o el
+caso que pida ese idioma. El motor sustituye y no tiene que saber gramática de nadie:
+
+- donde la frase pide genitivo, el país va en genitivo;
+- donde lleva artículo contraído, va con él;
+- donde «ser de X» se forma con el país («país» + persona), no hace falta nada más;
+- donde es un adjetivo irregular, el paquete trae el gentilicio en masculino y femenino, con su lectura.
+
+El gentilicio **de la traducción** sale de `PAIS_GENT_ES`, en el motor. Me equivoqué una vez poniendo el
+del idioma que se estudia y la traducción decía «Soy statunitense».
+
+Hay 22 países (los hispanohablantes y Estados Unidos). **Son material nuevo sin contrastar**, y lo más
+frágil del curso junto con las palabras del cuerpo.
+
+Dos avisos para quien toque esto:
+
+- `renderPhrase` y `renderRom` se iban de vacío si el idioma no tenía partículas. Eso quería decir que
+  en cinco de los siete cursos no sustituían nunca nada. Ya no.
+- Todo lo que guarde texto **ya resuelto** hay que tirarlo cuando cambie el país, el nombre o el género:
+  el índice de la barra de abajo y los guiones de las conversaciones. Eso lo hace `olvidaFichero()`.
+  Cambiar de género sin tirar los guiones ya estaba roto desde antes.
+
 ### Las tareas del día cambian
 
 Eran tres fijas para siempre (10 tarjetas, 20 palabras, 1 test). Ahora hay un catálogo de ocho

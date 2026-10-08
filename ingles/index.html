@@ -3880,6 +3880,10 @@ VIEWS.vocabulario = {
     };
     const paintCard = () => {
       const c = $("#vCard"); if(!c) return;
+      /* Con la tarjeta boca abajo hay algo que adivinar, así que la barra
+         de abajo no puede enseñarlo: en un sentido la respuesta es el
+         significado y en el otro es la palabra, y los dos salían ahí. */
+      tapaChivatos(!vFlip);
       const w = vQueue[0];
       if(!w){ c.innerHTML = `<div class="card">No hay palabras en esta categoría.</div>`; return; }
       const dib = `<div class="fdib" aria-hidden="true">${dibujo(w)}</div>`;
@@ -5740,7 +5744,7 @@ function subtitula(texto, aviso){
   if(sinChivatos){
     caja.innerHTML = `<div class="sub-txt"><b class="sub-tapado">🔊 Escucha…</b>
         <em>La respuesta se ve al contestar</em>
-        ${aviso ? `<em class="sub-mudo">${esc(aviso)}</em>` : ""}</div>
+        ${aviso ? `<em class="sub-mudo">${esc(String(aviso).split(":")[0])}: lo que oyes no vale.</em>` : ""}</div>
       <button class="sub-b" data-sub-lento title="Repetirlo muy despacio">🐢 Más lento</button>
       <button class="sub-x" data-sub-x aria-label="Cerrar">&times;</button>`;
     caja.dataset.txt = texto;

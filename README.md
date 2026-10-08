@@ -158,8 +158,12 @@ La barra de lo que suena enseñaba palabra, lectura **y significado**. En un «�
 eso es la respuesta servida; en el dictado, directamente lo que hay que escribir.
 
 `tapaChivatos(true)` la deja en «🔊 Escucha…» mientras hay una pregunta sin contestar. Se activa en el
-motor de tests, en el dictado y en el memorama, y `go()` la desactiva al cambiar de pantalla para que
-no se quede tapada por ahí.
+motor de tests, en el dictado, en el memorama y en **la tarjeta de vocabulario sin girar**, y `go()` la
+desactiva al cambiar de pantalla para que no se quede tapada por ahí.
+
+La tarjeta se me escapó la primera vez, y es el sitio donde más cantaba: en un sentido la respuesta es
+el significado y en el otro es la palabra, y los dos salían en la barra. Si añades un ejercicio donde
+haya algo que adivinar **y** algo que suene, acuérdate de taparla.
 
 Cuidado con una trampa en la que caí: el aviso de «no hay voz de este idioma» se saltaba el tapado y
 enseñaba el texto igual. Justo en los dispositivos sin voz, que son los que más lo necesitan. El

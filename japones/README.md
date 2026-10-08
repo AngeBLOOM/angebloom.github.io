@@ -57,12 +57,15 @@ Un solo motor y un paquete de datos por idioma:
 | `menu.js` | El menú (cajón en móvil, grupos plegables en escritorio) y el troceado de cada pantalla. Va entre `vida.js` y `part4.js` |
 | `charla.js` | Las conversaciones, la barra de lo que suena y el juego de ordenar. Va entre `menu.js` y `part4.js` |
 | `cuerpo.js` | El muñeco de las partes del cuerpo |
+| `oido.js` | Sílabas que se encienden, tono en color y la curva recorriéndose |
 | `examen.js` | Un examen por lección, con su estado |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
 | `gen-icons.js` | Genera los iconos PNG sin dependencias |
 | `verificar.js` | Comprueba que ningún idioma arrastre escritura de otro |
+| `gen-og.js` | La imagen de 1200×630 que se ve al compartir el enlace |
+| `avisar.js` | Avisa a los buscadores por IndexNow (después de desplegar) |
 
 Reconstruir todo:
 
@@ -160,6 +163,49 @@ no se quede tapada por ahí.
 Cuidado con una trampa en la que caí: el aviso de «no hay voz de este idioma» se saltaba el tapado y
 enseñaba el texto igual. Justo en los dispositivos sin voz, que son los que más lo necesitan. El
 tapado manda sobre todo lo demás; el aviso se sigue dando porque no delata nada.
+
+### Ver el sonido: `oido.js`
+
+Tres cosas para quien aprende mirando además de escuchando. Ninguna necesita datos nuevos: todo sale
+de lo que el paquete ya trae, y donde el idioma no da, no se ofrece.
+
+**El tono de cada sílaba se deduce, no se escribe.** Cada idioma marca los tonos con tildes sobre la
+vocal, y **la misma tilde significa cosas distintas en cada uno**: U+0301 es tono alto en uno y segundo
+tono en otro. Por eso `mapaDeTonos()` lo saca de los ejemplos de tono del propio paquete (`TONE_DEMO`).
+Así no puede quedarse desfasado si el paquete cambia.
+
+**Trocear la palabra** (`silabasDe`) tiene dos caminos:
+
+| camino | cuándo | qué suena |
+|---|---|---|
+| `signo` | escrituras donde cada signo es sílaba o mora | cada trozo por separado, sincronizado de verdad |
+| `rom` | la romanización viene separada por guiones | la palabra entera despacio, marcando al ritmo estimado |
+
+En el camino `rom` **el corte es del paquete y es correcto; lo aproximado es el momento**, no la
+división. Conviene no venderlo como más de lo que es: por eso la nota debajo lo dice.
+
+Cobertura real, que no es la misma en todos: tailandés 47 de 155 (el resto son de una sola sílaba y no
+hay nada que partir), japonés 98/98, coreano 82/97, chino 45/97, italiano 90/98. **Ruso e inglés, cero**:
+ni tienen escritura silábica ni su romanización trae separadores.
+
+**El color del tono** va con la forma, no solo con el color: cada sílaba lleva su curva en pequeño
+(`miniTono`). Solo con el color no vale — hay quien no los distingue, y además la forma es justo lo que
+hay que aprender a oír.
+
+En chino el pinyin va pegado y no se puede cortar sin inventar. Lo que sí se puede es leer sus tildes en
+orden: **si hay exactamente una por signo, cada una es la de su signo y no hay duda**; si falta alguna
+(sílabas de tono neutro) no se sabría cuál se queda sin ella, así que no se pinta ninguna. 26 de 45.
+
+**La curva se recorre mientras suena** (`animaContorno`). Antes se dibujaba de un tirón en 0,85 s y se
+quedaba quieta, a su aire del audio. Ojo: va con temporizador y **no** con `requestAnimationFrame`, que
+se congela cuando la pestaña no está delante y dejaba el punto clavado en la salida.
+
+**Comparar el par.** En la prueba de oído, fallar y que te digan cuál era no enseña; oírlas seguidas sí.
+Se engancha por `alAcertar`, **con un tick de espera**: el motor rellena `#qFb` justo después de llamar,
+y sin esperar se lleva por delante lo que pongas.
+
+Y un aviso que ya me costó una vez: aquí **no puede aparecer ni un carácter de ningún idioma**. Los
+rangos de escritura van por número (`RANGOS_SILABICOS`, `PEGADOS`), no escritos. `verificar.js` lo caza.
 
 ### El cuerpo: `cuerpo.js`
 
@@ -482,6 +528,53 @@ Ambos viven en la cabecera de `part3.js` (`SUPPORT` y `AUTOR`) y se aplican a lo
 portal a la vez. Cambiar el enlace o el nombre en un sitio los cambia en todos.
 
 ---
+
+## Que la encuentren
+
+La página está lista para que la encuentren —`robots.txt`, `sitemap.xml` con las ocho direcciones,
+título y descripción por curso, datos estructurados— pero eso no basta: **los buscadores descubren
+páginas porque otras páginas enlazan a ellas**, y a esta no enlaza nadie todavía.
+
+### Al compartir el enlace
+
+`gen-og.js` hace una imagen de **1200×630** por curso, más una del portal con las siete escrituras.
+Antes se usaba el icono de la app, que es cuadrado: al pegar el enlace salía un sello diminuto al lado
+del texto. Con la medida correcta sale la tarjeta grande.
+
+Se dibuja con el mismo Chrome sin ventana que hace los cuadernos, con HTML. Así la escritura de cada
+idioma sale con su tipografía y no hay que pintar letras a mano.
+
+**Hay que ejecutarlo después de construir**, en este orden:
+
+```bash
+for L in tailandes japones coreano chino ruso ingles italiano; do node build.js $L <URL>; done
+node gen-og.js            # las imágenes de compartir
+node gen-portal.js <URL> tailandes japones coreano chino ruso ingles italiano
+node verificar.js
+node desplegar.js "mensaje"
+```
+
+### Avisar a los buscadores
+
+`avisar.js` usa **IndexNow**, que es lo único que no pide abrir cuenta en nadie. Lo comparten Bing,
+Yandex, Seznam y Naver; DuckDuckGo y Ecosia beben de Bing.
+
+Se ejecuta **después de desplegar**, nunca antes: comprueba que el fichero de la clave esté colgado y
+que las ocho direcciones respondan 200, y solo entonces avisa. Avisar de una página que no responde es
+peor que no avisar.
+
+La clave vive en `gen-portal.js` y se cuelga sola en la raíz del sitio. No es un secreto: solo
+demuestra que quien avisa manda en el sitio.
+
+### Google va por su cuenta
+
+Google **no** usa IndexNow. Para Google hace falta **Search Console**, y eso pide la cuenta de Google
+del dueño del sitio: no es algo que se pueda automatizar desde aquí. Los pasos son dar de alta
+`https://angebloom.github.io/` como «prefijo de URL», verificar con la etiqueta HTML que dé (se pega en
+la cabecera de `gen-portal.js` y se despliega) y enviar `sitemap.xml`.
+
+Y una expectativa honesta: aunque la indexe, competir por «aprender tailandés» contra Duolingo no va a
+pasar. Donde hay sitio es en las búsquedas largas y concretas, y sobre todo en el enlace pasado a mano.
 
 ## Antes de cobrar por esto
 

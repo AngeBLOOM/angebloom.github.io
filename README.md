@@ -57,6 +57,7 @@ Un solo motor y un paquete de datos por idioma:
 | `menu.js` | El menú (cajón en móvil, grupos plegables en escritorio) y el troceado de cada pantalla. Va entre `vida.js` y `part4.js` |
 | `charla.js` | Las conversaciones, la barra de lo que suena y el juego de ordenar. Va entre `menu.js` y `part4.js` |
 | `cuerpo.js` | El muñeco de las partes del cuerpo |
+| `oido.js` | Sílabas que se encienden, tono en color y la curva recorriéndose |
 | `examen.js` | Un examen por lección, con su estado |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
@@ -162,6 +163,49 @@ no se quede tapada por ahí.
 Cuidado con una trampa en la que caí: el aviso de «no hay voz de este idioma» se saltaba el tapado y
 enseñaba el texto igual. Justo en los dispositivos sin voz, que son los que más lo necesitan. El
 tapado manda sobre todo lo demás; el aviso se sigue dando porque no delata nada.
+
+### Ver el sonido: `oido.js`
+
+Tres cosas para quien aprende mirando además de escuchando. Ninguna necesita datos nuevos: todo sale
+de lo que el paquete ya trae, y donde el idioma no da, no se ofrece.
+
+**El tono de cada sílaba se deduce, no se escribe.** Cada idioma marca los tonos con tildes sobre la
+vocal, y **la misma tilde significa cosas distintas en cada uno**: U+0301 es tono alto en uno y segundo
+tono en otro. Por eso `mapaDeTonos()` lo saca de los ejemplos de tono del propio paquete (`TONE_DEMO`).
+Así no puede quedarse desfasado si el paquete cambia.
+
+**Trocear la palabra** (`silabasDe`) tiene dos caminos:
+
+| camino | cuándo | qué suena |
+|---|---|---|
+| `signo` | escrituras donde cada signo es sílaba o mora | cada trozo por separado, sincronizado de verdad |
+| `rom` | la romanización viene separada por guiones | la palabra entera despacio, marcando al ritmo estimado |
+
+En el camino `rom` **el corte es del paquete y es correcto; lo aproximado es el momento**, no la
+división. Conviene no venderlo como más de lo que es: por eso la nota debajo lo dice.
+
+Cobertura real, que no es la misma en todos: tailandés 47 de 155 (el resto son de una sola sílaba y no
+hay nada que partir), japonés 98/98, coreano 82/97, chino 45/97, italiano 90/98. **Ruso e inglés, cero**:
+ni tienen escritura silábica ni su romanización trae separadores.
+
+**El color del tono** va con la forma, no solo con el color: cada sílaba lleva su curva en pequeño
+(`miniTono`). Solo con el color no vale — hay quien no los distingue, y además la forma es justo lo que
+hay que aprender a oír.
+
+En chino el pinyin va pegado y no se puede cortar sin inventar. Lo que sí se puede es leer sus tildes en
+orden: **si hay exactamente una por signo, cada una es la de su signo y no hay duda**; si falta alguna
+(sílabas de tono neutro) no se sabría cuál se queda sin ella, así que no se pinta ninguna. 26 de 45.
+
+**La curva se recorre mientras suena** (`animaContorno`). Antes se dibujaba de un tirón en 0,85 s y se
+quedaba quieta, a su aire del audio. Ojo: va con temporizador y **no** con `requestAnimationFrame`, que
+se congela cuando la pestaña no está delante y dejaba el punto clavado en la salida.
+
+**Comparar el par.** En la prueba de oído, fallar y que te digan cuál era no enseña; oírlas seguidas sí.
+Se engancha por `alAcertar`, **con un tick de espera**: el motor rellena `#qFb` justo después de llamar,
+y sin esperar se lleva por delante lo que pongas.
+
+Y un aviso que ya me costó una vez: aquí **no puede aparecer ni un carácter de ningún idioma**. Los
+rangos de escritura van por número (`RANGOS_SILABICOS`, `PEGADOS`), no escritos. `verificar.js` lo caza.
 
 ### El cuerpo: `cuerpo.js`
 

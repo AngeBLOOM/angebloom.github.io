@@ -1208,6 +1208,47 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .qe-p[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
 .qe-nota{margin-top:11px; font-size:12.5px; color:var(--ink-3); line-height:1.45; max-width:58ch}
 
+/* ── por partes: las sílabas que se encienden ────────────────
+   Cada sílaba con el color de su tono, el mismo de toda la página. */
+.pp{margin:14px 0 4px}
+.pp-tira{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:4px}
+.pp-s{
+  display:flex; flex-direction:column; align-items:center; gap:1px;
+  padding:8px 13px; border-radius:12px; background:var(--surface-2);
+  border:1px solid transparent; transition:background .18s, border-color .18s, transform .18s;
+}
+.pp-s b{font-size:25px; line-height:1.25}
+.pp-s i{font:600 15px var(--mono); font-style:normal; opacity:.95}
+/* la forma del tono, pequeñita, debajo de cada sílaba */
+.pp-tn{width:34px; height:13px; display:block; margin-top:2px;
+  fill:none; stroke:currentColor; stroke-width:4; stroke-linecap:round; opacity:.75}
+.pp-s.suena .pp-tn{opacity:1}
+.pp-s.suena{
+  background:color-mix(in srgb, currentColor 16%, var(--surface));
+  border-color:currentColor; transform:translateY(-3px) scale(1.04);
+}
+.pp-mas{color:var(--ink-3); font-size:13px; opacity:.5}
+.pp-bot{justify-content:center; align-items:center; gap:10px; margin-top:11px}
+.pp-nota{font-size:11.5px; color:var(--ink-3); max-width:30ch; line-height:1.3}
+
+/* el punto que recorre la curva del tono */
+.tn-bola{fill:currentColor; opacity:0; transition:opacity .35s}
+
+/* comparar las dos del par */
+.cmp{margin-top:14px; padding-top:13px; border-top:1px dashed var(--line); text-align:center}
+.cmp-tit{font-size:13px; color:var(--ink-2); margin-bottom:10px}
+.cmp-fila{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:11px}
+.cmp-p{
+  display:flex; flex-direction:column; align-items:center; gap:1px; cursor:pointer;
+  padding:9px 15px; border-radius:13px; border:1px solid var(--line); background:var(--surface);
+  transition:transform .14s, border-color .14s;
+}
+.cmp-p:hover{transform:translateY(-2px); border-color:currentColor}
+.cmp-p.suena{border-color:currentColor; background:color-mix(in srgb, currentColor 14%, var(--surface))}
+.cmp-p b{font-size:24px; line-height:1.2}
+.cmp-p i{font:500 12.5px var(--mono); font-style:normal; opacity:.85}
+.cmp-p em{font-style:normal; font-size:11.5px; color:var(--ink-3)}
+
 /* ── el cuerpo ──────────────────────────────────────────────
    El muñeco se toca: cada trozo es un botón. La parte elegida se
    pinta del color de marca y el resto se queda apagado. */
@@ -2884,11 +2925,14 @@ const sayTh = (t, cls, style) =>
   `<span class="th ${cls||""}" ${style ? `style="${style}"` : ""} data-say="${esc(t)}" role="button" tabindex="0"
     title="Tocar para escuchar">${t}</span>`;
 /* redibuja la curva de tono al reproducir */
-function redrawContour(host){
+/* la curva se recorre al ritmo de lo que suena (ver oido.js): antes se
+   dibujaba de un tirón y se quedaba quieta, a su aire del audio */
+function redrawContour(host, texto){
   if(!host) return;
   const p = host.querySelector("svg path");
   if(!p) return;
-  p.classList.remove("drawn"); p.getBoundingClientRect(); p.classList.add("drawn");
+  const ms = 420 + String(texto || "").length * 240 / Math.max(S.speed, 0.3);
+  animaContorno(host, Math.min(2600, ms));
 }
 /* cuenta ascendente para los resultados */
 function countUp(el, to, ms){
@@ -3013,7 +3057,7 @@ document.addEventListener("click", e => {
   const say = e.target.closest("[data-say]");
   if(say){
     speak(say.dataset.say, say.matches(".iconbtn") ? say : null);
-    redrawContour(say.closest(".syl, .card, .result"));
+    redrawContour(say.closest(".syl, .card, .result"), say.dataset.say);
     return;
   }
   const sp = e.target.closest("[data-speed]");
@@ -3245,11 +3289,12 @@ VIEWS.sonidos = {
       ${PAIRS.map(([t,d,items]) => `<div class="card">
         <b style="font-size:15px">${t}</b>
         <p class="muted" style="font-size:13.5px;margin:4px 0 12px">${d}</p>
-        ${items.map(([th,rom,es]) => `<div class="row" style="justify-content:space-between;padding:6px 0;border-top:1px solid var(--line)">
-          <div>${sayTh(th, "", "font-size:22px")}
-            <span class="lrom" style="margin-left:8px">${rom}</span>
+        ${items.map(([th,rom,es]) => { const tn = tonoDeSilaba(rom); return `<div class="row" style="justify-content:space-between;padding:6px 0;border-top:1px solid var(--line)">
+          <div>${sayTh(th, claseTono(tn), "font-size:22px")}
+            <span class="lrom ${claseTono(tn)}" style="margin-left:8px">${rom}</span>
+            ${tn && TONES[tn] ? `<span class="muted" style="font-size:11.5px;margin-left:6px">tono ${esc(TONES[tn].es)}</span>` : ""}
             <div style="font-size:13px;color:var(--ink-3)">${es}</div></div>
-          ${sayBtn(th, rom)}</div>`).join("")}
+          ${sayBtn(th, rom)}</div>`; }).join("")}
       </div>`).join("")}
     </div>
 
@@ -3261,7 +3306,16 @@ VIEWS.sonidos = {
     quizEngine($("#earQuiz"), 10, () => {
       const set = pick(PAIRS)[2];
       const target = pick(set);
+      cmpPalabras = set;
       return {
+        /* fallar y que te digan cuál era no enseña; oírlas seguidas sí */
+        /* el motor rellena #qFb justo después de llamar aquí, así que hay
+           que esperar un tick o se lleva por delante lo que pongamos */
+        alAcertar: (root) => setTimeout(() => {
+          const fb = root.querySelector("#qFb");
+          if(fb && set.length > 1 && !fb.querySelector(".cmp"))
+            fb.insertAdjacentHTML("beforeend", comparaHTML(set));
+        }, 0),
         prompt:`<div class="row" style="justify-content:center"><button class="btn btn--p" data-say="${target[0]}">${svg("play")} Escuchar de nuevo</button></div>`,
         auto:target[0],
         question:"¿Qué palabra has oído?",
@@ -3810,7 +3864,7 @@ VIEWS.vocabulario = {
           <div class="row" style="justify-content:center;margin-top:6px">
             <span class="chip chip--media">nivel ${lvl}/4</span>
             <span class="chip chip--baja">${w[3]}</span></div></div>
-        ${vFlip ? `<div class="rep-fila" style="text-align:center">${repetirHTML(w[0], "Dilo tú")}</div>
+        ${vFlip ? `${porPartesHTML(w[0], w[1])}<div class="rep-fila" style="text-align:center">${repetirHTML(w[0], "Dilo tú")}</div>
           <div class="row" style="justify-content:center;margin-top:12px">
             <button class="btn" data-say="${w[0]}">${svg("play")} Escuchar</button>
             <button class="btn" id="vNo">No la sabía</button>
@@ -6437,6 +6491,249 @@ document.addEventListener("click", e => {
     const c = document.getElementById("exCaja");
     if(c) c.innerHTML = "";
     return;
+  }
+});
+
+/* ══════════════════════════════════════════════════════════
+   PARA QUIEN APRENDE MIRANDO Y ESCUCHANDO
+   ══════════════════════════════════════════════════════════
+   Tres cosas, todas para lo mismo: que el sonido se vea.
+
+   1 · «Por partes»: la palabra troceada en sílabas, que se encienden
+       según suenan. Existía solo para las doce palabras de «Cómo se
+       lee», hechas a mano; esto lo lleva a todo el vocabulario.
+   2 · El tono de cada sílaba con su color, el mismo de siempre.
+   3 · La curva del tono recorriéndose mientras suena, en vez de
+       dibujarse de golpe y quedarse quieta.
+
+   Nada de esto necesita datos nuevos: todo sale de lo que el paquete
+   ya trae. Donde el idioma no da para trocear, no se ofrece y punto.
+
+   Va después de charla.js y antes de part4.js. */
+
+/* ── 1 · el tono de una sílaba, deducido ───────────────────
+   Cada idioma marca los tonos con tildes distintas sobre la vocal, y
+   LA MISMA TILDE SIGNIFICA COSAS DISTINTAS en cada uno: U+0301 es tono
+   alto en un idioma y segundo tono en otro. Por eso el mapa no se
+   escribe a mano: se deduce de los ejemplos de tono del propio paquete,
+   y así no puede quedarse desfasado. */
+let MAPA_TONOS = null;
+function mapaDeTonos(){
+  if(MAPA_TONOS) return MAPA_TONOS;
+  MAPA_TONOS = {marcas:{}, sin:null};
+  if(typeof TONE_DEMO === "undefined" || !Array.isArray(TONE_DEMO)) return MAPA_TONOS;
+  for(const d of TONE_DEMO){
+    if(!d || !d.rom || !d.tone) continue;
+    const marcas = [...String(d.rom).normalize("NFD")]
+      .filter(c => c >= "̀" && c <= "ͯ");
+    if(!marcas.length) MAPA_TONOS.sin = MAPA_TONOS.sin || d.tone;
+    else if(!MAPA_TONOS.marcas[marcas[0]]) MAPA_TONOS.marcas[marcas[0]] = d.tone;
+  }
+  return MAPA_TONOS;
+}
+const hayTonos = () => typeof TONES !== "undefined" && typeof TONE_DEMO !== "undefined";
+function tonoDeSilaba(rom){
+  if(!hayTonos() || !rom) return null;
+  const m = mapaDeTonos();
+  for(const c of String(rom).normalize("NFD")){
+    if(c >= "̀" && c <= "ͯ" && m.marcas[c]) return m.marcas[c];
+  }
+  return m.sin;
+}
+const claseTono = t => (t && TONES[t]) ? TONES[t].cls : "";
+
+/* ── 2 · trocear la palabra ────────────────────────────────
+   Dos caminos, según lo que dé el idioma:
+     «signo» — escrituras donde cada signo es una sílaba o una mora. Se
+       puede decir cada trozo por separado, así que el sonido y la marca
+       van exactos.
+     «rom»  — la romanización viene ya separada por guiones. El trozo
+       suelto no se puede pronunciar (no es texto del idioma), así que
+       suena la palabra entera despacio y las sílabas se encienden al
+       ritmo estimado. Las divisiones son del paquete y son correctas;
+       lo aproximado es el momento, no el corte.
+   Donde no hay ni una cosa ni otra, no se ofrece. */
+/* Los rangos van por número, no escritos: el motor es compartido por los
+   siete cursos y aquí no puede aparecer ni un carácter de ninguno de
+   ellos (verificar.js lo vigila, y con razón: ya se me coló una vez). */
+const RANGOS_SILABICOS = [[0x3040, 0x30ff], [0x3400, 0x4dbf], [0x4e00, 0x9fff], [0xac00, 0xd7af]];
+const esSilabico = ch => {
+  const c = ch.codePointAt(0);
+  return RANGOS_SILABICOS.some(([a, b]) => c >= a && c <= b);
+};
+const tieneSilabico = t => [...String(t)].some(esSilabico);
+
+/* Lo pequeño y el alargue se pegan al signo de delante: son dos signos
+   pero una sola mora. Lo demás que no sea silábico (puntuación) también
+   se pega, para no dejar trozos sueltos sin sonido. */
+const PEGADOS = [0x3083, 0x3085, 0x3087, 0x3041, 0x3043, 0x3045, 0x3047, 0x3049,
+                 0x30e3, 0x30e5, 0x30e7, 0x30a1, 0x30a3, 0x30a5, 0x30a7, 0x30a9,
+                 0x30f5, 0x30f6, 0x30fc];
+const sePega = ch => PEGADOS.indexOf(ch.codePointAt(0)) >= 0;
+
+function troceaPorSignos(t){
+  const out = [];
+  for(const ch of String(t)){
+    if(out.length && (sePega(ch) || !esSilabico(ch))) out[out.length - 1] += ch;
+    else out.push(ch);
+  }
+  return out;
+}
+function silabasDe(th, rom){
+  const t = String(th || "").trim(), r = String(rom || "").trim();
+  if(!t) return null;
+  if(tieneSilabico(t)){
+    const trozos = troceaPorSignos(t);
+    if(trozos.length < 2) return null;
+    const piezas = trozos.map(x => ({th:x, rom:""}));
+    /* El tono de cada signo, cuando se puede saber SIN inventar nada.
+       Aquí la romanización va pegada y no se puede cortar, pero sí se
+       pueden leer sus tildes de tono en orden. Si hay exactamente una
+       por signo, cada una es la de su signo y no hay duda. Si falta
+       alguna —hay sílabas sin tono propio— no se sabría cuál se queda
+       sin ella, así que no se pinta ninguna. */
+    const marcas = [...String(r).normalize("NFD")].filter(c => c >= "̀" && c <= "ͯ");
+    if(hayTonos() && marcas.length === piezas.length){
+      const m = mapaDeTonos();
+      piezas.forEach((p, i) => { p.tono = m.marcas[marcas[i]] || m.sin; });
+    }
+    return {modo:"signo", entera:t, piezas};
+  }
+  const rs = r.split(/[-·]/).map(x => x.trim()).filter(Boolean);
+  if(rs.length >= 2) return {modo:"rom", entera:t, piezas:rs.map(x => ({th:"", rom:x}))};
+  return null;
+}
+
+/* ── 3 · la tira de sílabas ──────────────────────────────────
+   Cada sílaba lleva su tono en color Y en forma. Solo con el color no
+   vale: hay quien no los distingue, y además la forma es justo lo que
+   hay que aprender a oír. */
+function miniTono(t){
+  if(!t || !hayTonos() || !TONES[t] || !TONES[t].path) return "";
+  return `<svg class="pp-tn" viewBox="0 0 110 38" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path d="${TONES[t].path}"/></svg>`;
+}
+
+let ppCola = 0;
+function porPartesHTML(th, rom){
+  const s = silabasDe(th, rom);
+  if(!s) return "";
+  return `<div class="pp" data-pp-th="${esc(th)}" data-pp-rom="${esc(rom || "")}">
+    <div class="pp-tira">
+      ${s.piezas.map((p, i) => {
+        const t = p.tono || tonoDeSilaba(p.rom || "");
+        return `<span class="pp-s ${claseTono(t)}" data-pp-i="${i}"
+          ${t && TONES[t] ? `title="tono ${esc(TONES[t].es)}"` : ""}>
+          ${p.th ? `<b class="th">${p.th}</b>` : ""}
+          ${p.rom ? `<i>${esc(p.rom)}</i>` : ""}
+          ${miniTono(t)}
+        </span>`;
+      }).join('<span class="pp-mas" aria-hidden="true">+</span>')}
+    </div>
+    <div class="row pp-bot">
+      <button class="btn btn--s" data-pp-di>${svg("play")} Por partes</button>
+      <span class="pp-nota">${s.modo === "signo"
+        ? "cada trozo suena por separado"
+        : "suena la palabra entera, despacio, marcando cada sílaba"}</span>
+    </div>
+  </div>`;
+}
+
+function diPorPartes(caja){
+  const th = caja.dataset.ppTh, rom = caja.dataset.ppRom;
+  const s = silabasDe(th, rom);
+  if(!s) return;
+  const token = ++ppCola;
+  const marcas = caja.querySelectorAll(".pp-s");
+  const apaga = () => marcas.forEach(m => m.classList.remove("suena"));
+  apaga();
+
+  if(s.modo === "signo"){
+    /* cada trozo es texto del idioma: se puede decir suelto */
+    const items = s.piezas.map((p, i) => ({texto:p.th, marcar:[i]}));
+    items.push({texto:s.entera, marcar:s.piezas.map((_, i) => i), entera:true});
+    lecDiSeguido(items, "#" + (caja.id || marcaCaja(caja)) + " .pp-s");
+    return;
+  }
+
+  /* la palabra entera, despacio, y las sílabas encendiéndose al ritmo
+     estimado: el corte es del paquete, lo aproximado es el momento */
+  const lento = Math.min(0.6, S.speed);
+  speak(s.entera, null, lento);
+  const total = 520 + s.entera.length * 230 / Math.max(lento, 0.3);
+  const paso = total / s.piezas.length;
+  s.piezas.forEach((_, i) => setTimeout(() => {
+    if(token !== ppCola) return;
+    apaga();
+    if(marcas[i]) marcas[i].classList.add("suena");
+    if(i === s.piezas.length - 1) setTimeout(() => { if(token === ppCola) apaga(); }, paso);
+  }, 260 + paso * i));
+}
+let nPp = 0;
+function marcaCaja(c){ const id = "pp" + (++nPp); c.id = id; return id; }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-pp-di]");
+  if(b) diPorPartes(b.closest(".pp"));
+});
+
+/* ── 4 · la curva del tono, recorriéndose ──────────────────
+   Antes la línea se dibujaba de un tirón en 0,85 s y se quedaba quieta,
+   a su aire del audio. Ahora un punto la recorre mientras suena: la
+   forma deja de ser un adorno y pasa a ser lo que estás oyendo. */
+function animaContorno(host, ms){
+  if(!host || pocoMovimiento()) return;
+  const svg = host.querySelector("svg");
+  const p = svg && svg.querySelector("path");
+  if(!p || !p.getPointAtLength) return;
+
+  p.classList.remove("drawn");
+  void p.getBoundingClientRect();
+  p.classList.add("drawn");
+
+  let bola = svg.querySelector(".tn-bola");
+  if(!bola){
+    bola = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    bola.setAttribute("class", "tn-bola");
+    bola.setAttribute("r", "4.5");
+    svg.appendChild(bola);
+  }
+  const largo = p.getTotalLength();
+  const t0 = Date.now();
+  bola.style.opacity = "1";
+  /* con temporizador y no requestAnimationFrame: ese se congela cuando la
+     pestaña no está delante, y el punto se quedaba clavado en la salida */
+  const paso = () => {
+    const k = Math.min(1, (Date.now() - t0) / ms);
+    const pt = p.getPointAtLength(largo * k);
+    bola.setAttribute("cx", pt.x);
+    bola.setAttribute("cy", pt.y);
+    if(k < 1) setTimeout(paso, 16);
+    else setTimeout(() => { bola.style.opacity = "0"; }, 420);
+  };
+  paso();
+}
+
+/* ── 5 · comparar las dos del par ──────────────────────────
+   En la prueba de oído, fallar y que te digan cuál era no enseña nada:
+   lo que enseña es oírlas seguidas. */
+function comparaHTML(palabras){
+  return `<div class="cmp">
+    <div class="cmp-tit">Óyelas seguidas, que es donde se nota:</div>
+    <div class="cmp-fila">
+      ${palabras.map(w => {
+        const t = tonoDeSilaba(w[1]);
+        return `<button class="cmp-p ${claseTono(t)}" data-say="${esc(w[0])}">
+          <b class="th">${w[0]}</b><i>${esc(w[1])}</i><em>${esc(w[2])}</em></button>`;
+      }).join("")}
+    </div>
+    <button class="btn btn--s" data-cmp-todas>${svg("play")} Una detrás de otra</button>
+  </div>`;
+}
+let cmpPalabras = null;
+document.addEventListener("click", e => {
+  if(e.target.closest("[data-cmp-todas]") && cmpPalabras){
+    lecDiSeguido(cmpPalabras.map((w, i) => ({texto:w[0], marcar:[i], entera:true})), ".cmp-p");
   }
 });
 

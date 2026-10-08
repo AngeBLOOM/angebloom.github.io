@@ -1,5 +1,5 @@
-/* Sì Shēng — caché offline. Versión: chino-20261008-0jbl */
-const CACHE = "chino-20261008-0jbl";
+/* Sì Shēng — caché offline. Versión: chino-20261008-50yc */
+const CACHE = "chino-20261008-50yc";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

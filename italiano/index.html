@@ -2632,6 +2632,7 @@ const PAISES = {
   "us":["dagli Stati Uniti","ˈdaʎ-ʎi ˈsta-ti u-ˈni-ti","statunitense","statunitense","sta-tu-ni-ˈtɛn-se","sta-tu-ni-ˈtɛn-se"]
 };
 
+const AUDIO = {};
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -2729,10 +2730,12 @@ function paintVoice(){
   const dot = document.getElementById("vdot"), txt = document.getElementById("vtxt");
   if(!dot) return;
   if(!window.speechSynthesis){ dot.className = "dot off"; txt.textContent = "sin audio"; return; }
-  if(thaiVoice){ dot.className = "dot on"; txt.textContent = "voz lista"; }
+  const propio = typeof AUDIO !== "undefined" && AUDIO && Object.keys(AUDIO).length;
+  if(propio){ dot.className = "dot on"; txt.textContent = "audio propio"; }
+  else if(thaiVoice){ dot.className = "dot on"; txt.textContent = "voz lista"; }
   else { dot.className = "dot off"; txt.textContent = "sin voz de " + LANG.nombre.toLowerCase(); }
   const vh = document.getElementById("voiceHelp");
-  if(vh) vh.innerHTML = thaiVoice ? "" : `<div class="banner"><div>
+  if(vh) vh.innerHTML = (thaiVoice || propio) ? "" : `<div class="banner"><div>
     <b>Este navegador no tiene voz de ${LANG.nombre.toLowerCase()} instalada.</b> Todo lo demás funciona igual, pero los botones
     de escuchar sonarán mal o no sonarán. Para activarla en Windows: <i>Configuración → Hora e idioma → Idioma y región →
     Añadir idioma → ${LANG.nativo} → Opciones de idioma → instalar «Voz»</i>, y reinicia el navegador.
@@ -2767,6 +2770,36 @@ function locucion(text, rate){
   return u;
 }
 
+/* ── AUDIO GRABADO ───────────────────────────────────────
+   Si el curso trae su propio audio, se toca ese y se acabó el problema
+   de la voz: suena igual en todos los dispositivos, sin conexión y sin
+   depender de lo que cada uno tenga instalado. Si no lo trae, se sigue
+   usando la voz del navegador como hasta ahora.
+
+   AUDIO lo pone build.js con el manifest del paquete; si no hay, queda
+   vacío y todo esto no se entera. */
+const hayGrabado = t => typeof AUDIO !== "undefined" && AUDIO && AUDIO[t];
+const urlGrabada = t => "./audio/" + AUDIO[t];
+
+let sonando = null;
+function tocaGrabado(text, rate, alArrancar, alTerminar, alFallar){
+  if(sonando){ try{ sonando.pause(); }catch(e){} sonando = null; }
+  const a = new Audio(urlGrabada(text));
+  /* la velocidad del curso vale igual para un fichero */
+  a.playbackRate = Math.max(0.5, Math.min(2, rate || S.speed));
+  let acabo = false;
+  const fin = () => { if(acabo) return; acabo = true; if(alTerminar) alTerminar(); };
+  a.onplaying = () => { if(alArrancar) alArrancar(); };
+  a.onended = fin;
+  a.onerror = () => { fin(); if(alFallar) alFallar(); };
+  sonando = a;
+  const p = a.play();
+  /* si el navegador se niega (sin gesto del usuario, fichero que falta),
+     no se queda en silencio: lo dice quien llame */
+  if(p && p.catch) p.catch(() => { fin(); if(alFallar) alFallar(); });
+  return true;
+}
+
 /* Por qué esto no es simplemente cancel() + speak():
    1. En Chrome, cancelar y hablar en el mismo tick se come la locución.
       No falla: se queda muda. De ahí la espera mínima.
@@ -2778,6 +2811,19 @@ function locucion(text, rate){
    Era el «a veces no se escucha nada». */
 let ultimaLocucion = 0;
 function diAlgo(text, rate, alArrancar, alTerminar, alFallar){
+  if(!text) return;
+  /* el fichero manda: si existe, ni se toca la voz del navegador */
+  if(hayGrabado(text)){
+    if(window.speechSynthesis) speechSynthesis.cancel();
+    ultimaLocucion++;                       /* corta lo que hubiera en marcha */
+    tocaGrabado(text, rate, alArrancar, alTerminar,
+      /* si el fichero falla, se intenta con la voz de siempre */
+      () => diConVoz(text, rate, alArrancar, alTerminar, alFallar));
+    return;
+  }
+  diConVoz(text, rate, alArrancar, alTerminar, alFallar);
+}
+function diConVoz(text, rate, alArrancar, alTerminar, alFallar){
   if(!window.speechSynthesis || !text) return;
   const sintesis = window.speechSynthesis;
   sintesis.cancel();
@@ -2816,7 +2862,7 @@ function speak(text, btn, rate){
      se parece a nada. Eso es lo que se vive como «no se entiende lo que
      dice». Se avisa las primeras veces y luego se deja en paz: la barra
      ya enseña la palabra y cómo se lee. */
-  subtitula(text, (!thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
+  subtitula(text, (!hayGrabado(text) && !thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
   diAlgo(text, rate, null, apaga, () => subtitula(text, motivoDelSilencio()));
   /* por si el navegador no avisa del final: el botón no se queda encendido */
   setTimeout(apaga, 900 + text.length * 260);
@@ -4824,9 +4870,15 @@ function lecDiSeguido(items, sel){
     const it = items[k++];
     (it.marcar || []).forEach(i => { const p = piezas()[i]; if(p) p.classList.add("suena"); });
     subtitula(it.texto);
-    const u = locucion(it.texto, S.speed * (it.entera ? 1 : 0.85));
     let hecho = false;
     const fin = () => { if(hecho) return; hecho = true; setTimeout(siguiente, it.entera ? 200 : 420); };
+    /* con audio propio no hace falta ni tope ni despertar a nadie */
+    if(hayGrabado(it.texto)){
+      tocaGrabado(it.texto, S.speed * (it.entera ? 1 : 0.85), null, fin, fin);
+      setTimeout(fin, 2600 + it.texto.length * 220);
+      return;
+    }
+    const u = locucion(it.texto, S.speed * (it.entera ? 1 : 0.85));
     u.onend = fin; u.onerror = fin;
     setTimeout(fin, 1100 + it.texto.length * 450);
     try{ speechSynthesis.resume(); }catch(e){}   /* el motor se queda dormido */

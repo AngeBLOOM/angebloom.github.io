@@ -58,6 +58,7 @@ Un solo motor y un paquete de datos por idioma:
 | `charla.js` | Las conversaciones, la barra de lo que suena y el juego de ordenar. Va entre `menu.js` y `part4.js` |
 | `cuerpo.js` | El muñeco de las partes del cuerpo |
 | `oido.js` | Sílabas que se encienden, tono en color y la curva recorriéndose |
+| `gen-audio.js` | Qué audio hace falta, cuánto hay y generar lo que falte |
 | `examen.js` | Un examen por lección, con su estado |
 | `data-<idioma>.js` | Todo lo propio del idioma: color, textos, alfabeto, vocabulario, gramática, números |
 | `build.js` | Genera `dist-<idioma>/` con su tipografía y sus metadatos |
@@ -270,6 +271,51 @@ importan:
 
 Los dibujos de las fichas salen de `dibujo()`, que busca por el significado en castellano del nombre de
 la letra. Si falta la palabra en `DIBUJO_PALABRAS`, la ficha sale sin dibujo y no pasa nada.
+
+### El audio grabado
+
+**El problema.** La voz la pone el navegador, y si el dispositivo no tiene voz del idioma no se calla:
+lee las letras con la que tenga a mano y sale un ruido que no se parece a nada. Para quien aprende de
+oído eso no es un detalle: es que el curso no funciona. Y pasa más de lo que parece — el equipo donde se
+desarrolla esto no tiene voz de **ninguno** de los siete idiomas salvo inglés.
+
+**La solución** son ficheros propios: se graban una vez y suenan igual en todos los dispositivos, sin
+conexión y sin depender de lo que cada uno tenga instalado. Son unos 1.300 en total: tailandés 276,
+japonés 203, ruso 191, chino 170, inglés 172, coreano 164, italiano 163.
+
+**Cómo funciona.** Si el paquete trae audio, `diAlgo()` toca el fichero y ni se acerca a la voz del
+navegador; si no, sigue todo como antes. Si el fichero falla o no carga, cae a la voz: nunca se queda
+mudo sin avisar. `lecDiSeguido()` hace lo mismo.
+
+```
+audio/<idioma>/manifest.json     {"texto exacto": "fichero"}
+audio/<idioma>/<ficheros>        mp3, ogg o wav
+```
+
+`build.js` mete el manifest **dentro** de la página (son unos kB, así no hace falta otra descarga y
+funciona sin conexión desde el primer momento) y copia los ficheros al lado. El service worker los va
+guardando según se usan, así que no hay que precargar nada.
+
+**Ojo con dónde se mete el manifest.** Va después del paquete de datos, nunca antes: `verificar.js`
+localiza el motor buscando `<script>` seguido del comienzo del paquete, y si se le cuela algo en medio
+pierde la marca, revisa el fichero entero y da por fugas las frases del propio curso. Pasó.
+
+**De dónde salen los ficheros.** De quien quieras; lo mejor, un hablante nativo. `gen-audio.js` solo
+sabe generarlos con las voces que Windows tenga instaladas, y únicamente del idioma de una voz que esté
+puesta. Si no hay voz de ese idioma lo dice y no inventa nada.
+
+```bash
+node gen-audio.js                    # informe de los siete
+node gen-audio.js tailandes --generar # genera lo que falte, si hay voz
+```
+
+Para que haya voz de un idioma: *Configuración → Hora e idioma → Idioma y región → Añadir idioma →
+Opciones → Voz*, y reiniciar el navegador.
+
+**Sobre el peso.** En wav a 16 kHz mono un curso ocupa unos 8 MB. Es mucho para algo que se guarda en el
+móvil: si los grabas tú, **en mp3**, que baja a menos de la décima parte. Se probó generando el inglés
+entero y se retiró: eran 8 MB de la misma voz robótica que el navegador ya trae, para el único idioma
+cuya voz está en casi todos los dispositivos. La maquinaria quedó probada de punta a punta.
 
 ### Que se oiga: `diAlgo()`
 

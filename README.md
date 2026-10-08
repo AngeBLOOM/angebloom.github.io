@@ -63,6 +63,8 @@ Un solo motor y un paquete de datos por idioma:
 | `gen-portal.js` | Genera el portal raíz a partir de los paquetes |
 | `gen-icons.js` | Genera los iconos PNG sin dependencias |
 | `verificar.js` | Comprueba que ningún idioma arrastre escritura de otro |
+| `gen-og.js` | La imagen de 1200×630 que se ve al compartir el enlace |
+| `avisar.js` | Avisa a los buscadores por IndexNow (después de desplegar) |
 
 Reconstruir todo:
 
@@ -482,6 +484,53 @@ Ambos viven en la cabecera de `part3.js` (`SUPPORT` y `AUTOR`) y se aplican a lo
 portal a la vez. Cambiar el enlace o el nombre en un sitio los cambia en todos.
 
 ---
+
+## Que la encuentren
+
+La página está lista para que la encuentren —`robots.txt`, `sitemap.xml` con las ocho direcciones,
+título y descripción por curso, datos estructurados— pero eso no basta: **los buscadores descubren
+páginas porque otras páginas enlazan a ellas**, y a esta no enlaza nadie todavía.
+
+### Al compartir el enlace
+
+`gen-og.js` hace una imagen de **1200×630** por curso, más una del portal con las siete escrituras.
+Antes se usaba el icono de la app, que es cuadrado: al pegar el enlace salía un sello diminuto al lado
+del texto. Con la medida correcta sale la tarjeta grande.
+
+Se dibuja con el mismo Chrome sin ventana que hace los cuadernos, con HTML. Así la escritura de cada
+idioma sale con su tipografía y no hay que pintar letras a mano.
+
+**Hay que ejecutarlo después de construir**, en este orden:
+
+```bash
+for L in tailandes japones coreano chino ruso ingles italiano; do node build.js $L <URL>; done
+node gen-og.js            # las imágenes de compartir
+node gen-portal.js <URL> tailandes japones coreano chino ruso ingles italiano
+node verificar.js
+node desplegar.js "mensaje"
+```
+
+### Avisar a los buscadores
+
+`avisar.js` usa **IndexNow**, que es lo único que no pide abrir cuenta en nadie. Lo comparten Bing,
+Yandex, Seznam y Naver; DuckDuckGo y Ecosia beben de Bing.
+
+Se ejecuta **después de desplegar**, nunca antes: comprueba que el fichero de la clave esté colgado y
+que las ocho direcciones respondan 200, y solo entonces avisa. Avisar de una página que no responde es
+peor que no avisar.
+
+La clave vive en `gen-portal.js` y se cuelga sola en la raíz del sitio. No es un secreto: solo
+demuestra que quien avisa manda en el sitio.
+
+### Google va por su cuenta
+
+Google **no** usa IndexNow. Para Google hace falta **Search Console**, y eso pide la cuenta de Google
+del dueño del sitio: no es algo que se pueda automatizar desde aquí. Los pasos son dar de alta
+`https://angebloom.github.io/` como «prefijo de URL», verificar con la etiqueta HTML que dé (se pega en
+la cabecera de `gen-portal.js` y se despliega) y enviar `sitemap.xml`.
+
+Y una expectativa honesta: aunque la indexe, competir por «aprender tailandés» contra Duolingo no va a
+pasar. Donde hay sitio es en las búsquedas largas y concretas, y sobre todo en el enlace pasado a mano.
 
 ## Antes de cobrar por esto
 

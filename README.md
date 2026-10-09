@@ -368,9 +368,9 @@ La regla, por si vuelve a aparecer: **si un ejercicio tiene algo que adivinar, l
 enseña hasta que se responde.** Se puede pedir a propósito —hay un botón— pero no sale sola. En el
 juego de ordenar lo lleva `ordVerEs`, y se vuelve a esconder al cambiar de escena.
 
-Queda un sitio donde la traducción sí se enseña y es discutible: las frases que te dicen a ti en la
-conversación. Ahí es apoyo para seguir el hilo, no respuesta a nada, pero si se quiere el mismo rigor
-habría que taparla también.
+Lo mismo en la conversación: **lo que te dicen no viene traducido**. Con la traducción delante no te
+obligas a entender lo que oyes, la lees y contestas. Sale si tocas «¿qué ha dicho?», y al terminar la
+escena se destapa todo, que es cuando sirve para repasar. Lo lleva el conjunto chVistas.
 
 ### El juego de ordenar
 

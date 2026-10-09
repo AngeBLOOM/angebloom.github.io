@@ -1234,6 +1234,14 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 /* el punto que recorre la curva del tono */
 .tn-bola{fill:currentColor; opacity:0; transition:opacity .35s}
 
+/* el botón para destapar lo que te han dicho */
+.ch-que{
+  align-self:flex-start; margin-top:3px; cursor:pointer;
+  padding:3px 9px; border-radius:20px; font:600 11.5px var(--ui);
+  border:1px dashed var(--line-2); background:transparent; color:var(--ink-3);
+}
+.ch-que:hover{border-style:solid; border-color:var(--accent); color:var(--accent-ink)}
+
 /* comparar las dos del par */
 .cmp{margin-top:14px; padding-top:13px; border-top:1px dashed var(--line); text-align:center}
 .cmp-tit{font-size:13px; color:var(--ink-2); margin-bottom:10px}
@@ -5951,6 +5959,8 @@ const guionesListos = () => (GUIONES_OK = GUIONES_OK || GUIONES.map(montaGuion).
 let chId = null, chPaso = 0, chBien = 0;
 /* intentos en el turno de ahora, y las frases que quedaron flojas */
 let chIntentos = 0, chFlojas = [];
+/* las burbujas cuya traducción has pedido en esta pasada */
+let chVistas = new Set();
 const chClave = id => LANG.id + ":charla:" + id;
 const chHecha = id => !!(S.charlas && S.charlas[chClave(id)]);
 
@@ -5984,7 +5994,7 @@ VIEWS.charla = {
   },
   init(){
     document.querySelectorAll("[data-charla]").forEach(b => b.addEventListener("click", () => {
-      chId = b.dataset.charla; chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = [];
+      chId = b.dataset.charla; chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = []; chVistas = new Set();
       chPinta();
       const c = document.getElementById("chCaja");
       if(c){ abreBloquesDe(c); c.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"}); }
@@ -5994,6 +6004,7 @@ VIEWS.charla = {
 };
 
 const chGuion = () => guionesListos().find(g => g.id === chId);
+const chAcabada = () => { const g = chGuion(); return !!g && chPaso >= g.turnos.length; };
 
 function chPinta(){
   const caja = document.getElementById("chCaja");
@@ -6015,8 +6026,8 @@ function chPinta(){
       <button class="btn btn--s" data-ch-salir>Salir</button>
     </div>
     <div class="ch-hilo" id="chHilo">
-      ${vistos.map(t => chBurbuja(t, true)).join("")}
-      ${ahora ? chBurbuja(ahora, false) : chFinal(g)}
+      ${vistos.map((t, i) => chBurbuja(t, true, i)).join("")}
+      ${ahora ? chBurbuja(ahora, false, chPaso) : chFinal(g)}
     </div>`;
 
   /* el turno de ellos suena solo, en cuanto aparece */
@@ -6034,17 +6045,22 @@ function chPinta(){
   }
 }
 
-function chBurbuja(t, pasado){
+function chBurbuja(t, pasado, i){
   if(t.q === "escena")
     return `<div class="ch-escena ${pasado ? "" : "ch-nueva"}">${esc(t.t)}</div>`;
-  if(t.q === "ellos")
+  if(t.q === "ellos"){
+    /* lo que te dicen no viene traducido: si lo estuviera, lo lees y
+       contestas sin haber entendido nada de lo que has oído */
+    const ver = chVistas.has(i) || chAcabada();
     return `<div class="ch-fila ch-fila--ellos ${pasado ? "" : "ch-nueva"}">
       <span class="ch-av" aria-hidden="true">🧑</span>
       <div class="ch-bur">
         <b class="th" data-say="${esc(t.th)}" role="button" tabindex="0" title="Tocar para oírlo otra vez">${t.th}</b>
         <span class="rom">${esc(t.rom)}</span>
-        <em>${esc(t.es)}</em>
+        ${ver ? `<em>${esc(t.es)}</em>`
+               : `<button class="ch-que" data-ch-ver="${i}">¿qué ha dicho?</button>`}
       </div></div>`;
+  }
   /* turno tuyo */
   if(pasado)
     return `<div class="ch-fila ch-fila--tu">
@@ -6271,6 +6287,8 @@ document.addEventListener("click", e => {
     if(t) speak(t.th);
     return;
   }
+  const vb = e.target.closest("[data-ch-ver]");
+  if(vb){ chVistas.add(+vb.dataset.chVer); chPinta(); return; }
   if(e.target.closest("[data-ch-pasar]")){ chAvanza(false); return; }
   if(e.target.closest("[data-ch-otravez]")){
     /* se quita el aviso y se deja el micrófono listo otra vez */
@@ -6285,7 +6303,7 @@ document.addEventListener("click", e => {
     if(t) diAlgo(t.th, 0.45);
     return;
   }
-  if(e.target.closest("[data-ch-otra]")){ chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = []; chPinta(); return; }
+  if(e.target.closest("[data-ch-otra]")){ chPaso = 0; chBien = 0; chIntentos = 0; chFlojas = []; chVistas = new Set(); chPinta(); return; }
   if(e.target.closest("[data-ch-salir]")){
     chId = null; chPinta();
     if(window.speechSynthesis) speechSynthesis.cancel();

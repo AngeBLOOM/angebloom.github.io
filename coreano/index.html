@@ -5972,6 +5972,9 @@ function chPinta(){
   const caja = document.getElementById("chCaja");
   if(!caja) return;
   const g = chGuion();
+  /* lo mismo aquí: la burbuja no trae traducción, pero la frase suena
+     sola nada más aparecer y la barra la cantaba entera */
+  tapaChivatos(!!g && !chAcabada());
   if(!g){ caja.innerHTML = `<p class="muted">Elige una situación de arriba y empieza.</p>`; return; }
 
   const vistos = g.turnos.slice(0, chPaso);
@@ -6170,6 +6173,9 @@ function ordHTML(){
 function ordPinta(){
   const c = document.getElementById("ordCaja");
   if(c) c.innerHTML = ordHTML();
+  /* De nada sirve quitar la traducción de la ficha si al colocarla suena
+     y la barra de abajo la enseña. Tapada hasta terminar la escena. */
+  tapaChivatos(!!ordEsc && !ordHecha());
 }
 
 document.addEventListener("click", e => {
@@ -6380,7 +6386,13 @@ function cuElige(k){
   if(!parteDe(k)) return;
   cuSel = k;
   cuPinta();
+  /* El muñeco es de consulta: aquí no hay nada que adivinar y la barra
+     puede decirlo todo. Se destapa solo para esto y se deja como estaba,
+     porque al lado están las tarjetas y ahí sí hay que taparla. */
+  const antes = sinChivatos;
+  tapaChivatos(false);
   speak(parteDe(k)[1]);
+  tapaChivatos(antes);
 }
 
 document.addEventListener("click", e => {

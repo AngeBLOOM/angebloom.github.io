@@ -364,6 +364,15 @@ idioma que se aprende sobraba. Primero en la barra de lo que suena, luego en el 
 cada ficha llevaba su traducción debajo y la escena se montaba **leyendo castellano**, sin mirar el
 tailandés ni una vez.
 
+Y una trampa peor: **tapar la traducción en la tarjeta no sirve de nada si al sonar la frase la barra
+la canta**. Pasó en los dos sitios, y los dos arreglos quedaron en nada hasta que se tapó también la
+barra. Van juntos: quien oculte algo en pantalla tiene que llamar a `tapaChivatos(true)` mientras dure.
+
+Barrido completo de las dieciséis pantallas: tapan cuando toca `tonos`, `sonidos`, `gramatica`,
+`numeros`, `vocabulario`, `juegos` y `repaso` —todas tienen test o tarjeta dentro—, y la conversación
+mientras corre. Las de consulta no tapan nada, que es lo correcto. El muñeco del cuerpo vive al lado de
+las tarjetas y destapa solo para él, dejando la bandera como estaba.
+
 La regla, por si vuelve a aparecer: **si un ejercicio tiene algo que adivinar, la traducción no se
 enseña hasta que se responde.** Se puede pedir a propósito —hay un botón— pero no sale sola. En el
 juego de ordenar lo lleva `ordVerEs`, y se vuelve a esconder al cambiar de escena.

@@ -357,6 +357,21 @@ día)», «¡Hola! (informal)» son la misma). Si una frase no existe en un idio
 escenas vecinas se juntan; si quedan menos de tres cosas que decir, el guion no se ofrece. Hoy los cinco
 salen enteros en los siete.
 
+### La traducción no puede estar a la vista
+
+Dos veces ha pasado lo mismo: un ejercicio en el que la traducción al castellano estaba delante y el
+idioma que se aprende sobraba. Primero en la barra de lo que suena, luego en el juego de ordenar, donde
+cada ficha llevaba su traducción debajo y la escena se montaba **leyendo castellano**, sin mirar el
+tailandés ni una vez.
+
+La regla, por si vuelve a aparecer: **si un ejercicio tiene algo que adivinar, la traducción no se
+enseña hasta que se responde.** Se puede pedir a propósito —hay un botón— pero no sale sola. En el
+juego de ordenar lo lleva , y se vuelve a esconder al cambiar de escena.
+
+Queda un sitio donde la traducción sí se enseña y es discutible: las frases que te dicen a ti en la
+conversación. Ahí es apoyo para seguir el hilo, no respuesta a nada, pero si se quiere el mismo rigor
+habría que taparla también.
+
 ### El juego de ordenar
 
 Empezó siendo «monta la frase», partiendo la frase por espacios. No valía: **en tailandés, japonés y

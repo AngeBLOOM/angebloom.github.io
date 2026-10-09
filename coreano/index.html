@@ -6099,14 +6099,22 @@ function ordNueva(){
   while(dichas.length > 1 && ordRevueltas.every((p, k) => p.i === k));
 }
 
+/* Mientras se ordena NO se enseña la traducción. Con ella debajo, el
+   juego se resuelve leyendo castellano y el idioma que se aprende sobra:
+   se mira por encima y se coloca. Sin ella hay que acordarse de qué
+   quiere decir cada frase, que es justo lo que se está practicando.
+   Se destapa al terminar, y antes solo si lo pides. */
+let ordVerEs = false;
 function ordFicha(p, puesta){
+  const muestra = ordVerEs || ordHecha();
   return `<button class="ord-p ${puesta ? "ord-p--puesta" : ""}"
       data-ord-${puesta ? "quita" : "pon"}="${p.i}">
     <span class="ord-quien" aria-hidden="true">${p.quien === "tu" ? "🙂" : "🧑"}</span>
     <span class="ord-tx"><b class="th">${p.th}</b><span class="rom">${esc(p.rom)}</span>
-      <em>${esc(p.es)}</em></span>
+      ${muestra ? `<em>${esc(p.es)}</em>` : ""}</span>
   </button>`;
 }
+const ordHecha = () => !!(ordEsc && ordPuestas.length === ordEsc.piezas.length);
 
 function ordHTML(){
   if(!ordEsc) return `<p class="muted">Este curso aún no tiene frases suficientes para este juego.</p>`;
@@ -6117,7 +6125,8 @@ function ordHTML(){
     <div class="ord-pide">${ordEsc.emoji} ${esc(ordEsc.titulo)}</div>
     <b class="ord-es">¿En qué orden pasa?</b>
     <p class="sec-note" style="margin:0 0 12px">Toca las frases en el orden en que se dirían.
-    🧑 es lo que dicen ellos, 🙂 lo que dices tú.</p>
+    🧑 es lo que dicen ellos, 🙂 lo que dices tú. <b>Sin traducción a propósito</b>: si está ahí,
+    ordenas leyendo castellano y no te enteras de nada.</p>
 
     <div class="ord-huecos ${listo ? "ord-huecos--ok" : ""}">
       ${ordPuestas.length
@@ -6138,6 +6147,7 @@ function ordHTML(){
          </div>`
       : `<div class="ord-banco">${quedan.map(p => ordFicha(p, false)).join("")}</div>
          <div class="row" style="margin-top:12px">
+           <button class="btn btn--s" data-ord-ver>${ordVerEs ? "Esconder la traducción" : "¿No te acuerdas? Ver la traducción"}</button>
            <button class="btn btn--s" data-ord-otra style="margin-left:auto">Otra escena →</button>
          </div>`}`;
 }
@@ -6177,7 +6187,8 @@ document.addEventListener("click", e => {
     ordPinta();
     return;
   }
-  if(e.target.closest("[data-ord-otra]")){ ordNueva(); ordPinta(); return; }
+  if(e.target.closest("[data-ord-ver]")){ ordVerEs = !ordVerEs; ordPinta(); return; }
+  if(e.target.closest("[data-ord-otra]")){ ordVerEs = false; ordNueva(); ordPinta(); return; }
   if(e.target.closest("[data-ord-toda]") && ordEsc){
     lecDiSeguido(ordEsc.piezas.map(p => ({texto:p.th, entera:true})), ".no-hay-piezas");
     return;

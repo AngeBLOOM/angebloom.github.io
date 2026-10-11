@@ -1896,6 +1896,91 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .cinco-ok{font:700 12.5px var(--ui); color:var(--jade); white-space:nowrap}
 .cinco #cincoQuiz:not(:empty){margin-top:14px}
 
+
+/* el dibujo a tamaño de verdad: cuando es lo único que hay en la
+   tarjeta, pequeño no sirve */
+.fdib--grande{font-size:96px; line-height:1.1; margin:10px 0 4px}
+.fdib--grande svg{width:170px; height:170px; display:block; margin:0 auto}
+@media (max-width:480px){
+  .fdib--grande{font-size:76px}
+  .fdib--grande svg{width:140px; height:140px}
+}
+
+
+/* ══ MODO SOLO ESCUCHAR ══════════════════════════════════
+   Pantalla de reproductor: grande, de pocos elementos y pensada para
+   mirarla de reojo mientras haces otra cosa. */
+.eco{
+  text-align:center; padding:26px 20px; border-radius:20px;
+  border:1px solid var(--line); background:var(--card);
+}
+.eco--on{border-color:var(--brand); background:color-mix(in srgb, var(--brand) 5%, var(--card))}
+.eco-n{font:600 12.5px var(--mono); color:var(--ink-3); letter-spacing:.04em}
+.eco-dib{font-size:84px; line-height:1.1; margin:6px 0 2px}
+.eco-dib svg{width:120px; height:120px; display:block; margin:0 auto}
+.eco--on .eco-dib{animation:bota 2.4s ease-in-out infinite}
+.eco-paso{
+  font:700 13px var(--ui); letter-spacing:.05em; text-transform:uppercase;
+  color:var(--brand-ink); min-height:19px; margin-bottom:16px;
+}
+.eco-mandos{display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap}
+.eco-ver{
+  display:inline-flex; align-items:center; gap:7px; margin-top:16px;
+  font-size:13.5px; color:var(--ink-3); cursor:pointer;
+}
+.eco-txt{margin-top:14px; display:flex; flex-direction:column; gap:3px}
+.eco-txt b{font-size:clamp(26px, 5vw, 38px); line-height:1.3}
+.eco-txt em{color:var(--ink-2); font-style:normal; font-size:14.5px}
+@media (max-width:480px){ .eco-dib{font-size:68px} .eco-dib svg{width:96px; height:96px} }
+
+
+/* ══ TU VOZ, DIBUJADA ════════════════════════════════════ */
+.voz{
+  border:1px solid var(--line); border-radius:18px; background:var(--card);
+  padding:16px; margin:14px 0;
+}
+.voz-cab{display:flex; flex-direction:column; gap:3px; text-align:center; margin-bottom:12px}
+.voz-cab b{font-size:16px}
+.voz-cab span{color:var(--ink-3); font-size:13.5px; line-height:1.45}
+.voz-et{
+  display:block; text-align:center; font:700 11px var(--ui);
+  letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:6px;
+}
+.voz-formas{display:flex; justify-content:center; gap:14px; flex-wrap:wrap}
+.voz-forma{display:flex; flex-direction:column; align-items:center; gap:2px}
+.voz-forma svg{width:52px; height:20px; fill:none; stroke:currentColor; stroke-width:3.4;
+  stroke-linecap:round; stroke-linejoin:round}
+.voz-forma em{font:600 13px var(--mono); font-style:normal; color:var(--ink-2)}
+.voz-svg{display:block; width:100%; max-width:360px; margin:4px auto 2px; height:auto}
+.voz-eje{stroke:var(--line-2); stroke-width:1; stroke-dasharray:4 4}
+.voz-linea{fill:none; stroke:var(--brand); stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.voz-nada{text-align:center; color:var(--ink-3); font-size:13.5px; padding:10px 4px; line-height:1.5}
+.voz-oyendo{display:flex; flex-direction:column; align-items:center; gap:8px; padding:10px 0}
+.voz-oyendo i{
+  display:block; height:8px; width:0%; max-width:300px; align-self:center;
+  background:var(--brand); border-radius:99px; transition:width .1s linear;
+}
+.voz-oyendo span{font:700 12.5px var(--ui); color:var(--brand-ink); letter-spacing:.04em}
+.voz-silabas{display:flex; flex-direction:column; gap:6px; margin-top:12px}
+.voz-sil{
+  display:grid; grid-template-columns:auto 56px 22px 1fr; align-items:center; gap:10px;
+  padding:7px 10px; border-radius:12px; border:1px solid var(--line);
+}
+.voz-sil.bien{border-color:color-mix(in srgb, var(--jade) 45%, var(--line))}
+.voz-sil.mal{border-color:color-mix(in srgb, var(--bad) 45%, var(--line))}
+.voz-sil-t{font-size:19px; line-height:1.2}
+.voz-sil svg{width:52px; height:20px; fill:none; stroke:currentColor; stroke-width:3.4;
+  stroke-linecap:round; stroke-linejoin:round}
+.voz-sil-v{font-size:17px; text-align:center}
+.voz-sil.bien .voz-sil-v{color:var(--jade)}
+.voz-sil.mal .voz-sil-v{color:var(--bad)}
+.voz-sil-q{font-size:13px; color:var(--ink-3); line-height:1.4}
+@media (max-width:480px){
+  .voz-sil{grid-template-columns:auto 44px 20px 1fr; gap:7px; padding:6px 8px}
+  .voz-sil svg{width:40px}
+  .voz-sil-q{font-size:12.5px}
+}
+
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -3212,6 +3297,8 @@ function go(id){
   if(marcaOff()) limpiaArbol($("#view"));
   cierraMenu();
   tapaChivatos(false);   /* cada pantalla empieza sin nada tapado */
+  /* y el reproductor de manos libres no sigue sonando en otra pantalla */
+  if(typeof ecoPara === "function" && typeof ecoActivo !== "undefined" && ecoActivo) ecoPara();
   pintaTopbar(id);
   if(VIEWS[id].init) VIEWS[id].init();
   /* después de init: varias vistas rellenan sus listas ahí, y organizar
@@ -3938,6 +4025,11 @@ VIEWS.hablar = {
     <div class="banner"><div><b>Cómo practicar.</b> Escucha en Lento, repite exagerando la melodía, escucha otra vez y ajusta.
     Tres repeticiones por palabra es más útil que una lista entera de una pasada.</div></div>
 
+    <h2 class="sec">Solo escuchar · manos libres</h2>
+    <p class="sec-note">Le das al play y va solo: la palabra, un hueco para que la repitas, lo que
+    significa, y a la siguiente. Para andando, cocinando o en el coche, sin tocar la pantalla.</p>
+    ${ecoHTML()}
+
     <h2 class="sec">Escucha y repite</h2>
     <div class="card" style="text-align:center;padding:30px 22px">
       <div class="th" style="font-size:clamp(38px,8vw,64px);line-height:1.3">${w[0]}</div>
@@ -3952,6 +4044,7 @@ VIEWS.hablar = {
       <div id="sOut" class="mono-out" style="margin-top:16px;min-height:24px" aria-live="polite"></div>
       <div id="sTally" class="muted" style="margin-top:8px;font-size:12.5px"></div>
     </div>
+    ${vozHTML(w[0], w[1])}
 
     <h2 class="sec">Lista de práctica</h2>
     <p class="sec-note">Treinta palabras de uso diario. Trabaja de cinco en cinco.</p>
@@ -3964,6 +4057,7 @@ VIEWS.hablar = {
     </div>`;
   },
   init(){
+    ecoInicia();
     $("#sPlaySlow").addEventListener("click", () => speak(SPK[spkIdx % SPK.length][0], null, 0.55));
     $("#sNext").addEventListener("click", () => { spkIntentos = spkAciertos = 0; spkIdx++; go("hablar"); });
     document.querySelectorAll("[data-spk]").forEach(b => b.addEventListener("click", () => {
@@ -4040,6 +4134,7 @@ VIEWS.vocabulario = {
     <div class="row" style="margin-bottom:12px">
       <button class="btn btn--s" data-vmode="th-es" aria-pressed="${vMode==="th-es"}">Ver ${idioma()} → decir español</button>
       <button class="btn btn--s" data-vmode="es-th" aria-pressed="${vMode==="es-th"}">Ver español → decir ${idioma()}</button>
+      <button class="btn btn--s" data-vmode="dib" aria-pressed="${vMode==="dib"}">Solo el dibujo</button>
     </div>
     <div class="bar"><i id="vBar" style="width:0%"></i></div>
     <div id="vCard"></div>
@@ -4072,14 +4167,21 @@ VIEWS.vocabulario = {
       const w = vQueue[0];
       if(!w){ c.innerHTML = `<div class="card">No hay palabras en esta categoría.</div>`; return; }
       const dib = `<div class="fdib" aria-hidden="true">${dibujo(w)}</div>`;
-      const front = vMode === "th-es"
+      /* Sin una letra delante: ni la palabra, ni cómo se lee, ni lo que
+         significa. Solo el dibujo. Es el modo más duro y el que de verdad
+         dice si la palabra está sabida o solo reconocida. */
+      const front = vMode === "dib"
+        ? `<div class="fdib fdib--grande" aria-hidden="true">${dibujo(w)}</div>${vFlip
+            ? `<div class="fth th">${w[0]}</div><div class="rom" style="font-size:15px">${w[1]}</div><div class="fes">${w[2]}</div>`
+            : `<div class="hint">Dilo en voz alta y toca para comprobarlo</div>`}`
+        : vMode === "th-es"
         ? `${vFlip ? dib : `<div class="fdib fdib--oculto" aria-hidden="true">❔</div>`}<div class="fth th">${w[0]}</div>${vFlip ? `<div class="rom" style="font-size:15px">${w[1]}</div><div class="fes">${w[2]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`
         : `${dib}<div class="fes">${w[2]}</div>${vFlip ? `<div class="fth th">${w[0]}</div><div class="rom" style="font-size:15px">${w[1]}</div>` : `<div class="hint">Toca la tarjeta para ver la respuesta</div>`}`;
       const lvl = S.vocab[w[0]] || 0;
       c.innerHTML = `<div class="fcard ${vFlip ? "fcard--gira" : "fcard--entra"}" id="fc">${front}
           <div class="row" style="justify-content:center;margin-top:6px">
             <span class="chip chip--media">nivel ${lvl}/4</span>
-            <span class="chip chip--baja">${w[3]}</span></div></div>
+            ${vMode === "dib" && !vFlip ? "" : `<span class="chip chip--baja">${w[3]}</span>`}</div></div>
         ${vFlip ? `${porPartesHTML(w[0], w[1])}<div class="rep-fila" style="text-align:center">${repetirHTML(w[0], "Dilo tú")}</div>
           <div class="row" style="justify-content:center;margin-top:12px">
             <button class="btn" data-say="${w[0]}">${svg("play")} Escuchar</button>
@@ -7096,6 +7198,295 @@ document.addEventListener("click", e => {
   }
 });
 
+/* ══════════════════════════════════════════════════════════
+   TU VOZ, DIBUJADA
+   ══════════════════════════════════════════════════════════
+   El reconocimiento de voz ya te dice si has acertado la palabra, pero
+   con texto: «casi». Y «casi» no enseña a mover la voz. Esto sí: grabas,
+   y se dibuja la melodía que ha hecho tu voz debajo de la que tenía que
+   hacer. Ver que tu línea baja donde la del modelo sube explica en un
+   segundo lo que tres párrafos no explican.
+
+   Qué se mide y qué no, para no prometer de más:
+     · La altura del sonido (el tono), cuadro a cuadro, por
+       autocorrelación. Es lo que de verdad importa aquí.
+     · Dónde hay voz y dónde no, que es lo que separa las sílabas.
+   No se mide el timbre ni se compara con la grabación de nadie: el
+   modelo es la forma que el propio curso ya enseña para cada tono.
+
+   Donde el idioma no tiene tonos, el dibujo sigue valiendo —se ve el
+   ritmo y dónde cargas el acento— pero no se juzga sílaba por sílaba:
+   sería inventarse una regla que el curso no enseña.
+
+   Va después de oido.js (usa silabasDe, TONES y claseTono) y antes de
+   part4.js. */
+
+const HAY_MICRO = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia &&
+                     (window.AudioContext || window.webkitAudioContext));
+
+/* ── 1 · hacia dónde va cada tono ──────────────────────────
+   No se escribe a mano: se mide sobre la misma curva que el curso ya
+   dibuja, así que si un paquete cambia sus formas, esto cambia con él.
+   En SVG la «y» crece hacia abajo, de modo que bajar en la pantalla es
+   subir de tono. */
+let DIRS = null;
+function direccionDeTono(t){
+  if(!hayTonos() || !TONES[t] || !TONES[t].path) return null;
+  if(!DIRS){
+    DIRS = {};
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "0"); svg.setAttribute("height", "0");
+    svg.style.position = "absolute"; svg.style.visibility = "hidden";
+    document.body.appendChild(svg);
+    Object.keys(TONES).forEach(k => {
+      if(!TONES[k].path) return;
+      const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("d", TONES[k].path);
+      svg.appendChild(p);
+      try{
+        const L = p.getTotalLength();
+        if(!L){ DIRS[k] = 0; return; }
+        const a = p.getPointAtLength(L * 0.1), b = p.getPointAtLength(L * 0.9);
+        const dy = b.y - a.y;                 /* en pantalla */
+        DIRS[k] = Math.abs(dy) < 4 ? 0 : (dy < 0 ? 1 : -1);   /* 1 sube, -1 baja */
+      }catch(e){ DIRS[k] = 0; }
+    });
+    svg.remove();
+  }
+  return DIRS[t] == null ? null : DIRS[t];
+}
+const DIR_ES = {1:"sube", 0:"se queda plana", "-1":"baja"};
+
+/* ── 2 · oír la voz y sacarle el tono ──────────────────────
+   Autocorrelación sobre ventanas de 2048 muestras. Es el método de
+   siempre: barato, suficiente para una voz sola y cerca del micrófono,
+   y sin librerías. Devuelve hercios, o null cuando no hay voz (silencio
+   o consonante sorda), que es información y no un fallo: los huecos son
+   justo lo que separa las sílabas. */
+function tonoDeVentana(buf, hz){
+  let suma = 0;
+  for(let i = 0; i < buf.length; i++) suma += buf[i] * buf[i];
+  const fuerza = Math.sqrt(suma / buf.length);
+  if(fuerza < 0.012) return {hz:null, fuerza};       /* silencio */
+
+  /* se recortan los extremos callados de la ventana */
+  const umbral = 0.2;
+  let i0 = 0, i1 = buf.length - 1;
+  while(i0 < buf.length / 2 && Math.abs(buf[i0]) < umbral) i0++;
+  while(i1 > buf.length / 2 && Math.abs(buf[i1]) < umbral) i1--;
+  const b = buf.slice(i0, i1);
+  const n = b.length;
+  if(n < 256) return {hz:null, fuerza};
+
+  const c = new Float32Array(n).fill(0);
+  for(let d = 0; d < n; d++)
+    for(let i = 0; i < n - d; i++) c[d] += b[i] * b[i + d];
+
+  let d = 0;
+  while(d < n - 1 && c[d] > c[d + 1]) d++;
+  let maxv = -1, maxd = -1;
+  for(let i = d; i < n; i++) if(c[i] > maxv){ maxv = c[i]; maxd = i; }
+  if(maxd <= 0 || maxv / c[0] < 0.3) return {hz:null, fuerza};
+
+  /* afinado por parábola entre los tres puntos de alrededor */
+  const y1 = c[maxd - 1] || 0, y2 = c[maxd], y3 = c[maxd + 1] || 0;
+  const a = (y1 + y3 - 2 * y2) / 2, bb = (y3 - y1) / 2;
+  const periodo = a ? maxd - bb / (2 * a) : maxd;
+  const f = hz / periodo;
+  return {hz: (f > 60 && f < 500) ? f : null, fuerza};
+}
+
+let vozCtx = null, vozParar = null;
+function vozGraba(segundos, alAvanzar){
+  return new Promise((listo, mal) => {
+    if(!HAY_MICRO){ mal(new Error("sin micrófono")); return; }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream => {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      vozCtx = new AC();
+      const fuente = vozCtx.createMediaStreamSource(stream);
+      const an = vozCtx.createAnalyser();
+      an.fftSize = 2048;
+      fuente.connect(an);
+      const buf = new Float32Array(an.fftSize);
+      const marcos = [];
+      const t0 = Date.now();
+      let timer = null;
+      const cierra = () => {
+        clearTimeout(timer);
+        stream.getTracks().forEach(t => t.stop());
+        try{ vozCtx.close(); }catch(e){}
+        vozCtx = null; vozParar = null;
+        listo(marcos);
+      };
+      vozParar = cierra;
+      const paso = () => {
+        an.getFloatTimeDomainData(buf);
+        const m = tonoDeVentana(buf, vozCtx.sampleRate);
+        marcos.push({t: Date.now() - t0, hz: m.hz, fuerza: m.fuerza});
+        if(alAvanzar) alAvanzar(Math.min(1, (Date.now() - t0) / (segundos * 1000)), m);
+        if(Date.now() - t0 >= segundos * 1000){ cierra(); return; }
+        timer = setTimeout(paso, 25);
+      };
+      paso();
+    }).catch(mal);
+  });
+}
+
+/* ── 3 · de los hercios al dibujo ──────────────────────────
+   La altura se pinta en semitonos respecto a tu propia voz media, no en
+   hercios: así la línea de una voz grave y la de una aguda salen
+   iguales, que es lo que se quiere comparar. */
+function vozCurva(marcos){
+  const vivos = marcos.filter(m => m.hz);
+  if(vivos.length < 4) return null;
+  const hz = vivos.map(m => m.hz).sort((a, b) => a - b);
+  const medio = hz[Math.floor(hz.length / 2)];
+  /* se tiran los saltos de octava, que son el fallo típico del método */
+  const buenos = marcos.map(m => {
+    if(!m.hz) return null;
+    let f = m.hz;
+    while(f / medio > 1.7) f /= 2;
+    while(medio / f > 1.7) f *= 2;
+    const st = 12 * Math.log2(f / medio);
+    return Math.abs(st) > 13 ? null : st;
+  });
+  /* se recorta el silencio del principio y del final */
+  let a = 0, b = buenos.length - 1;
+  while(a < buenos.length && buenos[a] == null) a++;
+  while(b > a && buenos[b] == null) b--;
+  if(b - a < 3) return null;
+  return {st: buenos.slice(a, b + 1), t0: marcos[a].t, t1: marcos[b].t};
+}
+
+const VOZ_W = 320, VOZ_H = 96;
+function vozSVG(curva){
+  if(!curva) return `<div class="voz-nada">No he oído la voz. Acércate al micrófono y prueba otra vez.</div>`;
+  const n = curva.st.length;
+  const lim = Math.max(3, ...curva.st.filter(x => x != null).map(Math.abs));
+  const y = st => VOZ_H / 2 - (st / lim) * (VOZ_H / 2 - 8);
+  let d = "", abierto = false;
+  curva.st.forEach((st, i) => {
+    if(st == null){ abierto = false; return; }
+    const x = 6 + i / (n - 1) * (VOZ_W - 12);
+    d += (abierto ? " L" : " M") + x.toFixed(1) + " " + y(st).toFixed(1);
+    abierto = true;
+  });
+  return `<svg class="voz-svg" viewBox="0 0 ${VOZ_W} ${VOZ_H}" role="img"
+      aria-label="Dibujo de la melodía de tu voz">
+    <line class="voz-eje" x1="0" y1="${VOZ_H / 2}" x2="${VOZ_W}" y2="${VOZ_H / 2}"/>
+    <path class="voz-linea" d="${d.trim()}"/>
+  </svg>`;
+}
+
+/* ── 4 · el veredicto, sílaba a sílaba ─────────────────────
+   Solo donde el curso enseña un tono para cada sílaba. En los demás
+   idiomas se enseña el dibujo y se calla: decir «esta sílaba está mal»
+   sin una regla detrás sería inventársela. */
+function vozJuicio(curva, piezas){
+  if(!curva || !piezas || !piezas.length) return "";
+  const conTono = piezas.filter(p => p.tono && direccionDeTono(p.tono) != null);
+  if(conTono.length !== piezas.length) return "";
+  const n = curva.st.length, trozo = n / piezas.length;
+  const filas = piezas.map((p, i) => {
+    const desde = Math.floor(i * trozo), hasta = Math.floor((i + 1) * trozo);
+    const pts = [];
+    for(let k = desde; k < hasta; k++) if(curva.st[k] != null) pts.push([k, curva.st[k]]);
+    if(pts.length < 3) return {p, dir:null};
+    /* la pendiente por mínimos cuadrados: una media de hacia dónde va */
+    const mx = pts.reduce((s, q) => s + q[0], 0) / pts.length;
+    const my = pts.reduce((s, q) => s + q[1], 0) / pts.length;
+    let num = 0, den = 0;
+    pts.forEach(q => { num += (q[0] - mx) * (q[1] - my); den += (q[0] - mx) * (q[0] - mx); });
+    const pend = den ? num / den * pts.length : 0;
+    return {p, dir: Math.abs(pend) < 1.1 ? 0 : (pend > 0 ? 1 : -1)};
+  });
+  if(filas.some(f => f.dir == null)) return "";
+  return `<div class="voz-silabas">
+    ${filas.map(f => {
+      const esperada = direccionDeTono(f.p.tono);
+      const bien = f.dir === esperada;
+      const etiqueta = f.p.th || f.p.rom || "";
+      return `<div class="voz-sil ${bien ? "bien" : "mal"}">
+        <span class="voz-sil-t ${claseTono(f.p.tono)}">${esc(etiqueta)}</span>
+        ${miniTono(f.p.tono)}
+        <span class="voz-sil-v">${bien ? "✓" : "✗"}</span>
+        <span class="voz-sil-q">${bien ? "igual que el modelo"
+          : "tu voz " + DIR_ES[f.dir] + " y tendría que " + (esperada === 0 ? "quedarse plana"
+             : esperada === 1 ? "subir" : "bajar")}</span>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+/* ── 5 · la tarjeta ────────────────────────────────────────
+   Arriba la forma que hay que hacer, debajo la que has hecho. En ese
+   orden: primero el modelo, luego tú.
+
+   En las escrituras silábicas el tono de cada trozo ya viene puesto; en
+   las que se trocean por la romanización no, pero la tilde de tono está
+   ahí y se lee igual que en el resto del curso. */
+function piezasConTono(th, rom){
+  const s = silabasDe(th, rom);
+  if(!s || !s.piezas) return [];
+  return s.piezas.map(p => p.tono ? p
+    : Object.assign({}, p, {tono: p.rom ? tonoDeSilaba(p.rom) : null}));
+}
+function vozHTML(th, rom){
+  if(!HAY_MICRO) return "";
+  const piezas = piezasConTono(th, rom);
+  const conTonos = piezas.length && piezas.every(p => p.tono);
+  return `<div class="voz" data-voz-th="${esc(th)}" data-voz-rom="${esc(rom || "")}">
+    <div class="voz-cab">
+      <b>Tu voz, dibujada</b>
+      <span>${conTonos ? "Grábate y mira si tu melodía hace lo mismo que la del modelo."
+                       : "Grábate y mira la melodía y el ritmo de lo que has dicho."}</span>
+    </div>
+    ${conTonos ? `<div class="voz-modelo">
+      <span class="voz-et">tendría que sonar así</span>
+      <div class="voz-formas">${piezas.map(p => `<span class="voz-forma ${claseTono(p.tono)}">
+        ${miniTono(p.tono)}<em>${esc(p.th || p.rom || "")}</em></span>`).join("")}</div>
+    </div>` : ""}
+    <div class="row" style="justify-content:center;margin:12px 0 4px">
+      <button class="btn" data-say="${esc(th)}">${svg("play")} Oír el modelo</button>
+      <button class="btn btn--p" data-voz-grabar>${svg("mic")} Grabarme</button>
+    </div>
+    <div class="voz-salida" id="vozSalida" aria-live="polite"></div>
+  </div>`;
+}
+
+function vozArranca(caja){
+  const th = caja.dataset.vozTh, rom = caja.dataset.vozRom;
+  const salida = caja.querySelector(".voz-salida");
+  const btn = caja.querySelector("[data-voz-grabar]");
+  if(!salida) return;
+  btn.disabled = true;
+  salida.innerHTML = `<div class="voz-oyendo"><i></i><span>Dilo ahora…</span></div>`;
+  const barra = salida.querySelector("i");
+  vozGraba(2.6, k => { if(barra) barra.style.width = Math.round(k * 100) + "%"; })
+    .then(marcos => {
+      btn.disabled = false;
+      const curva = vozCurva(marcos);
+      salida.innerHTML = `<span class="voz-et">lo que ha hecho tu voz</span>
+        ${vozSVG(curva)}
+        ${vozJuicio(curva, piezasConTono(th, rom))}`;
+      if(curva){ ganaXP(8); touchStreak(); bump("decir"); }
+    })
+    .catch(() => {
+      btn.disabled = false;
+      salida.innerHTML = `<div class="voz-nada">No he podido usar el micrófono.
+        Si el navegador ha preguntado, dile que sí; si no, mira el candado de la barra de direcciones.</div>`;
+    });
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-voz-grabar]");
+  if(!b) return;
+  const caja = b.closest(".voz");
+  if(caja) vozArranca(caja);
+});
+/* si te vas de la pantalla, el micrófono se suelta */
+window.addEventListener("hashchange", () => { if(vozParar) vozParar(); });
+
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:
    siempre las mismas tres cansaba y dejaba media aplicación sin tocar.
@@ -7251,6 +7642,140 @@ function cincoArranca(){
 }
 document.addEventListener("click", e => {
   if(e.target.closest("[data-cinco]")) cincoArranca();
+});
+
+
+/* ══ MODO SOLO ESCUCHAR ══════════════════════════════════
+   Le das al play y va solo: palabra, hueco para que la repitas,
+   significado en español, y a la siguiente. Para andando, cocinando o
+   en el coche, sin tocar ni mirar la pantalla.
+
+   El encadenado usa el «ya he terminado» de diAlgo (que vale igual para
+   el audio grabado y para la voz del navegador). Si el navegador no
+   avisa —pasa— hay un plazo de seguridad que empuja la siguiente, así
+   que la sesión nunca se queda colgada a mitad.
+
+   El español se dice con voz española aunque el curso sea de otro
+   idioma: es la única parte donde conviene cambiar de voz. */
+let ecoActivo = false, ecoIdx = 0, ecoLista = [], ecoPaso = 0, ecoTimer = null, ecoVuelta = 0;
+const ECO_REPES = 2;              /* cuántas veces se dice cada palabra */
+
+function ecoVozEspanola(){
+  if(!window.speechSynthesis) return null;
+  const vs = speechSynthesis.getVoices() || [];
+  return vs.find(v => /^es/i.test(v.lang)) || null;
+}
+function ecoDiEspanol(texto, alTerminar){
+  const v = ecoVozEspanola();
+  if(!window.speechSynthesis || !v){ alTerminar(); return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(texto);
+  u.voice = v; u.lang = v.lang; u.rate = Math.max(0.75, S.speed);
+  let fin = false;
+  const acaba = () => { if(fin) return; fin = true; alTerminar(); };
+  u.onend = acaba; u.onerror = acaba;
+  setTimeout(() => speechSynthesis.speak(u), 40);
+  setTimeout(acaba, 1200 + texto.length * 90);
+}
+
+function ecoArmaLista(){
+  /* lo que peor llevas primero, y si no hay datos, de lo más básico a lo
+     menos: la sesión tiene que servir desde el primer día */
+  const base = VOCAB.slice().sort((a, b) => (S.vocab[a[0]] || 0) - (S.vocab[b[0]] || 0));
+  const frases = (typeof PHRASES !== "undefined" ? PHRASES : [])
+    .slice(0, 12).map(p => [renderPhrase(p[0]), renderRom(p[1]), p[2], "frase"]);
+  ecoLista = base.slice(0, 24).concat(frases);
+}
+
+function ecoPinta(){
+  const c = document.getElementById("ecoCaja");
+  if(!c) return;
+  const w = ecoLista[ecoIdx];
+  const pasos = ["🔊 escucha", "🗣️ dilo tú", "💬 qué significa"];
+  c.innerHTML = `
+    <div class="eco${ecoActivo ? " eco--on" : ""}">
+      <div class="eco-n">${ecoLista.length ? ecoIdx + 1 : 0} de ${ecoLista.length}</div>
+      <div class="eco-dib" aria-hidden="true">${w ? dibujo(w) : "🎧"}</div>
+      <div class="eco-paso">${ecoActivo ? pasos[ecoPaso] || pasos[0] : "listo para empezar"}</div>
+      <div class="eco-mandos">
+        <button class="btn btn--s" data-eco="atras" aria-label="Anterior">◀◀</button>
+        <button class="btn btn--p btn--lg" data-eco="play">${ecoActivo ? "⏸ Pausa" : "▶ Empezar"}</button>
+        <button class="btn btn--s" data-eco="alante" aria-label="Siguiente">▶▶</button>
+      </div>
+      <label class="eco-ver">
+        <input type="checkbox" id="ecoVer"${S.ecoVer ? " checked" : ""}> Enseñar también la palabra escrita
+      </label>
+      ${S.ecoVer && w ? `<div class="eco-txt"><b class="th">${w[0]}</b><span class="rom">${esc(w[1])}</span>
+        <em>${esc(w[2])}</em></div>` : ""}
+    </div>`;
+}
+
+function ecoPara(){
+  ecoActivo = false;
+  clearTimeout(ecoTimer);
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  ecoPinta();
+}
+function ecoSigue(){
+  if(!ecoActivo) return;
+  const w = ecoLista[ecoIdx];
+  if(!w){ ecoPara(); return; }
+  ecoPinta();
+  const luego = (ms, f) => { clearTimeout(ecoTimer); ecoTimer = setTimeout(() => { if(ecoActivo) f(); }, ms); };
+
+  if(ecoPaso === 0){
+    /* la palabra, dos veces: la primera se oye, la segunda se entiende */
+    diAlgo(w[0], null, null, () => {
+      if(!ecoActivo) return;
+      if(++ecoVuelta < ECO_REPES){ luego(450, ecoSigue); return; }
+      ecoVuelta = 0; ecoPaso = 1; luego(250, ecoSigue);
+    }, () => { ecoVuelta = 0; ecoPaso = 1; luego(400, ecoSigue); });
+    /* plazo de seguridad por si el navegador no avisa del final */
+    luego(2600 + String(w[0]).length * 220, () => { ecoVuelta = 0; ecoPaso = 1; ecoSigue(); });
+    return;
+  }
+  if(ecoPaso === 1){
+    /* el hueco para repetirla: callado a propósito */
+    bump("plays");
+    luego(1500 + String(w[0]).length * 180, () => { ecoPaso = 2; ecoSigue(); });
+    return;
+  }
+  ecoDiEspanol(w[2], () => {
+    if(!ecoActivo) return;
+    ecoPaso = 0; ecoVuelta = 0;
+    ecoIdx = (ecoIdx + 1) % ecoLista.length;
+    luego(500, ecoSigue);
+  });
+}
+
+function ecoHTML(){
+  return `<div id="ecoCaja"></div>`;
+}
+function ecoInicia(){
+  if(!ecoLista.length) ecoArmaLista();
+  ecoPinta();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-eco]");
+  if(!b) return;
+  if(!ecoLista.length) ecoArmaLista();
+  const q = b.dataset.eco;
+  if(q === "play"){
+    if(ecoActivo){ ecoPara(); return; }
+    ecoActivo = true; ecoPaso = 0; ecoVuelta = 0;
+    touchStreak();
+    ecoSigue();
+    return;
+  }
+  const salto = q === "atras" ? -1 : 1;
+  ecoIdx = (ecoIdx + salto + ecoLista.length) % ecoLista.length;
+  ecoPaso = 0; ecoVuelta = 0;
+  clearTimeout(ecoTimer);
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  if(ecoActivo) ecoSigue(); else ecoPinta();
+});
+document.addEventListener("change", e => {
+  if(e.target && e.target.id === "ecoVer"){ S.ecoVer = e.target.checked; save(); ecoPinta(); }
 });
 
 /* ══ VISTA: CÓMO ESTUDIAR ════════════════════════════════ */

@@ -1778,6 +1778,124 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important; transition-duration:.01ms !important}
 }
+
+/* ══ EL CAMINO ═══════════════════════════════════════════
+   Una vía recta de arriba abajo con las paradas a los dos lados. En
+   pantalla estrecha la vía se va a la izquierda y las paradas se ponen
+   todas en fila: el mismo camino, visto de perfil. */
+.camino{position:relative; display:flex; flex-direction:column; gap:14px; padding:6px 0 4px}
+.camino-via{position:absolute; left:50%; top:34px; bottom:34px; width:7px; margin-left:-3.5px;
+  border-radius:99px; background:var(--line-2); overflow:hidden}
+.camino-via i{display:block; width:100%; height:var(--avance);
+  background:linear-gradient(180deg, var(--brand), var(--jade)); border-radius:99px;
+  transition:height .6s cubic-bezier(.2,.8,.3,1)}
+.camino-salida, .camino-meta{
+  position:relative; text-align:center; font:700 12.5px var(--ui);
+  letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3);
+}
+.camino-parada{
+  position:relative; display:grid; grid-template-columns:1fr 62px 1fr; align-items:center;
+  cursor:pointer; border-radius:16px; padding:4px 0;
+}
+.camino-punto{
+  grid-column:2; justify-self:center; position:relative; z-index:1;
+  width:50px; height:50px; border-radius:50%; display:grid; place-items:center;
+  background:var(--card); border:3px solid var(--line-2); color:var(--ink-3);
+  font-size:21px; font-weight:700; transition:transform .15s, border-color .15s, background .15s;
+}
+.camino-punto svg{width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.9;
+  stroke-linecap:round; stroke-linejoin:round}
+.camino-n{
+  position:absolute; right:-5px; bottom:-5px; min-width:20px; height:20px; padding:0 4px;
+  border-radius:99px; background:var(--surface); border:2px solid var(--line-2);
+  font:700 11px var(--ui); color:var(--ink-3); display:grid; place-items:center;
+}
+.camino-tar{
+  display:flex; flex-direction:column; gap:2px; padding:10px 14px; border-radius:16px;
+  border:1px solid var(--line); background:var(--card);
+  transition:border-color .15s, transform .15s;
+}
+.camino-tar b{font-size:15px; line-height:1.35}
+.camino-tar span{color:var(--ink-3); font-size:13.5px; line-height:1.45}
+.camino-tar em{font:600 12px var(--ui); color:var(--ink-3); font-style:normal; margin-top:3px}
+.camino-parada--izq .camino-tar{grid-column:1; text-align:right; align-items:flex-end; margin-right:10px}
+.camino-parada--dcha .camino-tar{grid-column:3; text-align:left; margin-left:10px}
+.camino-parada:hover .camino-tar{border-color:var(--brand); transform:translateY(-2px)}
+.camino-parada:hover .camino-punto{transform:scale(1.08); border-color:var(--brand)}
+.camino-parada:focus-visible{outline:3px solid var(--brand); outline-offset:3px}
+.camino-parada.hecha .camino-punto{background:var(--jade); border-color:var(--jade); color:#fff}
+.camino-parada.hecha .camino-tar b{color:var(--ink-2)}
+.camino-parada.ahora .camino-punto{
+  background:var(--brand); border-color:var(--brand); color:#fff;
+  box-shadow:0 0 0 7px color-mix(in srgb, var(--brand) 18%, transparent);
+  animation:late 2s ease-in-out infinite;
+}
+.camino-parada.ahora .camino-tar{
+  border-color:var(--brand); background:color-mix(in srgb, var(--brand) 7%, var(--card));
+}
+.camino-parada.ahora .camino-tar em{color:var(--brand-ink)}
+.camino-aqui{font:700 11px var(--ui); letter-spacing:.05em; text-transform:uppercase; color:var(--brand-ink)}
+@media (max-width:640px){
+  .camino-via{left:22px; margin-left:0}
+  .camino-parada{grid-template-columns:52px 1fr; gap:0}
+  .camino-punto{grid-column:1; justify-self:start; width:44px; height:44px; font-size:19px}
+  .camino-punto svg{width:20px; height:20px}
+  .camino-parada--izq .camino-tar, .camino-parada--dcha .camino-tar{
+    grid-column:2; text-align:left; align-items:flex-start; margin:0 0 0 12px;
+  }
+  .camino-salida, .camino-meta{text-align:left; padding-left:4px}
+}
+
+
+/* ══ DESGLOSE DEL RESULTADO ══════════════════════════════
+   Debajo de la nota, en qué has fallado y un botón a la pantalla donde
+   se arregla. Una barra por tema: se lee de un vistazo sin contar. */
+.desglose{
+  text-align:left; margin:18px auto 4px; max-width:520px; padding:14px;
+  border-radius:16px; border:1px solid var(--line); background:var(--card);
+}
+.desglose-t{
+  font:700 11.5px var(--ui); letter-spacing:.05em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:10px;
+}
+.desglose-f{
+  display:grid; grid-template-columns:1fr 84px 42px auto; align-items:center; gap:10px;
+  padding:7px 0; border-top:1px solid var(--line);
+}
+.desglose-f:first-of-type{border-top:0}
+.desglose-n{font-size:14.5px; font-weight:600}
+.desglose-f.ok .desglose-n{color:var(--ink-2); font-weight:500}
+.desglose-b{display:block; height:8px; border-radius:99px; background:var(--line-2); overflow:hidden}
+.desglose-b i{display:block; height:100%; border-radius:99px; background:var(--bad)}
+.desglose-f.ok .desglose-b i{background:var(--jade)}
+.desglose-c{font:600 13px var(--mono); color:var(--ink-3); text-align:right}
+.desglose-ir{
+  font:600 12px var(--ui); color:#fff; background:var(--brand); border:0;
+  padding:5px 10px; border-radius:99px; cursor:pointer; white-space:nowrap;
+}
+.desglose-ir:hover{filter:brightness(1.07)}
+.desglose-ir--ok{background:none; color:var(--jade); font-size:15px; padding:0}
+@media (max-width:520px){
+  .desglose-f{grid-template-columns:1fr 46px auto; gap:8px}
+  .desglose-b{display:none}
+}
+
+
+/* ══ REPASO DE CINCO MINUTOS ═════════════════════════════ */
+.cinco{
+  border:1px solid var(--line); border-radius:18px; background:var(--card);
+  padding:14px 16px; margin:14px 0;
+  border-left:5px solid var(--brand);
+}
+.cinco--hecho{border-left-color:var(--jade); opacity:.92}
+.cinco-cab{display:flex; align-items:center; gap:13px; flex-wrap:wrap}
+.cinco-reloj{font-size:28px; line-height:1}
+.cinco-txt{display:flex; flex-direction:column; gap:2px; flex:1; min-width:200px}
+.cinco-txt b{font-size:16px}
+.cinco-txt span{color:var(--ink-3); font-size:14px; line-height:1.45}
+.cinco-ok{font:700 12.5px var(--ui); color:var(--jade); white-space:nowrap}
+.cinco #cincoQuiz:not(:empty){margin-top:14px}
+
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -3378,6 +3496,49 @@ document.addEventListener("click", e => {
   go(current || "inicio");   /* se repinta la vista con o sin marca */
 });
 
+/* ══ EL CAMINO ═══════════════════════════════════════════
+   Las mismas paradas que antes (PATH, que pone el paquete), pero
+   dibujadas: una vía de arriba abajo, las paradas a un lado y a otro, lo
+   andado en color y una chincheta en la que toca. El icono de cada
+   parada es el de su sección, el mismo del menú, para que la cabeza las
+   asocie. Doce renglones iguales no dicen dónde estás; esto sí, y sin
+   leer una palabra. */
+const ICONO_PARADA = {
+  tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
+  alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
+  vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
+  charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
+};
+function rutaMapaHTML(){
+  const paradas = PATH.filter(([, , go]) => pasoDisponible(go));
+  if(!paradas.length) return "";
+  const hechas = paradas.filter(([, , go]) => visitado(go)).length;
+  const sig = paradas.findIndex(([, , go]) => !visitado(go));
+  /* lo andado se mide de parada a parada, no de borde a borde: así la
+     línea de color termina justo en el punto donde estás */
+  const avance = paradas.length < 2 ? 0
+    : Math.round(Math.min(paradas.length - 1, hechas) / (paradas.length - 1) * 100);
+  return `<div class="camino" style="--avance:${avance}%">
+    <div class="camino-via" aria-hidden="true"><i></i></div>
+    <div class="camino-salida" aria-hidden="true">🚩 Empiezas aquí</div>
+    ${paradas.map(([t, d, go], i) => {
+      const hecho = visitado(go), ahora = i === sig;
+      return `<div class="camino-parada camino-parada--${i % 2 ? "dcha" : "izq"}${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"
+          data-go="${go}" role="button" tabindex="0"
+          aria-label="Parada ${i + 1}: ${esc(t)}${hecho ? ", hecha" : ahora ? ", la que toca ahora" : ""}">
+        <div class="camino-punto">${hecho ? "✓" : svg(ICONO_PARADA[go] || "check")}
+          <span class="camino-n">${i + 1}</span></div>
+        <div class="camino-tar">
+          ${ahora ? `<span class="camino-aqui">📍 estás aquí</span>` : ""}
+          <b>${t}</b><span>${d}</span>
+          <em>${hecho ? "Repasar" : ahora ? "Seguir →" : "Abrir →"}</em>
+        </div>
+      </div>`;
+    }).join("")}
+    <div class="camino-meta" aria-hidden="true">🏆 ${hechas} de ${paradas.length} paradas</div>
+  </div>`;
+}
+
 /* ══ VISTA: INICIO ═══════════════════════════════════════ */
 VIEWS.inicio = {
   html(){
@@ -3393,6 +3554,8 @@ VIEWS.inicio = {
     <!-- las tres tareas del día van arriba del todo: son lo que se mira a diario,
          y enterradas bajo la portada no las encontraba nadie -->
     <div id="goalBox">${goalHTML()}</div>
+    <!-- el repaso corto va pegado a las tareas: es la tarea de verdad -->
+    <div id="cincoSlot">${cincoHTML()}</div>
     <div class="vhead">
       <div class="hero">
         <div>
@@ -3435,18 +3598,7 @@ VIEWS.inicio = {
 
     <h2 class="sec">${T("ruta_titulo","La ruta")} <span class="th">${T("ruta_th","")}</span></h2>
     <p class="sec-note">El orden importa. El ${idioma()} se lee en voz alta antes que en silencio: primero el oído, luego la letra.</p>
-    <div class="card path">
-      ${(() => {
-        const sig = PATH.findIndex(([, , g]) => pasoDisponible(g) && !visitado(g));
-        return PATH.map(([t,d,go],i) => {
-          const hecho = visitado(go), siguiente = i === sig;
-          return `<div class="step${hecho ? " done" : ""}${siguiente ? " next" : ""}" data-go="${go}" role="button" tabindex="0">
-          <div class="step-n">${hecho ? "✓" : i+1}</div>
-          <div><div class="step-t">${t}</div><div class="step-d">${d}</div></div>
-          <div class="step-go">${siguiente ? "Siguiente →" : hecho ? "Repasar" : "Abrir →"}</div></div>`;
-        }).join("");
-      })()}
-    </div>
+    ${rutaMapaHTML()}
 
     <h2 class="sec">Tres cosas que conviene saber ya</h2>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
@@ -4412,10 +4564,79 @@ VIEWS.numeros = {
   }
 };
 
+/* ══ DE QUÉ ERA CADA PREGUNTA ════════════════════════════
+   Un porcentaje no enseña nada: «60 %» no dice qué estudiar mañana.
+   Cada pregunta lleva su tema, el motor cuenta los fallos por tema y al
+   final el resultado dice en castellano qué es lo que se te atraganta y
+   te manda justo a esa pantalla.
+
+   Lo que se falla se va guardando además en S.flojo, que es de donde
+   salen las tareas del día: así el repaso diario va detrás de tus
+   fallos y no de una lista fija. */
+const TEMA = {
+  "cons-sound": {es:"El sonido de las letras", go:"alfabeto"},
+  "cons-class": {es:"El grupo de cada letra",  go:"alfabeto"},
+  "vocab-es":   {es:"Entender palabras",       go:"vocabulario"},
+  "vocab-th":   {es:"Decir palabras",          go:"vocabulario"},
+  "listen":     {es:"Entender de oído",        go:"hablar"},
+  "tone":       {es:"Distinguir los tonos",    go:"tonos"},
+  "phrase":     {es:"Frases hechas",           go:"frases"},
+  "num":        {es:"Los números",             go:"numeros"},
+  "hueco":      {es:"Montar frases",           go:"ejercicios"}
+};
+/* solo cuenta el tema si la sección existe en este curso: si no, el
+   botón de «ir a arreglarlo» llevaría a una pantalla que no está */
+const temaInfo = k => {
+  const t = TEMA[k];
+  if(!t) return null;
+  return {es:t.es, go: LANG.secciones.indexOf(t.go) >= 0 ? t.go : null};
+};
+function apuntaFlojo(tema, mal){
+  if(!tema || !mal) return;
+  if(!S.flojo || typeof S.flojo !== "object") S.flojo = {};
+  const k = LANG.id + ":" + tema;
+  /* se suma lo nuevo y se rebaja un poco lo viejo, para que un fallo de
+     hace un mes no te persiga cuando ya lo tienes aprendido */
+  S.flojo[k] = Math.min(30, Math.round((S.flojo[k] || 0) * 0.85) + mal);
+  save();
+}
+/* el tema que peor llevas de los que existen en este curso */
+function temasFlojos(){
+  if(!S.flojo) return [];
+  return Object.keys(S.flojo)
+    .filter(k => k.indexOf(LANG.id + ":") === 0 && S.flojo[k] > 0)
+    .map(k => ({tema:k.slice(LANG.id.length + 1), peso:S.flojo[k]}))
+    .filter(x => temaInfo(x.tema))
+    .sort((a, b) => b.peso - a.peso);
+}
+/* el desglose del resultado: qué has fallado y dónde se arregla */
+function desgloseHTML(cuenta){
+  const filas = Object.keys(cuenta)
+    .map(k => Object.assign({tema:k}, cuenta[k], temaInfo(k) || {es:null, go:null}))
+    .filter(f => f.es)
+    .sort((a, b) => (b.mal / b.n) - (a.mal / a.n) || b.mal - a.mal);
+  if(!filas.length || filas.every(f => !f.mal)) return "";
+  return `<div class="desglose">
+    <div class="desglose-t">Lo que se te ha atragantado</div>
+    ${filas.map(f => {
+      const bien = f.n - f.mal, pc = Math.round(bien / f.n * 100);
+      return `<div class="desglose-f${f.mal ? "" : " ok"}">
+        <span class="desglose-n">${f.es}</span>
+        <span class="desglose-b" aria-hidden="true"><i style="width:${pc}%"></i></span>
+        <span class="desglose-c">${bien}/${f.n}</span>
+        ${f.mal && f.go ? `<button class="desglose-ir" data-go="${f.go}">repasarlo →</button>`
+                        : `<span class="desglose-ir desglose-ir--ok">✓</span>`}
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
 /* ══ MOTOR DE CUESTIONARIOS ══════════════════════════════ */
 function quizEngine(root, total, make, onDone){
   if(!root) return;
   let i = 0, score = 0, q = null, answered = false;
+  /* cuántas han salido de cada tema y cuántas se han fallado */
+  let cuenta = {};
   const next = () => {
     if(i >= total){
       const pc = Math.round(score/total*100);
@@ -4423,9 +4644,11 @@ function quizEngine(root, total, make, onDone){
         <div class="eyebrow">Resultado</div>
         <div class="scorenum" id="qScore" style="font-family:var(--disp);font-size:52px;font-weight:600;line-height:1.1;color:var(--${pc >= 80 ? "ok" : pc >= 50 ? "gold" : "bad"})">0%</div>
         <p class="muted" style="margin:4px 0 16px">${score} de ${total} correctas. ${pc >= 80 ? "Muy bien: sube de nivel." : pc >= 50 ? "Vas por buen camino, repite la tanda." : "Vuelve a la explicación y prueba otra vez."}</p>
-        <button class="btn btn--p btn--lg" id="qAgain">Otra tanda</button></div>`;
+        ${desgloseHTML(cuenta)}
+        <button class="btn btn--p btn--lg" id="qAgain" style="margin-top:16px">Otra tanda</button></div>`;
       countUp(root.querySelector("#qScore"), pc, 900);
-      root.querySelector("#qAgain").addEventListener("click", () => { i = 0; score = 0; next(); });
+      Object.keys(cuenta).forEach(t => apuntaFlojo(t, cuenta[t].mal));
+      root.querySelector("#qAgain").addEventListener("click", () => { i = 0; score = 0; cuenta = {}; next(); });
       tapaChivatos(false);
       if(onDone) onDone(pc);
       touchStreak(); bump("quiz");
@@ -4434,6 +4657,10 @@ function quizEngine(root, total, make, onDone){
       return;
     }
     q = make(); answered = false;
+    if(q && q.tema){
+      if(!cuenta[q.tema]) cuenta[q.tema] = {n:0, mal:0};
+      cuenta[q.tema].n++;
+    }
     tapaChivatos(true);        /* la barra de abajo no puede dar la respuesta */
     const opts = q.options.length > 5 ? q.options : shuffle(q.options);
     root.innerHTML = `
@@ -4450,6 +4677,7 @@ function quizEngine(root, total, make, onDone){
       tapaChivatos(false);
       const ok = opts[k].ok;
       if(ok){ score++; ganaXP(10); }
+      else if(q.tema && cuenta[q.tema]) cuenta[q.tema].mal++;
       root.querySelectorAll(".qopt").forEach((x,j) => {
         x.disabled = true;
         if(opts[j].ok) x.classList.add("ok");
@@ -4481,7 +4709,7 @@ function makeMixed(soloEstos){
   if(kind === "cons-sound"){
     const c = pick(CONS.filter(x => !x[6]));
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
-    return {question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
+    return {tema:kind, question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
         ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
@@ -4491,7 +4719,7 @@ function makeMixed(soloEstos){
   }
   if(kind === "cons-class"){
     const c = pick(CONS.filter(x => !x[6]));
-    return {question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
+    return {tema:kind, question:`¿De qué tipo es <span class="th" style="font-size:26px">${c[0]}</span>?`,
       prompt:`${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       /* con su color: es la pista que se recuerda, y es el mismo de la
@@ -4503,42 +4731,42 @@ function makeMixed(soloEstos){
   }
   if(kind === "vocab-es"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[2] !== v[2])).slice(0,3);
-    return {question:`¿Qué significa <span class="th" style="font-size:26px">${v[0]}</span>?`,
+    return {tema:kind, question:`¿Qué significa <span class="th" style="font-size:26px">${v[0]}</span>?`,
       options:[{label:v[2], ok:true}, ...w.map(x => ({label:x[2], ok:false}))],
       oir:v[0], decir:v[0],
       after:`${v[1]}`};
   }
   if(kind === "vocab-th"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[0] !== v[0])).slice(0,3);
-    return {question:`¿Cómo se dice «${v[2]}»?`,
+    return {tema:kind, question:`¿Cómo se dice «${v[2]}»?`,
       options:[{label:`<span class="th">${v[0]}</span>`, ok:true}, ...w.map(x => ({label:`<span class="th">${x[0]}</span>`, ok:false}))],
       oir:v[0], decir:v[0],
       after:`${v[0]} · ${v[1]}`};
   }
   if(kind === "listen"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[0] !== v[0])).slice(0,3);
-    return {question:"¿Qué palabra has oído?", auto:v[0],
+    return {tema:kind, question:"¿Qué palabra has oído?", auto:v[0],
       prompt:`<div class="row" style="justify-content:center"><button class="btn btn--s" data-say="${v[0]}">${svg("play")} Repetir audio</button></div>`,
       options:[{label:`<span class="th">${v[0]}</span>`, ok:true}, ...w.map(x => ({label:`<span class="th">${x[0]}</span>`, ok:false}))],
       after:`${v[0]} · ${v[1]} — ${v[2]}`};
   }
   if(kind === "tone"){
     const d = pick(TONE_DEMO);
-    return {question:"¿Qué tono has oído?", auto:d.th,
+    return {tema:kind, question:"¿Qué tono has oído?", auto:d.th,
       prompt:`<div class="row" style="justify-content:center"><button class="btn btn--s" data-say="${d.th}">${svg("play")} Repetir audio</button></div>`,
       options:Object.keys(TONES).map(k => ({label:TONES[k].es, ok:k === d.tone})),
       after:`${d.th} · ${d.rom} — ${d.es}`};
   }
   if(kind === "phrase"){
     const p = pick(PHRASES), w = shuffle(PHRASES.filter(x => x[2] !== p[2])).slice(0,3);
-    return {question:`¿Qué significa <span class="th" style="font-size:22px">${renderPhrase(p[0])}</span>?`,
+    return {tema:kind, question:`¿Qué significa <span class="th" style="font-size:22px">${renderPhrase(p[0])}</span>?`,
       options:[{label:ponHuecosEs(p[2]), ok:true}, ...w.map(x => ({label:ponHuecosEs(x[2]), ok:false}))],
       oir:renderPhrase(p[0]), decir:renderPhrase(p[0]),
       after:renderRom(p[1])};
   }
   const n = pick(NUM.ejemplos);
   const [th, rom] = NUM.aPalabras(n);
-  return {question:`¿Qué número es <span class="th" style="font-size:24px">${th}</span>?`,
+  return {tema:kind, question:`¿Qué número es <span class="th" style="font-size:24px">${th}</span>?`,
     options:shuffle([{label:String(n), ok:true},
       ...shuffle([n+1, n+10, n*2, n-1].filter(x => x > 0 && x !== n)).slice(0,3).map(x => ({label:String(x), ok:false}))]),
     oir:th, decir:th, decirAlt:[String(n), enCifras(n)],
@@ -7147,6 +7375,66 @@ function goalHTML(){
     <div class="flame"><b>${S.streak.n || 0}</b><span>${S.streak.n === 1 ? "día" : "días"} seguidos</span></div>
   </div>`;
 }
+
+
+/* ══ EL REPASO DE CINCO MINUTOS ══════════════════════════
+   Lo que fallaste, hoy, en una pantalla y sin buscarlo. Antes había que
+   acordarse de qué se te daba mal e ir sección por sección; ahora las
+   preguntas salen solas de S.flojo, que es donde el motor va apuntando
+   los fallos (ver «apuntaFlojo» en part3.js).
+
+   Ocho preguntas: se hace de pie, esperando el autobús, y cuenta para la
+   tarea «quiz» del día como cualquier otra tanda. */
+const CINCO_N = 8;
+/* los tipos que el repaso mezclado sabe fabricar */
+const TIPOS_QUIZ = ["cons-sound","cons-class","vocab-es","vocab-th","listen","phrase","num","tone"];
+
+function cincoTemas(){
+  return temasFlojos().map(x => x.tema).filter(t => TIPOS_QUIZ.indexOf(t) >= 0).slice(0, 3);
+}
+function cincoHTML(){
+  if(LANG.secciones.indexOf("repaso") < 0) return "";
+  const temas = cincoTemas();
+  const nombres = temas.map(t => (temaInfo(t) || {}).es).filter(Boolean);
+  const hecho = !!(S.today && S.today.cinco === today());
+  return `<div class="cinco${hecho ? " cinco--hecho" : ""}" id="cincoBox">
+    <div class="cinco-cab">
+      <span class="cinco-reloj" aria-hidden="true">⏱️</span>
+      <div class="cinco-txt">
+        <b>Repaso de cinco minutos</b>
+        <span>${nombres.length
+          ? "Hoy toca lo que peor llevas: " + nombres.join(", ").toLowerCase() + "."
+          : "Ocho preguntas de todo lo que ya has visto. Según vayas fallando, se irá afinando."}</span>
+      </div>
+      ${hecho ? `<span class="cinco-ok">✓ hecho hoy</span>`
+              : `<button class="btn btn--p" data-cinco>Empezar →</button>`}
+    </div>
+    <div id="cincoQuiz"></div>
+  </div>`;
+}
+function cincoArranca(){
+  const caja = document.getElementById("cincoQuiz");
+  if(!caja) return;
+  const temas = cincoTemas();
+  caja.innerHTML = `<div class="card" id="cincoMotor"></div>`;
+  quizEngine(document.getElementById("cincoMotor"), CINCO_N,
+    () => makeMixed(temas.length ? temas : null),
+    () => {
+      /* queda marcado como hecho hoy, pero sin borrar la tanda de la
+         pantalla: después de contestar se quiere ver el desglose */
+      if(!S.today || S.today.day !== today()) fijaMetasDeHoy();
+      S.today.cinco = today();
+      save();
+      const c = document.getElementById("cincoBox");
+      if(c) c.classList.add("cinco--hecho");
+    });
+  const b = document.querySelector("[data-cinco]");
+  if(b) b.remove();
+  if(typeof abreBloquesDe === "function") abreBloquesDe(caja);
+}
+document.addEventListener("click", e => {
+  if(e.target.closest("[data-cinco]")) cincoArranca();
+});
 
 /* ══ VISTA: CÓMO ESTUDIAR ════════════════════════════════ */
 VIEWS.estudiar = {

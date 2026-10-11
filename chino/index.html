@@ -1059,6 +1059,12 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   border-radius:9px; background:var(--brand); animation:late 1.6s ease-in-out infinite;
 }
 .ej-es{text-align:center; font-size:15.5px; color:var(--ink-2); font-style:italic; margin-bottom:6px}
+/* el mismo hueco, pero en la frase en español: se ve que falta algo y no
+   qué falta */
+.ej-tapa{
+  display:inline-block; padding:0 .2em; border-radius:7px; font-style:normal;
+  letter-spacing:-.06em; color:var(--brand); background:var(--accent-soft);
+}
 .son{text-align:center}
 .son-cab{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; text-align:left}
 .son-cab b{font-family:var(--disp); font-size:19px}
@@ -5037,10 +5043,31 @@ function huecoQuiz(){
     /* se tapa solo la primera aparición */
     const corte = r.th.indexOf(pieza);
     const hueco = r.th.slice(0, corte) + '<span class="hueco" id="elHueco"></span>' + r.th.slice(corte + pieza.length);
+    /* al español le falta lo mismo: con la frase entera delante se lee el
+       castellano, se busca la palabra en las opciones y no se piensa en el
+       idioma ni un segundo */
+    const esConHueco = (() => {
+      const otras2 = tapaVerbo ? BVERBS.filter(x => x.th !== vb.th)
+                               : BVERBS.reduce((a, x) => a.concat(x.obj || []), []).filter(x => x.th !== o.th);
+      const base = String(r.es).split(" ");
+      for(const alt of shuffle(otras2)){
+        let r2; try{ r2 = tapaVerbo ? BUILD.arma(s, alt, o, m) : BUILD.arma(s, vb, alt, m); }catch(e){ continue; }
+        if(!r2 || !r2.es) continue;
+        const otra = String(r2.es).split(" ");
+        if(otra.length !== base.length) continue;
+        const cambian = base.reduce((n, t, k) => n + (t === otra[k] ? 0 : 1), 0);
+        /* si no cambia nada no hemos encontrado la pieza; si cambia todo,
+           la comparación no sirve y mejor no enseñar nada */
+        if(!cambian || cambian >= base.length) continue;
+        return base.map((t, k) => t === otra[k] ? esc(t)
+          : `<span class="ej-tapa" data-es="${esc(t)}">${"▭".repeat(Math.max(2, Math.min(5, Math.ceil(t.length / 2))))}</span>`).join(" ");
+      }
+      return null;
+    })();
     return {
       prompt:`<div class="ej-dib" aria-hidden="true">${dibujo([o.th, o.rom, o.es, ""])}</div>
         <div class="ej-frase th">${hueco}</div>
-        <div class="ej-es">“${r.es}”</div>`,
+        ${esConHueco ? `<div class="ej-es">“${esConHueco}”</div>` : ""}`,
       question: tapaVerbo ? "¿Qué verbo falta?" : "¿Qué palabra falta?",
       options:[{label:`<span class="th">${pieza}</span>`, ok:true},
                ...malas.map(x => ({label:`<span class="th">${x}</span>`, ok:false}))],
@@ -5049,6 +5076,13 @@ function huecoQuiz(){
       alAcertar(root){
         const h = root.querySelector("#elHueco");
         if(h) h.outerHTML = `<span class="hueco-lleno">${pieza}</span>`;
+        /* y la del español, que es la que da el sentido a lo que acabas de elegir */
+        root.querySelectorAll(".ej-tapa").forEach(t => {
+          const n = document.createElement("span");
+          n.className = "hueco-lleno";
+          n.textContent = t.dataset.es || "";
+          t.replaceWith(n);
+        });
       },
       after:`<span class="th">${r.th}</span> · ${r.rom}${r.nota ? " — " + r.nota : ""}`
     };
@@ -5167,7 +5201,7 @@ const EJERCICIOS = [
    nota:"Te damos el significado en español y tú lo dices en voz alta. Te corrijo al momento. Primero palabras sueltas y luego frases enteras; si lo dices bien cuenta, aunque te dejes la partícula de cortesía.",
    caja:'<div id="tjCaja"></div>'},
   {k:"completar", emoji:"🧩", titulo:"Completa la frase", tono:"b",
-   nota:"Frases de tres o cuatro palabras, de las más sencillas que hay. Te digo lo que significan y tú eliges la pieza que falta. Al acertar puedes oírla entera y decirla tú.",
+   nota:"Frases de tres o cuatro palabras, de las más sencillas que hay. A la frase le falta una palabra, y al español de debajo le falta la misma: tú eliges cuál es. Al acertar puedes oírla entera y decirla tú.",
    caja:'<div class="card" id="ejHueco"></div>'},
   {k:"sonidos", emoji:"👂", titulo:"Una palabra, varios sonidos", tono:"c",
    nota:"Palabras que se diferencian en un solo sonido. Tócalas, escúchalas seguidas y dilas tú: es la forma más rápida de aprender a oír la diferencia.",

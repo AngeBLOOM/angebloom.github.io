@@ -2338,6 +2338,22 @@ body.ens-on{overflow:hidden}
 /* un aro de foco igual en todas partes: antes cada elemento hacía lo suyo */
 :focus-visible{outline:3px solid var(--brand); outline-offset:2px; border-radius:6px}
 
+/* ── el aviso de que el sonido está quitado ──
+   Esto existe porque el modo sin sonido se podía quedar puesto sin que
+   nada lo dijera: la aplicación entera se quedaba muda y no había forma
+   de saber por qué. Ahora mientras esté quitado se ve, en todas las
+   pantallas, y se vuelve a poner desde aquí mismo. */
+#mudoBarra{margin:14px auto -4px}
+.mudo-barra{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--surface-2);border:1px solid var(--gold);
+  border-left:4px solid var(--gold);border-radius:12px;padding:10px 14px}
+.mudo-barra b{font-size:14.5px}
+.mudo-barra span{font-size:13.5px;color:var(--ink-2);flex:1;min-width:140px}
+@media (max-width:560px){
+  .mudo-barra{padding:10px 12px}
+  .mudo-barra .btn{width:100%}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -2422,7 +2438,11 @@ img{max-width:100%;height:auto}
       </div>
     </div>
   </nav>
-  <main><div class="wrap" id="view">
+  <main>
+    <!-- el aviso de sonido quitado: fuera de #view, que se reescribe
+         en cada pantalla, para que no desaparezca al navegar -->
+    <div class="wrap" id="mudoBarra" hidden></div>
+    <div class="wrap" id="view">
       <noscript><p style="padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
         Esta página necesita JavaScript para el audio, las tarjetas y el trazado. Abajo tienes el índice de lo que incluye.
       </p></noscript>
@@ -2445,7 +2465,8 @@ img{max-width:100%;height:auto}
         <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
         <li><b>Ponte a prueba</b> — Repaso mezclado de todo lo anterior.</li>
       </ul>
-    </div></main>
+    </div>
+  </main>
 </div>
 <!-- lo que acaba de sonar, por si no se ha pillado -->
 <div id="subt" class="subt" aria-live="polite"></div>
@@ -3557,8 +3578,13 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
              xpPor:{}, visitados:{}, dias:{}, navAb:null,
-             pais:"", nombre:"", letra:1, due:{}, mudo:0, meta:""};
+             pais:"", nombre:"", letra:1, due:{}, mudo:0, mudoVisto:0, meta:""};
 let S = load();
+/* el modo sin sonido se guardo durante un dia sin que se viera en
+   ninguna parte: quien lo tuviera puesto no podia saberlo ni
+   deshacerlo. Se devuelve el sonido una sola vez; desde aqui ya se
+   avisa en pantalla, asi que lo que se elija despues se respeta. */
+if(!S.mudoVisto){ S.mudo = 0; S.mudoVisto = 1; save(); }
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
 if(S.tema) document.documentElement.dataset.theme = S.tema;
@@ -3737,7 +3763,8 @@ function speak(text, btn, rate){
      se parece a nada. Eso es lo que se vive como «no se entiende lo que
      dice». Se avisa las primeras veces y luego se deja en paz: la barra
      ya enseña la palabra y cómo se lee. */
-  subtitula(text, S.mudo ? null
+  subtitula(text, S.mudo
+    ? "No suena porque tienes el sonido quitado. Se vuelve a poner en el aviso de arriba o en el menú."
     : (!hayGrabado(text) && !thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
   diAlgo(text, rate, null, apaga, () => subtitula(text, motivoDelSilencio()));
   /* por si el navegador no avisa del final: el botón no se queda encendido */
@@ -4139,9 +4166,23 @@ if(window.MutationObserver) addEventListener("DOMContentLoaded", () => {
 function pintaMudo(){
   document.querySelectorAll("[data-mudo]").forEach(b => {
     b.setAttribute("aria-pressed", S.mudo ? "true" : "false");
-    b.innerHTML = S.mudo ? "🔇 Sin sonido" : "🔊 Con sonido";
+    /* el boton del menu dice el estado Y lo que hace al tocarlo: solo
+       con el estado parecia una etiqueta y se tocaba sin querer */
+    if(b.classList.contains("mudobtn"))
+      b.innerHTML = S.mudo ? "🔇 Sonido quitado · poner" : "🔊 Sonido puesto · quitar";
   });
   document.documentElement.classList.toggle("sin-sonido", !!S.mudo);
+  /* y el aviso de arriba, que es lo que impide volver a quedarse muda
+     sin saber por que */
+  const barra = document.getElementById("mudoBarra");
+  if(barra){
+    barra.hidden = !S.mudo;
+    barra.innerHTML = S.mudo ? `<div class="mudo-barra" role="status">
+      <b>🔇 El sonido está quitado</b>
+      <span>Tú lo quitaste desde el menú. Nada sonará hasta que lo vuelvas a poner.</span>
+      <button class="btn btn--p btn--s" data-mudo>Volver a poner el sonido</button>
+    </div>` : "";
+  }
 }
 /* el aviso de los ejercicios que no se pueden hacer callado */
 const avisoMudoHTML = () => S.mudo ? `<div class="mudo-aviso">
@@ -4256,12 +4297,14 @@ VIEWS.tonos = {
     </div>` : ""}
 
     <h2 class="sec">Entrena el oído</h2>
-    <p class="sec-note">Suena una palabra: di de qué tono es. Mejor marca hasta ahora: <b>${S.best.tono}%</b>.</p>
-    <div class="card" id="toneQuiz"></div>`;
+    ${S.mudo ? avisoMudoHTML() : `<p class="sec-note">Suena una palabra: di de qué tono es.
+      Mejor marca hasta ahora: <b>${S.best.tono}%</b>.</p>
+    <div class="card" id="toneQuiz"></div>`}`;
   },
   init(){
     if(typeof HAY_TONEAR === "function" && HAY_TONEAR()) tnPinta();
     if(LANG.calculadoraTonos) CALCULADORA.init();
+    if(S.mudo) return;              /* sin sonido no hay prueba de tonos */
     quizEngine($("#toneQuiz"), 8, () => {
       const d = pick(TONE_DEMO);
       return {
@@ -4311,10 +4354,12 @@ VIEWS.sonidos = {
     </div>
 
     <h2 class="sec">Prueba de oído</h2>
-    <p class="sec-note">Suena una de las palabras del par. ¿Cuál era? Mejor marca: <b>${S.best.oido}%</b>.</p>
-    <div class="card" id="earQuiz"></div>`;
+    ${S.mudo ? avisoMudoHTML() : `<p class="sec-note">Suena una de las palabras del par. ¿Cuál era?
+      Mejor marca: <b>${S.best.oido}%</b>.</p>
+    <div class="card" id="earQuiz"></div>`}`;
   },
   init(){
+    if(S.mudo) return;              /* sin sonido no hay prueba de oído */
     quizEngine($("#earQuiz"), 10, () => {
       const set = pick(PAIRS)[2];
       const target = pick(set);
@@ -9513,6 +9558,7 @@ const CF_JUEGOS = [
 
 function cfHTML(){
   if(!HAY_CIFRAS()) return "";
+  if(S.mudo) return avisoMudoHTML();   /* son tres ejercicios de oído */
   const j = CF_JUEGOS.find(x => x.k === cfModo) || CF_JUEGOS[0];
   const cifras = String(cfN).length;
   return `<div class="cf">
@@ -10241,10 +10287,12 @@ VIEWS.ritmo = {
     </div>
 
     <h2 class="sec">Entrena el oído</h2>
-    <p class="sec-note">Suena una de las dos palabras de una pareja. ¿Cuál era? Mejor marca hasta ahora: <b>${S.best.tono}%</b>.</p>
-    <div class="card" id="ritmoQuiz"></div>`;
+    ${S.mudo ? avisoMudoHTML() : `<p class="sec-note">Suena una de las dos palabras de una pareja.
+      ¿Cuál era? Mejor marca hasta ahora: <b>${S.best.tono}%</b>.</p>
+    <div class="card" id="ritmoQuiz"></div>`}`;
   },
   init(){
+    if(S.mudo) return;              /* sin sonido no hay pares de oído */
     quizEngine($("#ritmoQuiz"), 10, () => {
       const par = pick(RITMO.pares);
       const cual = pick([par.a, par.b]);
@@ -10458,7 +10506,8 @@ VIEWS.juegos = {
     <h2 class="sec">${T("juego2_titulo","Escribe lo que oyes")} <span class="th">${T("juego2_th","")}</span></h2>
     <p class="sec-note">El ejercicio más exigente de la página: oír una palabra y escribirla de cero.
     ${T("juego2_nota","Junta oído y ortografía en un solo gesto.")} Si aciertas una de cada tres, vas bien.</p>
-    <div class="card">
+    ${avisoMudoHTML()}
+    <div class="card"${S.mudo ? ' hidden' : ''}>
       <div class="row" style="margin-bottom:12px">
         <button class="btn btn--p" id="dictPlay">${svg("play")} Escuchar</button>
         <button class="btn" id="dictSlow">${svg("play")} Muy lento</button>
@@ -10827,6 +10876,7 @@ document.addEventListener('click', e => {
 })();
 fijaMetasDeHoy();
 paintSpeed();
+pintaMudo();        /* si quedó quitado, que se vea desde el primer momento */
 paintMarca();
 pintaAcciones();
 pintaNivel();

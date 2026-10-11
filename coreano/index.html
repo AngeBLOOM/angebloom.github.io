@@ -2275,6 +2275,12 @@ body.bq-on{overflow:hidden}
 .mia:hover{color:var(--gold); background:var(--surface-2)}
 .mia--on{color:var(--gold)}
 .mias-vacio{color:var(--ink-3); font-size:14px; line-height:1.55; padding:14px 2px; margin:0}
+/* en el movil los dos botones no caben al lado del texto y lo dejaban
+   en una columna de 120 px: debajo y a la derecha */
+@media (max-width:560px){
+  .mias .li{grid-template-columns:auto 1fr; gap:10px}
+  .mias .li > .row{grid-column:1 / -1; justify-content:flex-end; margin-top:2px}
+}
 
 /* ══ ENSEÑAR A PANTALLA COMPLETA ═════════════════════════
    Para que lo lea otra persona: letra enorme, nada alrededor y el

@@ -12,6 +12,26 @@
   "categories": [
     "education"
   ],
+  "shortcuts": [
+    {
+      "name": "Repaso de cinco minutos",
+      "short_name": "Repaso 5 min",
+      "description": "Ocho preguntas con lo que peor llevas",
+      "url": "./#inicio"
+    },
+    {
+      "name": "Tarjetas de vocabulario",
+      "short_name": "Tarjetas",
+      "description": "Las palabras que tocan hoy",
+      "url": "./#vocabulario"
+    },
+    {
+      "name": "Solo escuchar",
+      "short_name": "Escuchar",
+      "description": "Manos libres: palabra, hueco y significado",
+      "url": "./#hablar"
+    }
+  ],
   "icons": [
     {
       "src": "./icon-192.png",

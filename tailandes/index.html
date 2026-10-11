@@ -69,9 +69,6 @@ try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t) documen
 <script data-goatcounter="https://suena.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 <title>Hua Jai Thai — aprender tailandés desde cero, en español</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Noto+Sans+Thai+Looped:wght@400;600;700&display=swap">
-
 <style>
 /* ── tokens ─────────────────────────────────────────────── */
 :root{
@@ -2252,6 +2249,110 @@ body.bq-on{overflow:hidden}
 .tn2-res.no b{color:var(--bad)}
 .tn2-res span{font-size:14px; color:var(--ink-2)}
 
+
+/* cuánto llevas de cada parada del camino, donde hay algo que medir */
+.camino-pc{display:flex; align-items:center; gap:7px; margin-top:5px}
+/* ancho fijo: la tarjeta es una columna y con flex:1 la barra se
+   quedaba en nada */
+.camino-pc i{
+  display:block; width:96px; height:6px; border-radius:99px;
+  background:var(--line-2); overflow:hidden; flex:none;
+}
+.camino-pc em{display:block; height:100%; background:var(--brand); border-radius:99px}
+.camino-pc b{font:600 11.5px var(--mono); color:var(--ink-3)}
+.camino-parada--izq .camino-pc{flex-direction:row-reverse}
+.camino-parada.hecha .camino-pc em{background:var(--jade)}
+@media (max-width:640px){
+  .camino-parada--izq .camino-pc{flex-direction:row}
+}
+
+
+/* ══ TU LISTA ════════════════════════════════════════════ */
+.mia{
+  border:0; background:none; cursor:pointer; line-height:1; padding:4px 6px;
+  font-size:20px; color:var(--line-2); border-radius:9px; align-self:flex-start;
+}
+.mia:hover{color:var(--gold); background:var(--surface-2)}
+.mia--on{color:var(--gold)}
+.mias-vacio{color:var(--ink-3); font-size:14px; line-height:1.55; padding:14px 2px; margin:0}
+
+/* ══ ENSEÑAR A PANTALLA COMPLETA ═════════════════════════
+   Para que lo lea otra persona: letra enorme, nada alrededor y el
+   significado abajo, pequeño, que ese es para ti. */
+#ens{position:fixed; inset:0; z-index:70; background:var(--ground); display:flex}
+body.ens-on{overflow:hidden}
+.ens-caja{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; padding:24px 18px; text-align:center;
+}
+.ens-th{
+  display:block; max-width:100%; max-height:62vh; overflow:hidden;
+  line-height:1.3; color:var(--ink); font-weight:600;
+}
+.ens-es{font-size:16px; color:var(--ink-3); max-width:30ch}
+.ens-pie{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+
+
+/* ══ PARA QUÉ LO QUIERES ═════════════════════════════════ */
+.meta-ruta{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:14px}
+.meta-op{
+  flex:1; min-width:170px; text-align:left; cursor:pointer;
+  display:flex; flex-direction:column; gap:1px; padding:10px 13px; border-radius:14px;
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink);
+}
+.meta-op b{font-size:14.5px}
+.meta-op span{font-size:12.5px; color:var(--ink-3); line-height:1.4}
+.meta-op[aria-pressed="true"]{border-color:var(--brand); background:var(--accent-wash)}
+.meta-op[aria-pressed="true"] b{color:var(--brand-ink)}
+
+/* ══ SIN SONIDO ══════════════════════════════════════════ */
+.mudobtn{
+  width:calc(100% - 12px); margin:6px 6px 0; padding:7px 9px; border-radius:10px;
+  cursor:pointer; border:1px solid var(--line-2); background:var(--surface);
+  color:var(--ink-2); font:600 12.5px var(--ui);
+}
+.mudobtn[aria-pressed="true"]{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.mudo-aviso{
+  display:flex; align-items:center; gap:11px; flex-wrap:wrap;
+  padding:13px 15px; border-radius:16px; margin:10px 0;
+  border:1px dashed var(--line-2); background:var(--surface-2);
+  color:var(--ink-2); font-size:14px;
+}
+
+/* ══ SALTAR AL CONTENIDO Y FOCO VISIBLE ══════════════════
+   Lo primero que se tabula en toda la página, para quien no usa ratón:
+   escondido hasta que recibe el foco. */
+.saltar{
+  position:fixed; top:-60px; left:12px; z-index:100;
+  background:var(--ink); color:var(--ground); padding:10px 16px;
+  border-radius:0 0 12px 12px; font:600 14px var(--ui); text-decoration:none;
+  transition:top .15s;
+}
+.saltar:focus{top:0}
+/* un aro de foco igual en todas partes: antes cada elemento hacía lo suyo */
+:focus-visible{outline:3px solid var(--brand); outline-offset:2px; border-radius:6px}
+
+</style>
+
+<a class="saltar" href="#view">Saltar al contenido</a>
+<style>
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/archivo-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/archivo-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:500;font-display:swap;src:url(../fuentes/archivo-500-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:500;font-display:swap;src:url(../fuentes/archivo-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600;font-display:swap;src:url(../fuentes/archivo-600-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:600;font-display:swap;src:url(../fuentes/archivo-600-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url(../fuentes/archivo-700-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:700;font-display:swap;src:url(../fuentes/archivo-700-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/ibm-plex-mono-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/ibm-plex-mono-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../fuentes/ibm-plex-mono-500-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../fuentes/ibm-plex-mono-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/newsreader-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:600;font-display:swap;src:url(../fuentes/newsreader-600-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:400;font-display:swap;src:url(../fuentes/noto-sans-thai-looped-400-thai.woff2) format('woff2');unicode-range:U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:600;font-display:swap;src:url(../fuentes/noto-sans-thai-looped-600-thai.woff2) format('woff2');unicode-range:U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:700;font-display:swap;src:url(../fuentes/noto-sans-thai-looped-700-thai.woff2) format('woff2');unicode-range:U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;}
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -2305,6 +2406,8 @@ img{max-width:100%;height:auto}
         <button data-speed="0.85">Medio</button>
         <button data-speed="1">Normal</button>
       </div>
+      <!-- sin sonido: en el metro o con alguien durmiendo al lado -->
+      <button class="mudobtn" data-mudo type="button" aria-pressed="false">🔊 Con sonido</button>
       <!-- el tamaño del texto: agranda la zona de lectura, no el menú -->
       <div class="letrabtns" role="group" aria-label="Tamaño del texto">
         <button data-letra="1" title="Texto normal">A</button>
@@ -3448,7 +3551,7 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
              xpPor:{}, visitados:{}, dias:{}, navAb:null,
-             pais:"", nombre:"", letra:1, due:{}};
+             pais:"", nombre:"", letra:1, due:{}, mudo:0, meta:""};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
@@ -3575,6 +3678,9 @@ function tocaGrabado(text, rate, alArrancar, alTerminar, alFallar){
 let ultimaLocucion = 0;
 function diAlgo(text, rate, alArrancar, alTerminar, alFallar){
   if(!text) return;
+  /* en modo sin sonido no se toca nada, pero lo que estuviera encadenado
+     a que terminara sigue su curso */
+  if(S.mudo){ if(alTerminar) setTimeout(alTerminar, 260); return; }
   /* el fichero manda: si existe, ni se toca la voz del navegador */
   if(hayGrabado(text)){
     if(window.speechSynthesis) speechSynthesis.cancel();
@@ -3625,7 +3731,8 @@ function speak(text, btn, rate){
      se parece a nada. Eso es lo que se vive como «no se entiende lo que
      dice». Se avisa las primeras veces y luego se deja en paz: la barra
      ya enseña la palabra y cómo se lee. */
-  subtitula(text, (!hayGrabado(text) && !thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
+  subtitula(text, S.mudo ? null
+    : (!hayGrabado(text) && !thaiVoice && avisosMudo++ < 3) ? motivoDelSilencio() : null);
   diAlgo(text, rate, null, apaga, () => subtitula(text, motivoDelSilencio()));
   /* por si el navegador no avisa del final: el botón no se queda encendido */
   setTimeout(apaga, 900 + text.length * 260);
@@ -3806,6 +3913,7 @@ function go(id){
      mide lo largas que son para decidir qué recoge */
   organizaVista();
   marcaVisita(id);
+  marcaIdiomas(document.getElementById("view"));
   cuentaPantalla(id);
   animaVista();
 }
@@ -3819,6 +3927,8 @@ document.addEventListener("click", e => {
     go(current || "frases");
     return;
   }
+  const mt = e.target.closest("[data-meta]");
+  if(mt){ S.meta = mt.dataset.meta; save(); go("inicio"); return; }
   const nav = e.target.closest("[data-go]");
   if(nav){ go(nav.dataset.go); return; }
   const say = e.target.closest("[data-say]");
@@ -3829,6 +3939,12 @@ document.addEventListener("click", e => {
   }
   const sp = e.target.closest("[data-speed]");
   if(sp){ S.speed = +sp.dataset.speed; save(); paintSpeed(); }
+  if(e.target.closest("[data-mudo]")){
+    S.mudo = S.mudo ? 0 : 1; save();
+    if(S.mudo && window.speechSynthesis) speechSynthesis.cancel();
+    pintaMudo();
+    go(current || "inicio");      /* hay pantallas que cambian de cara */
+  }
   const lt = e.target.closest("[data-letra]");
   if(lt){ S.letra = +lt.dataset.letra; save(); aplicaLetra(); }
 });
@@ -3917,8 +4033,32 @@ const ICONO_PARADA = {
   vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
   charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
 };
+/* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
+   al que viaja le sirven antes las frases, los números y hablar que el
+   alfabeto. Las paradas son las mismas; lo que cambia es por dónde se
+   empieza. */
+/* en este orden, no en el del curso: al que viaja lo primero que le
+   sirve son las frases hechas */
+const PRISA = ["frases", "vocabulario", "hablar", "charla", "numeros", "sonidos"];
+const METAS_RUTA = [
+  {k:"", t:"Como viene", n:"El orden del curso, de los cimientos hacia arriba."},
+  {k:"viaje", t:"Viajo pronto", n:"Primero lo que se usa hablando; las letras, después."}
+];
+function metaHTML(){
+  return `<div class="meta-ruta" role="group" aria-label="Para qué lo quieres">
+    ${METAS_RUTA.map(m => `<button class="meta-op" data-meta="${m.k}"
+      aria-pressed="${(S.meta || "") === m.k}">
+      <b>${m.t}</b><span>${m.n}</span></button>`).join("")}
+  </div>`;
+}
 function rutaMapaHTML(){
-  const paradas = PATH.filter(([, , go]) => pasoDisponible(go));
+  let paradas = PATH.filter(([, , go]) => pasoDisponible(go));
+  if(S.meta === "viaje"){
+    /* estable: dentro de cada grupo se respeta el orden del paquete */
+    const peso = ([, , go]) => { const i = PRISA.indexOf(go); return i < 0 ? 100 : i; };
+    paradas = paradas.map((x, i) => [x, i]).sort((a, b) => peso(a[0]) - peso(b[0]) || a[1] - b[1])
+      .map(x => x[0]);
+  }
   if(!paradas.length) return "";
   const hechas = paradas.filter(([, , go]) => visitado(go)).length;
   const sig = paradas.findIndex(([, , go]) => !visitado(go));
@@ -3926,11 +4066,16 @@ function rutaMapaHTML(){
      línea de color termina justo en el punto donde estás */
   const avance = paradas.length < 2 ? 0
     : Math.round(Math.min(paradas.length - 1, hechas) / (paradas.length - 1) * 100);
-  return `<div class="camino" style="--avance:${avance}%">
+  return `${metaHTML()}
+  <div class="camino" style="--avance:${avance}%">
     <div class="camino-via" aria-hidden="true"><i></i></div>
     <div class="camino-salida" aria-hidden="true">🚩 Empiezas aquí</div>
     ${paradas.map(([t, d, go], i) => {
       const hecho = visitado(go), ahora = i === sig;
+      /* el porcentaje solo donde hay algo que medir de verdad (letras
+         marcadas, tarjetas superadas, frases hechas…); donde no, no se
+         inventa un número */
+      const pc = P[go] ? pctOf(go) : null;
       return `<div class="camino-parada camino-parada--${i % 2 ? "dcha" : "izq"}${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"
           data-go="${go}" role="button" tabindex="0"
           aria-label="Parada ${i + 1}: ${esc(t)}${hecho ? ", hecha" : ahora ? ", la que toca ahora" : ""}">
@@ -3939,6 +4084,8 @@ function rutaMapaHTML(){
         <div class="camino-tar">
           ${ahora ? `<span class="camino-aqui">📍 estás aquí</span>` : ""}
           <b>${t}</b><span>${d}</span>
+          ${pc != null ? `<span class="camino-pc">
+            <i><em style="width:${pc}%"></em></i><b>${pc}%</b></span>` : ""}
           <em>${hecho ? "Repasar" : ahora ? "Seguir →" : "Abrir →"}</em>
         </div>
       </div>`;
@@ -3960,6 +4107,40 @@ function cuentaPantalla(id){
     g.count({path: location.pathname + "#" + id, title: id, event: false});
   }catch(e){}
 }
+
+/* Sin esto un lector de pantalla lee las palabras del idioma como si
+   fueran castellano y no se entiende nada. Se marca lo que se pinta de
+   nuevo también: media aplicación se dibuja después de cargar. */
+function marcaIdiomas(raiz){
+  if(!raiz || !LANG.voz) return;
+  raiz.querySelectorAll(".th:not([lang]), .rom:not([lang])").forEach(el => {
+    el.lang = el.classList.contains("rom") ? "es" : LANG.voz;
+  });
+}
+if(window.MutationObserver) addEventListener("DOMContentLoaded", () => {
+  const v = document.getElementById("view");
+  if(!v) return;
+  new MutationObserver(ms => {
+    for(const m of ms) m.addedNodes.forEach(n => {
+      if(n.nodeType !== 1) return;
+      if(n.matches && n.matches(".th, .rom") && !n.lang)
+        n.lang = n.classList.contains("rom") ? "es" : LANG.voz;
+      marcaIdiomas(n);
+    });
+  }).observe(v, {childList:true, subtree:true});
+});
+
+function pintaMudo(){
+  document.querySelectorAll("[data-mudo]").forEach(b => {
+    b.setAttribute("aria-pressed", S.mudo ? "true" : "false");
+    b.innerHTML = S.mudo ? "🔇 Sin sonido" : "🔊 Con sonido";
+  });
+  document.documentElement.classList.toggle("sin-sonido", !!S.mudo);
+}
+/* el aviso de los ejercicios que no se pueden hacer callado */
+const avisoMudoHTML = () => S.mudo ? `<div class="mudo-aviso">
+  🔇 Este necesita sonido y lo tienes quitado.
+  <button class="btn btn--s" data-mudo>Volver a ponerlo</button></div>` : "";
 
 /* ══ VISTA: INICIO ═══════════════════════════════════════ */
 VIEWS.inicio = {
@@ -4872,6 +5053,9 @@ VIEWS.vocabulario = {
     y puedes decirlas tú para que te corrija.</p>
     ${cuerpoHTML()}` : ""}
 
+    <h2 class="sec">Tu lista</h2>
+    ${miasHTML()}
+
     <h2 class="sec">Todas las palabras</h2>
     <input type="search" id="vSearch" placeholder="${T("vocab_buscar","Buscar en español, " + idioma() + " o romanización…")}" style="margin-bottom:12px">
     <div class="list" id="vList"></div>`;
@@ -4906,6 +5090,7 @@ VIEWS.vocabulario = {
       const lvl = S.vocab[w[0]] || 0;
       c.innerHTML = `<div class="fcard ${vFlip ? "fcard--gira" : "fcard--entra"}" id="fc">${front}
           <div class="row" style="justify-content:center;margin-top:6px">
+            ${estrellaHTML(w[0])}
             <span class="chip chip--media">nivel ${lvl}/4</span>
             ${vMode === "dib" && !vFlip ? "" : `<span class="chip chip--baja">${w[3]}</span>`}</div></div>
         ${vFlip ? `${porPartesHTML(w[0], w[1])}<div class="rep-fila" style="text-align:center">${repetirHTML(w[0], "Dilo tú")}</div>
@@ -5108,6 +5293,7 @@ VIEWS.frases = {
         const th = renderPhrase(p[0]), rom = renderRom(p[1]), done = !!S.phr[p[0]];
         return `<div class="li" data-q="${esc((ponHuecosEs(p[2]) + " " + th + " " + rom).toLowerCase())}">
           <button class="btn btn--s" data-phr="${esc(p[0])}" style="min-width:34px;padding:6px 9px" title="Marcar como aprendida">${done ? "✓" : "○"}</button>
+          ${estrellaHTML(th)}
           <div><div class="p-dib" aria-hidden="true">${dibujo([p[0], p[1], p[2], s])}</div>
             <div class="th" style="font-size:21px;line-height:1.45" data-say="${esc(th)}" role="button" tabindex="0" title="Tocar para escuchar">${th}</div>
             <div class="lrom">${rom}</div>
@@ -5287,6 +5473,10 @@ function desgloseHTML(cuenta){
   </div>`;
 }
 
+/* lo último que se falló, para poder repescarlo */
+let ultimaCuenta = {};
+const temasFallados = c => Object.keys(c || {}).filter(t => c[t].mal > 0);
+
 /* ══ MOTOR DE CUESTIONARIOS ══════════════════════════════ */
 function quizEngine(root, total, make, onDone){
   if(!root) return;
@@ -5304,9 +5494,10 @@ function quizEngine(root, total, make, onDone){
         <button class="btn btn--p btn--lg" id="qAgain" style="margin-top:16px">Otra tanda</button></div>`;
       countUp(root.querySelector("#qScore"), pc, 900);
       Object.keys(cuenta).forEach(t => apuntaFlojo(t, cuenta[t].mal));
+      ultimaCuenta = cuenta;
       root.querySelector("#qAgain").addEventListener("click", () => { i = 0; score = 0; cuenta = {}; next(); });
       tapaChivatos(false);
-      if(onDone) onDone(pc);
+      if(onDone) onDone(pc, cuenta);
       touchStreak(); bump("quiz");
       ganaXP(pc >= 80 ? 30 : pc >= 50 ? 15 : 5);
       if(pc >= 80) setTimeout(() => { celebra(); aviso("🎯", pc === 100 ? "¡Tanda perfecta!" : "¡Muy buena tanda!", pc + "% de aciertos"); }, 450);
@@ -5359,6 +5550,8 @@ function quizEngine(root, total, make, onDone){
 function makeMixed(soloEstos){
   let tipos = ["cons-sound","cons-class","vocab-es","vocab-th","listen","phrase","num"];
   if(typeof TONE_DEMO !== "undefined") tipos.push("tone");
+  /* sin sonido no se puede preguntar «¿qué has oído?»: esas se quitan */
+  if(S.mudo) tipos = tipos.filter(t => t !== "listen" && t !== "tone");
   if(soloEstos && soloEstos.length) tipos = soloEstos.filter(t => tipos.indexOf(t) >= 0);
   if(!tipos.length) tipos = ["vocab-es"];
   const kind = pick(tipos);
@@ -7590,6 +7783,7 @@ function chPinta(){
       <b>${esc(g.titulo)}</b>
       <span class="ch-prog"><i style="width:${Math.round(hechas / total * 100)}%"></i></span>
       <span class="ch-n">${hechas}/${total}</span>
+      <button class="btn btn--s" data-ch-toda title="Oírla entera, de corrido">${svg("play")} Oírla entera</button>
       <button class="btn btn--s" data-ch-salir>Salir</button>
     </div>
     <div class="ch-hilo" id="chHilo">
@@ -7696,6 +7890,34 @@ function chAvanza(acertado){
     celebra();
   }
   chPinta();
+}
+
+/* Oírla seguida antes de meterte tú. Es como se aprende un diálogo:
+   primero se oye entero y se coge la música, y luego se dice. Van las
+   dos voces, con una pausa entre frase y frase; las bifurcaciones se
+   oyen por la primera opción, que para oír da igual. */
+let chSonando = null;
+function chOyeEntera(){
+  const g = chGuion();
+  if(!g) return;
+  if(chSonando){ clearTimeout(chSonando); chSonando = null; if(window.speechSynthesis) speechSynthesis.cancel(); return; }
+  const frases = chLista().map(t => t.q === "bifurca" ? (t.ops[0] || null) : t)
+    .filter(t => t && t.th).map(t => t.th);
+  if(!frases.length) return;
+  /* mientras suena entera se tapa la barra: si no, va cantando cada
+     traducción y la escena deja de tener gracia */
+  tapaChivatos(!chAcabada(), document.getElementById("chCaja"));
+  let i = 0;
+  const siguiente = () => {
+    if(i >= frases.length){ chSonando = null; return; }
+    const t = frases[i++];
+    diAlgo(t, null, null, () => { chSonando = setTimeout(siguiente, 620); },
+                       () => { chSonando = setTimeout(siguiente, 420); });
+    /* plazo de seguridad por si el navegador no avisa del final */
+    clearTimeout(chSonando);
+    chSonando = setTimeout(siguiente, 2200 + t.length * 170);
+  };
+  siguiente();
 }
 
 /* ── 5 · juego: ordena la conversación ─────────────────────
@@ -7879,6 +8101,7 @@ document.addEventListener("click", e => {
   }
   const vb = e.target.closest("[data-ch-ver]");
   if(vb){ chVistas.add(+vb.dataset.chVer); chPinta(); return; }
+  if(e.target.closest("[data-ch-toda]")){ chOyeEntera(); return; }
   if(e.target.closest("[data-ch-pasar]")){ chAvanza(false); return; }
   if(e.target.closest("[data-ch-otravez]")){
     /* se quita el aviso y se deja el micrófono listo otra vez */
@@ -8138,19 +8361,37 @@ function examenesHTML(interactivo){
 }
 
 let exActual = null;
+/* cuando se repesca, el examen se limita a estos temas */
+let exSoloFallos = null;
 function exArranca(id, silencioso){
   const e = examenesDeEsteCurso().find(x => x.id === id);
   const caja = document.getElementById("exCaja");
   if(!e || !caja) return;
   exActual = id;
+  const repescando = !!exSoloFallos;
   caja.innerHTML = `<div class="ex-cab2">
       <span aria-hidden="true">${e.emoji}</span>
       <b>Examen · ${esc(e.titulo)}</b>
-      <span class="muted">${e.n} preguntas · se aprueba con ${APRUEBA}%</span>
+      <span class="muted">${repescando ? "repesca · solo lo que fallaste"
+        : e.n + " preguntas · se aprueba con " + APRUEBA + "%"}</span>
       <button class="btn btn--s" data-ex-salir style="margin-left:auto">Salir</button>
     </div>
     <div class="card" id="exQuiz"></div>`;
-  quizEngine(document.getElementById("exQuiz"), e.n, () => makeMixed(e.tipos), pct => {
+  quizEngine(document.getElementById("exQuiz"), e.n, () => makeMixed(exSoloFallos || e.tipos), (pct, cuenta) => {
+    /* la repesca pregunta solo de lo que se falló; si no se falló nada,
+       no se ofrece */
+    const fallos = temasFallados(cuenta).filter(t => (e.tipos || []).indexOf(t) >= 0);
+    setTimeout(() => {
+      const caja = document.getElementById("exQuiz");
+      const again = caja && caja.querySelector("#qAgain");
+      if(!again || !fallos.length) return;
+      const b = document.createElement("button");
+      b.className = "btn btn--lg";
+      b.style.marginLeft = "8px";
+      b.textContent = "Solo lo que fallé";
+      b.addEventListener("click", () => { exSoloFallos = fallos; exArranca(e.id, true); });
+      again.after(b);
+    }, 60);
     if(!S.examenes || typeof S.examenes !== "object") S.examenes = {};
     const antes = exNota(e.id);
     if(antes == null || pct > antes){ S.examenes[exClave(e.id)] = pct; save(); }
@@ -8178,9 +8419,9 @@ function exArranca(id, silencioso){
 
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-examen]");
-  if(b){ exArranca(b.dataset.examen); return; }
+  if(b){ exSoloFallos = null; exArranca(b.dataset.examen); return; }
   if(e.target.closest("[data-ex-salir]")){
-    exActual = null;
+    exActual = null; exSoloFallos = null;
     const c = document.getElementById("exCaja");
     if(c) c.innerHTML = "";
     return;
@@ -9413,6 +9654,7 @@ function tnHTML(){
   const T = TONES[tnObj], d = tnEjemplo(tnObj);
   const dir = direccionDeTono(tnObj);
   const hermanos = tnEnJuego().filter(k => k !== tnObj && direccionDeTono(k) === dir);
+  if(S.mudo) return avisoMudoHTML();
   return `<div class="tn2" id="tn2">
     <div class="tn2-cab">
       <span class="tn2-n">Ronda: ${tnBien} de ${tnRonda}</span>
@@ -9503,6 +9745,136 @@ document.addEventListener("click", e => {
   if(!b) return;
   if(b.dataset.tn2 === "otro"){ tnNuevo(); tnPinta(); return; }
   tnGraba();
+});
+
+/* ══════════════════════════════════════════════════════════
+   LO TUYO: TU LISTA Y LA TARJETA PARA ENSEÑAR
+   ══════════════════════════════════════════════════════════
+   Dos cosas que faltaban y que van juntas.
+
+   1 · Tu lista. Hasta ahora el curso decidía solo lo que te tocaba
+       (el nivel de cada tarjeta). No había manera de decir «esta me
+       cuesta» o «esta la quiero para el viaje». Ahora hay una estrella
+       en cada palabra y en cada frase, y una lista con lo que marques.
+
+   2 · La tarjeta para enseñar. Lo que de verdad pasa en un taxi: no te
+       entienden y acabas enseñando la pantalla. Una frase a pantalla
+       completa, en letra enorme y solo en el idioma, para que la lea
+       otra persona. Debajo, pequeñito y para ti, lo que significa.
+
+   Va después de part3.js y antes de part4.js. */
+
+const marcadas = () => (S.marcadas && typeof S.marcadas === "object") ? S.marcadas : (S.marcadas = {});
+const estaMarcada = t => !!marcadas()[t];
+function marcaCambia(t){
+  const m = marcadas();
+  if(m[t]) delete m[t]; else m[t] = 1;
+  save();
+  /* se repintan todas las estrellas de esa cosa, estén donde estén */
+  document.querySelectorAll('[data-mia="' + cssEscapa(t) + '"]').forEach(b => pintaEstrella(b, !!m[t]));
+  const n = document.getElementById("miasN");
+  if(n) n.textContent = Object.keys(m).length;
+  const lista = document.getElementById("miasLista");
+  if(lista) lista.innerHTML = miasListaHTML();
+}
+/* el texto va dentro de un selector, y las escrituras traen de todo */
+const cssEscapa = t => (window.CSS && CSS.escape) ? CSS.escape(t) : String(t).replace(/["\\]/g, "\\$&");
+function pintaEstrella(b, si){
+  b.classList.toggle("mia--on", si);
+  b.setAttribute("aria-pressed", si ? "true" : "false");
+  b.title = si ? "Quitar de tu lista" : "Guardar en tu lista";
+  b.textContent = si ? "★" : "☆";
+}
+const estrellaHTML = t =>
+  `<button class="mia" data-mia="${esc(t)}" aria-pressed="${estaMarcada(t) ? "true" : "false"}"
+     title="${estaMarcada(t) ? "Quitar de tu lista" : "Guardar en tu lista"}"
+     aria-label="Guardar en tu lista">${estaMarcada(t) ? "★" : "☆"}</button>`;
+
+/* ── de qué es cada cosa marcada ──
+   Se busca en el vocabulario y en las frases del curso; lo que no
+   aparezca (porque venga de otro curso, que el almacén es común) no se
+   enseña aquí. */
+function miasDeEsteCurso(){
+  const m = marcadas(), fuera = [];
+  const mete = (th, rom, es) => { if(m[th]) fuera.push({th, rom, es}); };
+  (typeof VOCAB !== "undefined" ? VOCAB : []).forEach(v => mete(v[0], v[1], v[2]));
+  (typeof PHRASES !== "undefined" ? PHRASES : []).forEach(p =>
+    mete(renderPhrase(p[0]), renderRom(p[1]), ponHuecosEs(p[2])));
+  (typeof CUERPO !== "undefined" ? CUERPO : []).forEach(c => mete(c[1], c[2], c[3]));
+  return fuera;
+}
+function miasListaHTML(){
+  const l = miasDeEsteCurso();
+  if(!l.length) return `<p class="mias-vacio">Todavía no has guardado nada.
+    Toca la ☆ de cualquier palabra o frase y aparecerá aquí.</p>`;
+  return `<div class="list">${l.map(x => `<div class="li">
+    ${estrellaHTML(x.th)}
+    <div><div class="th" style="font-size:21px;line-height:1.4" data-say="${esc(x.th)}"
+      role="button" tabindex="0" title="Tocar para oírlo">${x.th}</div>
+      <div class="lrom">${esc(x.rom)}</div>
+      <div class="les" style="color:var(--ink-2)">${esc(x.es)}</div></div>
+    <div class="row" style="gap:6px">
+      ${sayBtn(x.th, x.rom)}
+      <button class="btn btn--s" data-ensena="${esc(x.th)}" data-ensena-es="${esc(x.es)}"
+        title="A pantalla completa, para enseñárselo a alguien">👁 Enseñar</button>
+    </div></div>`).join("")}</div>`;
+}
+function miasHTML(titulo){
+  return `<div class="mias">
+    <p class="sec-note">Lo que tú marques con la ☆, aquí junto.
+      <b id="miasN">${Object.keys(marcadas()).length}</b> guardadas.
+      Y el botón <b>Enseñar</b> lo pone a pantalla completa para que lo lea otra persona:
+      en un taxi funciona mejor que cualquier explicación.</p>
+    <div id="miasLista">${miasListaHTML()}</div>
+  </div>`;
+}
+
+/* ── 2 · la pantalla para enseñar ──────────────────────────
+   Letra lo más grande que quepa, solo el idioma, fondo limpio y nada
+   más en pantalla. Lo pequeño de abajo es para ti, no para quien lo
+   lee. */
+function abreEnsena(th, es){
+  let p = document.getElementById("ens");
+  if(!p){
+    p = document.createElement("div");
+    p.id = "ens";
+    document.body.appendChild(p);
+  }
+  p.innerHTML = `<div class="ens-caja" role="dialog" aria-modal="true" aria-label="Enseñar esta frase">
+      <b class="th ens-th" lang="${esc(LANG.voz || "")}">${th}</b>
+      <span class="ens-es">${esc(es || "")}</span>
+      <div class="ens-pie">
+        <button class="btn btn--s" data-say="${esc(th)}">${svg("play")} Oírlo</button>
+        <button class="btn btn--s" data-ens-cierra>Cerrar</button>
+      </div>
+    </div>`;
+  p.hidden = false;
+  document.body.classList.add("ens-on");
+  /* la letra, tan grande como quepa sin partirse */
+  const t = p.querySelector(".ens-th");
+  let px = 150;
+  t.style.fontSize = px + "px";
+  while(px > 28 && (t.scrollWidth > t.clientWidth || t.scrollHeight > t.clientHeight)){
+    px -= 6; t.style.fontSize = px + "px";
+  }
+  const b = p.querySelector("[data-ens-cierra]");
+  if(b) b.focus();
+}
+function cierraEnsena(){
+  const p = document.getElementById("ens");
+  if(p) p.hidden = true;
+  document.body.classList.remove("ens-on");
+}
+
+document.addEventListener("click", e => {
+  const m = e.target.closest("[data-mia]");
+  if(m){ e.preventDefault(); e.stopPropagation(); marcaCambia(m.dataset.mia); return; }
+  const en = e.target.closest("[data-ensena]");
+  if(en){ abreEnsena(en.dataset.ensena, en.dataset.ensenaEs); return; }
+  if(e.target.closest("[data-ens-cierra]") || (e.target.id === "ens")) cierraEnsena();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){ const p = document.getElementById("ens"); if(p && !p.hidden) cierraEnsena(); }
 });
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
@@ -9767,7 +10139,7 @@ function ecoSigue(){
 }
 
 function ecoHTML(){
-  return `<div id="ecoCaja"></div>`;
+  return avisoMudoHTML() + `<div id="ecoCaja"></div>`;
 }
 function ecoInicia(){
   if(!ecoLista.length) ecoArmaLista();

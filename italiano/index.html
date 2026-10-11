@@ -2007,7 +2007,13 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   content:""; position:absolute; left:0; top:7px; width:7px; height:7px;
   border-radius:50%; background:var(--brand);
 }
-@media (max-width:520px){ .bc{width:132px} .bc-pies{min-width:0; font-size:12.5px} }
+/* En el movil la casilla de cada sonido es estrecha y el pie se quedaba
+   en una palabra por linea. Debajo del dibujo, no al lado. */
+@media (max-width:760px){
+  .bc-caja{flex-direction:column; align-items:center; gap:8px}
+  .bc{width:134px}
+  .bc-pies{min-width:0; width:100%; font-size:12.5px}
+}
 
 
 /* ══ DIBUJOS DE LÍNEA ════════════════════════════════════
@@ -2027,6 +2033,23 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   color:var(--ink-2); stroke-width:2.3;
 }
 
+
+/* ══ LA BARRA DE ABAJO, EN EL MÓVIL ══════════════════════
+   Era una fila: texto, botón de «más lento» y cerrar. En una pantalla
+   estrecha el botón se quedaba con el ancho y el texto caía a una
+   palabra por línea, con lo que la barra crecía hasta tapar media
+   pantalla. De lado a lado y en dos pisos. */
+@media (max-width:560px){
+  .subt{
+    left:10px; right:10px; max-width:none;
+    transform:translate(0, 14px); flex-wrap:wrap; align-items:center; gap:8px;
+  }
+  .subt.ver{transform:translate(0, 0)}
+  .sub-txt{flex:1 1 100%; order:1}
+  .sub-b{order:2}
+  .sub-x{order:3; margin-left:auto}
+  .sub-mudo{max-width:none}
+}
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -4178,7 +4201,7 @@ VIEWS.vocabulario = {
       /* Con la tarjeta boca abajo hay algo que adivinar, así que la barra
          de abajo no puede enseñarlo: en un sentido la respuesta es el
          significado y en el otro es la palabra, y los dos salían ahí. */
-      tapaChivatos(!vFlip);
+      tapaChivatos(!vFlip, c);
       const w = vQueue[0];
       if(!w){ c.innerHTML = `<div class="card">No hay palabras en esta categoría.</div>`; return; }
       const dib = `<div class="fdib" aria-hidden="true">${dibujo(w)}</div>`;
@@ -4595,7 +4618,7 @@ function quizEngine(root, total, make, onDone){
       if(!cuenta[q.tema]) cuenta[q.tema] = {n:0, mal:0};
       cuenta[q.tema].n++;
     }
-    tapaChivatos(true);        /* la barra de abajo no puede dar la respuesta */
+    tapaChivatos(true, root);  /* la barra de abajo no puede dar la respuesta */
     const opts = q.options.length > 5 ? q.options : shuffle(q.options);
     root.innerHTML = `
       <div class="qprog"><span>${i+1} / ${total}</span>
@@ -6450,8 +6473,12 @@ function ficheroDeSonidos(){
    la palabra ni lo que significa: sería darte la respuesta hecha. En los
    tests, en el dictado y en el memorama se tapa; en todo lo demás se ve
    entera, que para eso está. */
-let sinChivatos = false;
-const tapaChivatos = si => { sinChivatos = !!si; };
+let sinChivatos = false, chivatoDe = null;
+const tapaChivatos = (si, donde) => { sinChivatos = !!si; chivatoDe = si ? (donde || null) : null; };
+/* Si lo que hay que tapar esta dentro de un bloque plegado, no se esta
+   jugando a nada: leyendo la lista de sonidos salia «la respuesta se ve
+   al contestar» por un test que ni se veia. */
+const hayQueTapar = () => sinChivatos && (!chivatoDe || !!chivatoDe.offsetParent);
 
 let subTimer = null;
 function subtitula(texto, aviso){
@@ -6462,7 +6489,7 @@ function subtitula(texto, aviso){
      dando —no delata nada— pero el texto no se enseña: si no, en el
      dispositivo sin voz, que es donde más falta hace, el test se
      respondía solo leyendo la barra. */
-  if(sinChivatos){
+  if(hayQueTapar()){
     caja.innerHTML = `<div class="sub-txt"><b class="sub-tapado">🔊 Escucha…</b>
         <em>La respuesta se ve al contestar</em>
         ${aviso ? `<em class="sub-mudo">${esc(String(aviso).split(":")[0])}: lo que oyes no vale.</em>` : ""}</div>
@@ -6694,7 +6721,7 @@ function chPinta(){
   const g = chGuion();
   /* lo mismo aquí: la burbuja no trae traducción, pero la frase suena
      sola nada más aparecer y la barra la cantaba entera */
-  tapaChivatos(!!g && !chAcabada());
+  tapaChivatos(!!g && !chAcabada(), caja);
   if(!g){ caja.innerHTML = `<p class="muted">Elige una situación de arriba y empieza.</p>`; return; }
 
   const vistos = g.turnos.slice(0, chPaso);
@@ -6895,7 +6922,7 @@ function ordPinta(){
   if(c) c.innerHTML = ordHTML();
   /* De nada sirve quitar la traducción de la ficha si al colocarla suena
      y la barra de abajo la enseña. Tapada hasta terminar la escena. */
-  tapaChivatos(!!ordEsc && !ordHecha());
+  tapaChivatos(!!ordEsc && !ordHecha(), c);
 }
 
 document.addEventListener("click", e => {
@@ -7109,10 +7136,10 @@ function cuElige(k){
   /* El muñeco es de consulta: aquí no hay nada que adivinar y la barra
      puede decirlo todo. Se destapa solo para esto y se deja como estaba,
      porque al lado están las tarjetas y ahí sí hay que taparla. */
-  const antes = sinChivatos;
+  const antes = sinChivatos, deQuien = chivatoDe;
   tapaChivatos(false);
   speak(parteDe(k)[1]);
-  tapaChivatos(antes);
+  tapaChivatos(antes, deQuien);
 }
 
 document.addEventListener("click", e => {

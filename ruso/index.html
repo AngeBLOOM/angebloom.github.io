@@ -1981,6 +1981,34 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .voz-sil-q{font-size:12.5px}
 }
 
+
+/* ══ LA BOCA POR DENTRO ══════════════════════════════════ */
+.bc-caja{display:flex; align-items:center; gap:12px; margin-top:10px; flex-wrap:wrap}
+.bc{width:158px; height:auto; flex:0 0 auto; border-radius:14px; background:var(--surface-2, var(--card))}
+.bc-cara{fill:color-mix(in srgb, var(--brand) 7%, transparent); stroke:var(--line-2); stroke-width:1.6}
+.bc-hueco{fill:color-mix(in srgb, var(--indigo) 13%, transparent); stroke:none}
+.bc-duro{fill:none; stroke:var(--ink-3); stroke-width:2.4; stroke-linecap:round}
+.bc-velo{fill:none; stroke:var(--ink-3); stroke-width:2.4; stroke-linecap:round; stroke-dasharray:5 3}
+.bc-diente{fill:var(--surface); stroke:var(--ink-3); stroke-width:1.3}
+.bc-lengua{fill:color-mix(in srgb, var(--brand) 32%, transparent); stroke:none}
+.bc-lengua-b{fill:none; stroke:var(--brand); stroke-width:3.4; stroke-linecap:round; stroke-linejoin:round}
+.bc-labio{fill:none; stroke:var(--ink-2); stroke-width:3.8; stroke-linecap:round}
+.bc-aire circle{fill:var(--gold)}
+.bc-aire-l{fill:none; stroke:var(--gold); stroke-width:2.6; stroke-linecap:round; stroke-dasharray:6 4}
+.bc-stop{stroke:var(--bad); stroke-width:3.4; stroke-linecap:round}
+.bc-nasal path{fill:none; stroke:var(--indigo); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.bc-voz path{fill:none; stroke:var(--orchid); stroke-width:2.4; stroke-linecap:round}
+.bc-pies{
+  list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:3px;
+  font-size:13px; color:var(--ink-2); min-width:180px; flex:1;
+}
+.bc-pies li{position:relative; padding-left:15px; line-height:1.45}
+.bc-pies li::before{
+  content:""; position:absolute; left:0; top:7px; width:7px; height:7px;
+  border-radius:50%; background:var(--brand);
+}
+@media (max-width:520px){ .bc{width:132px} .bc-pies{min-width:0; font-size:12.5px} }
+
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -2294,6 +2322,18 @@ const SOUNDS = [
 ["Grupos de consonantes","встре́ча","El ruso amontona consonantes sin vocal en medio. No metas una «e» delante: встре́ча empieza directamente con «vstr».","встре́ча","vstriécha","encuentro"],
 ["La в final se ensordece","-в -б -д","Al final de palabra, las consonantes sonoras se vuelven sordas: Ивано́в se pronuncia «Ivanof», хлеб suena «jlep».","хлеб","jlep","pan"]
 ];
+
+/* la postura de la boca de cada sonido de arriba (ver boca.js) */
+const BOCAS = {
+  "ы":                  {lengua:"alta-centro", labios:"estirados", aire:"libre", voz:true},
+  "т/ть · н/нь · л/ль": {lengua:"paladar", labios:"estirados", aire:"poco", voz:true},
+  "ж":                  {lengua:"paladar", labios:"redondos", aire:"continuo", voz:true},
+  "ш щ":                {lengua:"curvada", labios:"redondos", aire:"continuo"},
+  "х":                  {lengua:"atras-arriba", labios:"neutros", aire:"continuo"},
+  "р":                  {lengua:"punta-arriba", labios:"neutros", aire:"continuo", voz:true},
+  "ц":                  {lengua:"punta-arriba", labios:"estirados", aire:"continuo"}
+};
+
 
 const PAIRS = [
 ["El acento lo decide todo","Mismas letras, dos palabras.",
@@ -3618,7 +3658,8 @@ VIEWS.sonidos = {
         <div><b style="font-size:15px">${t}</b>
           <div style="font-size:14px;color:var(--ink-2);margin:3px 0 5px;max-width:60ch">${tip}</div>
           <div class="row" style="gap:8px">${sayTh(w, "", "font-size:19px")}
-            <span class="lrom">${rom}</span><span class="muted" style="font-size:13px">${es}</span></div></div>
+            <span class="lrom">${rom}</span><span class="muted" style="font-size:13px">${es}</span></div>
+          ${bocaHTML(letters)}</div>
         ${sayBtn(w, rom)}</div>`).join("")}
     </div>
 
@@ -7237,6 +7278,151 @@ document.addEventListener("click", e => {
     lecDiSeguido(cmpPalabras.map((w, i) => ({texto:w[0], marcar:[i], entera:true})), ".cmp-p");
   }
 });
+
+/* ══════════════════════════════════════════════════════════
+   LA BOCA POR DENTRO
+   ══════════════════════════════════════════════════════════
+   «Una t con soplo» no se entiende leyéndolo. Se entiende viendo dónde
+   va la lengua y por dónde sale el aire. Esto dibuja eso: un corte de
+   la boca de perfil, mirando hacia la izquierda, con la lengua en la
+   postura de cada sonido.
+
+   El dibujo no está hecho a mano uno por uno: hay un muñeco y cinco
+   mandos —lengua, labios, aire, nariz y voz— y cada sonido dice cómo
+   los pone. Así los setenta sonidos de los siete cursos salen del mismo
+   dibujo y no hay setenta ficheros que mantener.
+
+   Importante: solo llevan dibujo los sonidos que son una postura de la
+   boca. «El acento se mueve» o «-ed tiene tres sonidos» no lo son, y
+   ahí no se enseña nada: un dibujo que no corresponde enseña mal, y eso
+   es peor que no enseñar.
+
+   Va después de oido.js y antes de part4.js. */
+
+/* ── 1 · las posturas de la lengua ─────────────────────────
+   El contorno de arriba de la lengua. El resto del bulto (el suelo de
+   la boca y la raíz) es siempre igual y se le pega detrás. */
+const LENGUA = {
+  baja:          "M52 134 C 80 131, 118 128, 150 126",
+  media:         "M52 126 C 80 116, 116 114, 150 122",
+  "alta-delante":"M52 112 C 74 92, 104 94, 150 122",
+  "alta-centro": "M52 130 C 80 98, 116 98, 150 122",
+  "alta-atras":  "M52 134 C 88 130, 116 96, 150 100",
+  "punta-arriba":"M52 98 C 64 122, 108 124, 150 122",
+  paladar:       "M52 124 C 72 100, 108 84, 150 112",
+  "atras-arriba":"M52 136 C 90 136, 110 102, 132 90 C 140 96, 146 112, 150 122",
+  curvada:       "M50 132 C 70 132, 78 100, 96 103 C 114 107, 130 116, 150 122",
+  "entre-dientes":"M36 108 C 66 116, 108 122, 150 122"
+};
+const LENGUA_ES = {
+  baja:"la lengua, abajo y plana",
+  media:"la lengua, a media altura",
+  "alta-delante":"la lengua, alta y hacia delante",
+  "alta-centro":"la lengua, alta por el centro",
+  "alta-atras":"la lengua, alta por detrás",
+  "punta-arriba":"la punta de la lengua, contra el techo de la boca",
+  paladar:"el lomo de la lengua, pegado al paladar",
+  "atras-arriba":"la parte de atrás de la lengua, contra el velo",
+  curvada:"la lengua, curvada hacia atrás",
+  "entre-dientes":"la punta de la lengua, entre los dientes"
+};
+
+/* ── 2 · los labios ────────────────────────────────────────
+   Vistos de perfil: dos trazos a la izquierda del todo. */
+const LABIOS = {
+  neutros:  {sup:"M27 96 C 33 93, 39 95, 42 98",  inf:"M27 122 C 33 125, 39 123, 42 120",
+             es:"los labios, sueltos"},
+  estirados:{sup:"M23 103 C 31 100, 37 100, 42 100", inf:"M23 116 C 31 119, 37 118, 42 118",
+             es:"los labios, estirados como en una sonrisa"},
+  redondos: {sup:"M31 98 C 22 104, 22 115, 31 121", inf:"M31 121 C 36 123, 40 122, 42 120",
+             es:"los labios, redondos como para silbar"},
+  juntos:   {sup:"M25 106 C 31 102, 37 104, 42 107", inf:"M25 112 C 31 116, 37 114, 42 111",
+             es:"los labios, cerrados del todo"}
+};
+
+/* ── 3 · el aire ───────────────────────────────────────────
+   En varios de estos idiomas, lo que separa dos consonantes que al
+   oído español suenan iguales no es la boca: es cuánto aire sale
+   detrás. Por eso el aire se dibuja. */
+const AIRE_ES = {
+  soplo:"sale un golpe de aire (ponte la mano delante y lo notas)",
+  poco:"casi no sale aire",
+  parada:"el aire se corta en seco y no se suelta",
+  continuo:"el aire sale seguido, sin cortarse",
+  libre:"el aire sale sin estorbo"
+};
+
+/* ── 4 · el muñeco ─────────────────────────────────────────
+   Corte de la boca mirando a la izquierda. Nada de precisión de
+   anatomía: lo justo para que se vea dónde va la lengua. */
+function bocaSVG(p){
+  const lengua = LENGUA[p.lengua] || LENGUA.media;
+  const labios = LABIOS[p.labios] || LABIOS.neutros;
+  /* el velo: subido tapa la nariz, bajado la deja abierta. Es lo único
+     que distingue una «d» de una «n», y por eso se dibuja aparte */
+  const velo = p.nasal
+    ? "M130 76 C 135 88, 137 99, 134 109"
+    : "M130 76 C 142 74, 150 80, 153 87";
+  return `<svg class="bc" viewBox="0 0 200 182" role="img"
+      aria-label="Corte de la boca: ${esc(LENGUA_ES[p.lengua] || "")}">
+    <!-- la cara de perfil, mirando a la izquierda -->
+    <path class="bc-cara" d="M174 18 C 112 6, 56 14, 40 44 C 36 54, 40 62, 44 68
+      C 38 70, 14 72, 12 78 C 12 84, 28 84, 32 90 C 34 94, 30 95, 29 97
+      L29 121 C 30 125, 34 129, 30 135 C 24 141, 24 151, 36 159
+      C 62 173, 122 175, 174 169 Z"/>
+    <!-- el hueco de la nariz: por aquí sale el aire de los sonidos nasales -->
+    <path class="bc-hueco" d="M30 80 C 64 66, 104 58, 130 62 L130 76
+      C 108 74, 78 84, 52 100 L44 100 C 40 92, 34 86, 30 80 Z"/>
+    <!-- paladar duro delante y velo (blando) detrás -->
+    <path class="bc-duro" d="M52 100 C 78 84, 108 74, 130 76"/>
+    <path class="bc-velo" d="${velo}"/>
+    <!-- pared de la garganta -->
+    <path class="bc-duro" d="M153 87 C 159 113, 159 141, 153 169"/>
+    <!-- dientes -->
+    <rect class="bc-diente" x="44" y="99" width="8" height="14" rx="2"/>
+    <rect class="bc-diente" x="44" y="118" width="8" height="13" rx="2"/>
+    <!-- la lengua: el bulto y su contorno de arriba, que es lo que cambia -->
+    <path class="bc-lengua" d="${lengua} L150 158 C 116 166, 70 162, 44 142 Z"/>
+    <path class="bc-lengua-b" d="${lengua}"/>
+    <!-- labios -->
+    <path class="bc-labio" d="${labios.sup}"/>
+    <path class="bc-labio" d="${labios.inf}"/>
+    ${p.nasal ? `<g class="bc-nasal"><path d="M86 70 L86 52"/>
+      <path d="M81 58 L86 50 L91 58"/></g>` : ""}
+    ${p.aire === "soplo" ? `<g class="bc-aire"><circle cx="20" cy="109" r="3.6"/>
+      <circle cx="10" cy="109" r="2.7"/><circle cx="3" cy="109" r="1.8"/></g>` : ""}
+    ${p.aire === "continuo" ? `<path class="bc-aire-l" d="M24 109 L3 109"/>` : ""}
+    ${p.aire === "parada" ? `<path class="bc-stop" d="M16 101 L16 119"/>` : ""}
+    ${p.voz ? `<g class="bc-voz"><path d="M138 158 q5 -6 10 0 q5 6 10 0"/></g>` : ""}
+  </svg>`;
+}
+
+/* la leyenda en palabras: el dibujo es lo primero, pero quien no vea
+   bien o use lector de pantalla también tiene que enterarse */
+function bocaPies(p){
+  const l = [LENGUA_ES[p.lengua], (LABIOS[p.labios] || {}).es, AIRE_ES[p.aire]];
+  if(p.nasal) l.push("el aire sale por la nariz");
+  if(p.voz) l.push("la garganta vibra");
+  return l.filter(Boolean);
+}
+
+/* ── 5 · qué postura lleva cada sonido ─────────────────────
+   La tabla NO vive aquí: vive en cada paquete, al lado de sus SOUNDS y
+   con la misma casilla de letras como clave. Si estuviera aquí, el
+   motor llevaría dentro las letras de los siete idiomas y verificar.js
+   saltaría, con razón: es justo lo que no puede pasar. */
+const posturaDe = letras =>
+  (typeof BOCAS !== "undefined" && BOCAS ? BOCAS : {})[letras] || null;
+
+/* el dibujo con su pie, para meterlo en la lista de sonidos */
+function bocaHTML(letras){
+  const p = posturaDe(letras);
+  if(!p) return "";
+  return `<div class="bc-caja">
+    ${bocaSVG(p)}
+    <ul class="bc-pies">${bocaPies(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+  </div>`;
+}
 
 /* ══════════════════════════════════════════════════════════
    TU VOZ, DIBUJADA

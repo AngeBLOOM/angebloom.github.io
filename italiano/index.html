@@ -2050,6 +2050,63 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   .sub-x{order:3; margin-left:auto}
   .sub-mudo{max-width:none}
 }
+
+/* ══ LLEVARTE EL PROGRESO ════════════════════════════════ */
+/* .row y otros ponen display:flex y se comian el atributo hidden: el
+   boton de cargar salia antes de pedir el codigo */
+[hidden]{display:none !important}
+.cp{margin-top:6px}
+.cp-dos{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px}
+.cp-lado{border:1px solid var(--line); border-radius:16px; padding:14px; background:var(--card)}
+.cp-t{font-weight:600; font-size:15.5px; margin-bottom:3px}
+.cp-n{color:var(--ink-3); font-size:13.5px; line-height:1.45; margin:0 0 11px}
+.cp-area{
+  width:100%; margin-top:10px; min-height:84px; resize:vertical;
+  font:12px/1.4 var(--mono); padding:9px; border-radius:11px;
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink-2);
+}
+.cp-aviso{margin-top:11px; font-size:13.5px; min-height:20px}
+.cp-bien{color:var(--jade); font-weight:600}
+.cp-mal{color:var(--bad); font-weight:600}
+
+/* ══ TAMAÑO DE LETRA ═════════════════════════════════════
+   Se escala solo la zona de lectura. El menú, la barra de arriba y la
+   de abajo se quedan como están: si se agranda todo, el menú deja de
+   caber y se gana en letra lo que se pierde en poder moverse. */
+main{zoom:var(--escala, 1)}
+.letrabtns{display:flex; gap:4px; padding:0 6px; margin-top:6px}
+.letrabtns button{
+  flex:1; padding:6px 4px; border-radius:9px; cursor:pointer;
+  border:1px solid var(--line-2); background:var(--card); color:var(--ink-2);
+  font:600 12px var(--ui); line-height:1;
+}
+.letrabtns button[aria-pressed="true"]{background:var(--ink); color:var(--ground); border-color:var(--ink)}
+.letrabtns button:nth-child(2){font-size:13.5px}
+.letrabtns button:nth-child(3){font-size:15.5px}
+
+
+/* ══ NOTA DEL TRAZO ══════════════════════════════════════ */
+.tn{display:flex; gap:14px; align-items:flex-start; margin-top:12px}
+.tn-num{font:600 38px/1 var(--disp); min-width:84px; text-align:center}
+.tn-txt{display:flex; flex-direction:column; gap:3px; flex:1; min-width:0}
+.tn-txt > b{font-size:15.5px}
+.tn-txt > span{color:var(--ink-3); font-size:13.5px}
+.tn-barras{display:flex; flex-direction:column; gap:3px; margin-top:7px; font-size:12.5px; color:var(--ink-3)}
+.tn-barras i{display:block; height:7px; border-radius:99px; background:var(--line-2); overflow:hidden; margin-bottom:5px}
+.tn-barras em{display:block; height:100%; background:var(--brand); border-radius:99px}
+.tn-vacio{color:var(--ink-3); font-size:13.5px}
+@media (max-width:520px){
+  .tn{gap:10px}
+  .tn-num{font-size:30px; min-width:62px}
+}
+
+/* ══ LAS QUE TOCAN HOY ═══════════════════════════════════ */
+.vhoy{
+  display:block; margin:0 0 12px; padding:9px 13px; border-radius:12px;
+  background:var(--accent-soft); color:var(--ink-2); font-size:13.5px; line-height:1.5;
+}
+.vhoy b{color:var(--brand-ink)}
+
 </style>
 <style>
 /* reinicio mínimo (la versión artifact lo recibe del contenedor) */
@@ -2099,6 +2156,12 @@ img{max-width:100%;height:auto}
         <button data-speed="0.6">Lento</button>
         <button data-speed="0.85">Medio</button>
         <button data-speed="1">Normal</button>
+      </div>
+      <!-- el tamaño del texto: agranda la zona de lectura, no el menú -->
+      <div class="letrabtns" role="group" aria-label="Tamaño del texto">
+        <button data-letra="1" title="Texto normal">A</button>
+        <button data-letra="1.15" title="Texto grande">A</button>
+        <button data-letra="1.3" title="Texto muy grande">A</button>
       </div>
     </div>
   </nav>
@@ -2993,11 +3056,20 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
              xpPor:{}, visitados:{}, dias:{}, navAb:null,
-             pais:"", nombre:""};
+             pais:"", nombre:"", letra:1, due:{}};
 let S = load();
 S.best = Object.assign({}, DEF.best, S.best || {});
 S.streak = Object.assign({}, DEF.streak, S.streak || {});
 if(S.tema) document.documentElement.dataset.theme = S.tema;
+/* el tamaño de letra se aplica antes de pintar nada, para que no se vea
+   el salto */
+aplicaLetra();
+function aplicaLetra(){
+  const n = +S.letra || 1;
+  document.documentElement.style.setProperty("--escala", n);
+  document.querySelectorAll("[data-letra]").forEach(b =>
+    b.setAttribute("aria-pressed", +b.dataset.letra === n));
+}
 
 function load(){
   try{
@@ -3342,6 +3414,7 @@ function go(id){
      mide lo largas que son para decidir qué recoge */
   organizaVista();
   marcaVisita(id);
+  cuentaPantalla(id);
   animaVista();
 }
 
@@ -3364,6 +3437,8 @@ document.addEventListener("click", e => {
   }
   const sp = e.target.closest("[data-speed]");
   if(sp){ S.speed = +sp.dataset.speed; save(); paintSpeed(); }
+  const lt = e.target.closest("[data-letra]");
+  if(lt){ S.letra = +lt.dataset.letra; save(); aplicaLetra(); }
 });
 document.addEventListener("input", e => {
   if(e.target && e.target.id === "qeNombre"){
@@ -3478,6 +3553,20 @@ function rutaMapaHTML(){
     }).join("")}
     <div class="camino-meta" aria-hidden="true">🏆 ${hechas} de ${paradas.length} paradas</div>
   </div>`;
+}
+
+/* Sin esto solo se sabía cuánta gente entra, no qué mira ni dónde lo
+   deja. Va con lo que ya estaba: sin cookies, sin identificar a nadie y
+   sin mandar nada si la analítica no está puesta. */
+let ultimaContada = "";
+function cuentaPantalla(id){
+  if(!id || id === ultimaContada) return;
+  ultimaContada = id;
+  const g = window.goatcounter;
+  if(!g || typeof g.count !== "function") return;
+  try{
+    g.count({path: location.pathname + "#" + id, title: id, event: false});
+  }catch(e){}
 }
 
 /* ══ VISTA: INICIO ═══════════════════════════════════════ */
@@ -3817,9 +3906,11 @@ VIEWS.escritura = {
       <button class="btn btn--s btn--p" id="tNext">Siguiente →</button>
       <button class="btn btn--s" id="tRand">Al azar</button>
       <button class="btn btn--s" id="tAnim">▶ Ver cómo se forma</button>
+      <button class="btn btn--s btn--p" id="tNota">¿Qué tal me ha salido?</button>
       <span id="tSay"></span>
     </div>
     <div class="tracewrap"><canvas class="trace" id="tCanvas" width="1200" height="380"></canvas></div>
+    <div id="tNotaCaja" aria-live="polite"></div>
 
     <h2 class="sec">Teclado ${idioma()}</h2>
     <p class="sec-note">Para escribir sin cambiar la configuración del sistema. Útil para copiar una palabra en un traductor o en un mensaje.</p>
@@ -3977,24 +4068,134 @@ VIEWS.escritura = {
           ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.stroke();
         }
       }
+      /* el repaso en verde y rojo, debajo de tu trazo para no taparlo */
+      if(notaCapa) ctx.drawImage(notaCapa, notaEnDer ? W/2 : 0, 0);
       ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = ink; ctx.lineWidth = 5;
       strokes.forEach(st => { if(st.length < 2) return;
         ctx.beginPath(); ctx.moveTo(st[0][0], st[0][1]);
         st.forEach(p => ctx.lineTo(p[0], p[1])); ctx.stroke(); });
     }
+    /* ── ¿qué tal me ha salido? ──────────────────────────
+       Calcar está bien, pero sin que nadie te diga nada no sabes si te
+       has salido ni si te has dejado medio trazo. Se comparan dos
+       cosas, y las dos hacen falta:
+         · cuánto del modelo has recorrido (si te dejas el bucle, baja)
+         · cuánto de lo tuyo cae dentro del modelo (si te sales, baja)
+       Se hace pintando el modelo y tu trazo en dos lienzos aparte, uno
+       fino y otro engordado, y contando píxeles: es tosco, pero mide
+       justo lo que se ve a ojo. */
+    const TOL = 17;
+    let notaCapa = null, notaEnDer = false;
+
+    function notaDelTrazo(){
+      const W = cv.width, H = cv.height, mitad = W / 2;
+      if(!strokes.length || !traceChar) return null;
+      let izq = 0, der = 0;
+      strokes.forEach(st => st.forEach(p => { if(p[0] < mitad) izq++; else der++; }));
+      /* con cuatro puntos ya hay trazo: lo que de verdad manda es si
+         hay tinta suficiente, y eso se mira más abajo */
+      if(izq + der < 4) return null;
+      const enDer = der > izq, dx = enDer ? -mitad : 0;
+
+      const lienzo = () => { const c = document.createElement("canvas");
+        c.width = mitad; c.height = H; return c; };
+      const modelo = (grueso) => {
+        const c = lienzo(), x = c.getContext("2d");
+        x.font = fuenteTrazo(); x.textAlign = "center"; x.textBaseline = "alphabetic";
+        x.fillStyle = "#000"; x.strokeStyle = "#000"; x.lineJoin = "round";
+        if(grueso){ x.lineWidth = grueso; x.strokeText(traceChar, mitad / 2, 268); }
+        x.fillText(traceChar, mitad / 2, 268);
+        return c;
+      };
+      const mio = (ancho) => {
+        const c = lienzo(), x = c.getContext("2d");
+        x.strokeStyle = "#000"; x.lineCap = "round"; x.lineJoin = "round"; x.lineWidth = ancho;
+        strokes.forEach(st => { if(st.length < 2) return;
+          x.beginPath(); x.moveTo(st[0][0] + dx, st[0][1]);
+          st.forEach(p => x.lineTo(p[0] + dx, p[1])); x.stroke(); });
+        return c;
+      };
+      const pix = c => c.getContext("2d").getImageData(0, 0, mitad, H).data;
+      const mFino = pix(modelo(0)), mGordo = pix(modelo(TOL * 2));
+      const uFino = pix(mio(6)), uGordo = pix(mio(6 + TOL * 2));
+
+      const paso = 4;
+      let mod = 0, modCub = 0, usr = 0, usrDentro = 0;
+      const capa = lienzo(), cx = capa.getContext("2d");
+      for(let y = 0; y < H; y += paso) for(let x = 0; x < mitad; x += paso){
+        const i = (y * mitad + x) * 4 + 3;
+        if(mFino[i] > 100){
+          mod++;
+          const ok = uGordo[i] > 60;
+          if(ok) modCub++;
+          /* lo que te has dejado, en rojo: se ve de un vistazo dónde */
+          cx.fillStyle = ok ? "rgba(14,138,99,.5)" : "rgba(217,59,30,.65)";
+          cx.fillRect(x, y, paso, paso);
+        }
+        if(uFino[i] > 100){ usr++; if(mGordo[i] > 60) usrDentro++; }
+      }
+      if(!mod || usr < 12) return null;
+      const cubierto = modCub / mod, limpio = usrDentro / usr;
+      notaCapa = capa; notaEnDer = enDer;
+      return {
+        nota: Math.round((cubierto * 0.6 + limpio * 0.4) * 100),
+        cubierto: Math.round(cubierto * 100),
+        limpio: Math.round(limpio * 100)
+      };
+    }
+
+    function pintaNota(){
+      const caja = $("#tNotaCaja");
+      if(!caja) return;
+      const r = notaDelTrazo();
+      if(!r){
+        notaCapa = null; redraw();
+        caja.innerHTML = `<span class="tn-vacio">Traza la letra primero, encima del modelo o al lado.</span>`;
+        return;
+      }
+      const juicio = r.nota >= 85 ? "Clavada."
+        : r.nota >= 70 ? "Bien. Repásala una vez más y queda."
+        : r.nota >= 50 ? "Se reconoce, pero mírala al lado del modelo."
+        : "Todavía no. Dale a «Ver cómo se forma» y vuelve a intentarlo.";
+      const pega = r.cubierto < 70 ? "Te has dejado parte de la letra (lo rojo)."
+        : r.limpio < 70 ? "Te sales del modelo: ve más despacio."
+        : "";
+      caja.innerHTML = `
+        <div class="tn">
+          <div class="tn-num" style="color:var(--${r.nota >= 85 ? "ok" : r.nota >= 60 ? "gold" : "bad"})">${r.nota}%</div>
+          <div class="tn-txt">
+            <b>${juicio}</b>
+            ${pega ? `<span>${pega}</span>` : ""}
+            <div class="tn-barras">
+              <span>has recorrido <b>${r.cubierto}%</b> de la letra</span>
+              <i><em style="width:${r.cubierto}%"></em></i>
+              <span>y <b>${r.limpio}%</b> de tu trazo cae dentro</span>
+              <i><em style="width:${r.limpio}%"></em></i>
+            </div>
+          </div>
+        </div>`;
+      redraw();
+      if(r.nota >= 70) ganaXP(r.nota >= 85 ? 10 : 5);
+      touchStreak();
+    }
+
     const pos = e => { const r = cv.getBoundingClientRect();
       return [(e.clientX-r.left) * (cv.width/r.width), (e.clientY-r.top) * (cv.height/r.height)]; };
-    cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); curStroke = [pos(e)]; strokes.push(curStroke); });
+    cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId);
+      notaCapa = null; curStroke = [pos(e)]; strokes.push(curStroke); });
     cv.addEventListener("pointermove", e => { if(!curStroke) return; curStroke.push(pos(e)); redraw(); });
     cv.addEventListener("pointerup", () => { curStroke = null; });
     cv.addEventListener("pointerleave", () => { curStroke = null; });
     const setChar = c => { traceChar = c; strokes = [];
       if(animId){ clearTimeout(animId); animId = null; }
-      animComp = null; animPunto = null; redraw();
+      animComp = null; animPunto = null; notaCapa = null;
+      const nc = $("#tNotaCaja"); if(nc) nc.innerHTML = "";
+      redraw();
       $("#tSay").innerHTML = sayBtn(c, c); $("#tSel").value = c; };
     $("#tSel").addEventListener("change", e => setChar(e.target.value));
-    $("#tClear").addEventListener("click", () => { strokes = []; redraw(); });
-    $("#tUndo").addEventListener("click", () => { strokes.pop(); redraw(); });
+    const olvidaNota = () => { notaCapa = null; const nc = $("#tNotaCaja"); if(nc) nc.innerHTML = ""; };
+    $("#tClear").addEventListener("click", () => { strokes = []; olvidaNota(); redraw(); });
+    $("#tUndo").addEventListener("click", () => { strokes.pop(); olvidaNota(); redraw(); });
     $("#tGhost").addEventListener("click", e => { ghost = !ghost;
       e.target.setAttribute("aria-pressed", ghost); e.target.textContent = ghost ? "Modelo visible" : "Modelo oculto"; redraw(); });
     /* anterior y siguiente siguen el orden del desplegable: letras, luego vocales y signos */
@@ -4007,6 +4208,7 @@ VIEWS.escritura = {
     $("#tNext").addEventListener("click", () => paso(1));
     $("#tRand").addEventListener("click", () => setChar(pick(CONS)[0]));
     $("#tAnim").addEventListener("click", verComoSeForma);
+    $("#tNota").addEventListener("click", pintaNota);
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
     setChar(traceChar || letraPorAprender());
 
@@ -4157,6 +4359,58 @@ VIEWS.hablar = {
 };
 
 /* ══ VISTA: VOCABULARIO ══════════════════════════════════ */
+/* ══ REPASO ESPACIADO ════════════════════════════════════
+   Las tarjetas ya subían y bajaban de nivel, pero no tenían fecha: se
+   repasaba por nivel, o sea, siempre lo mismo y siempre a destiempo.
+   Ahora cada palabra lleva el día en que toca volver a verla, y los
+   intervalos crecen: 1, 2, 5, 12 y 30 días. Acertar la empuja hacia
+   delante; fallarla la trae a mañana.
+
+   Es lo que hace que estudiando la mitad se recuerde el doble: se
+   repasa justo antes de que se te olvide, no antes ni después.
+
+   El nivel sigue siendo el de siempre (S.vocab), así que lo que ya
+   tenías hecho vale igual; lo nuevo es S.due, y una palabra sin fecha
+   se trata como nueva, que es lo que es. */
+const DIAS_NIVEL = [1, 2, 5, 12, 30];
+const hoyISO = () => new Date().toISOString().slice(0, 10);
+const diaMas = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+
+function marcaFecha(palabra, nivel, acerto){
+  if(!S.due || typeof S.due !== "object") S.due = {};
+  /* si has fallado, mañana otra vez, sea cual sea el nivel */
+  const dias = acerto ? (DIAS_NIVEL[Math.max(0, Math.min(4, nivel))] || 1) : 1;
+  S.due[palabra] = diaMas(dias);
+}
+const fechaDe = p => (S.due || {})[p] || null;
+const tocaYa = p => { const d = fechaDe(p); return !d || d <= hoyISO(); };
+
+/* vencidas primero y las más atrasadas antes; luego las que no has
+   visto nunca; y al final las que están al día, por si quieres seguir */
+function ordenaTarjetas(pool){
+  const hoy = hoyISO();
+  const grupo = v => { const d = fechaDe(v[0]); return !d ? 1 : (d <= hoy ? 0 : 2); };
+  const conOrden = pool.map((v, i) => ({v, i, g:grupo(v), f:fechaDe(v[0]) || "", n:S.vocab[v[0]] || 0, az:Math.random()}));
+  conOrden.sort((a, b) =>
+    a.g - b.g ||
+    (a.g === 1 ? a.n - b.n || a.az - b.az : (a.f < b.f ? -1 : a.f > b.f ? 1 : a.n - b.n)));
+  return conOrden.map(x => x.v);
+}
+
+function tarjetasDeHoy(pool){
+  const vencidas = pool.filter(v => fechaDe(v[0]) && tocaYa(v[0])).length;
+  const nuevas = pool.filter(v => !fechaDe(v[0])).length;
+  return {vencidas, nuevas, aldia: pool.length - vencidas - nuevas};
+}
+function textoDeHoy(pool){
+  const t = tarjetasDeHoy(pool);
+  const trozos = [];
+  if(t.vencidas) trozos.push("<b>" + t.vencidas + "</b> para repasar hoy");
+  if(t.nuevas) trozos.push("<b>" + t.nuevas + "</b> sin estrenar");
+  if(!trozos.length) return "Todo al día. Si sigues, verás las que tocan más adelante.";
+  return trozos.join(" · ") + (t.aldia ? " · " + t.aldia + " ya al día" : "");
+}
+
 let vCat = "todas", vQueue = [], vFlip = false, vMode = "th-es";
 VIEWS.vocabulario = {
   html(){
@@ -4174,6 +4428,7 @@ VIEWS.vocabulario = {
       <button class="btn btn--s" data-vmode="es-th" aria-pressed="${vMode==="es-th"}">Ver español → decir ${idioma()}</button>
       <button class="btn btn--s" data-vmode="dib" aria-pressed="${vMode==="dib"}">Solo el dibujo</button>
     </div>
+    <span class="vhoy" id="vHoy"></span>
     <div class="bar"><i id="vBar" style="width:0%"></i></div>
     <div id="vCard"></div>
     <p class="muted" style="font-size:13px;margin-top:10px;text-align:center">
@@ -4193,7 +4448,9 @@ VIEWS.vocabulario = {
   init(){
     const build = () => {
       const pool = VOCAB.filter(v => vCat === "todas" || v[3] === vCat);
-      vQueue = pool.map(v => [v, S.vocab[v[0]] || 0]).sort((a,b) => a[1]-b[1] || Math.random()-.5).map(x => x[0]);
+      vQueue = ordenaTarjetas(pool);
+      const h = document.getElementById("vHoy");
+      if(h) h.innerHTML = textoDeHoy(pool);
       vFlip = false; paintCard();
     };
     const paintCard = () => {
@@ -4238,10 +4495,14 @@ VIEWS.vocabulario = {
     const grade = (w, d) => {
       const cur = S.vocab[w[0]] || 0;
       S.vocab[w[0]] = Math.max(0, Math.min(4, cur + d));
+      /* la que aciertas se va más lejos; la que fallas vuelve mañana */
+      marcaFecha(w[0], S.vocab[w[0]], d > 0);
       save(); paintNav(current); touchStreak(); bump("cards");
       ganaXP(d > 0 ? 5 : 2);
       if(d > 0 && cur < 4 && S.vocab[w[0]] === 4) aviso(dibujo(w), "¡Palabra dominada!", w[2]);
       vQueue.shift(); if(d < 0) vQueue.splice(Math.min(4, vQueue.length), 0, w);
+      const hh = document.getElementById("vHoy");
+      if(hh) hh.innerHTML = textoDeHoy(VOCAB.filter(v => vCat === "todas" || v[3] === vCat));
       vFlip = false; paintCard();
     };
     $("#vCats").addEventListener("click", e => {
@@ -4743,6 +5004,9 @@ VIEWS.repaso = {
 
     <h2 class="sec">Repaso mezclado de todo</h2>
     <div class="card" id="mix"></div>
+
+    <h2 class="sec">Llévate tu progreso</h2>
+    ${copiaHTML()}
 
     <h2 class="sec">Tu progreso</h2>
     <div class="tablewrap"><table>
@@ -7988,6 +8252,176 @@ document.addEventListener("click", e => {
 });
 /* si te vas de la pantalla, el micrófono se suelta */
 window.addEventListener("hashchange", () => { if(vozParar) vozParar(); });
+
+/* ══════════════════════════════════════════════════════════
+   LLEVARTE EL PROGRESO CONTIGO
+   ══════════════════════════════════════════════════════════
+   Todo lo que llevas hecho vive en el almacén del navegador y en
+   ningún sitio más. Eso está bien —no hay cuenta, no hay servidor, no
+   se manda nada a nadie— pero tiene un precio: si limpias el
+   navegador, cambias de móvil o entras desde otro aparato, empiezas de
+   cero y no hay forma de recuperarlo.
+
+   Esto lo arregla sin romper lo otro: te llevas una copia, en un
+   fichero o en un código para pegar, y la metes donde quieras.
+
+   Los siete cursos comparten almacén (misma dirección, distinta
+   carpeta), así que la copia los lleva todos a la vez. Es lo que se
+   quiere: cambias de móvil una vez y no siete.
+
+   Va después de vida.js (usa aviso) y antes de part4.js. */
+
+const COPIA_MARCA = "suena-progreso";
+
+function copiaDatos(){
+  return {
+    marca: COPIA_MARCA,
+    version: 1,
+    fecha: new Date().toISOString().slice(0, 10),
+    desde: LANG.id,
+    estado: S
+  };
+}
+/* base64 que aguanta las tildes y las escrituras de los siete cursos */
+const aTexto = o => btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const deTexto = t => JSON.parse(decodeURIComponent(escape(atob(String(t).replace(/\s+/g, "")))));
+
+function copiaResumen(e){
+  const cursos = Object.keys((e && e.xpPor) || {});
+  const palabras = Object.keys((e && e.vocab) || {}).length;
+  const letras = Object.keys((e && e.known) || {}).length;
+  const racha = (e && e.streak && e.streak.n) || 0;
+  return [
+    cursos.length ? cursos.length + (cursos.length === 1 ? " curso" : " cursos") : "ningún curso empezado",
+    palabras + (palabras === 1 ? " palabra" : " palabras") + " tocadas",
+    letras + (letras === 1 ? " letra" : " letras") + " marcadas",
+    racha + (racha === 1 ? " día" : " días") + " de racha"
+  ].join(" · ");
+}
+
+function copiaHTML(){
+  return `<div class="cp" id="cpCaja">
+    <p class="sec-note" style="margin:0 0 12px">
+      Lo que llevas hecho se guarda solo en este navegador: si lo limpias o cambias de
+      móvil, se pierde. Aquí te lo llevas. La copia incluye <b>los siete cursos</b> a la vez.
+    </p>
+    <div class="cp-dos">
+      <div class="cp-lado">
+        <div class="cp-t">Guardar lo que llevas</div>
+        <p class="cp-n">${esc(copiaResumen(S))}</p>
+        <div class="row">
+          <button class="btn btn--p btn--s" data-cp="fichero">${svg("down")} Bajar el fichero</button>
+          <button class="btn btn--s" data-cp="codigo">Ver el código para pegar</button>
+        </div>
+        <textarea class="cp-area" id="cpSalida" readonly hidden
+          aria-label="Código de tu progreso"></textarea>
+      </div>
+      <div class="cp-lado">
+        <div class="cp-t">Meterlo en este aparato</div>
+        <p class="cp-n">Reemplaza lo que haya aquí ahora. Te lo pregunto antes.</p>
+        <div class="row">
+          <label class="btn btn--s" style="cursor:pointer">
+            Elegir el fichero…
+            <input type="file" id="cpFile" accept=".json,application/json" hidden>
+          </label>
+          <button class="btn btn--s" data-cp="pegar">Pegar un código</button>
+        </div>
+        <textarea class="cp-area" id="cpEntrada" hidden
+          placeholder="Pega aquí el código y dale a Cargar"
+          aria-label="Código a cargar"></textarea>
+        <div class="row" id="cpPegarBtns" hidden style="margin-top:8px">
+          <button class="btn btn--p btn--s" data-cp="cargar">Cargar</button>
+        </div>
+      </div>
+    </div>
+    <div class="cp-aviso" id="cpAviso" aria-live="polite"></div>
+  </div>`;
+}
+
+function cpDice(txt, mal){
+  const c = document.getElementById("cpAviso");
+  if(c) c.innerHTML = `<span class="${mal ? "cp-mal" : "cp-bien"}">${esc(txt)}</span>`;
+}
+
+function cpBaja(){
+  const nombre = "suena-progreso-" + new Date().toISOString().slice(0, 10) + ".json";
+  const txt = JSON.stringify(copiaDatos(), null, 1);
+  const url = URL.createObjectURL(new Blob([txt], {type:"application/json"}));
+  const a = document.createElement("a");
+  a.href = url; a.download = nombre;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  cpDice("Guardado como " + nombre + ". Ponlo donde no se te pierda.");
+}
+
+function cpAplica(datos){
+  if(!datos || datos.marca !== COPIA_MARCA || !datos.estado || typeof datos.estado !== "object")
+    throw new Error("no es una copia de Suena");
+  const e = datos.estado;
+  if(!confirm("Esto reemplaza todo lo que llevas en este aparato por la copia del "
+      + (datos.fecha || "?") + ":\n\n" + copiaResumen(e)
+      + "\n\n¿Lo cargo?")) return false;
+  /* se mezcla con lo de fábrica, no se sustituye a pelo: si la copia es
+     de una versión anterior, lo que falte se queda con su valor por
+     defecto en vez de quedarse sin definir */
+  S = Object.assign(JSON.parse(JSON.stringify(DEF)), e);
+  S.best = Object.assign({}, DEF.best, S.best || {});
+  S.streak = Object.assign({}, DEF.streak, S.streak || {});
+  save();
+  return true;
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-cp]");
+  if(!b) return;
+  const q = b.dataset.cp;
+  if(q === "fichero"){ cpBaja(); return; }
+  if(q === "codigo"){
+    const t = document.getElementById("cpSalida");
+    if(!t) return;
+    t.value = aTexto(copiaDatos());
+    t.hidden = false;
+    t.select();
+    try{ document.execCommand("copy"); cpDice("Copiado. Pégalo en el otro aparato."); }
+    catch(err){ cpDice("Cópialo a mano: está ahí arriba, entero."); }
+    return;
+  }
+  if(q === "pegar"){
+    const t = document.getElementById("cpEntrada");
+    const r = document.getElementById("cpPegarBtns");
+    if(t){ t.hidden = false; t.focus(); }
+    if(r) r.hidden = false;
+    return;
+  }
+  if(q === "cargar"){
+    const t = document.getElementById("cpEntrada");
+    if(!t || !t.value.trim()){ cpDice("Pega antes el código.", true); return; }
+    let d;
+    try{ d = deTexto(t.value); }
+    catch(err){ cpDice("Ese código no se entiende. ¿Está entero?", true); return; }
+    try{
+      if(cpAplica(d)){ aviso("✅", "Progreso cargado", "Recargo la página"); setTimeout(() => location.reload(), 900); }
+    }catch(err){ cpDice("Eso no es una copia de Suena.", true); }
+  }
+});
+
+document.addEventListener("change", e => {
+  if(!e.target || e.target.id !== "cpFile") return;
+  const f = e.target.files && e.target.files[0];
+  if(!f) return;
+  const lee = new FileReader();
+  lee.onload = () => {
+    let d;
+    try{ d = JSON.parse(lee.result); }
+    catch(err){ cpDice("Ese fichero no se entiende.", true); return; }
+    try{
+      if(cpAplica(d)){ aviso("✅", "Progreso cargado", "Recargo la página"); setTimeout(() => location.reload(), 900); }
+    }catch(err){ cpDice("Eso no es una copia de Suena.", true); }
+  };
+  lee.onerror = () => cpDice("No he podido leer el fichero.", true);
+  lee.readAsText(f);
+  e.target.value = "";
+});
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:

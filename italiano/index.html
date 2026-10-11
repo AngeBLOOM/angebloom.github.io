@@ -2354,6 +2354,39 @@ body.ens-on{overflow:hidden}
   .mudo-barra .btn{width:100%}
 }
 
+/* ── el índice de la pantalla en el móvil ──
+   No cabía de una línea: de cinco pastillas se veían dos y había que
+   adivinar que aquello se deslizaba. Ahora, cuando no caben, se
+   recogen en un panel que se abre de un toque y las enseña TODAS a la
+   vez, sin deslizar y sin robarle alto a la pantalla (va por encima,
+   no empuja). Cuando sí caben se dejan a la vista, que es mejor. */
+.iabre{display:none}
+@media (max-width:700px){
+  .indice--panel .iabre{display:flex}
+  .iabre{
+    align-items:center; gap:7px; flex:1; min-width:0;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-2);
+    border-radius:20px; padding:6px 11px; cursor:pointer; text-align:left;
+    font:600 12px var(--ui);
+  }
+  .iabre-t{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .iabre-n{flex:none; color:var(--ink-3); font-weight:700}
+  .iabre svg{width:13px; height:13px; flex:none; stroke:currentColor; fill:none;
+    stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:transform .16s}
+  .indice--abierto .iabre{border-color:var(--brand); color:var(--brand)}
+  .indice--abierto .iabre svg{transform:rotate(180deg)}
+
+  .indice--panel .ichips{
+    position:absolute; top:100%; left:0; right:0; z-index:3;
+    flex-wrap:wrap; overflow:visible; gap:7px; padding:11px 12px 12px;
+    background:var(--surface); border:1px solid var(--line); border-top:0;
+    border-radius:0 0 14px 14px; box-shadow:0 14px 30px rgba(0,0,0,.18);
+    -webkit-mask-image:none; mask-image:none;
+  }
+  .indice--panel:not(.indice--abierto) .ichips{display:none}
+  .indice--panel .ichip{font-size:12.5px; padding:7px 12px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -7080,13 +7113,20 @@ function organizaVista(){
   ind.className = "indice";
   /* las pastillas van en su propia caja: así, en móvil, se deslizan
      sin llevarse por delante el botón de abrir todo */
-  ind.innerHTML = `<b>En esta pantalla</b><div class="ichips">` +
+  ind.innerHTML = `<b>En esta pantalla</b>
+    <button class="iabre" data-iabre type="button" aria-expanded="false" aria-controls="ichipsCaja">
+      <span class="iabre-t">Secciones</span>
+      <span class="iabre-n">${bloques.length}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="ichips" id="ichipsCaja">` +
     bloques.map((b, i) => `<button class="ichip" data-ir="${b.id}"
       aria-current="${b.classList.contains("abierto") && i === 0}">${esc(tituloBloque(b))}</button>`).join("") +
     `</div><button class="itodo" data-todo></button>`;
   v.insertBefore(ind, bloques[0]);
   pintaTodoIndice();
   sincronizaIndice();
+  ajustaIndice();
 }
 
 function abreBloque(sec, abrir){
@@ -7120,6 +7160,31 @@ function pintaTodoIndice(){
   b.textContent = cerrados ? "Abrir todo" : "Cerrar todo";
 }
 
+function ajustaIndice(){
+  const ind = document.querySelector(".indice");
+  if(!ind) return;
+  const chips = ind.querySelector(".ichips");
+  if(!chips) return;
+  /* se mide con el panel quitado: con el panel puesto las pastillas
+     ocupan el ancho entero y siempre pareceria que caben */
+  ind.classList.remove("indice--panel", "indice--abierto");
+  if(!window.matchMedia("(max-width:700px)").matches) return;
+  if(chips.scrollWidth > chips.clientWidth + 1) ind.classList.add("indice--panel");
+}
+function cierraIndice(){
+  const ind = document.querySelector(".indice.indice--abierto");
+  if(!ind) return;
+  ind.classList.remove("indice--abierto");
+  const b = ind.querySelector("[data-iabre]");
+  if(b) b.setAttribute("aria-expanded", "false");
+}
+/* al girar el teléfono o cambiar el tamaño de letra cambia lo que cabe */
+let indTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(indTimer);
+  indTimer = setTimeout(ajustaIndice, 160);
+});
+
 /* qué pastilla del índice se marca: el último bloque cuyo título ya
    quedó por encima de la línea de lectura; si ninguno, el primero */
 function sincronizaIndice(){
@@ -7129,14 +7194,29 @@ function sincronizaIndice(){
   let activo = bloques.length ? bloques[0].id : null;
   bloques.forEach(b => { if(b.getBoundingClientRect().top <= 150) activo = b.id; });
   chips.forEach(c => c.setAttribute("aria-current", String(c.dataset.ir === activo)));
+  /* recogido, el botón hace de letrero: dice dónde estás */
+  const et = document.querySelector(".iabre-t");
+  const act = [...chips].find(c => c.dataset.ir === activo);
+  if(et) et.textContent = act ? act.textContent : "Secciones";
 }
 
 document.addEventListener("click", e => {
   const cab = e.target.closest(".bl-cab");
   if(cab){ abreBloque(cab.closest(".bloque")); return; }
 
+  const ab = e.target.closest("[data-iabre]");
+  if(ab){
+    const ind = ab.closest(".indice");
+    const abierto = ind.classList.toggle("indice--abierto");
+    ab.setAttribute("aria-expanded", String(abierto));
+    return;
+  }
+  /* tocar fuera del panel lo cierra, como cualquier desplegable */
+  if(!e.target.closest(".ichips")) cierraIndice();
+
   const ir = e.target.closest("[data-ir]");
   if(ir){
+    cierraIndice();                 /* elegida la sección, el panel sobra */
     const sec = document.getElementById(ir.dataset.ir);
     if(!sec) return;
     abreBloque(sec, true);

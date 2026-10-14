@@ -2387,6 +2387,99 @@ body.ens-on{overflow:hidden}
   .indice--panel .ichip{font-size:12.5px; padding:7px 12px}
 }
 
+/* ── el camino de preguntas para saber la clase ──
+   Tres pasos numerados, cada uno con el color de su grupo. El color
+   es el mismo que en el mapa, en la lista y en los tests: es lo que
+   se recuerda. */
+.truco{margin:14px 0 4px}
+.truco-cab{font-size:15.5px; line-height:1.6; margin:0 0 14px; color:var(--ink)}
+.truco-pasos{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+.truco-paso{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:14px 16px 15px;
+}
+.tp-cab{display:flex; align-items:flex-start; gap:11px}
+.tp-n{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  display:grid; place-items:center; background:var(--brand); color:var(--brand-ink);
+  font:800 13px var(--ui);
+}
+.tp-cab b{font:650 15.5px/1.5 var(--ui)}
+.tp-sale{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:11px 0 0 37px}
+.tp-flecha{color:var(--ink-3); font-size:15px}
+.tp-o{color:var(--ink-3); font-size:13.5px}
+.tp-letras{display:flex; flex-wrap:wrap; gap:6px; margin:11px 0 0 37px}
+.tr-l{
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+  border-radius:9px; padding:3px 10px; cursor:pointer; font-size:23px; line-height:1.5;
+  transition:border-color .13s, background .13s;
+}
+.tr-l:hover{border-color:var(--brand); background:var(--surface-3)}
+.tp-nota{margin:11px 0 0 37px; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.tp-frase{
+  margin:13px 0 0 37px; padding:12px 14px 13px;
+  background:var(--surface-2); border-left:3px solid var(--gold); border-radius:0 11px 11px 0;
+}
+.tp-et{
+  font:700 9.5px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+}
+.tp-fth{margin:5px 0 2px}
+.tp-fes{margin:8px 0 10px; font-size:13.8px; line-height:1.6; color:var(--ink-2)}
+.truco-cierre{
+  margin:14px 0 0; padding:12px 15px; font-size:14.2px; line-height:1.65;
+  background:var(--surface-2); border-radius:12px; color:var(--ink-2);
+}
+@media (max-width:560px){
+  /* en el móvil, 37 px de sangría se comen la línea: todo a la izquierda */
+  .tp-sale, .tp-letras, .tp-nota, .tp-frase{margin-left:0}
+  .tp-frase{border-left-width:3px}
+  .truco-paso{padding:13px 13px 14px}
+  .tp-cab b{font-size:15px}
+}
+
+/* ── Lo básico: fichas grandes, el dibujo primero ──
+   Es la primera pantalla del curso y la que se mira con prisa: todo
+   lo que no sea el dibujo y la palabra estorba. */
+.bas-rej{
+  display:grid; gap:11px; margin:4px 0 6px;
+  grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
+}
+.bas-rej--n{grid-template-columns:repeat(auto-fill, minmax(124px, 1fr))}
+.bas-f{
+  position:relative; display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:var(--surface); border:1px solid var(--line); border-radius:15px;
+  padding:16px 12px 14px; text-align:center;
+}
+.bas-f .mia{position:absolute; top:7px; right:8px}
+.bas-dib{font-size:40px; line-height:1.15; min-height:46px}
+.bas-dib .ico{width:1.1em; height:1.1em}
+.bas-cifra{
+  font:800 34px/1.1 var(--display, var(--ui)); color:var(--brand); margin-bottom:2px;
+}
+.bas-th{
+  border:0; background:transparent; cursor:pointer; color:var(--ink);
+  font-size:26px; line-height:1.45; padding:2px 4px; border-radius:8px;
+}
+.bas-th:hover{background:var(--surface-2)}
+.bas-rom{font-size:13.5px}
+.bas-es{font-size:13.5px; color:var(--ink-2); line-height:1.45}
+.bas-f--n .bas-th{font-size:22px}
+.bas-f--n .bas-es{font-weight:700; color:var(--ink-3); font-size:12.5px}
+.bas-ir{
+  border:0; background:transparent; padding:0; cursor:pointer; color:var(--brand);
+  font:inherit; font-weight:700; text-decoration:underline; text-underline-offset:3px;
+}
+@media (max-width:560px){
+  /* dos por fila en el móvil: más grandes que una rejilla de cuatro */
+  .bas-rej{grid-template-columns:repeat(2, 1fr); gap:9px}
+  .bas-rej--n{grid-template-columns:repeat(3, 1fr)}
+  .bas-f{padding:13px 8px 12px; border-radius:13px}
+  .bas-dib{font-size:34px; min-height:40px}
+  .bas-th{font-size:23px}
+  .bas-f--n .bas-th{font-size:19px}
+  .bas-cifra{font-size:28px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -2482,6 +2575,7 @@ img{max-width:100%;height:auto}
         <p class="lede">Once herramientas para el oído, la boca y la mano, en español y sin registro.</p>
       </div>
       <ul style="line-height:2;color:var(--ink-2)">
+        <li><b>Lo primero que vas a usar</b> — Saludar, dar las gracias, decir que sí y que no, y los números del 0 al 10.</li>
         <li><b>Empieza por los bloques</b> — Antes que nada: cómo se monta una sílaba y las tres series de consonantes.</li>
         <li><b>Cómo se monta un bloque</b> — Consonante, vocal y batchim, pieza a pieza. Diez palabras, del bloque más simple al más enredado.</li>
         <li><b>Los sonidos que el español no tiene</b> — Las tensas, la ㅓ y la ㅡ. Diez trampas, una por una.</li>
@@ -2492,6 +2586,7 @@ img{max-width:100%;height:auto}
         <li><b>Completa frases muy sencillas</b> — Elige la pieza que falta, y oye cómo una sola letra cambia la palabra.</li>
         <li><b>Noventa y siete palabras de uso diario</b> — Con tarjetas por niveles: ver, oír, decir, repetir.</li>
         <li><b>Frases completas para usar hoy</b> — Treinta y seis frases reales en forma cortés -요.</li>
+        <li><b>Los números, de verdad</b> — Contarlos es fácil; entenderlos dichos deprisa en una tienda, no. Eso se entrena aquí.</li>
         <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
         <li><b>Ponte a prueba</b> — Repaso mezclado de todo lo anterior.</li>
       </ul>
@@ -2545,7 +2640,7 @@ const LANG = {
   suenaFinal: c => ({"-k":"윽","-n":"은","-t":"읃","-l":"을","-m":"음","-p":"읍","-ng":"응"})[c[4]] || null,
   ejemploLetra: c => c[1] || null,
   cuadernoPaginas: 38,
-  secciones: ["inicio","estudiar","ritmo","lectura","sonidos","alfabeto","escritura","gramatica",
+  secciones: ["inicio","basico","estudiar","ritmo","lectura","sonidos","alfabeto","escritura","gramatica",
               "ejercicios","vocabulario","frases","numeros","hablar","charla","juegos","repaso"],
   etiquetas: {ritmo: "Bloques silábicos"},
   anillos: ["alfabeto","vocabulario","ritmo","repaso"],
@@ -3085,6 +3180,7 @@ const KB_ROWS = [
 
 /* ── ruta y plan ── */
 const PATH = [
+["Lo primero que vas a usar","Saludar, dar las gracias, decir que sí y que no, y los números del 0 al 10.","basico"],
 ["Empieza por los bloques","Antes que nada: cómo se monta una sílaba y las tres series de consonantes.","ritmo"],
 ["Cómo se monta un bloque","Consonante, vocal y batchim, pieza a pieza. Diez palabras, del bloque más simple al más enredado.","lectura"],
 ["Los sonidos que el español no tiene","Las tensas, la ㅓ y la ㅡ. Diez trampas, una por una.","sonidos"],
@@ -3095,6 +3191,7 @@ const PATH = [
 ["Completa frases muy sencillas","Elige la pieza que falta, y oye cómo una sola letra cambia la palabra.","ejercicios"],
 ["Noventa y siete palabras de uso diario","Con tarjetas por niveles: ver, oír, decir, repetir.","vocabulario"],
 ["Frases completas para usar hoy","Treinta y seis frases reales en forma cortés -요.","frases"],
+["Los números, de verdad","Contarlos es fácil; entenderlos dichos deprisa en una tienda, no. Eso se entrena aquí.","numeros"],
 ["Juega para consolidar","Emparejar y escribir de oído: lo que más cuesta y más fija.","juegos"],
 ["Ponte a prueba","Repaso mezclado de todo lo anterior.","repaso"]
 ];
@@ -3681,7 +3778,8 @@ const pctOf = k => Math.round((P[k] ? P[k]() : 0) * 100);
 
 /* ══ NAVEGACIÓN ══════════════════════════════════════════ */
 const NAV_GROUPS = [
-  ["Empezar", [["inicio","Inicio","home"], ["estudiar","Cómo estudiar","book"]]],
+  ["Empezar", [["inicio","Inicio","home"], ["basico","Lo básico","cup"],
+                ["estudiar","Cómo estudiar","book"]]],
   ["Fundamentos", [["tonos","Tonos","wave"], ["ritmo","Ritmo y moras","wave"], ["bloques","Bloques silábicos","abc"],
                    ["lectura","Cómo se lee","ear"],
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
@@ -3880,7 +3978,7 @@ document.addEventListener("click", e => {
 const ICONO_PARADA = {
   tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
   alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
-  vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
+  basico:"cup", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
   charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
 };
 /* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
@@ -3889,7 +3987,7 @@ const ICONO_PARADA = {
    empieza. */
 /* en este orden, no en el del curso: al que viaja lo primero que le
    sirve son las frases hechas */
-const PRISA = ["frases", "vocabulario", "hablar", "charla", "numeros", "sonidos"];
+const PRISA = ["basico", "frases", "numeros", "vocabulario", "hablar", "charla", "sonidos"];
 const METAS_RUTA = [
   {k:"", t:"Como viene", n:"El orden del curso, de los cimientos hacia arriba."},
   {k:"viaje", t:"Viajo pronto", n:"Primero lo que se usa hablando; las letras, después."}
@@ -4210,6 +4308,10 @@ VIEWS.alfabeto = {
       <p class="lede">${T("alfa_lede","")}</p></div>
 
     <div class="banner"><div>${T("alfa_banner","")}</div></div>
+
+    ${trucoClasesHTML() ? `
+    <h2 class="sec">${(typeof CLASES_TRUCO !== "undefined" && CLASES_TRUCO.titulo) || "Cómo saber de qué grupo es una letra"}</h2>
+    ${trucoClasesHTML()}` : ""}
 
     ${mapaAlfabetoHTML() ? `
     <h2 class="sec">De un vistazo</h2>
@@ -5292,6 +5394,7 @@ const TEMA = {
   "tone":       {es:"Distinguir los tonos",    go:"tonos"},
   "phrase":     {es:"Frases hechas",           go:"frases"},
   "num":        {es:"Los números",             go:"numeros"},
+  "basico":     {es:"Lo básico",                go:"basico"},
   "hueco":      {es:"Montar frases",           go:"ejercicios"}
 };
 /* solo cuenta el tema si la sección existe en este curso: si no, el
@@ -6365,6 +6468,60 @@ function clasesAyudaHTML(){
       </div>`;
     }).join("")}
   </details>`;
+}
+
+/* ── el truco para saber la clase de una letra ─────────────
+   El mapa de arriba enseña los grupos, pero enseñarlos no es
+   explicarlos: delante de una letra suelta seguías sin saber de qué
+   grupo era, y la única salida era memorizar cuarenta y cuatro.
+
+   Esto es lo que falta: un camino de preguntas. Cada pregunta se
+   contesta por el SONIDO —que ya lo sabes— y cada una se lleva un
+   grupo entero por delante. Al final no quedan cuarenta y cuatro
+   cosas que aprender, quedan dos listas.
+
+   El contenido lo pone el paquete en CLASES_TRUCO; aquí no hay
+   ninguna letra de ningún idioma. Donde no lo declare, no sale. */
+const HAY_TRUCO = () => typeof CLASES_TRUCO !== "undefined" && CLASES_TRUCO
+  && CLASES_TRUCO.pasos && CLASES_TRUCO.pasos.length;
+
+/* la pastilla con el nombre del grupo y su color de siempre */
+const trChip = k => `<span class="chip kl-${claseN(k)}">${esc(CLASSNAME[k] || k)}</span>`;
+
+/* las letras de un paso, cada una sonando al tocarla */
+function trLetras(txt){
+  return String(txt).split(/\s+/).filter(Boolean)
+    .map(l => `<button class="tr-l th" data-say="${esc(l)}" title="Tocar para oírla">${l}</button>`).join("");
+}
+
+function trucoClasesHTML(){
+  if(!HAY_TRUCO()) return "";
+  const T2 = CLASES_TRUCO;
+  return `<div class="truco">
+    ${T2.cabecera ? `<p class="truco-cab">${T2.cabecera}</p>` : ""}
+    <ol class="truco-pasos">
+      ${T2.pasos.map((p, i) => `<li class="truco-paso">
+        <div class="tp-cab"><span class="tp-n" aria-hidden="true">${i + 1}</span>
+          <b>${p.pregunta}</b></div>
+        <div class="tp-sale">
+          <span class="tp-flecha" aria-hidden="true">→</span>
+          ${p.claseNo
+            ? `<span>sí: ${trChip(p.clase)}</span><span class="tp-o">· no: ${trChip(p.claseNo)}</span>`
+            : trChip(p.clase)}
+        </div>
+        ${p.letras ? `<div class="tp-letras">${trLetras(p.letras)}</div>` : ""}
+        ${p.nota ? `<p class="tp-nota">${p.nota}</p>` : ""}
+        ${p.frase ? `<div class="tp-frase">
+          <span class="tp-et">para acordarte</span>
+          <div class="tp-fth">${sayTh(p.frase.th, "", "font-size:23px")}</div>
+          <div class="rom">${esc(p.frase.rom)}</div>
+          <p class="tp-fes">${p.frase.es}</p>
+          ${sayBtn(p.frase.th, p.frase.rom)}
+        </div>` : ""}
+      </li>`).join("")}
+    </ol>
+    ${T2.cierre ? `<p class="truco-cierre">${T2.cierre}</p>` : ""}
+  </div>`;
 }
 
 /* ── 8 · cómo se lee: de las piezas a la palabra ─────────
@@ -9792,6 +9949,137 @@ document.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if(e.key === "Escape"){ const p = document.getElementById("ens"); if(p && !p.hidden) cierraEnsena(); }
 });
+
+/* ══════════════════════════════════════════════════════════
+   LO BÁSICO · lo primero que vas a usar
+   ══════════════════════════════════════════════════════════
+   El curso empezaba por los cimientos: tonos, letras, clases. Está
+   bien para aprender de verdad, pero el primer día no se usa nada de
+   eso. Lo que se usa el primer día es dar las gracias, decir que sí,
+   pedir perdón y entender un precio.
+
+   Eso estaba todo en el curso, pero repartido: los saludos dentro de
+   155 palabras de vocabulario, y los números en una pantalla de
+   «Práctica» que ni siquiera salía en el camino. Aquí se junta y se
+   pone delante.
+
+   No hay contenido nuevo inventado: todo sale del paquete de cada
+   idioma —las palabras marcadas como «saludos» y los números que
+   genera NUM—, así que funciona igual en los siete y no se puede
+   desincronizar de lo que enseña el resto del curso.
+
+   Va después de mias.js (usa la estrella) y antes de part4.js. */
+
+/* las palabras de diario: las que el paquete marca como saludos */
+const BAS_CAT = "saludos";
+const basPalabras = () => (typeof VOCAB !== "undefined" ? VOCAB : [])
+  .filter(v => v[3] === BAS_CAT);
+/* del 0 al 10, con sus cifras si el idioma las tiene */
+function basNumeros(){
+  if(typeof NUM === "undefined" || !NUM.aPalabras) return [];
+  const fuera = [];
+  for(let n = 0; n <= 10; n++){
+    let p; try{ p = NUM.aPalabras(n); }catch(e){ continue; }
+    if(!p || !p[0]) continue;
+    fuera.push({n, th:p[0], rom:p[1]});
+  }
+  return fuera;
+}
+const HAY_BASICO = () => basPalabras().length >= 4;
+
+/* La romanización no se enseña cuando no dice nada nuevo: donde el
+   idioma ya se escribe con nuestro alfabeto es la palabra otra vez, y
+   algún paquete la devuelve entre barras, que tampoco es una
+   transcripción sino la misma palabra disfrazada de fonética. */
+const basPelado = x => String(x || "").replace(/^[/[]+|[/\]]+$/g, "").trim();
+const basRom = (th, rom) => (rom && basPelado(rom) !== basPelado(th))
+  ? `<span class="bas-rom rom">${esc(rom)}</span>` : "";
+
+/* una ficha grande: el dibujo manda, el texto va debajo */
+
+function basFichaHTML(th, rom, es, dib){
+  return `<div class="bas-f">
+    ${typeof estrellaHTML === "function" ? estrellaHTML(th) : ""}
+    <div class="bas-dib" aria-hidden="true">${dib || ""}</div>
+    <button class="bas-th th" data-say="${esc(th)}" title="Tocar para oírlo">${th}</button>
+    ${basRom(th, rom)}
+    <span class="bas-es">${esc(es)}</span>
+  </div>`;
+}
+
+VIEWS.basico = {
+  html(){
+    const pal = basPalabras(), nums = basNumeros();
+    return `
+    <div class="vhead"><div class="eyebrow">Para hoy mismo</div>
+      <h1>Lo básico</h1>
+      <p class="lede">Lo que de verdad se usa el primer día, junto y delante de todo: dar las
+      gracias, decir que sí y que no, pedir perdón, y entender un precio. El resto del curso
+      explica el porqué; esto se usa ya.</p></div>
+
+    <h2 class="sec">Las primeras palabras</h2>
+    <p class="sec-note">Tócalas para oírlas. La ☆ las guarda en <b>Tu lista</b>, que es la
+    pantalla que le enseñas a alguien cuando no te entienden.</p>
+    <div class="bas-rej">
+      ${pal.map(v => basFichaHTML(v[0], v[1], v[2],
+          typeof dibujo === "function" ? dibujo(v) : "")).join("")}
+    </div>
+
+    ${nums.length ? `
+    <h2 class="sec">Del 0 al 10</h2>
+    <p class="sec-note">Con estos diez ya se compra, se regatea y se coge un autobús.
+    ${typeof NUM !== "undefined" && NUM.digitos
+      ? "Arriba va la cifra tal y como se escribe en el país; abajo, cómo se dice."
+      : "Arriba el número; abajo, cómo se dice."}
+    Lo que viene después —las decenas, los precios dichos deprisa— está en
+    <button class="bas-ir" data-go="numeros">Números</button>.</p>
+    <div class="bas-rej bas-rej--n">
+      ${nums.map(x => `<div class="bas-f bas-f--n">
+        ${typeof estrellaHTML === "function" ? estrellaHTML(x.th) : ""}
+        <span class="bas-cifra">${typeof enCifras === "function" ? enCifras(x.n) : x.n}</span>
+        <button class="bas-th th" data-say="${esc(x.th)}" title="Tocar para oírlo">${x.th}</button>
+        ${basRom(x.th, x.rom)}
+        ${/* donde el idioma no escribe sus propias cifras, la grande de arriba YA es
+             el número: repetirlo debajo solo ensucia */""}
+        ${(typeof NUM !== "undefined" && NUM.digitos) ? `<span class="bas-es">${x.n}</span>` : ""}
+      </div>`).join("")}
+    </div>` : ""}
+
+    <h2 class="sec">Pruébate</h2>
+    <p class="sec-note">Ocho preguntas, y solo de lo de esta pantalla. Nada de letras ni de tonos.</p>
+    <div class="card" id="basQuiz"></div>`;
+  },
+  init(){
+    const pal = basPalabras(), nums = basNumeros();
+    if(!pal.length) return;
+    quizEngine($("#basQuiz"), 8, () => {
+      /* mitad palabras, mitad números: las dos cosas de la pantalla */
+      const deNumeros = nums.length >= 4 && Math.random() < 0.4;
+      if(deNumeros){
+        const x = pick(nums), otros = shuffle(nums.filter(y => y.n !== x.n)).slice(0,3);
+        return {tema:"basico",
+          prompt:`<div class="big-thai" style="text-align:center">${x.th}</div>
+            <div class="row" style="justify-content:center">${sayBtn(x.th, x.rom)}</div>`,
+          question:"¿Qué número es?",
+          options:shuffle([{label:String(x.n), ok:true},
+                           ...otros.map(y => ({label:String(y.n), ok:false}))]),
+          oir:x.th, decir:x.th,
+          after:`${x.th} · ${x.rom} = ${x.n}`};
+      }
+      const v = pick(pal), otras = shuffle(pal.filter(w => w[2] !== v[2])).slice(0,3);
+      return {tema:"basico",
+        prompt:`<div style="text-align:center;font-size:52px;line-height:1.2">${
+          typeof dibujo === "function" ? dibujo(v) : ""}</div>
+          <div class="big-thai" style="text-align:center">${v[0]}</div>
+          <div class="row" style="justify-content:center">${sayBtn(v[0], v[1])}</div>`,
+        question:"¿Qué significa?",
+        options:shuffle([{label:esc(v[2]), ok:true},
+                         ...otras.map(w => ({label:esc(w[2]), ok:false}))]),
+        oir:v[0], decir:v[0],
+        after:`${v[0]} · ${v[1]}`};
+    });
+  }
+};
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:

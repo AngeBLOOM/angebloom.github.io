@@ -10255,11 +10255,15 @@ function basNumeros(){
 const HAY_BASICO = () => basPalabras().length >= 4;
 
 /* La romanización no se enseña cuando no dice nada nuevo: donde el
-   idioma ya se escribe con nuestro alfabeto es la palabra otra vez, y
-   algún paquete la devuelve entre barras, que tampoco es una
-   transcripción sino la misma palabra disfrazada de fonética. */
-const basPelado = x => String(x || "").replace(/^[/[]+|[/\]]+$/g, "").trim();
-const basRom = (th, rom) => (rom && basPelado(rom) !== basPelado(th))
+   idioma ya se escribe con nuestro alfabeto es la palabra otra vez
+   («ciao · ciao»), y leerla dos veces no ayuda a nadie.
+
+   Pero si viene entre barras o corchetes es una transcripción de
+   verdad, y entonces se enseña aunque coincida con la palabra: /ten/
+   dice qué vocal lleva, y dejar un hueco en una columna donde todas
+   las demás la llevan parece un fallo. */
+const basEsTranscripcion = x => /^[/[]/.test(String(x || "").trim());
+const basRom = (th, rom) => (rom && (basEsTranscripcion(rom) || String(rom) !== String(th)))
   ? `<span class="bas-rom rom">${esc(rom)}</span>` : "";
 
 /* una ficha grande: el dibujo manda, el texto va debajo */

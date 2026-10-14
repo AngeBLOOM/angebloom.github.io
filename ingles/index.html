@@ -3141,34 +3141,55 @@ const NUM = {
   lede: LANG.textos.numeros_lede,
   digitos: null,
   max: 999999999,
+  /* Devuelve el número escrito y su transcripción.
+     Antes la segunda era la primera entre barras —«/thirteen/»—, que no
+     es una transcripción: es la palabra disfrazada de fonética, y en un
+     curso que se apoya en el AFI engaña. Ahora se arman las dos a la
+     vez con la MISMA función y dos tablas, así que no se pueden
+     desincronizar. El acento es lo único que separa -teen de -ty, y ahí
+     se ve: /θɜːˈtiːn/ contra /ˈθɜːti/. */
   aPalabras(n){
     const U = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve",
                "thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
     const D = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
-    function bajo100(x){
-      if(x < 20) return U[x];
-      const d = Math.floor(x/10), u = x%10;
-      return D[d] + (u ? "-" + U[u] : "");
-    }
-    function bajo1000(x){
-      const c = Math.floor(x/100), r = x%100;
-      let s = "";
-      if(c) s += U[c] + " hundred";
-      if(c && r) s += " and ";
-      if(r) s += bajo100(r);
-      return s;
-    }
-    function conv(x){
-      if(x === 0) return "zero";
-      const partes = [];
-      const mil = Math.floor(x/1000000), mm = Math.floor(x%1000000/1000), r = x%1000;
-      if(mil) partes.push(bajo1000(mil) + " million");
-      if(mm) partes.push(bajo1000(mm) + " thousand");
-      if(r) partes.push(bajo1000(r));
-      return partes.join(" ");
-    }
-    const t = conv(n);
-    return [t, "/" + t + "/"];
+    /* británico, el mismo que usa el resto del curso */
+    const UF = ["ˈzɪərəʊ","wʌn","tuː","θriː","fɔː","faɪv","sɪks","ˈsevən","eɪt","naɪn","ten","ɪˈlevən","twelv",
+                "θɜːˈtiːn","fɔːˈtiːn","fɪfˈtiːn","sɪksˈtiːn","sevənˈtiːn","eɪˈtiːn","naɪnˈtiːn"];
+    const DF = ["","","ˈtwenti","ˈθɜːti","ˈfɔːti","ˈfɪfti","ˈsɪksti","ˈsevənti","ˈeɪti","ˈnaɪnti"];
+    /* una sola máquina, dos juegos de piezas */
+    const motor = (u, d, cien, y, mil, mill, cero, guion) => {
+      const bajo100 = x => {
+        if(x < 20) return u[x];
+        const dd = Math.floor(x/10), uu = x%10;
+        return d[dd] + (uu ? guion + u[uu] : "");
+      };
+      const bajo1000 = x => {
+        const c = Math.floor(x/100), r = x%100;
+        let s = "";
+        if(c) s += u[c] + cien;
+        if(c && r) s += y;
+        if(r) s += bajo100(r);
+        return s;
+      };
+      return x => {
+        if(x === 0) return cero;
+        const partes = [];
+        const m = Math.floor(x/1000000), mm = Math.floor(x%1000000/1000), r = x%1000;
+        if(m) partes.push(bajo1000(m) + mill);
+        if(mm) partes.push(bajo1000(mm) + mil);
+        if(r) partes.push(bajo1000(r));
+        /* el «and» británico también va antes del último trozo cuando no
+           llega a cien: «two thousand and twenty-six», no «two thousand
+           twenty-six». Es lo que dice la nota de abajo de esta pantalla,
+           y el generador la contradecía. */
+        if(partes.length > 1 && r && r < 100)
+          return partes.slice(0, -1).join(" ") + y + partes[partes.length - 1];
+        return partes.join(" ");
+      };
+    };
+    const texto = motor(U, D, " hundred", " and ", " thousand", " million", "zero", "-")(n);
+    const fon   = motor(UF, DF, " ˈhʌndrəd", " ənd ", " ˈθaʊzənd", " ˈmɪljən", "ˈzɪərəʊ", " ")(n);
+    return [texto, "/" + fon + "/"];
   },
   tabla: {
     titulo: "Los que siempre se confunden", th: "",
@@ -9996,11 +10017,15 @@ function basNumeros(){
 const HAY_BASICO = () => basPalabras().length >= 4;
 
 /* La romanización no se enseña cuando no dice nada nuevo: donde el
-   idioma ya se escribe con nuestro alfabeto es la palabra otra vez, y
-   algún paquete la devuelve entre barras, que tampoco es una
-   transcripción sino la misma palabra disfrazada de fonética. */
-const basPelado = x => String(x || "").replace(/^[/[]+|[/\]]+$/g, "").trim();
-const basRom = (th, rom) => (rom && basPelado(rom) !== basPelado(th))
+   idioma ya se escribe con nuestro alfabeto es la palabra otra vez
+   («ciao · ciao»), y leerla dos veces no ayuda a nadie.
+
+   Pero si viene entre barras o corchetes es una transcripción de
+   verdad, y entonces se enseña aunque coincida con la palabra: /ten/
+   dice qué vocal lleva, y dejar un hueco en una columna donde todas
+   las demás la llevan parece un fallo. */
+const basEsTranscripcion = x => /^[/[]/.test(String(x || "").trim());
+const basRom = (th, rom) => (rom && (basEsTranscripcion(rom) || String(rom) !== String(th)))
   ? `<span class="bas-rom rom">${esc(rom)}</span>` : "";
 
 /* una ficha grande: el dibujo manda, el texto va debajo */

@@ -1,5 +1,5 @@
-/* Hangul Gil — caché offline. Versión: coreano-20261016-t557 */
-const CACHE = "coreano-20261016-t557";
+/* Hangul Gil — caché offline. Versión: coreano-20261016-pm7t */
+const CACHE = "coreano-20261016-pm7t";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

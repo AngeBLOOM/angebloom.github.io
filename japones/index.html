@@ -2501,6 +2501,11 @@ body.ens-on{overflow:hidden}
   .melodia .pp-tn{width:20px; height:12px}
 }
 
+/* ── los mapas de país ──
+   Un contorno con veinte vértices necesita trazo fino: con el grosor
+   normal los entrantes se rellenan solos y vuelve a salir una mancha. */
+.ico .mapa-p{stroke-width:1.9; stroke-linejoin:miter}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -6317,6 +6322,25 @@ Object.assign(ILUSTRA, {
 /* «la mañana» y «por la mañana» son lo mismo */
 SINONIMO["la mañana"] = "por la mañana";
 
+Object.assign(ILUSTRA, {
+  /* sale en cuatro cursos y no es el país de ninguno: aquí no estorba */
+  "españa": ico(`<path class="mapa-p" d="M9 15 14 11 21 10 28 10 35 11 41 15 43 20 41 25 36 30 30 34 23 36 17 34 13 29 11 23Z"/>
+    <path class="a mapa-p" d="M11 17 15 18 16 27 17 34"/>
+    <circle class="af" cx="45" cy="24" r="1.4"/>`)
+});
+
+/* ── el mapa del país, que lo pone cada paquete ────────────
+   Un contorno de país es material de un idioma concreto, así que no
+   puede vivir aquí (ver verificar.js): el paquete lo trae en
+   DIBUJO_PAIS y el motor solo lo coloca. España sí está aquí abajo
+   porque no es el país de ninguno de los cursos y sale en varios. */
+if(typeof DIBUJO_PAIS !== "undefined" && DIBUJO_PAIS && DIBUJO_PAIS.svg){
+  ILUSTRA[DIBUJO_PAIS.clave] = ico(DIBUJO_PAIS.svg);
+  (DIBUJO_PAIS.frases || []).forEach(f => {
+    if(f !== DIBUJO_PAIS.clave) SINONIMO[f] = DIBUJO_PAIS.clave;
+  });
+}
+
 /* ══ VIDA ════════════════════════════════════════════════
    Lo que hace que estudiar no parezca rellenar un formulario:
    un dibujo para cada palabra, experiencia y niveles, celebraciones
@@ -6333,7 +6357,12 @@ SINONIMO["la mañana"] = "por la mañana";
    funcionan sin conexión y no pesan nada. Primero las frases
    hechas (que «hace calor» no se quede en «hacer»), luego palabra
    por palabra, y si nada encaja, el de su categoría. */
+/* el país del curso se busca por la frase entera: su nombre no está
+   en el índice del motor, y no puede estarlo */
+const PAIS_FRASES = (typeof DIBUJO_PAIS !== "undefined" && DIBUJO_PAIS && DIBUJO_PAIS.frases)
+  ? DIBUJO_PAIS.frases.map(f => [f, "🗺️"]) : [];
 const DIBUJO_FRASES = [
+  ...PAIS_FRASES,
   /* Estas van las primeras a propósito: la búsqueda para en la primera
      frase que encaja, y «partícula cortés» o «hermano» a secas se
      llevarían por delante la distinción de hombre/mujer y mayor/menor. */

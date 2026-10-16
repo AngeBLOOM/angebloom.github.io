@@ -6448,6 +6448,105 @@ Object.assign(SINONIMO, {
   "carne de vaca": "carne"
 });
 
+/* ── cuarta tanda: las que seguían saliendo con emoji ──────
+   Un emoji lo dibuja cada sistema a su manera, así que la imagen que
+   se te queda grabada cambia según dónde estudies. Estas veinte eran
+   las que faltaban.
+
+   Las palabras de unir —y, o, pero, con, porque, si— no tienen una
+   foto evidente, así que van como signos: figuras geométricas simples
+   y bien distintas entre sí. Un signo se recuerda igual que un dibujo
+   mientras no se parezca a su vecino, que era justo el problema. */
+Object.assign(ILUSTRA, {
+  /* ── naturaleza ── */
+  viento: ico(`<path d="M4 16h20a6 6 0 1 0-6-6"/>
+    <path d="M4 26h28a6 6 0 1 1-6 6"/>
+    <path class="a" d="M6 36h15"/>`),
+  "montaña": ico(`<path d="M2 40l14-23 8 13"/><path d="M18 40l12-20 16 20z"/>
+    <path class="af" d="M30 20l5.5 9h-11z"/>`),
+  /* Las cuatro hojas salen del mismo punto pero caen hacia fuera y por
+     separado: juntas y hacia arriba se fundían en un gorro rojo. */
+  isla: ico(`<path d="M8 36h32a16 10 0 0 0-32 0z"/>
+    <path d="M25 36c-1-8-1-14 0-19"/>
+    <path class="a" d="M25 17C19 11 12 12 10 18M25 17C31 11 38 12 40 18M25 17c-5-2-11 1-13 6M25 17c5-2 11 1 13 6"/>
+    <circle class="af" cx="25" cy="19" r="2"/>
+    <path class="a" d="M3 42c3-2.5 5.5 2.5 8.5 0s5.5 2.5 8.5 0 5.5 2.5 8.5 0 5.5 2.5 8.5 0"/>`),
+
+  /* ── animales ── */
+  /* de frente: las orejas y la trompa colgando se reconocen; de perfil
+     salía un garabato */
+  elefante: ico(`<ellipse cx="24" cy="21" rx="12" ry="13"/>
+    <path d="M12 14c-6-2-9 2-9 7s3 9 9 8M36 14c6-2 9 2 9 7s-3 9-9 8"/>
+    <circle class="f" cx="19" cy="19" r="1.9"/><circle class="f" cx="29" cy="19" r="1.9"/>
+    <path class="a" d="M24 29v9c0 3.5 5 4 5.5.5"/>`),
+  gato: ico(`<path d="M11 15l1-9 8 6M37 15l-1-9-8 6"/>
+    <circle cx="24" cy="26" r="14"/>
+    <circle class="f" cx="18" cy="23" r="1.9"/><circle class="f" cx="30" cy="23" r="1.9"/>
+    <path class="af" d="M24 29l-2.5 2 2.5 2.5 2.5-2.5z"/>
+    <path class="a" d="M3 26h10M35 26h10"/>`),
+  perro: ico(`<path d="M13 15a11 11 0 0 1 22 0v11a11 11 0 0 1-22 0z"/>
+    <path d="M13 13c-5 0-7 5-7 10s3 8 7 8M35 13c5 0 7 5 7 10s-3 8-7 8"/>
+    <circle class="f" cx="19" cy="22" r="1.9"/><circle class="f" cx="29" cy="22" r="1.9"/>
+    <ellipse class="af" cx="24" cy="30" rx="3.5" ry="2.6"/><path class="a" d="M24 33v4"/>`),
+
+  /* ── deprisa y despacio: la tortuga y las flechas ── */
+  despacio: ico(`<path d="M9 32a13 9 0 0 1 26 0z"/><path d="M9 32h26"/>
+    <path class="a" d="M16 24c2 2 5 3 8 3s6-1 8-3"/>
+    <path d="M35 29c2-3 7-3 8 1"/><circle class="f" cx="41" cy="30" r="1.5"/>
+    <path d="M14 32v6M30 32v6"/>`),
+  "rápido": ico(`<path class="a" d="M4 15h15M2 24h11M4 33h15"/>
+    <path d="M24 10l12 14-12 14"/><path d="M34 10l11 14-11 14"/>`),
+
+  /* ── verbos ── */
+  despertarse: ico(`<circle cx="24" cy="28" r="13"/>
+    <path class="a" d="M24 20v8l6 4"/>
+    <path d="M11 12l6 6M37 12l-6 6"/>
+    <path class="a" d="M6 7l5 5M42 7l-5 5"/>
+    <path d="M17 41l-3 4M31 41l3 4"/>`),
+  dar: ico(`<rect x="24" y="5" width="19" height="15" rx="2"/>
+    <path d="M33.5 5v15M24 12h19"/>
+    <path class="a" d="M33.5 5c-3-4-8-3-8 0 0 2 4 3 8 0 4 3 8 2 8 0 0-3-5-4-8 0z"/>
+    <path d="M5 42V28a3 3 0 0 1 6 0v-4a3 3 0 0 1 6 0v3a3 3 0 0 1 6 0v8a7 7 0 0 1-7 7z"/>`),
+  esperar: ico(`<rect x="5" y="13" width="38" height="22" rx="9"/>
+    <circle class="af" cx="15" cy="24" r="2.8"/><circle class="af" cx="24" cy="24" r="2.8"/>
+    <circle class="af" cx="33" cy="24" r="2.8"/>`),
+  buscar: ico(`<circle cx="21" cy="21" r="13"/><path d="M30.5 30.5L43 43"/>
+    <path class="a" d="M15 17a8 8 0 0 1 5-4"/>`),
+  "alérgico": ico(`${CABEZA(18, 14, 7)}<path d="M5 41v-4a13 13 0 0 1 21-10"/>
+    <circle class="af" cx="12" cy="25" r="1.7"/><circle class="af" cx="19" cy="27" r="1.7"/>
+    <circle class="af" cx="25" cy="24" r="1.7"/>
+    <circle class="a" cx="37" cy="30" r="9"/><path class="a" d="M31 24l12 12"/>`),
+
+  /* ── sitio ── */
+  "allí": ico(`<path d="M34 43s-10-11-10-18a10 10 0 0 1 20 0c0 7-10 18-10 18z"/>
+    <circle class="af" cx="34" cy="25" r="3.5"/>
+    <path class="a" d="M3 30h13M10 24l7 6-7 6"/>`),
+
+  /* ── las palabras de unir, como signos ── */
+  y: ico(`<rect class="af" x="3" y="16" width="14" height="16" rx="3"/>
+    <rect x="31" y="16" width="14" height="16" rx="3"/>
+    <path class="a" d="M24 18v12M18 24h12"/>`),
+  o: ico(`<path d="M24 42V26"/>
+    <path d="M24 26 8 12M24 26l16-14"/>
+    <path class="a" d="M8 20V12h8M40 20V12h-8"/>`),
+  pero: ico(`<path d="M9 7v16a9 9 0 0 0 9 9h18"/>
+    <path class="a" d="M30 26l7 6-7 6"/>
+    <path class="a" d="M9 30v8"/>`),
+  con: ico(`<circle cx="18" cy="24" r="11"/><circle class="a" cx="30" cy="24" r="11"/>`),
+  /* en vertical a propósito: en horizontal era calcado a «y», que es
+     justo el fallo que vengo a arreglar. Abajo la causa, rellena;
+     arriba lo que sale de ella */
+  porque: ico(`<rect x="13" y="3" width="22" height="13" rx="3"/>
+    <rect class="af" x="13" y="32" width="22" height="13" rx="3"/>
+    <path class="a" d="M24 29v-9M19 24l5-5 5 5"/>`),
+  si: ico(`<path d="M24 4l16 16-16 16L8 20z"/>
+    <path class="a" d="M18 20l4 4 8-8"/>
+    <path class="a" d="M24 36v7M17 43h14"/>`)
+});
+
+/* «la mañana» y «por la mañana» son lo mismo */
+SINONIMO["la mañana"] = "por la mañana";
+
 /* ══ VIDA ════════════════════════════════════════════════
    Lo que hace que estudiar no parezca rellenar un formulario:
    un dibujo para cada palabra, experiencia y niveles, celebraciones

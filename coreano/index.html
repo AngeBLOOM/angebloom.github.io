@@ -2480,6 +2480,27 @@ body.ens-on{overflow:hidden}
   .bas-cifra{font-size:28px}
 }
 
+/* ── la melodía de una palabra en las listas ──
+   Una curva por sílaba, pequeñas y seguidas, al lado de cómo se lee.
+   Tienen que verse de un vistazo sin robarle sitio a la palabra. */
+.melodia{display:inline-flex; align-items:center; gap:3px; margin-left:7px;
+  vertical-align:middle; position:relative; top:-1px}
+.mel-u{display:inline-flex; background:var(--surface-2); border-radius:4px; padding:1px 3px}
+.melodia .pp-tn{width:23px; height:13px; flex:none; opacity:1; margin:0}
+/* el color lo pone la clase del tono en el envoltorio: plano y grave se
+   parecen demasiado de forma, sobre todo en pequeno */
+.melodia .pp-tn path{stroke:currentColor; stroke-width:5.5; fill:none;
+  stroke-linecap:round; stroke-linejoin:round}
+/* en las fichas grandes de «Lo basico» van debajo y mas grandes */
+.melodia--g{margin:5px 0 1px; gap:4px}
+.melodia--g .mel-u{padding:2px 4px; border-radius:5px}
+.melodia--g .pp-tn{width:30px; height:17px}
+@media (max-width:560px){
+  .melodia{margin-left:5px; gap:2px}
+  .mel-u{padding:1px 2px}
+  .melodia .pp-tn{width:20px; height:12px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -4248,7 +4269,7 @@ VIEWS.sonidos = {
         <div><b style="font-size:15px">${t}</b>
           <div style="font-size:14px;color:var(--ink-2);margin:3px 0 5px;max-width:60ch">${tip}</div>
           <div class="row" style="gap:8px">${sayTh(w, "", "font-size:19px")}
-            <span class="lrom">${rom}</span><span class="muted" style="font-size:13px">${es}</span></div>
+            <span class="lrom">${rom}</span>${melodiaHTML(w, rom)}<span class="muted" style="font-size:13px">${es}</span></div>
           ${bocaHTML(letters)}</div>
         ${sayBtn(w, rom)}</div>`).join("")}
     </div>
@@ -4261,7 +4282,7 @@ VIEWS.sonidos = {
         <p class="muted" style="font-size:13.5px;margin:4px 0 12px">${d}</p>
         ${items.map(([th,rom,es]) => { const tn = tonoDeSilaba(rom); return `<div class="row" style="justify-content:space-between;padding:6px 0;border-top:1px solid var(--line)">
           <div>${sayTh(th, claseTono(tn), "font-size:22px")}
-            <span class="lrom ${claseTono(tn)}" style="margin-left:8px">${rom}</span>
+            <span class="lrom ${claseTono(tn)}" style="margin-left:8px">${rom}</span>${melodiaHTML(th, rom)}
             ${tn && TONES[tn] ? `<span class="muted" style="font-size:11.5px;margin-left:6px">tono ${esc(TONES[tn].es)}</span>` : ""}
             <div style="font-size:13px;color:var(--ink-3)">${es}</div></div>
           ${sayBtn(th, rom)}</div>`; }).join("")}
@@ -4873,7 +4894,7 @@ VIEWS.hablar = {
     <div class="list">
       ${SPK.map((v,i) => `<div class="li">
         <div class="lth th" data-say="${v[0]}" role="button" tabindex="0" title="Tocar para escuchar">${v[0]}</div>
-        <div><div class="les">${v[2]}</div><div class="lrom">${v[1]}</div></div>
+        <div><div class="les">${v[2]}</div><div class="lrom">${v[1]}${melodiaHTML(v[0], v[1])}</div></div>
         <div class="row" style="gap:6px">${sayBtn(v[0], v[1])}
           <button class="btn btn--s" data-spk="${i}">Practicar</button></div></div>`).join("")}
     </div>`;
@@ -5108,7 +5129,7 @@ VIEWS.vocabulario = {
       const rows = VOCAB.filter(v => !t || v[0].includes(t) || v[1].toLowerCase().includes(t) || v[2].toLowerCase().includes(t));
       listEl.innerHTML = rows.length ? rows.map(v => `<div class="li">
         <div class="lth th" data-say="${v[0]}" role="button" tabindex="0" title="Tocar para escuchar">${v[0]}</div>
-        <div><div class="les"><span class="ldib" aria-hidden="true">${dibujo(v)}</span>${v[2]}</div><div class="lrom">${v[1]} · ${v[3]}</div></div>
+        <div><div class="les"><span class="ldib" aria-hidden="true">${dibujo(v)}</span>${v[2]}</div><div class="lrom">${v[1]}${melodiaHTML(v[0], v[1])} · ${v[3]}</div></div>
         ${sayBtn(v[0], v[1])}</div>`).join("")
         : `<div class="li"><div></div><div class="muted">Sin resultados.</div><div></div></div>`;
     };
@@ -5266,7 +5287,7 @@ VIEWS.frases = {
           ${estrellaHTML(th)}
           <div><div class="p-dib" aria-hidden="true">${dibujo([p[0], p[1], p[2], s])}</div>
             <div class="th" style="font-size:21px;line-height:1.45" data-say="${esc(th)}" role="button" tabindex="0" title="Tocar para escuchar">${th}</div>
-            <div class="lrom">${rom}</div>
+            <div class="lrom">${rom}${melodiaHTML(th, rom)}</div>
             <div class="les" style="color:var(--ink-2)">${ponHuecosEs(p[2])}</div>
             <div class="rep-fila rep-fila--frase">${repetirHTML(th)}</div></div>
           ${sayBtn(th, rom)}</div>`; }).join("")}</div>`).join("")}
@@ -5333,7 +5354,7 @@ VIEWS.numeros = {
       <tbody>${NUM.tabla.filas.map(f => `<tr>
         <td style="font:600 15px var(--mono)">${f[0]}</td>
         <td>${sayTh(f[1], "", "font-size:21px")}</td>
-        <td class="rom">${f[2]}</td>
+        <td class="rom">${f[2]}${melodiaHTML(f[1], f[2])}</td>
         <td>${f[3] ? sayTh(f[3], "", "font-size:21px") : ""}</td>
         <td class="rom">${f[4] || ""}</td>
         <td>${sayBtn(f[1], f[2])}</td></tr>`).join("")}</tbody>
@@ -5355,7 +5376,7 @@ VIEWS.numeros = {
       $("#nOut").innerHTML = `
         ${NUM.digitos ? `<div class="big-thai">${enCifras(n)}</div>` : ""}
         <div class="big-thai" style="color:var(--accent)">${txt}</div>
-        <div class="rom" style="font-size:15px;margin:6px 0 12px">${rom}</div>
+        <div class="rom" style="font-size:15px;margin:6px 0 12px">${rom}${melodiaHTML(txt, rom)}</div>
         ${sayBtn(txt, rom)}`;
     };
     $("#nIn").addEventListener("input", paint); paint();
@@ -8620,6 +8641,70 @@ function miniTono(t){
     <path d="${TONES[t].path}"/></svg>`;
 }
 
+/* ── la melodía de una palabra entera ──────────────────────
+   La curvita del tono estaba en dos sitios: la tira de sílabas de
+   «Cómo se lee» y el reverso de las tarjetas. En las listas —el
+   vocabulario, las frases, los pares, tu lista— solo quedaba el color,
+   y el color es lo primero que se deja de mirar.
+
+   Esto dibuja una curva por sílaba, en orden, al lado de la
+   romanización: la forma de la palabra de un vistazo, sin tener que
+   leer «tono descendente» y traducirlo mentalmente a un dibujo.
+
+   El tono sale de la propia romanización del curso (las marcas de
+   encima), así que no puede decir una cosa distinta de la que enseña
+   el resto de la página. Donde el idioma no tiene tonos devuelve
+   cadena vacía y no se pinta nada. */
+const SIN_TONO = /^[^\p{L}\p{M}]*$/u;        /* {p}, comas, guiones sueltos… */
+const melOK = t => t && TONES[t] && TONES[t].path;
+
+/* Dos maneras de contar las sílabas, según cómo se escriba el idioma:
+
+   · Donde cada signo ES una sílaba, se cuentan los signos y se usa el
+     repartidor de arriba, que solo reparte los tonos cuando hay
+     exactamente una marca por signo. Si no cuadra no inventa, y aquí
+     tampoco: hay palabras escritas sin separar —dos signos y una sola
+     marca, porque la otra sílaba va átona— donde no se puede saber
+     cuál se queda sin tono.
+
+   · Donde la romanización ya viene separada por guiones o espacios,
+     cada trozo es una sílaba y su tono está en sus propias tildes.
+
+   En los dos casos manda la regla de todo o nada: media melodía
+   engaña más que ninguna. */
+function tonosDe(th, rom){
+  if(!hayTonos() || !rom) return [];
+  let piezas;
+  if(typeof tieneSilabico === "function" && tieneSilabico(String(th || ""))){
+    const s = silabasDe(th, rom);
+    if(!s) return melOK(tonoDeSilaba(rom)) ? [tonoDeSilaba(rom)] : [];
+    piezas = s.piezas.map(p => p.tono || (p.rom ? tonoDeSilaba(p.rom) : null));
+  }else{
+    piezas = String(rom).split(/[-\s·]+/)
+      .filter(s => s && !SIN_TONO.test(s) && s.indexOf("{") < 0)
+      .map(tonoDeSilaba);
+  }
+  if(!piezas.length || piezas.some(t => !melOK(t))) return [];
+  return piezas;
+}
+/* Más de ocho curvas seguidas ya no se leen de un vistazo, que es para
+   lo único que sirve esto: en las frases largas no se pinta. */
+const MELODIA_MAX = 8;
+function melodiaHTML(th, rom, cls){
+  const ts = tonosDe(th, rom);
+  if(!ts.length || ts.length > MELODIA_MAX) return "";
+  /* con coma, no con «·»: hay idiomas cuyos nombres de tono ya llevan
+     un «·» dentro («tercero · hundido») y así no se sabía dónde
+     terminaba uno y empezaba el siguiente */
+  const nombres = ts.map(t => TONES[t].es).join(", ");
+  const et = ts.length === 1 ? "tono " + nombres : "tono de cada sílaba: " + nombres;
+  return `<span class="melodia ${cls || ""}" title="${esc(et)}"
+    role="img" aria-label="${esc(et)}">${ts.map(t =>
+      /* cada curva con el color de SU tono, el mismo que en el resto de la
+         página: la forma sola no basta para separar el plano del grave */
+      `<span class="mel-u ${claseTono(t)}">${miniTono(t)}</span>`).join("")}</span>`;
+}
+
 let ppCola = 0;
 function porPartesHTML(th, rom){
   const s = silabasDe(th, rom);
@@ -9884,7 +9969,7 @@ function miasListaHTML(){
     ${estrellaHTML(x.th)}
     <div><div class="th" style="font-size:21px;line-height:1.4" data-say="${esc(x.th)}"
       role="button" tabindex="0" title="Tocar para oírlo">${x.th}</div>
-      <div class="lrom">${esc(x.rom)}</div>
+      <div class="lrom">${esc(x.rom)}${melodiaHTML(x.th, x.rom)}</div>
       <div class="les" style="color:var(--ink-2)">${esc(x.es)}</div></div>
     <div class="row" style="gap:6px">
       ${sayBtn(x.th, x.rom)}
@@ -9998,6 +10083,9 @@ const HAY_BASICO = () => basPalabras().length >= 4;
 const basEsTranscripcion = x => /^[/[]/.test(String(x || "").trim());
 const basRom = (th, rom) => (rom && (basEsTranscripcion(rom) || String(rom) !== String(th)))
   ? `<span class="bas-rom rom">${esc(rom)}</span>` : "";
+/* y debajo, la forma del tono: en una ficha grande es donde mejor se ve */
+const basMel = (th, rom) => (typeof melodiaHTML === "function")
+  ? melodiaHTML(th, rom, "melodia--g") : "";
 
 /* una ficha grande: el dibujo manda, el texto va debajo */
 
@@ -10007,6 +10095,7 @@ function basFichaHTML(th, rom, es, dib){
     <div class="bas-dib" aria-hidden="true">${dib || ""}</div>
     <button class="bas-th th" data-say="${esc(th)}" title="Tocar para oírlo">${th}</button>
     ${basRom(th, rom)}
+    ${basMel(th, rom)}
     <span class="bas-es">${esc(es)}</span>
   </div>`;
 }
@@ -10043,6 +10132,7 @@ VIEWS.basico = {
         <span class="bas-cifra">${typeof enCifras === "function" ? enCifras(x.n) : x.n}</span>
         <button class="bas-th th" data-say="${esc(x.th)}" title="Tocar para oírlo">${x.th}</button>
         ${basRom(x.th, x.rom)}
+        ${basMel(x.th, x.rom)}
         ${/* donde el idioma no escribe sus propias cifras, la grande de arriba YA es
              el número: repetirlo debajo solo ensucia */""}
         ${(typeof NUM !== "undefined" && NUM.digitos) ? `<span class="bas-es">${x.n}</span>` : ""}
@@ -10495,7 +10585,7 @@ VIEWS.gramatica = {
         <span class="pf">${f}</span>
         <span style="font-size:14px;color:var(--ink-2)">${d}</span>
         <div class="pex">${sayTh(th, "", "font-size:22px")}
-          <span class="lrom">${rom}</span>${sayBtn(th, rom)}</div>
+          <span class="lrom">${rom}${melodiaHTML(th, rom)}</span>${sayBtn(th, rom)}</div>
         <span style="font-size:13.5px;color:var(--ink-3)">${es}</span>
       </div>`).join("")}
     </div>

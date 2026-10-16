@@ -5984,7 +5984,7 @@ const SINONIMO = {
   estar:"aquí", salir:"puerta", ventana:"puerta",
   barco:"mar", "río":"mar", enfermo:"médico", cabeza:"doler", barriga:"doler",
   cuenta:"pagar", vender:"barato", rebajar:"barato",
-  baht:"dinero", rublo:"dinero", won:"dinero", yen:"dinero", valor:"dinero",
+  rublo:"baht", won:"baht", yen:"baht", valor:"dinero",
   trabajo:"trabajar", caminar:"ir", sentarse:"silla"
 };
 
@@ -6056,6 +6056,160 @@ Object.assign(SINONIMO, {
   mediodía:"el mediodía", estar:"aquí"
 });
 
+/* ── tercera tanda: las que se confundían ──────────────────
+   Cincuenta y nueve palabras de las ciento cincuenta y cinco salían
+   con el MISMO dibujo que otra, porque estaban apuntadas como
+   sinónimos: puerta y ventana, médico y enfermo, mes y año, pollo y
+   cerdo y carne de vaca, cabeza y barriga…
+
+   Eso no es un defecto de adorno: en el modo de tarjeta donde solo se
+   ve el dibujo, y en el memorama, dos palabras distintas con el mismo
+   dibujo hacen el ejercicio imposible de contestar. Aquí cada una
+   recupera el suyo. */
+Object.assign(ILUSTRA, {
+  /* ── trato ── */
+  /* la misma mano que «hola», que esa sí se entiende; lo que cambia es
+     que aquí se mueve, en vez de llevar los destellos */
+  "adiós": ico(`<path d="M20 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"/>
+    <path class="a" d="M13 16c-3 5-3 12 0 17M6 12c-4 7-4 18 0 25"/>`),
+  /* una cara contenta: las manos juntas del saludo no se leen a este
+     tamaño, parecían un tenedor */
+  encantado: ico(`<circle cx="24" cy="24" r="17"/>
+    <path class="a" d="M15 21c1.5-2.5 4.5-2.5 6 0M27 21c1.5-2.5 4.5-2.5 6 0"/>
+    <path class="a" d="M15 28a10 10 0 0 0 18 0"/>`),
+  "cortes-el": ico(`<rect x="4" y="7" width="40" height="25" rx="5"/><path d="M15 32l-2 9 9-9"/>
+    <circle class="a" cx="21" cy="23" r="5"/><path class="a" d="M25 19l6-6M26 13h6v6"/>`),
+  "cortes-ella": ico(`<rect x="4" y="7" width="40" height="25" rx="5"/><path d="M15 32l-2 9 9-9"/>
+    <circle class="a" cx="24" cy="16" r="5"/><path class="a" d="M24 21v8M20 25h8"/>`),
+
+  /* ── personas ── */
+  "yo-el": ico(`${CABEZA(26, 16, 6)}<path d="M15 41v-7a11 11 0 0 1 22 0v7"/>
+    <path class="a" d="M10 30l-5 2 5 2M5 32h10"/>
+    <circle class="a" cx="39" cy="10" r="4"/><path class="a" d="M42 7l4-4M43 3h4v4"/>`),
+  "yo-ella": ico(`${CABEZA(26, 16, 6)}<path d="M15 41v-7a11 11 0 0 1 22 0v7"/>
+    <path class="a" d="M10 30l-5 2 5 2M5 32h10"/>
+    <circle class="a" cx="39" cy="8" r="4"/><path class="a" d="M39 12v6M36 15h6"/>`),
+  "él": ico(`${CABEZA(35, 14, 6)}<path d="M25 41v-7a10 10 0 0 1 20 0v7"/>
+    <path class="a" d="M4 35l12-5"/><path class="a" d="M14 24l6 4-5 5"/>`),
+  nosotros: ico(`<circle cx="24" cy="24" r="19"/>
+    ${CABEZA(16, 19, 4)}${CABEZA(32, 19, 4)}${CABEZA(24, 30, 4)}`),
+  /* una mano abierta que ofrece un corazón: el cuenco de antes parecía
+     un barreño con una pelota dentro */
+  ayudar: ico(`<path d="M6 42V27a3 3 0 0 1 6 0v-4a3 3 0 0 1 6 0v3a3 3 0 0 1 6 0v12a4 4 0 0 1-4 4z"/>
+    <path class="af" d="M34 24s-9-5-9-11a4.5 4.5 0 0 1 9-2 4.5 4.5 0 0 1 9 2c0 6-9 11-9 11z"/>`),
+  "hermano-mayor": ico(`${CABEZA(15, 13, 6)}<path d="M5 41V28a10 10 0 0 1 20 0v13"/>
+    ${CABEZA(36, 24, 4)}<path class="a" d="M29 41v-7a7 7 0 0 1 14 0v7"/>`),
+  "hermano-menor": ico(`${CABEZA(13, 22, 4)}<path class="a" d="M6 41v-7a7 7 0 0 1 14 0v7"/>
+    ${CABEZA(34, 13, 6)}<path d="M24 41V28a10 10 0 0 1 20 0v13"/>`),
+
+  /* ── querer y gustar ── */
+  gustar: ico(`<path d="M15 42V21h5l7-13a4 4 0 0 1 6 5l-3 8h8a4 4 0 0 1 4 5l-3 12a5 5 0 0 1-5 4z"/>
+    <rect x="5" y="21" width="10" height="21" rx="2"/>`),
+  /* dos corazones: uno solo se confundía con el de «gracias», que es
+     el mismo contorno sin rellenar */
+  amar: ico(`<path class="af" d="M20 43S4 32 4 21A8.5 8.5 0 0 1 20 16 8.5 8.5 0 0 1 36 21c0 11-16 22-16 22z"/>
+    <path d="M33 20c6-5 11-10 11-15a6 6 0 0 0-11-3 6 6 0 0 0-8 1"/>`),
+
+  /* ── comer ── */
+  pollo: ico(`<path d="M30 10a7 7 0 0 0-7 7c0 4-9 6-9 15a11 11 0 0 0 22 0V17a7 7 0 0 0-6-7z"/>
+    <path class="a" d="M30 8V4"/><circle class="f" cx="31" cy="16" r="1.6"/>
+    <path class="a" d="M37 19l6-2-6-2"/><path d="M19 41v3M31 41v3"/>`),
+  cerdo: ico(`<circle cx="24" cy="26" r="15"/>
+    <ellipse class="a" cx="24" cy="28" rx="7" ry="5"/>
+    <circle class="f" cx="21" cy="28" r="1.5"/><circle class="f" cx="27" cy="28" r="1.5"/>
+    <path d="M11 15l3 7M37 15l-3 7"/><circle class="f" cx="17" cy="20" r="1.5"/><circle class="f" cx="31" cy="20" r="1.5"/>`),
+  /* cuerpo en C con sus anillos, cola de abanico y antenas: el garabato
+     de antes no se parecía a nada */
+  gamba: ico(`<path d="M33 10a19 19 0 0 0-19 19c0 7 5 12 12 12 4 0 7-2 7-5s-3-5-6-5"/>
+    <path class="a" d="M21 14l4 5M16 20l5 4M13 27l6 2"/>
+    <path d="M33 10l9-5-3 10z"/><circle class="f" cx="29" cy="14" r="1.7"/>
+    <path class="a" d="M33 8l4-5M29 8l-1-5"/>`),
+  /* una tripa vacía que suena, no una cara triste a secas */
+  "tener hambre": ico(`${CABEZA(20, 11, 5)}
+    <path d="M11 42V27a9 9 0 0 1 18 0v15"/>
+    <path class="a" d="M14 30c3 0 3 4 6 4s3-4 6-4"/>
+    <path class="a" d="M34 20c3.5 0 6 2.5 6 6M37 12c5 0 8 3.5 8 8"/>`),
+
+  /* ── compras ── */
+  rebajar: ico(`<path d="M26 5H10a4 4 0 0 0-4 4v15l19 19 15-15z"/>
+    <circle class="af" cx="15" cy="15" r="3"/>
+    <path class="a" d="M36 26v12M31 33l5 5 5-5"/>`),
+  vender: ico(`<path d="M5 20h38l-3 20a4 4 0 0 1-4 3H12a4 4 0 0 1-4-3z"/>
+    <path class="a" d="M17 20v-5a7 7 0 0 1 14 0v5"/>
+    <path class="a" d="M24 27v9M20 31l4-4 4 4"/>`),
+  baht: ico(`<circle cx="18" cy="30" r="12"/><circle class="a" cx="32" cy="18" r="12"/>
+    <path class="a" d="M32 11v14M28 11h5a3.5 3.5 0 0 1 0 7h-5M28 18h6a3.5 3.5 0 0 1 0 7h-6"/>`),
+
+  /* ── preguntas ── */
+  "por qué": ico(`<path d="M8 8h32v24H24l-10 9v-9H8z"/>
+    <path class="a" d="M18 17a6 6 0 0 1 11 3c0 4-5 4-5 7"/>
+    <circle class="af" cx="24" cy="28" r="1.8"/>`),
+  "quién": ico(`${CABEZA(19, 16, 7)}<path d="M6 41v-5a13 13 0 0 1 26 0v5"/>
+    <path class="a" d="M35 14a5 5 0 0 1 9 3c0 3-4 3-4 6"/><circle class="af" cx="40" cy="28" r="1.8"/>`),
+
+  /* ── dormir y salud ── */
+  cama: ico(`<path d="M4 41V17"/><path d="M4 26h40v15"/>
+    <path d="M4 33h40"/><rect class="a" x="9" y="19" width="12" height="7" rx="3"/>`),
+  cansado: ico(`${CABEZA(19, 15, 7)}<path d="M6 41v-4a13 13 0 0 1 22-9"/>
+    <path class="a" d="M15 14l3 2-3 2M23 14l3 2-3 2"/>
+    <path class="a" d="M34 23c3 0 5 2 5 4s-2 4-5 4M34 33c3 0 5 2 5 4s-2 4-5 4"/>`),
+  cabeza: ico(`<path d="M33 41v-6c5-2 9-7 9-14A14 14 0 0 0 14 20c0 4-2 5-4 8-1 2 0 4 2 4h3v6a3 3 0 0 0 3 3z"/>
+    <circle class="f" cx="22" cy="20" r="1.8"/>`),
+  barriga: ico(`${CABEZA(24, 9, 5)}<path d="M15 41V26a9 9 0 0 1 18 0v15"/>
+    <circle class="a" cx="24" cy="28" r="7"/><circle class="af" cx="24" cy="28" r="1.6"/>`),
+  enfermo: ico(`${CABEZA(17, 17, 6)}<path d="M5 41v-4a12 12 0 0 1 18-10"/>
+    <path class="a" d="M14 15l6 4M20 15l-6 4"/>
+    <rect class="a" x="30" y="10" width="7" height="27" rx="3.5"/><path class="a" d="M33.5 37v4"/>`),
+
+  /* ── tiempo ── */
+  "por la mañana": ico(`<path class="a" d="M3 38h42"/><path d="M13 38a11 11 0 0 1 22 0"/>
+    <path class="a" d="M24 16V7M10 22l-5-5M38 22l5-5"/><path d="M5 31h8M35 31h8"/>`),
+  "día": ico(`<circle class="af" cx="24" cy="24" r="9"/>
+    <path class="a" d="M24 6V2M24 46v-4M6 24H2M46 24h-4M11 11L8 8M37 37l3 3M37 11l3-3M11 37l-3 3"/>`),
+  mes: ico(`<rect x="6" y="10" width="36" height="32" rx="4"/><path d="M6 20h36"/>
+    <path class="a" d="M15 6v8M33 6v8"/>
+    <rect class="af" x="19" y="26" width="10" height="9" rx="2"/>`),
+  tiempo: ico(`<path d="M12 5h24M12 43h24"/>
+    <path d="M15 5c0 9 9 12 9 19s-9 10-9 19M33 5c0 9-9 12-9 19s9 10 9 19"/>
+    <path class="af" d="M18 39c0-5 12-5 12 0z"/>`),
+
+  /* ── casa y sitio ── */
+  ventana: ico(`<rect x="8" y="7" width="32" height="30" rx="3"/>
+    <path d="M24 7v30M8 22h32"/><path class="a" d="M6 41h36"/>`),
+  "habitación": ico(`<path d="M5 41V14l19-9 19 9v27"/>
+    <path class="a" d="M12 34v-7h24v7"/><path class="a" d="M12 30h24M15 27v-4h8v4"/>`),
+  estar: ico(`<path d="M5 22L24 6l19 16"/><path d="M10 20v21h28V20"/>
+    ${CABEZA(24, 27, 4)}<path class="af" d="M18 41v-4a6 6 0 0 1 12 0v4z"/>`),
+
+  /* ── hablar y mirar ── */
+  idioma: ico(`<circle cx="24" cy="24" r="18"/>
+    <path d="M24 6c5 6 5 30 0 36M24 6c-5 6-5 30 0 36"/>
+    <path class="a" d="M7 17h34M7 31h34"/>`),
+  bonito: ico(`<path class="af" d="M18 6l3.5 8.5L30 18l-8.5 3.5L18 30l-3.5-8.5L6 18l8.5-3.5z"/>
+    <path class="a" d="M35 24l2 5.5 5.5 2-5.5 2L35 39l-2-5.5-5.5-2 5.5-2z"/>`)
+});
+
+/* Y se quitan los atajos que mandaban estas palabras al dibujo de
+   otra. «ella» sigue compartiendo con «él» porque en varios de estos
+   idiomas es literalmente la misma palabra. */
+["adiós", "encantado", "nosotros", "ayudar", "gustar", "amar", "cerdo", "pollo",
+ "rebajar", "vender", "baht", "cama", "cansado", "cabeza", "barriga", "enfermo",
+ "día", "mes", "tiempo", "ventana", "habitación", "estar", "idioma", "bonito",
+ "gamba", "él", "quién", "tener hambre", "por la mañana"].forEach(k => { delete SINONIMO[k]; });
+SINONIMO.ella = "él";
+
+/* Estas se distinguen por la frase entera, no por una palabra suelta:
+   «yo» sale igual en las dos y «hermano» en las dos. */
+Object.assign(SINONIMO, {
+  "partícula cortés (hombre)": "cortes-el",
+  "partícula cortés (mujer)":  "cortes-ella",
+  "yo (hombre)":  "yo-el",
+  "yo (mujer)":   "yo-ella",
+  "hermano/a mayor": "hermano-mayor",
+  "hermano/a menor": "hermano-menor",
+  "carne de vaca": "carne"
+});
+
 /* ══ VIDA ════════════════════════════════════════════════
    Lo que hace que estudiar no parezca rellenar un formulario:
    un dibujo para cada palabra, experiencia y niveles, celebraciones
@@ -6073,6 +6227,13 @@ Object.assign(SINONIMO, {
    hechas (que «hace calor» no se quede en «hacer»), luego palabra
    por palabra, y si nada encaja, el de su categoría. */
 const DIBUJO_FRASES = [
+  /* Estas van las primeras a propósito: la búsqueda para en la primera
+     frase que encaja, y «partícula cortés» o «hermano» a secas se
+     llevarían por delante la distinción de hombre/mujer y mayor/menor. */
+  ["partícula cortés (hombre)","🙋"], ["partícula cortés (mujer)","🙋"],
+  ["yo (hombre)","🙋"], ["yo (mujer)","🙋"],
+  ["hermano/a mayor","👫"], ["hermano/a menor","👫"],
+  ["por qué","❓"], ["la mañana","🌅"],
   ["buenos días","☀️"], ["buenas tardes","🌇"], ["buenas noches","🌙"],
   ["hace calor","🥵"], ["hace frío","🥶"], ["todo recto","⬆️"],
   ["a la derecha","➡️"], ["a la izquierda","⬅️"], ["tener hambre","🤤"],

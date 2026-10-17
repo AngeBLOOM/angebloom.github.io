@@ -100,6 +100,22 @@ h1 em{font-style:normal; background:linear-gradient(100deg, #D93B1E, #4A47D5, #C
 .lede{color:var(--ink-2); margin-top:20px; max-width:58ch; font-size:clamp(16px,2vw,19px)}
 
 .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(288px,1fr)); margin:clamp(38px,6vw,56px) 0 0}
+
+a.card .prog{
+  display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:0 0 10px;
+  font:600 12px/1 var(--ui, system-ui, sans-serif);
+}
+a.card .prog b{
+  background:rgba(255,255,255,.22); border-radius:20px; padding:5px 10px; font-weight:700;
+}
+a.card--empezado .go{opacity:1}
+p.tuyo{
+  margin:0 0 18px; padding:11px 16px; border-radius:14px;
+  background:rgba(0,0,0,.05); font-size:14.5px; line-height:1.6;
+}
+p.tuyo b{font-weight:700}
+p.tuyo span{opacity:.6}
+@media (prefers-color-scheme:dark){ p.tuyo{background:rgba(255,255,255,.07)} }
 a.card{
   /* --c lo pone la clase de cada idioma, más abajo */
   position:relative; overflow:hidden; display:flex; flex-direction:column;
@@ -197,7 +213,7 @@ a.card .go span{transition:transform .18s}
       <b>Tailandés</b>
       <span class="nat f-tailandes">ภาษาไทย</span>
       <p>Cinco tonos que cambian la palabra entera, y un alfabeto de 44 letras que se aprende por mnemotecnias.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="tailandes">Empezar <span>→</span></span>
     </a>
     <a class="card c-japones" href="./japones/">
       <span class="fondo f-japones" aria-hidden="true">あ</span>
@@ -205,7 +221,7 @@ a.card .go span{transition:transform .18s}
       <b>Japonés</b>
       <span class="nat f-japones">日本語</span>
       <p>Dos silabarios de 46 signos cada uno y un idioma que se mide en tiempos, no en sílabas.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="japones">Empezar <span>→</span></span>
     </a>
     <a class="card c-coreano" href="./coreano/">
       <span class="fondo f-coreano" aria-hidden="true">한</span>
@@ -213,7 +229,7 @@ a.card .go span{transition:transform .18s}
       <b>Coreano</b>
       <span class="nat f-coreano">한국어</span>
       <p>El alfabeto más lógico del mundo: se lee en un fin de semana. Lo difícil viene después.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="coreano">Empezar <span>→</span></span>
     </a>
     <a class="card c-chino" href="./chino/">
       <span class="fondo f-chino" aria-hidden="true">中</span>
@@ -221,7 +237,7 @@ a.card .go span{transition:transform .18s}
       <b>Chino</b>
       <span class="nat f-chino">中文</span>
       <p>Cuatro tonos que convierten una sílaba en cinco palabras. A cambio, la gramática más sencilla que existe.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="chino">Empezar <span>→</span></span>
     </a>
     <a class="card c-ruso" href="./ruso/">
       <span class="fondo f-ruso" aria-hidden="true">Я</span>
@@ -229,7 +245,7 @@ a.card .go span{transition:transform .18s}
       <b>Ruso</b>
       <span class="nat f-ruso">русский</span>
       <p>Seis letras que parecen las nuestras y suenan a otra cosa, y un acento que no se escribe pero lo decide todo.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="ruso">Empezar <span>→</span></span>
     </a>
     <a class="card c-ingles" href="./ingles/">
       <span class="fondo f-ingles" aria-hidden="true">Th</span>
@@ -237,7 +253,7 @@ a.card .go span{transition:transform .18s}
       <b>Inglés</b>
       <span class="nat f-ingles">English</span>
       <p>No es la gramática lo que te frena: son doce vocales que no tienes y ocho errores que arrastras.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="ingles">Empezar <span>→</span></span>
     </a>
     <a class="card c-italiano" href="./italiano/">
       <span class="fondo f-italiano" aria-hidden="true">gn</span>
@@ -245,7 +261,7 @@ a.card .go span{transition:transform .18s}
       <b>Italiano</b>
       <span class="nat f-italiano">Italiano</span>
       <p>El idioma en el que más rápido avanzas y antes te estancas. Falsos amigos y consonantes dobles.</p>
-      <span class="go">Empezar <span>→</span></span>
+      <span class="go" data-go-id="italiano">Empezar <span>→</span></span>
     </a>
   </div>
 
@@ -265,5 +281,59 @@ a.card .go span{transition:transform .18s}
     <a href="https://paypal.me/AngelyGDAZ/3EUR" target="_blank" rel="noopener noreferrer">☕ Invítame a un café · 3 €</a>
   </div>
 </div>
+<script>
+/* ── tu progreso en cada curso ────────────────────────────
+   Los siete cursos guardan en el MISMO sitio (mismo dominio, carpetas
+   distintas), así que desde aquí se puede leer sin pedir nada ni
+   mandar nada a ninguna parte: todo esto pasa dentro de tu navegador.
+
+   Lo que se enseña por curso: el nivel, la racha y cuántas cosas
+   tienen el repaso vencido hoy. Con eso, de un vistazo se ve en cuál
+   estás metida y cuál llevas dos semanas sin abrir. */
+(function(){
+  var S; try{ S = JSON.parse(localStorage.getItem("huajai") || "null"); }catch(e){}
+  if(!S) return;
+  var hoy = new Date().toISOString().slice(0,10);
+  var NIVELES = ["Recién llegada","Oído curioso","Primeras palabras","Exploradora",
+                 "Conversadora","Viajera","Con soltura","Casi de allí","Maestra"];
+  function nivelDe(xp){ var n=0; while(xp >= 25*(n+1)*(n+2)) n++; return n; }
+  /* cuántas fichas tienen el repaso vencido. S.due es común a los siete
+     cursos, así que no se puede repartir por idioma: se cuenta una vez
+     y se enseña solo donde haya algo que repasar. */
+  var vencidas = 0;
+  for(var k in (S.due || {})) if(S.due[k] <= hoy) vencidas++;
+  var racha = (S.streak && S.streak.day === hoy) ? (S.streak.n || 0) : 0;
+
+  /* En la tarjeta va SOLO el nivel, que es lo único de verdad por
+     curso: S.xpPor guarda uno por idioma. La racha y los repasos
+     pendientes son comunes a los siete —se guardan juntos—, así que
+     ponerlos en cada tarjeta diría que son de ese curso y sería
+     mentira: saldría el mismo número en todas. Van arriba, una vez. */
+  var empezados = 0;
+  document.querySelectorAll("[data-go-id]").forEach(function(go){
+    var id = go.getAttribute("data-go-id");
+    var xp = (S.xpPor || {})[id] || 0;
+    if(!xp) return;                       /* curso sin empezar: se deja como está */
+    empezados++;
+    var n = nivelDe(xp);
+    go.innerHTML = "Seguir <span>→</span>";
+    var tira = document.createElement("span");
+    tira.className = "prog";
+    tira.innerHTML = '<b>' + NIVELES[Math.min(n, NIVELES.length-1)] + '</b>';
+    go.parentNode.insertBefore(tira, go);
+    go.closest("a.card").classList.add("card--empezado");
+  });
+  if(!empezados) return;
+  var trozos = [];
+  if(racha > 1) trozos.push('<b>🔥 ' + racha + ' días seguidos</b>');
+  if(vencidas) trozos.push('<b>' + vencidas + '</b> para repasar hoy');
+  if(!trozos.length) return;
+  var barra = document.createElement("p");
+  barra.className = "tuyo";
+  barra.innerHTML = trozos.join(" · ") + ' <span>entre todos tus cursos</span>';
+  var grid = document.querySelector(".grid");
+  if(grid) grid.parentNode.insertBefore(barra, grid);
+})();
+</script>
 </body>
 </html>

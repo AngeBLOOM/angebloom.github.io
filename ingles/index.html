@@ -2679,6 +2679,32 @@ body.ens-on{overflow:hidden}
   .lc-f{padding:13px 13px 12px}
 }
 
+/* ── lo escrito contra lo que de verdad se oye ── */
+.rap{display:grid; gap:11px; margin-top:4px}
+.rap-c{background:var(--surface); border:1px solid var(--line); border-radius:15px; padding:15px 17px}
+.rap-t{font:650 15.5px var(--ui); margin:0 0 11px}
+.rap-par{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.rap-l{
+  flex:1; min-width:118px; display:flex; flex-direction:column; gap:2px;
+  background:var(--surface-2); border-radius:12px; padding:10px 13px;
+}
+.rap-l--real{background:var(--surface-3, var(--surface-2)); border:1px solid var(--brand)}
+.rap-et{font:700 9px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3)}
+.rap-l .th{font-size:24px; line-height:1.5}
+.rap-l .rom{font-size:13px}
+.rap-fl{color:var(--ink-3); font-size:17px; flex:none}
+.rap-d{margin:11px 0 0; font-size:14px; line-height:1.65; color:var(--ink-2)}
+.rap-nota{
+  margin:0 0 14px; padding:12px 15px; border-radius:12px; background:var(--surface-2);
+  font-size:14px; line-height:1.65; color:var(--ink-2);
+}
+@media (max-width:560px){
+  .rap-par{gap:8px}
+  .rap-fl{display:none}
+  .rap-l{min-width:0}
+  .rap-l .th{font-size:21px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -4488,6 +4514,13 @@ VIEWS.sonidos = {
     <div class="vhead"><div class="eyebrow">Herramienta 2</div>
       <h1>Sonidos que el español no tiene</h1>
       <p class="lede">${T("sonidos_lede","")}</p></div>
+
+    ${rapidoHTML() ? `
+    <h2 class="sec">Cómo suena de verdad</h2>
+    <p class="sec-note">Hasta aquí, la forma cuidada. Esto es lo que de verdad llega al oído
+    cuando alguien habla a su velocidad, y es la razón de que entiendas una palabra suelta
+    y no la entiendas dicha por una persona.</p>
+    ${rapidoHTML()}` : ""}
 
     <h2 class="sec">Uno por uno</h2>
     <div class="list">
@@ -7600,6 +7633,42 @@ function animaVista(){
     el.classList.add("entra");
     i++;
   }
+}
+
+/* ── lo escrito contra lo que de verdad se oye ─────────────
+   Entender una palabra suelta y no entender a una persona diciendo
+   esa misma palabra no es culpa de nadie: al hablar, las palabras se
+   pegan y se caen sonidos enteros. Esto enseña las dos formas al
+   lado, para RECONOCER la rápida, no para imitarla.
+
+   El contenido lo pone el paquete en HABLA_RAPIDA, porque es material de un
+   idioma concreto; donde no lo declare, la sección no existe. */
+const HAY_RAPIDO = () => typeof HABLA_RAPIDA !== "undefined" && HABLA_RAPIDA
+  && HABLA_RAPIDA.casos && HABLA_RAPIDA.casos.length;
+
+function rapidoHTML(){
+  if(!HAY_RAPIDO()) return "";
+  return `${HABLA_RAPIDA.nota ? `<p class="rap-nota">${HABLA_RAPIDA.nota}</p>` : ""}
+  <div class="rap">
+    ${HABLA_RAPIDA.casos.map(c => `<div class="rap-c">
+      <p class="rap-t">${c.t}</p>
+      <div class="rap-par">
+        <span class="rap-l">
+          <span class="rap-et">lo escrito</span>
+          ${sayTh(c.escrito, "", "")}
+          <span class="rom">${esc(c.rom)}</span>
+        </span>
+        <span class="rap-fl" aria-hidden="true">→</span>
+        <span class="rap-l rap-l--real">
+          <span class="rap-et">lo que oyes</span>
+          <span class="th">${c.real}</span>
+          <span class="rom">${esc(c.realRom)}</span>
+        </span>
+        ${sayBtn(c.escrito, c.rom)}
+      </div>
+      <p class="rap-d">${c.d}</p>
+    </div>`).join("")}
+  </div>`;
 }
 
 /* ══════════════════════════════════════════════════════════

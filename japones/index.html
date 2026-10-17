@@ -2502,9 +2502,15 @@ body.ens-on{overflow:hidden}
 }
 
 /* ── los mapas de país ──
-   Un contorno con veinte vértices necesita trazo fino: con el grosor
-   normal los entrantes se rellenan solos y vuelve a salir una mancha. */
-.ico .mapa-p{stroke-width:1.9; stroke-linejoin:miter}
+   Rellenos, no de contorno. Un pais dibujado a linea pierde a este
+   tamaño justo lo que lo hace reconocible: el archipielago de islas
+   se convierte en un palo y una bota en una mancha con picos. En
+   silueta maciza la forma se lee entera de un golpe, que es como se
+   reconoce un mapa. */
+.ico .mapa-p{fill:currentColor; fill-opacity:.16; stroke:currentColor;
+  stroke-width:1.8; stroke-linejoin:round}
+/* las fronteras de dentro, más flojas que la costa */
+.ico .mapa-f{fill:none; stroke:currentColor; stroke-width:1.4; opacity:.55}
 
 </style>
 
@@ -2998,6 +3004,7 @@ const VOCAB = [
 ["くろい","kuroi","negro","colores"],
 ["きいろい","kiiroi","amarillo","colores"],
 ["みどり","midori","verde","colores"],
+["にほん","nihon","Japón","básico"],
 ["おおきい","ōkii","grande","básico"],
 ["ちいさい","chiisai","pequeño","básico"],
 ["あつい","atsui","caluroso","básico"],
@@ -3491,6 +3498,23 @@ const PAISES = {
   "pr":["プエルトリコ","puerutoriko"],
   "gq":["赤道ギニア","sekidō ginia"],
   "us":["アメリカ","amerika"]
+};
+
+/* ══ EL MAPA DEL PAÍS ═════════════════════════════════════
+   Va aquí y no en el motor porque el contorno de un país es material
+   de este idioma, y el motor es común a los siete.
+
+   Silueta simplificada, no cartografía: a cuarenta píxeles lo que se
+   reconoce es la forma general, no las costas. */
+const DIBUJO_PAIS = {
+  clave: "japón",
+  /* sin frases: la palabra ya está en el índice del motor, y buscar
+     por frase la haría casar dentro de otras palabras más largas */
+  frases: [],
+  svg: `<path class="mapa-p" d="M33 4 40 5 43 9 39 12 34 10 31 7Z"/>
+    <path class="mapa-p" d="M31 12 35 16 29 23 22 30 16 36 12 33 19 27 26 20 28 15Z"/>
+    <path class="mapa-p" d="M10 38 15 39 14 44 9 43 7 40Z"/>
+    <path class="mapa-p" d="M17 36 22 37 21 40 17 39Z"/>`
 };
 
 const AUDIO = {};
@@ -6325,7 +6349,7 @@ SINONIMO["la mañana"] = "por la mañana";
 Object.assign(ILUSTRA, {
   /* sale en cuatro cursos y no es el país de ninguno: aquí no estorba */
   "españa": ico(`<path class="mapa-p" d="M9 15 14 11 21 10 28 10 35 11 41 15 43 20 41 25 36 30 30 34 23 36 17 34 13 29 11 23Z"/>
-    <path class="a mapa-p" d="M11 17 15 18 16 27 17 34"/>
+    <path class="mapa-f" d="M11 17 15 18 16 27 17 34"/>
     <circle class="af" cx="45" cy="24" r="1.4"/>`)
 });
 
@@ -6427,7 +6451,7 @@ const DIBUJO_PALABRAS = {
   conocer:"🧠", querer:"💭", pensar:"💭", necesitar:"🙏", poder:"💪",
   hacer:"🛠️", tener:"🤲", haber:"🤲", gustar:"😍", amar:"❤️",
   ayudar:"🤝", trabajar:"💼", vivir:"🏡", estar:"📍", ser:"✨",
-  idioma:"🗣️", "españa":"🇪🇸", rusia:"🇷🇺", corea:"🇰🇷", tailandia:"🇹🇭",
+  idioma:"🗣️", "españa":"🇪🇸", "japón":"🇯🇵", italia:"🇮🇹", reino:"🇬🇧", rusia:"🇷🇺", corea:"🇰🇷", tailandia:"🇹🇭",
   /* casa, salud y naturaleza */
   "habitación":"🛏️", puerta:"🚪", ventana:"🪟", cama:"🛏️", mesa:"🍽️", silla:"🪑",
   llave:"🔑", luz:"💡", fuego:"🔥", "médico":"🩺", medicina:"💊", doler:"🤕",

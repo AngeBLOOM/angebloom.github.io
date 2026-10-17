@@ -2640,6 +2640,45 @@ body.ens-on{overflow:hidden}
   .hv-th{font-size:17px}
 }
 
+/* ── lectura graduada ── */
+.lc-d{margin:12px 0 4px; font-size:14px; color:var(--ink-2); line-height:1.6}
+.lc-txt{display:grid; gap:10px; margin-top:12px}
+.lc-f{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:14px 16px 13px; transition:border-color .13s;
+}
+.lc-f--suena{border-color:var(--brand); background:var(--surface-2)}
+.lc-th{
+  border:0; background:transparent; padding:0; cursor:pointer; color:var(--ink);
+  font-size:25px; line-height:1.55; text-align:left; display:block;
+}
+.lc-rom{font-size:13.5px; margin-top:3px}
+.lc-ver{
+  margin-top:9px; border:1px dashed var(--line-2); background:transparent;
+  color:var(--ink-3); border-radius:9px; padding:4px 11px; cursor:pointer;
+  font:600 12px var(--ui);
+}
+.lc-ver:hover{border-color:var(--brand); color:var(--brand)}
+.lc-es{margin-top:9px; font-size:14.5px; color:var(--ink-2); line-height:1.6}
+
+/* ── prueba de nivel ── */
+.nv-ya{
+  margin:10px 0 0; padding:10px 14px; border-radius:11px; background:var(--surface-2);
+  font-size:13.5px; color:var(--ink-2);
+}
+.nv-r{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px 18px}
+.nv-tit{margin:0 0 14px; font:600 17px/1.5 var(--ui)}
+.nv-g{margin-bottom:14px}
+.nv-et{
+  display:block; margin-bottom:7px;
+  font:700 9.5px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+}
+.nv-nota{margin:4px 0 0; font-size:13px; color:var(--ink-3); line-height:1.6}
+@media (max-width:560px){
+  .lc-th{font-size:22px}
+  .lc-f{padding:13px 13px 12px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -2747,6 +2786,7 @@ img{max-width:100%;height:auto}
         <li><b>Noventa y siete palabras de uso diario</b> — Con tarjetas por niveles: ver, oír, decir, repetir.</li>
         <li><b>Frases completas para usar hoy</b> — Treinta y seis frases reales en forma cortés -요.</li>
         <li><b>Los números, de verdad</b> — Contarlos es fácil; entenderlos dichos deprisa en una tienda, no. Eso se entrena aquí.</li>
+        <li><b>Leer algo de verdad</b> — Textos cortos hechos solo con lo que ya te ha enseñado el curso. Sin traducción delante.</li>
         <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
         <li><b>Ponte a prueba</b> — Repaso mezclado de todo lo anterior.</li>
       </ul>
@@ -3352,6 +3392,7 @@ const PATH = [
 ["Noventa y siete palabras de uso diario","Con tarjetas por niveles: ver, oír, decir, repetir.","vocabulario"],
 ["Frases completas para usar hoy","Treinta y seis frases reales en forma cortés -요.","frases"],
 ["Los números, de verdad","Contarlos es fácil; entenderlos dichos deprisa en una tienda, no. Eso se entrena aquí.","numeros"],
+["Leer algo de verdad","Textos cortos hechos solo con lo que ya te ha enseñado el curso. Sin traducción delante.","leer"],
 ["Juega para consolidar","Emparejar y escribir de oído: lo que más cuesta y más fija.","juegos"],
 ["Ponte a prueba","Repaso mezclado de todo lo anterior.","repaso"]
 ];
@@ -3956,12 +3997,13 @@ const pctOf = k => Math.round((P[k] ? P[k]() : 0) * 100);
 /* ══ NAVEGACIÓN ══════════════════════════════════════════ */
 const NAV_GROUPS = [
   ["Empezar", [["inicio","Inicio","home"], ["hoy","Hoy","clock"], ["basico","Lo básico","cup"],
+                ["nivel","Prueba de nivel","check"],
                 ["estudiar","Cómo estudiar","book"]]],
   ["Fundamentos", [["tonos","Tonos","wave"], ["ritmo","Ritmo y moras","wave"], ["bloques","Bloques silábicos","abc"],
                    ["lectura","Cómo se lee","ear"],
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
                    ["escritura","Escritura","pen"], ["gramatica","Gramática","grammar"]]],
-  ["Práctica", [["ejercicios","Ejercicios","hueco"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
+  ["Práctica", [["ejercicios","Ejercicios","hueco"], ["leer","Leer","book"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
                 ["hablar","Hablar","mic"], ["charla","Conversaciones","chat"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
 ];
 const NAV_ALL = NAV_GROUPS.reduce((a, g) => a.concat(g[1]), []);
@@ -4155,7 +4197,7 @@ document.addEventListener("click", e => {
 const ICONO_PARADA = {
   tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
   alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
-  hoy:"clock", basico:"cup", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
+  hoy:"clock", basico:"cup", leer:"book", nivel:"check", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
   charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
 };
 /* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
@@ -11316,6 +11358,230 @@ document.addEventListener("click", e => {
     return;
   }
   if(e.target.closest("[data-hv-todo]")) hvSuena();
+});
+
+/* ══════════════════════════════════════════════════════════
+   LECTURA GRADUADA Y PRUEBA DE NIVEL
+   ══════════════════════════════════════════════════════════
+   1 · LEER. El curso te llevaba de las letras a las palabras y a las
+       frases sueltas, y ahí se paraba. El salto de «me sé 155
+       palabras» a «entiendo algo escrito» no estaba en ninguna parte.
+
+       Los textos no están escritos a mano: se arman con el mismo
+       constructor de frases que ya usa la gramática (BUILD.arma), así
+       que son frases correctas del idioma, salen distintas cada vez y
+       funcionan igual en los siete cursos sin escribir contenido
+       nuevo que pueda contradecir al resto.
+
+       Lo graduado es de verdad: el nivel 1 solo afirma; el 2 mete la
+       negación; el 3, pasado y futuro; el 4, preguntas. Que es el
+       orden en el que el propio curso los enseña.
+
+       Y la traducción no se ve. Se lee, se intenta entender, y solo
+       entonces se destapa —una frase cada vez, no todas de golpe.
+
+   2 · NIVEL. Quince preguntas de todo para colocarte en el camino en
+       vez de empezarlo todo a cero. Sirve cuando vuelves después de
+       un parón, o cuando abres un idioma del que ya sabes algo.
+
+   Va después de ver.js y antes de part4.js. */
+
+/* ── 1 · la lectura ────────────────────────────────────────── */
+const HAY_LEER = () => typeof BUILD !== "undefined" && typeof SUBJ !== "undefined"
+  && typeof BVERBS !== "undefined" && typeof BMODES !== "undefined"
+  && SUBJ.length && BVERBS.length;
+
+const LEER_NIVELES = [
+  {n:1, t:"Nivel 1", d:"Solo frases que afirman. Sujeto, verbo y objeto, y nada más."},
+  {n:2, t:"Nivel 2", d:"Entra la negación: una palabra delante del verbo lo cambia todo."},
+  {n:3, t:"Nivel 3", d:"Entra lo que no está pasando ahora: lo que ya pasó y lo que falta por pasar."},
+  {n:4, t:"Nivel 4", d:"Y las preguntas. A partir de aquí ya es el idioma."}
+];
+const lcNivel = () => Math.max(1, Math.min(4, +(S.leerN || 1)));
+const LEER_FRASES = 5;
+
+/* Los modos se eligen por lo que SON, no por su nombre: cada idioma
+   llama distinto al quinto (futuro, condicional…), pero todos tienen
+   afirmar, negar y preguntar, y preguntar es siempre el último paso. */
+function lcModos(n){
+  const hay = BMODES.map(m => m.k);
+  if(n <= 1) return hay.indexOf("afi") >= 0 ? ["afi"] : [hay[0]];
+  if(n === 2) return hay.filter(k => k === "afi" || k === "neg");
+  if(n === 3) return hay.filter(k => k !== "pre");
+  return hay;
+}
+function lcTexto(n){
+  const modos = lcModos(n);
+  const fuera = [];
+  /* un sujeto por texto: así se lee como algo seguido y no como una
+     lista de frases sin relación */
+  const s = pick(SUBJ);
+  for(let intento = 0; fuera.length < LEER_FRASES && intento < 60; intento++){
+    const vb = pick(BVERBS), m = pick(modos);
+    const o = pick(vb.obj || []);
+    if(!o) continue;
+    let r; try{ r = BUILD.arma(s, vb, o, m); }catch(e){ continue; }
+    if(!r || !r.th || fuera.some(x => x.th === r.th)) continue;
+    fuera.push(r);
+  }
+  return fuera;
+}
+let lcAhora = [];
+function lcHTML(){
+  if(!HAY_LEER()) return "";
+  const n = lcNivel();
+  if(!lcAhora.length) lcAhora = lcTexto(n);
+  return `<div class="lc">
+    <div class="ejtabs" role="group" aria-label="Elige el nivel">
+      ${LEER_NIVELES.map(x => `<button class="ejtab" data-lc-n="${x.n}"
+        aria-pressed="${x.n === n}">${x.t}</button>`).join("")}
+    </div>
+    <p class="lc-d">${esc((LEER_NIVELES[n - 1] || LEER_NIVELES[0]).d)}</p>
+    <div class="lc-txt">
+      ${lcAhora.map((r, i) => `<div class="lc-f" data-lc-f="${i}">
+        <button class="lc-th th" data-say="${esc(r.th)}" title="Tocar para oírla">${r.th}</button>
+        <div class="lc-rom rom">${esc(r.rom)}</div>
+        <button class="lc-ver" data-lc-ver="${i}">¿Qué dice?</button>
+        <div class="lc-es" id="lcEs${i}" hidden>${esc(r.es)}</div>
+      </div>`).join("")}
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn btn--p" data-lc="otro">Otro texto →</button>
+      <button class="btn btn--s" data-lc="oir">${svg("play")} Oírlo entero</button>
+    </div>
+  </div>`;
+}
+function lcPinta(){
+  const c = document.getElementById("lcCaja");
+  if(c) c.innerHTML = lcHTML();
+}
+function lcOyeTodo(){
+  let i = 0;
+  const fs = document.querySelectorAll(".lc-f");
+  const siguiente = () => {
+    fs.forEach(f => f.classList.remove("lc-f--suena"));
+    if(i >= lcAhora.length) return;
+    if(fs[i]) fs[i].classList.add("lc-f--suena");
+    diAlgo(lcAhora[i].th, null, null, () => { i++; setTimeout(siguiente, 420); },
+           () => { i++; setTimeout(siguiente, 420); });
+  };
+  siguiente();
+}
+
+VIEWS.leer = {
+  html(){
+    return `
+    <div class="vhead"><div class="eyebrow">Leer</div>
+      <h1>Lectura graduada</h1>
+      <p class="lede">Textos cortos hechos con lo que el curso ya te ha enseñado. Léelos
+      enteros antes de destapar nada: entender a medias y seguir es justo lo que hay que
+      aprender a hacer, y no se puede practicar si la traducción está delante.</p></div>
+
+    <h2 class="sec">Un texto</h2>
+    <p class="sec-note">Cambia el nivel cuando te quede fácil. Cada texto sale distinto.</p>
+    <div id="lcCaja"></div>
+
+    <h2 class="sec">Cómo sacarle partido</h2>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+      <div class="card"><b>Primero entero, sin parar</b>
+        <p class="muted" style="font-size:14.5px;margin-top:6px">Aunque se te escapen palabras.
+        Leer salvando huecos es la habilidad, no un fallo.</p></div>
+      <div class="card"><b>Después, frase a frase</b>
+        <p class="muted" style="font-size:14.5px;margin-top:6px">Toca cada una para oírla y
+        destapa solo las que no hayas sacado.</p></div>
+      <div class="card"><b>Y en voz alta</b>
+        <p class="muted" style="font-size:14.5px;margin-top:6px">Leer en silencio en un idioma
+        con tonos no sirve de mucho. Susúrralo si hace falta, pero muévela.</p></div>
+    </div>`;
+  },
+  init(){ lcAhora = []; lcPinta(); }
+};
+
+/* ── 2 · la prueba de nivel ────────────────────────────────── */
+const NIVEL_N = 15;
+VIEWS.nivel = {
+  html(){
+    const hecha = S.nivelHecho ? `<p class="nv-ya">La hiciste el ${esc(S.nivelHecho)}.
+      Puedes repetirla cuando quieras: no borra nada de lo que lleves.</p>` : "";
+    return `
+    <div class="vhead"><div class="eyebrow">Para empezar</div>
+      <h1>Prueba de nivel</h1>
+      <p class="lede">Quince preguntas de todo el curso para saber por dónde empezar, en vez de
+      empezarlo todo por el principio. Sirve sobre todo si vuelves después de un parón o si
+      del idioma ya sabías algo.</p></div>
+    ${hecha}
+    <h2 class="sec">Las quince</h2>
+    <p class="sec-note">No cuenta para nada ni puntúa: solo mira qué sabes ya. Si fallas
+    mucho no pasa nada, es justo lo que hay que averiguar.</p>
+    <div class="card" id="nvQuiz"></div>
+    <div id="nvOut"></div>`;
+  },
+  init(){
+    const caja = document.getElementById("nvQuiz");
+    if(!caja) return;
+    const porTema = {};
+    quizEngine(caja, NIVEL_N, () => {
+      const q = makeMixed();
+      if(q && q.tema){
+        if(!porTema[q.tema]) porTema[q.tema] = {n:0, bien:0};
+        porTema[q.tema].n++;
+        const antes = q.alAcertar;
+        q.alAcertar = (root, ok) => {
+          if(ok) porTema[q.tema].bien++;
+          if(antes) antes(root, ok);
+        };
+      }
+      return q;
+    }, pc => {
+      S.nivelHecho = new Date().toLocaleDateString("es-ES");
+      save();
+      const out = document.getElementById("nvOut");
+      if(!out) return;
+      const temas = Object.keys(porTema).map(t => ({
+        t, inf: temaInfo(t) || {es:t, go:"repaso"},
+        pc: Math.round(porTema[t].bien / porTema[t].n * 100), n: porTema[t].n
+      })).sort((a, b) => a.pc - b.pc);
+      const flojos = temas.filter(x => x.pc < 60);
+      const buenos = temas.filter(x => x.pc >= 80);
+      out.innerHTML = `
+        <h2 class="sec">Por dónde empezar</h2>
+        <div class="nv-r">
+          <p class="nv-tit">${pc >= 80 ? "Sabes bastante más de lo que el curso supone."
+            : pc >= 45 ? "Tienes una base: no hace falta empezar por el principio."
+            : "Lo mejor es seguir el camino desde el principio."}</p>
+          ${flojos.length ? `<div class="nv-g">
+            <span class="nv-et">Empieza por aquí</span>
+            <div class="row" style="flex-wrap:wrap;gap:8px">
+              ${flojos.slice(0, 4).map(x => `<button class="btn btn--p btn--s"
+                data-go="${esc(x.inf.go)}">${esc(x.inf.es)} →</button>`).join("")}
+            </div></div>` : ""}
+          ${buenos.length ? `<div class="nv-g">
+            <span class="nv-et">Esto ya lo llevas</span>
+            <div class="row" style="flex-wrap:wrap;gap:8px">
+              ${buenos.slice(0, 4).map(x => `<span class="chip chip--baja">${esc(x.inf.es)}</span>`).join("")}
+            </div></div>` : ""}
+          <p class="nv-nota">Esto no ha tocado tu progreso: las tarjetas y las letras siguen
+          como estaban. Es una brújula, no un atajo.</p>
+        </div>`;
+      out.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
+    });
+  }
+};
+
+document.addEventListener("click", e => {
+  const n = e.target.closest("[data-lc-n]");
+  if(n){ S.leerN = +n.dataset.lcN; save(); lcAhora = []; lcPinta(); return; }
+  const v = e.target.closest("[data-lc-ver]");
+  if(v){
+    const d = document.getElementById("lcEs" + v.dataset.lcVer);
+    if(d){ d.hidden = false; v.remove(); }
+    return;
+  }
+  const b = e.target.closest("[data-lc]");
+  if(b){
+    if(b.dataset.lc === "otro"){ lcAhora = lcTexto(lcNivel()); lcPinta(); }
+    if(b.dataset.lc === "oir") lcOyeTodo();
+  }
 });
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */

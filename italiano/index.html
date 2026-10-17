@@ -2572,6 +2572,74 @@ body.ens-on{overflow:hidden}
 }
 
 .hoy-resto{width:100%; margin:6px 0 0; font-size:13px; line-height:1.6; color:var(--ink-3)}
+/* ── oye y señala ──
+   Los dibujos tienen que ser grandes: se señalan con el dedo y a la
+   primera, sin pensar. */
+.vs-cab{display:flex; align-items:center; gap:10px; margin-bottom:12px}
+.vs-n{font:700 12.5px var(--mono); color:var(--ink-3); flex:1}
+.vs-rej{display:grid; grid-template-columns:repeat(3, 1fr); gap:10px}
+.vs-c{
+  display:grid; place-items:center; aspect-ratio:1/1;
+  background:var(--surface-2); border:2px solid transparent; border-radius:14px;
+  cursor:pointer; font-size:46px; line-height:1; color:var(--ink);
+  transition:border-color .13s, background .13s, transform .13s;
+}
+.vs-c:hover:not(:disabled){border-color:var(--brand); transform:translateY(-2px)}
+.vs-c:disabled{cursor:default}
+.vs-c--ok{border-color:var(--ok); background:var(--surface)}
+.vs-c--no{border-color:var(--bad); opacity:.6}
+.vs-out{margin-top:14px; text-align:center}
+.vs-res{display:flex; flex-direction:column; align-items:center; gap:3px}
+.vs-res b{font-size:15px}
+.vs-res.ok b{color:var(--ok)}
+.vs-res.no b{color:var(--bad)}
+.vs-res .th{font-size:26px}
+
+/* ── escribe de memoria ── */
+.esm-pide{
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  background:var(--surface-2); border-radius:14px; padding:14px; margin-bottom:12px;
+}
+.esm-et{font:700 9.5px var(--ui); letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3)}
+.esm-dib{font-size:44px; line-height:1.1}
+.esm-es{font:600 20px var(--ui)}
+.esm-fb{margin:10px 0 2px; font-size:14px; line-height:1.7}
+.esm-fb .th{font-size:21px; margin:0 3px}
+
+/* ── la historia en viñetas ── */
+.hv-rej{
+  display:grid; gap:10px; margin-top:12px;
+  grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+}
+.hv-v{
+  position:relative; display:flex; flex-direction:column; align-items:center; gap:3px;
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:16px 11px 13px; cursor:pointer; text-align:center; color:inherit;
+  transition:border-color .13s, transform .13s;
+}
+.hv-v:hover{border-color:var(--brand); transform:translateY(-2px)}
+.hv-v--suena{border-color:var(--brand); background:var(--surface-2)}
+.hv-n{
+  position:absolute; top:7px; left:9px; width:19px; height:19px; border-radius:50%;
+  display:grid; place-items:center; background:var(--surface-2);
+  font:700 11px var(--ui); color:var(--ink-3);
+}
+.hv-v--suena .hv-n{background:var(--brand); color:var(--brand-ink)}
+.hv-dib{font-size:38px; line-height:1.15; min-height:44px}
+.hv-th{font-size:19px; line-height:1.45}
+.hv-rom{font-size:12.5px}
+.hv-es{font-size:12.5px; color:var(--ink-2); line-height:1.45}
+
+@media (max-width:560px){
+  .vs-rej{gap:8px}
+  .vs-c{font-size:38px; border-radius:12px}
+  .esm-dib{font-size:38px}
+  .hv-rej{grid-template-columns:repeat(2, 1fr); gap:8px}
+  .hv-v{padding:15px 7px 11px}
+  .hv-dib{font-size:32px; min-height:38px}
+  .hv-th{font-size:17px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -10987,6 +11055,251 @@ document.addEventListener("click", e => {
   if(b.dataset.hoy === "confuso") hoyConfusoArranca();
 });
 
+/* ══════════════════════════════════════════════════════════
+   DOS EJERCICIOS VISUALES Y UNO DE PRODUCIR
+   ══════════════════════════════════════════════════════════
+   1 · OYE Y SEÑALA. Suena una palabra y tocas el dibujo. Es el
+       ejercicio de oído más directo que hay —no hay que leer nada, ni
+       en el idioma ni en español— y hasta ahora era imposible de
+       hacer: cincuenta y nueve palabras compartían dibujo con otra, y
+       dos casillas iguales no se pueden contestar. Desde que cada
+       palabra tiene el suyo, se puede.
+
+   2 · ESCRIBE DE MEMORIA. El dictado es oír y escribir. Esto es lo
+       contrario y lo más difícil: ves «gracias» en español y lo
+       escribes de cero, sin modelo delante. Es lo único que de verdad
+       dice si una palabra está sabida o solo reconocida. Usa el mismo
+       teclado del idioma que ya existía para el dictado.
+
+   3 · HISTORIA EN VIÑETAS. Seis viñetas con los dibujos y las frases
+       que ya conoces. Dibujo primero, texto debajo, y cada viñeta
+       suena al tocarla.
+
+   Va después de hoy.js y antes de part4.js. */
+
+/* ── 1 · oye y señala el dibujo ────────────────────────────
+   Solo entran palabras con dibujo de verdad: con un emoji el
+   ejercicio pierde la gracia, y sin dibujo no hay nada que señalar. */
+const vsConDibujo = () => (typeof VOCAB !== "undefined" ? VOCAB : [])
+  .filter(v => /<svg/.test(String(dibujo(v) || "")));
+const HAY_SENALA = () => vsConDibujo().length >= 8;
+
+let vsRonda = 0, vsBien = 0, vsObj = null, vsOpciones = [];
+const VS_N = 6;                       /* cuántos dibujos por pantalla */
+
+function vsNueva(){
+  const pool = vsConDibujo();
+  vsObj = pick(pool);
+  vsOpciones = shuffle([vsObj, ...shuffle(pool.filter(v => v[0] !== vsObj[0])).slice(0, VS_N - 1)]);
+}
+function vsHTML(){
+  if(!HAY_SENALA()) return "";
+  if(S.mudo) return avisoMudoHTML();
+  if(!vsObj) vsNueva();
+  return `<div class="vs">
+    <div class="vs-cab">
+      <span class="vs-n">${vsBien} de ${vsRonda}</span>
+      <button class="btn btn--p btn--s" data-vs="oir">${svg("play")} Oírlo otra vez</button>
+    </div>
+    <div class="vs-rej" id="vsRej">
+      ${vsOpciones.map((v, i) => `<button class="vs-c" data-vs-i="${i}"
+        aria-label="Opción ${i + 1}">${dibujo(v)}</button>`).join("")}
+    </div>
+    <div class="vs-out" id="vsOut" aria-live="polite"></div>
+  </div>`;
+}
+/* suena sola al pasar a la siguiente, pero NO al abrir la pantalla:
+   Juegos tiene seis ejercicios y no puede ponerse a hablar sola
+   porque hayas entrado a otro */
+function vsPinta(suena){
+  const c = document.getElementById("vsCaja");
+  if(!c) return;
+  c.innerHTML = vsHTML();
+  if(suena) vsSuena();
+}
+function vsSuena(){ if(vsObj) setTimeout(() => speak(vsObj[0]), 220); }
+function vsElige(i){
+  const out = document.getElementById("vsOut");
+  const v = vsOpciones[i];
+  if(!v || !out || out.dataset.listo) return;
+  const ok = v[0] === vsObj[0];
+  out.dataset.listo = "1";
+  vsRonda++;
+  if(ok){ vsBien++; ganaXP(10); }
+  document.querySelectorAll("[data-vs-i]").forEach((b, k) => {
+    b.disabled = true;
+    if(vsOpciones[k][0] === vsObj[0]) b.classList.add("vs-c--ok");
+    else if(k === i) b.classList.add("vs-c--no");
+  });
+  /* el par concreto, para el mapa de confusiones */
+  if(!ok && typeof apuntaConfusion === "function") apuntaConfusion(vsObj[0], v[0]);
+  if(ok && typeof olvidaConfusion === "function")
+    vsOpciones.forEach(x => { if(x[0] !== vsObj[0]) olvidaConfusion(vsObj[0], x[0]); });
+  out.innerHTML = `<div class="vs-res ${ok ? "ok" : "no"}">
+      <b>${ok ? "✓ Esa es." : "✗ Era esta."}</b>
+      <span class="th">${vsObj[0]}</span>
+      <span class="rom">${esc(vsObj[1])}</span>
+      <span>— ${esc(vsObj[2])}</span>
+    </div>
+    <div class="row" style="justify-content:center;margin-top:10px">
+      <button class="btn btn--p" data-vs="otra">Otra →</button>
+    </div>`;
+  touchStreak();
+  bump("quiz");
+}
+
+/* ── 2 · escribe de memoria ────────────────────────────────
+   Se eligen palabras cortas: de cero y sin modelo, una de diez signos
+   no enseña nada, solo frustra. */
+let esMem = null;
+const esCortas = () => (typeof VOCAB !== "undefined" ? VOCAB : [])
+  .filter(v => String(v[0]).length <= 8);
+const HAY_ESCRIBIR = () => typeof KB_ROWS !== "undefined" && esCortas().length >= 8;
+
+function esNueva(){ esMem = {w: pick(esCortas()), puesto: "", estado: ""}; }
+function esHTML(){
+  if(!HAY_ESCRIBIR()) return "";
+  if(!esMem) esNueva();
+  return `<div class="esm">
+    <div class="esm-pide">
+      <span class="esm-et">escribe esto en ${esc(idioma())}</span>
+      <div class="esm-dib" aria-hidden="true">${dibujo(esMem.w)}</div>
+      <b class="esm-es">${esc(esMem.w[2])}</b>
+    </div>
+    <div class="dictbox ${esMem.estado}" id="esmBox">${esc(esMem.puesto)}</div>
+    <div id="esmFb" class="esm-fb" aria-live="polite"></div>
+    <div class="row" style="margin:10px 0 4px">
+      <button class="btn" data-esm="borra">← Borrar</button>
+      <button class="btn" data-esm="limpia">Vaciar</button>
+      <button class="btn btn--p" data-esm="mira">Comprobar</button>
+      <button class="btn btn--s" data-esm="otra" style="margin-left:auto">Otra →</button>
+    </div>
+    <div class="kb">${tecladoHTML("em")}</div>
+  </div>`;
+}
+function esPinta(){
+  const b = document.getElementById("esmBox");
+  if(!b) return;
+  b.className = "dictbox " + esMem.estado;
+  b.textContent = esMem.puesto || "";
+  const fb = document.getElementById("esmFb");
+  if(!fb) return;
+  fb.innerHTML = esMem.estado === "ok"
+    ? `<b style="color:var(--ok)">¡Esa es!</b> <span class="th">${esMem.w[0]}</span>
+       <span class="rom">${esc(esMem.w[1])}</span> ${sayBtn(esMem.w[0], esMem.w[1])}`
+    : esMem.estado === "no"
+    ? `<b style="color:var(--bad)">No es.</b> Era <span class="th">${esMem.w[0]}</span>
+       <span class="rom">${esc(esMem.w[1])}</span> ${sayBtn(esMem.w[0], esMem.w[1])}`
+    : `<span class="muted">Sin oírla y sin verla: de memoria. Si no te sale, pasa a otra.</span>`;
+}
+function esComprueba(){
+  const igual = typeof sinMarca === "function"
+    ? sinMarca(esMem.puesto) === sinMarca(esMem.w[0])
+    : esMem.puesto === esMem.w[0];
+  esMem.estado = igual ? "ok" : "no";
+  if(igual){
+    ganaXP(20);                       /* produce más que reconocer */
+    if(typeof marcaFecha === "function"){
+      if(!S.vocab) S.vocab = {};
+      S.vocab[esMem.w[0]] = Math.min(4, (S.vocab[esMem.w[0]] || 0) + 1);
+      marcaFecha(esMem.w[0], S.vocab[esMem.w[0]], true); save();
+    }
+  }
+  esPinta(); touchStreak();
+}
+
+/* ── 3 · la historia en viñetas ────────────────────────────
+   Las viñetas salen de las frases del propio curso, agrupadas por
+   situación: así la historia es siempre de algo que sabes decir. */
+function hvGrupos(){
+  const g = {};
+  (typeof PHRASES !== "undefined" ? PHRASES : []).forEach(p => {
+    const k = p[3] || "Frases";
+    (g[k] = g[k] || []).push(p);
+  });
+  return Object.keys(g).filter(k => g[k].length >= 4).map(k => ({k, l: g[k]}));
+}
+let hvIdx = 0;
+const HAY_VINETAS = () => hvGrupos().length > 0;
+function hvHTML(){
+  const gs = hvGrupos();
+  if(!gs.length) return "";
+  const g = gs[hvIdx % gs.length];
+  const vinetas = g.l.slice(0, 6);
+  return `<div class="hv">
+    <div class="ejtabs" role="group" aria-label="Elige la situación">
+      ${gs.map((x, i) => `<button class="ejtab" data-hv="${i}"
+        aria-pressed="${i === hvIdx % gs.length}">${esc(x.k)}</button>`).join("")}
+    </div>
+    <div class="hv-rej">
+      ${vinetas.map((p, i) => {
+        const th = renderPhrase(p[0]), rom = renderRom(p[1]);
+        return `<button class="hv-v" data-say="${esc(th)}" title="Tocar para oírla">
+          <span class="hv-n" aria-hidden="true">${i + 1}</span>
+          <span class="hv-dib" aria-hidden="true">${dibujo([p[0], p[1], p[2], g.k])}</span>
+          <span class="hv-th th">${th}</span>
+          <span class="hv-rom rom">${esc(rom)}</span>
+          <span class="hv-es">${ponHuecosEs(p[2])}</span>
+        </button>`;
+      }).join("")}
+    </div>
+    <div class="row" style="justify-content:center;margin-top:12px">
+      <button class="btn btn--p" data-hv-todo>${svg("play")} Oírla entera</button>
+    </div>
+  </div>`;
+}
+function hvSuena(){
+  const gs = hvGrupos();
+  if(!gs.length) return;
+  const g = gs[hvIdx % gs.length];
+  const l = g.l.slice(0, 6).map(p => renderPhrase(p[0]));
+  const vs = document.querySelectorAll(".hv-v");
+  let i = 0;
+  const siguiente = () => {
+    vs.forEach(v => v.classList.remove("hv-v--suena"));
+    if(i >= l.length) return;
+    if(vs[i]) vs[i].classList.add("hv-v--suena");
+    diAlgo(l[i], null, null, () => { i++; setTimeout(siguiente, 420); },
+           () => { i++; setTimeout(siguiente, 420); });
+  };
+  siguiente();
+}
+
+document.addEventListener("click", e => {
+  const vs = e.target.closest("[data-vs]");
+  if(vs){
+    if(vs.dataset.vs === "oir") vsSuena();
+    if(vs.dataset.vs === "otra"){ vsNueva(); vsPinta(true); }
+    return;
+  }
+  const vi = e.target.closest("[data-vs-i]");
+  if(vi){ vsElige(+vi.dataset.vsI); return; }
+
+  const em = e.target.closest("[data-em]");
+  if(em && esMem){ esMem.puesto += em.dataset.em; esMem.estado = ""; esPinta(); return; }
+  const b = e.target.closest("[data-esm]");
+  if(b && esMem){
+    const q = b.dataset.esm;
+    if(q === "borra"){ esMem.puesto = esMem.puesto.slice(0, -1); esMem.estado = ""; esPinta(); }
+    if(q === "limpia"){ esMem.puesto = ""; esMem.estado = ""; esPinta(); }
+    if(q === "mira") esComprueba();
+    if(q === "otra"){
+      esNueva();
+      const c = document.getElementById("esmCaja");
+      if(c){ c.innerHTML = esHTML(); esPinta(); }
+    }
+    return;
+  }
+  const hv = e.target.closest("[data-hv]");
+  if(hv){
+    hvIdx = +hv.dataset.hv;
+    const c = document.getElementById("hvCaja");
+    if(c) c.innerHTML = hvHTML();
+    return;
+  }
+  if(e.target.closest("[data-hv-todo]")) hvSuena();
+});
+
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:
    siempre las mismas tres cansaba y dejaba media aplicación sin tocar.
@@ -11579,10 +11892,40 @@ VIEWS.juegos = {
         <button class="btn btn--s" id="dictClr">Vaciar</button>
       </div>
       <div class="kb">${tecladoHTML("dk")}</div>
-    </div>`;
+    </div>
+
+    ${typeof HAY_SENALA === "function" && HAY_SENALA() ? `
+    <h2 class="sec">Oye y señala</h2>
+    <p class="sec-note">Suena una palabra y tocas el dibujo. No hay que leer nada, ni en
+    ${idioma()} ni en español: solo oír y reconocer. Es el ejercicio más corto de todos y
+    el que mejor dice si una palabra te entra por el oído.</p>
+    <div class="card" id="vsCaja"></div>` : ""}
+
+    ${typeof HAY_ESCRIBIR === "function" && HAY_ESCRIBIR() ? `
+    <h2 class="sec">Escribe de memoria</h2>
+    <p class="sec-note">Al revés que el dictado: ves lo que significa y lo escribes de cero,
+    sin oírlo y sin tenerlo delante. Es lo más difícil de la página, y lo único que de verdad
+    separa «la reconozco» de «me la sé».</p>
+    <div class="card" id="esmCaja"></div>` : ""}
+
+    ${typeof HAY_VINETAS === "function" && HAY_VINETAS() ? `
+    <h2 class="sec">Historia en viñetas</h2>
+    <p class="sec-note">Seis viñetas de una misma situación, con su dibujo. Toca una para
+    oírla, o dale a oírla entera y ve siguiéndolas.</p>
+    <div id="hvCaja"></div>` : ""}`;
   },
   init(){
     ordNueva(); ordPinta();
+    if(typeof HAY_SENALA === "function" && HAY_SENALA()){ vsNueva(); vsPinta(false); }
+    if(typeof HAY_ESCRIBIR === "function" && HAY_ESCRIBIR()){
+      esNueva();
+      const c = document.getElementById("esmCaja");
+      if(c){ c.innerHTML = esHTML(); esPinta(); }
+    }
+    if(typeof HAY_VINETAS === "function" && HAY_VINETAS()){
+      const c = document.getElementById("hvCaja");
+      if(c) c.innerHTML = hvHTML();
+    }
     memNew(); memPaint();
     $("#memNew").addEventListener("click", () => { memNew(); memPaint(); });
 

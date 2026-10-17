@@ -2705,6 +2705,17 @@ body.ens-on{overflow:hidden}
   .rap-l .th{font-size:21px}
 }
 
+/* ── cuando el reconocimiento se queda sin red ── */
+.rep-red{
+  display:block; margin-top:8px; padding:12px 14px; border-radius:12px;
+  background:var(--surface-2); border-left:3px solid var(--gold);
+  font-size:13.5px; line-height:1.65; color:var(--ink-2);
+}
+.rep-red b{color:var(--ink)}
+.rep-red-mas{display:block; margin-top:7px; color:var(--ink-3)}
+.rep-red-btns{display:flex; flex-wrap:wrap; gap:8px; margin-top:11px}
+@media (max-width:560px){ .rep-red-btns .btn{width:100%} }
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -7190,13 +7201,64 @@ function repetirHTML(objetivo, etiqueta, otras){
       ${svg("mic")} ${etiqueta || "Repítelo tú"}</button>
     <span class="rep-out" aria-live="polite"></span></span>`;
 }
-function escuchaRepeticion(btn){
+/* ── cuando el reconocimiento dice «network» ───────────────
+   No es el micrófono ni la conexión del curso. Este navegador no
+   entiende la voz en el propio aparato: manda lo que dices a un
+   servidor y espera la respuesta. Por eso la página va bien sin
+   internet —está guardada entera— y esto no.
+
+   Falla a ratos incluso con buena conexión, así que se reintenta una
+   vez en silencio antes de molestar con un aviso. Y se ofrece lo que
+   funciona sin red: el análisis de la propia voz, que se hace aquí
+   dentro (ver voz.js). */
+let repFallosRed = 0;
+const REP_DICE = {
+  "not-allowed":        "No hay permiso para el micrófono en esta ventana. Mira el candado de la barra de direcciones.",
+  "service-not-allowed":"El navegador no deja usar el micrófono aquí. Mira el candado de la barra de direcciones.",
+  "no-speech":          "No te he oído. Acércate un poco y dilo más alto.",
+  "audio-capture":      "No encuentro ningún micrófono conectado.",
+  "aborted":            "Se ha cortado la escucha. Prueba otra vez."
+};
+/* la lectura de una palabra, buscada en el propio curso: sin ella el
+   análisis local no puede enseñar los tonos que TENDRÍA que hacer */
+function romDe(th){
+  const t = String(th || "");
+  const v1 = (typeof VOCAB !== "undefined" ? VOCAB : []).find(x => x[0] === t);
+  if(v1) return v1[1];
+  const p1 = (typeof PHRASES !== "undefined" ? PHRASES : []).find(x => renderPhrase(x[0]) === t);
+  if(p1) return renderRom(p1[1]);
+  const c1 = (typeof CUERPO !== "undefined" ? CUERPO : []).find(x => x[1] === t);
+  if(c1) return c1[2];
+  return "";
+}
+
+function repSinRedHTML(objetivo){
+  return `<span class="rep-red">
+    <b>No es tu micrófono.</b> Para entender lo que dices, este navegador manda tu voz a un
+    servidor suyo, así que eso sí necesita internet. El curso entero funciona sin conexión
+    —está guardado en el teléfono—, y por eso la página va bien y esto no.
+    ${repFallosRed >= 2 ? `<span class="rep-red-mas">Te ha pasado ${repFallosRed} veces seguidas.
+      Si estás con mala cobertura, lo de abajo no la necesita.</span>` : ""}
+    <span class="rep-red-btns">
+      <button class="btn btn--s" data-rep="${esc(objetivo)}">${svg("mic")} Probar otra vez</button>
+      ${typeof vozHTML === "function" && typeof HAY_MICRO !== "undefined" && HAY_MICRO
+        ? `<button class="btn btn--p btn--s" data-rep-voz="${esc(objetivo)}">Escucharme sin internet →</button>` : ""}
+    </span>
+  </span>`;
+}
+
+function escuchaRepeticion(btn, reintento){
   const objetivo = btn.dataset.rep;
   const validos = [objetivo].concat((btn.dataset.repAlt || "").split("|").filter(Boolean));
   const caja = btn.parentElement.querySelector(".rep-out");
   const pinta = h => { if(caja) caja.innerHTML = h; };
   const r = new SR();
   r.lang = LANG.voz; r.interimResults = false; r.maxAlternatives = 3;
+  if(navigator.onLine === false){
+    repFallosRed++;
+    pinta(repSinRedHTML(objetivo));
+    return;
+  }
   btn.disabled = true; btn.classList.add("rep--oye");
   pinta(`<span class="muted">Escuchando… dilo ahora.</span>`);
   r.onresult = ev => {
@@ -7210,6 +7272,7 @@ function escuchaRepeticion(btn){
     const oido = `«<span class="th">${esc(dicho)}</span>»`;
     if(mejor.estado === "ok"){
       pinta(`<b style="color:var(--ok)">Bien dicho.</b> Te ha entendido ${oido}.`);
+      repFallosRed = 0;
       if(!repAcertados.has(objetivo)){ repAcertados.add(objetivo); ganaXP(10); }
       touchStreak();
       bump("decir");
@@ -7227,17 +7290,36 @@ function escuchaRepeticion(btn){
     trasRepetir(btn, mejor.estado);
   };
   r.onerror = ev => {
-    pinta(ev.error === "not-allowed" || ev.error === "service-not-allowed"
-      ? `<span class="muted">No hay permiso para el micrófono en esta ventana.</span>`
-      : `<span class="muted">No se ha podido escuchar (${esc(ev.error)}).</span>`);
+    if(ev.error === "network"){
+      /* el servicio tropieza a ratos: una segunda oportunidad callada
+         lo arregla muchas veces, y así no se avisa por nada */
+      if(!reintento){
+        r.onend = null;
+        setTimeout(() => escuchaRepeticion(btn, true), 500);
+        return;
+      }
+      repFallosRed++;
+      pinta(repSinRedHTML(objetivo));
+      return;
+    }
+    repFallosRed = 0;
+    pinta(`<span class="muted">${REP_DICE[ev.error] || "No se ha podido escuchar."}</span>`);
   };
   r.onend = () => { btn.disabled = false; btn.classList.remove("rep--oye"); };
   try{ r.start(); }
   catch(e){ btn.disabled = false; btn.classList.remove("rep--oye"); pinta(`<span class="muted">No se ha podido abrir el micrófono.</span>`); }
 }
 document.addEventListener("click", e => {
+  const vz = e.target.closest("[data-rep-voz]");
+  if(vz){
+    /* el análisis de la propia voz se hace en el teléfono: ni manda ni
+       pide nada, así que funciona con el avión puesto */
+    const hueco = vz.closest(".rep-out") || vz.parentElement;
+    if(hueco) hueco.innerHTML = vozHTML(vz.dataset.repVoz, romDe(vz.dataset.repVoz));
+    return;
+  }
   const b = e.target.closest("[data-rep]");
-  if(b) escuchaRepeticion(b);
+  if(b) escuchaRepeticion(b, false);
 });
 
 /* ── 7 · claro u oscuro ───────────────────────────────────

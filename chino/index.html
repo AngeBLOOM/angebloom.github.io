@@ -1274,7 +1274,12 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .cu-g[data-parte]:hover{fill:var(--accent-soft); stroke:var(--brand)}
 .cu-g.activa{fill:color-mix(in srgb, var(--brand) 30%, transparent); stroke:var(--brand)}
 .cu-g .cu-linea{fill:none}
-.cu-g .cu-miembro{fill:none; stroke-width:15}   /* brazos y piernas, con cuerpo */
+/* Brazos y piernas van dibujados a contorno como todo lo demás, no
+   como barras macizas: mezclar relleno grueso con línea fina hacía
+   que el muñeco pareciera de piezas distintas. Para que se puedan
+   tocar sin estar rellenos, el interior captura el dedo igual. */
+.cu-g [class]:not(.cu-linea), .cu-g path, .cu-g ellipse, .cu-g rect{pointer-events:all}
+.cu-g .cu-linea{pointer-events:stroke}
 .cu-g.sin{opacity:.45}            /* lo que este idioma no nombra */
 .cu-g[data-parte]:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
 
@@ -8921,31 +8926,56 @@ function munecoSVG(){
   /* Los brazos y las piernas son trazos gruesos con la punta redonda:
      así parecen miembros y no alambres, y además se tocan fácil con el
      dedo, que es de lo que se trata. */
+  /* El muñeco de antes parecía un espantapájaros: la cabeza era un
+     círculo con un arco de pelo del que salían dos orejas como unos
+     auriculares, los hombros eran dos charreteras sueltas, los brazos
+     barras que no llegaban a tocarlas y el tronco un rectángulo con
+     una tripa flotando dentro.
+
+     Este está hecho con proporciones de persona: la cabeza es óvalo y
+     cabe unas seis veces en el alto, los ojos van a media altura de la
+     cara (no arriba, que es el error de todos los monigotes), las
+     orejas a la altura de los ojos, el tronco se estrecha en la
+     cintura y los brazos salen del hombro y caen.
+
+     Cada parte sigue siendo su propio grupo, que es lo que permite
+     tocarla; lo único que cambia es el dibujo. */
   return `<svg viewBox="0 0 240 450" class="cu-svg" role="img" aria-label="Dibujo de una persona">
     <!-- piernas y pies -->
-    <g ${P("pierna")}><path class="cu-miembro" d="M105 244 L99 378"/><path class="cu-miembro" d="M135 244 L141 378"/></g>
-    <g ${P("pie")}><ellipse cx="94" cy="390" rx="22" ry="11"/><ellipse cx="146" cy="390" rx="22" ry="11"/></g>
-    <g ${P("rodilla")}><circle cx="102" cy="312" r="12"/><circle cx="138" cy="312" r="12"/></g>
-    <!-- tronco -->
-    <g ${P("espalda")}><rect x="76" y="116" width="88" height="128" rx="30"/></g>
-    <g ${P("barriga")}><circle cx="120" cy="200" r="24"/></g>
+    <g ${P("pierna")}><path d="M96 250 C93 288 92 330 92 372 L110 372 C110 330 110 288 110 250z"/>
+      <path d="M130 250 C130 288 130 330 130 372 L148 372 C148 330 147 288 144 250z"/></g>
+    <g ${P("pie")}><path d="M92 372 h18 v8 q10 2 10 8 q0 5 -7 5 H92 q-6 0 -6 -6z"/>
+      <path d="M148 372 h-18 v8 q-10 2 -10 8 q0 5 7 5 h21 q6 0 6 -6z"/></g>
+    <g ${P("rodilla")}><path class="cu-linea" d="M94 314 q7 6 14 0"/>
+      <path class="cu-linea" d="M132 314 q7 6 14 0"/></g>
+    <!-- tronco: hombros anchos, cintura estrecha, cadera -->
+    <g ${P("espalda")}><path d="M86 130 q2 -14 14 -16 h40 q12 2 14 16
+      l-8 54 q-2 12 0 24 l6 42 q-20 8 -32 8 q-12 0 -32 -8 l6 -42 q2 -12 0 -24z"/></g>
+    <g ${P("barriga")}><path class="cu-linea" d="M102 208 q18 11 36 0"/>
+      <path class="cu-linea" d="M120 198 v5"/></g>
     <!-- brazos, manos y dedos -->
-    <g ${P("brazo")}><path class="cu-miembro" d="M82 140 L60 216"/><path class="cu-miembro" d="M158 140 L180 216"/></g>
-    <g ${P("mano")}><circle cx="57" cy="231" r="14"/><circle cx="183" cy="231" r="14"/></g>
+    <g ${P("brazo")}><path d="M84 132 C77 162 70 192 64 218 L78 222 C85 194 92 164 98 134z"/>
+      <path d="M156 132 C163 162 170 192 176 218 L162 222 C155 194 148 164 142 134z"/></g>
+    <g ${P("mano")}><path d="M64 220 q-9 4 -9 13 q0 12 12 14 q12 -2 12 -14 q0 -9 -9 -13z"/>
+      <path d="M176 220 q9 4 9 13 q0 12 -12 14 q-12 -2 -12 -14 q0 -9 9 -13z"/></g>
     <g ${P("dedo")}>
-      <circle cx="45" cy="246" r="5"/><circle cx="57" cy="250" r="5"/><circle cx="69" cy="246" r="5"/>
-      <circle cx="171" cy="246" r="5"/><circle cx="183" cy="250" r="5"/><circle cx="195" cy="246" r="5"/>
+      <path class="cu-linea" d="M61 245 v9M67 248 v9M74 245 v8"/>
+      <path class="cu-linea" d="M179 245 v9M173 248 v9M166 245 v8"/>
     </g>
-    <g ${P("hombro")}><circle cx="82" cy="134" r="14"/><circle cx="158" cy="134" r="14"/></g>
+    <g ${P("hombro")}><path class="cu-linea" d="M87 126 q7 -11 21 -12"/>
+      <path class="cu-linea" d="M153 126 q-7 -11 -21 -12"/></g>
     <!-- cabeza -->
-    <g ${P("cuello")}><rect x="110" y="96" width="20" height="26" rx="9"/></g>
-    <g ${P("cabeza")}><circle cx="120" cy="62" r="38"/></g>
-    <g ${P("pelo")}><path d="M82 58a38 38 0 0 1 76 0c3-32-17-42-38-42S79 26 82 58z"/></g>
-    <g ${P("oreja")}><ellipse cx="81" cy="64" rx="7" ry="11"/><ellipse cx="159" cy="64" rx="7" ry="11"/></g>
-    <g ${P("ojo")}><circle cx="106" cy="58" r="5.5"/><circle cx="134" cy="58" r="5.5"/></g>
-    <g ${P("nariz")}><path class="cu-linea" d="M120 66 L120 79"/></g>
-    <g ${P("boca")}><path class="cu-linea" d="M107 87 q13 11 26 0"/></g>
-    <g ${P("diente")}><rect x="114" y="87" width="12" height="7" rx="2"/></g>
+    <g ${P("cuello")}><path d="M109 97 v13 q0 6 11 6 q11 0 11 -6 V97"/></g>
+    <g ${P("cabeza")}><ellipse cx="120" cy="64" rx="31" ry="36"/></g>
+    <g ${P("pelo")}><path d="M88 66 C86 28 102 20 120 20 C138 20 154 28 152 66
+      C150 47 141 41 120 41 C99 41 90 47 88 66z"/></g>
+    <g ${P("oreja")}><path d="M89 55 q-11 1 -11 11 q0 10 11 12"/>
+      <path d="M151 55 q11 1 11 11 q0 10 -11 12"/></g>
+    <g ${P("ojo")}><ellipse cx="108" cy="64" rx="5" ry="5.5"/>
+      <ellipse cx="132" cy="64" rx="5" ry="5.5"/></g>
+    <g ${P("nariz")}><path class="cu-linea" d="M120 68 v12 q0 4 5 4"/></g>
+    <g ${P("boca")}><path d="M107 91 q13 12 26 0 q-13 -5 -26 0z"/></g>
+    <g ${P("diente")}><path d="M110 90 h20 v4 q-10 2 -20 0z"/></g>
   </svg>`;
 }
 

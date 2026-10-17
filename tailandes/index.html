@@ -2512,6 +2512,66 @@ body.ens-on{overflow:hidden}
 /* las fronteras de dentro, más flojas que la costa */
 .ico .mapa-f{fill:none; stroke:currentColor; stroke-width:1.4; opacity:.55}
 
+/* ── Hoy: lo que toca, lo que confundes y la semana ── */
+.hoy-caja{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  background:var(--surface); border:1px solid var(--line); border-radius:16px;
+  padding:16px 18px; margin:4px 0 6px;
+}
+.hoy-n{display:flex; flex-direction:column; align-items:center; flex:none; min-width:72px}
+.hoy-n b{font:600 44px/1 var(--disp); color:var(--brand)}
+.hoy-n span{font-size:11.5px; color:var(--ink-3); margin-top:2px}
+.hoy-det{flex:1; min-width:150px; display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.hoy-chip{
+  font:600 12px var(--ui); color:var(--ink-2); background:var(--surface-2);
+  border-radius:20px; padding:4px 11px;
+}
+.hoy-chip--v{background:var(--brand); color:var(--brand-ink)}
+.hoy-tipos{display:flex; flex-wrap:wrap; gap:10px; width:100%; margin-top:4px}
+.hoy-tipo{display:inline-flex; align-items:center; gap:5px; font-size:12.5px; color:var(--ink-3)}
+.hoy-tipo svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.9}
+.hoy-cero{
+  background:var(--surface-2); border-radius:14px; padding:14px 16px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.hoy-cero b{font-size:15px}
+.hoy-cero span{font-size:14px; color:var(--ink-2); line-height:1.6}
+.hoy-hecho{width:100%; margin:6px 0 0; font-size:13.5px; color:var(--ok); font-weight:600}
+
+/* las parejas que se mezclan */
+.conf-f{grid-template-columns:1fr auto; align-items:center}
+.conf-par{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.conf-par .th{font-size:21px}
+.conf-flecha{color:var(--ink-3); font-size:15px; flex:none}
+.conf-n{
+  font:700 12.5px var(--mono); color:var(--bad); background:var(--surface-2);
+  border-radius:20px; padding:3px 10px; flex:none;
+}
+
+/* la semana */
+.sem{margin:4px 0 2px}
+.sem-dias{display:flex; gap:7px}
+.sem-d{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:9px 0 10px; border-radius:11px; background:var(--surface-2);
+  border:1px solid transparent;
+}
+.sem-d span{font:700 11px var(--ui); color:var(--ink-3); letter-spacing:.04em}
+.sem-d i{width:9px; height:9px; border-radius:50%; background:var(--line-2); display:block}
+.sem-d--si{background:var(--surface)}
+.sem-d--si i{background:var(--brand)}
+.sem-d--hoy{border-color:var(--brand)}
+.sem-txt{margin:11px 0 0; font-size:14.5px; line-height:1.6; color:var(--ink-2)}
+.sem-h{font:650 15px var(--ui); margin:18px 0 9px}
+@media (max-width:560px){
+  .hoy-caja{padding:14px; gap:12px}
+  .hoy-n b{font-size:38px}
+  .hoy-caja .btn{width:100%}
+  .conf-par .th{font-size:19px}
+  .sem-dias{gap:5px}
+}
+
+.hoy-resto{width:100%; margin:6px 0 0; font-size:13px; line-height:1.6; color:var(--ink-3)}
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -2675,7 +2735,7 @@ const LANG = {
                      "-i (semivocal)":"อาย", "-u (semivocal)":"อาว"})[c[4]] || null,
   ejemploLetra: c => c[1].split(" ")[1] || null,
   cuadernoPaginas: 50,
-  secciones: ["inicio","basico","estudiar","tonos","lectura","sonidos","alfabeto","escritura","gramatica",
+  secciones: ["inicio","hoy","basico","estudiar","tonos","lectura","sonidos","alfabeto","escritura","gramatica",
               "ejercicios","vocabulario","frases","numeros","hablar","charla","juegos","repaso"],
   anillos: ["alfabeto","vocabulario","tonos","repaso"],
   particulas: true,
@@ -3808,7 +3868,7 @@ const DEF = {known:{}, vocab:{}, phr:{}, speed:0.85, gender:"m", hintSeen:0,
              today:{day:"", cards:0, quiz:0, plays:0}, sinMarca:0,
              horario:{dias:[], hora:"19:00", min:20, avisado:""},
              xpPor:{}, visitados:{}, dias:{}, navAb:null,
-             pais:"", nombre:"", letra:1, due:{}, mudo:0, mudoVisto:0, meta:""};
+             pais:"", nombre:"", letra:1, due:{}, mudo:0, mudoVisto:0, meta:"", lvl:{}, confuso:{}};
 let S = load();
 /* el modo sin sonido se guardo durante un dia sin que se viera en
    ninguna parte: quien lo tuviera puesto no podia saberlo ni
@@ -4094,7 +4154,7 @@ const pctOf = k => Math.round((P[k] ? P[k]() : 0) * 100);
 
 /* ══ NAVEGACIÓN ══════════════════════════════════════════ */
 const NAV_GROUPS = [
-  ["Empezar", [["inicio","Inicio","home"], ["basico","Lo básico","cup"],
+  ["Empezar", [["inicio","Inicio","home"], ["hoy","Hoy","clock"], ["basico","Lo básico","cup"],
                 ["estudiar","Cómo estudiar","book"]]],
   ["Fundamentos", [["tonos","Tonos","wave"], ["ritmo","Ritmo y moras","wave"], ["bloques","Bloques silábicos","abc"],
                    ["lectura","Cómo se lee","ear"],
@@ -4294,7 +4354,7 @@ document.addEventListener("click", e => {
 const ICONO_PARADA = {
   tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
   alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
-  basico:"cup", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
+  hoy:"clock", basico:"cup", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
   charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
 };
 /* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
@@ -4541,8 +4601,9 @@ VIEWS.tonos = {
       return {
         prompt:`<div class="row" style="justify-content:center"><button class="btn btn--p" data-say="${d.th}">${svg("play")} Escuchar de nuevo</button></div>`,
         auto:d.th,
+        clave:"tono:" + d.tone,
         question:"¿Qué tono has oído?",
-        options:Object.keys(TONES).map(k => ({label:TONES[k].es, ok:k === d.tone})),
+        options:Object.keys(TONES).map(k => ({label:TONES[k].es, ok:k === d.tone, clave:"tono:" + k})),
         after:`<span class="th">${d.th}</span> · ${d.rom} — ${d.es}`
       };
     }, sc => { if(sc > S.best.tono){ S.best.tono = sc; save(); paintNav(current); } });
@@ -5812,6 +5873,13 @@ function quizEngine(root, total, make, onDone){
       const ok = opts[k].ok;
       if(ok){ score++; ganaXP(10); }
       else if(q.tema && cuenta[q.tema]) cuenta[q.tema].mal++;
+      /* y además, QUÉ has confundido con qué: saber que fallas «en
+         escucha» no sirve para arreglarlo; saber que confundes estas
+         dos cosas, sí (ver repasar.js) */
+      if(!ok && q.clave && opts[k] && opts[k].clave && typeof apuntaConfusion === "function")
+        apuntaConfusion(q.clave, opts[k].clave);
+      if(ok && q.clave && typeof olvidaConfusion === "function")
+        q.options.forEach(o => { if(!o.ok && o.clave) olvidaConfusion(q.clave, o.clave); });
       root.querySelectorAll(".qopt").forEach((x,j) => {
         x.disabled = true;
         if(opts[j].ok) x.classList.add("ok");
@@ -5845,11 +5913,11 @@ function makeMixed(soloEstos){
   if(kind === "cons-sound"){
     const c = pick(CONS.filter(x => !x[6]));
     const wrong = shuffle([...new Set(CONS.filter(x => x[3] !== c[3]).map(x => x[3]))]).slice(0,3);
-    return {tema:kind, question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
+    return {tema:kind, clave:c[0], question:`¿Qué sonido tiene esta letra al principio de sílaba?`,
       prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
         ${letraSuena(c) ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}
           <span class="muted" style="font-size:13px">Escúchala si dudas</span></div>` : ""}`,
-      options:[{label:c[3], ok:true}, ...wrong.map(x => ({label:x, ok:false}))],
+      options:[{label:c[3], ok:true, clave:c[3]}, ...wrong.map(x => ({label:x, ok:false, clave:x}))],
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
       after:`${c[1]} — ${c[2]}`};
   }
@@ -5860,8 +5928,9 @@ function makeMixed(soloEstos){
           <span class="muted" style="font-size:13px">Escúchala</span></div>` : ""}${clasesAyudaHTML()}`,
       /* con su color: es la pista que se recuerda, y es el mismo de la
          lista de letras y del mapa */
+      clave:c[0],
       options:Object.keys(CLASSNAME).map(k =>
-        ({label:`<i class="cl kd-${claseN(k)}" style="margin-right:7px"></i>${esc(CLASSNAME[k])}`, ok:k === c[5]})),
+        ({label:`<i class="cl kd-${claseN(k)}" style="margin-right:7px"></i>${esc(CLASSNAME[k])}`, ok:k === c[5], clave:k})),
       oir: LANG.ejemploLetra ? LANG.ejemploLetra(c) : null,
       after:`${c[1]} — ${CLASSTHAI[c[5]]}${CLASSNOTA[c[5]] ? ". " + CLASSNOTA[c[5]] : ""}`};
   }
@@ -5881,16 +5950,17 @@ function makeMixed(soloEstos){
   }
   if(kind === "listen"){
     const v = pick(VOCAB), w = shuffle(VOCAB.filter(x => x[0] !== v[0])).slice(0,3);
-    return {tema:kind, question:"¿Qué palabra has oído?", auto:v[0],
+    return {tema:kind, clave:v[0], question:"¿Qué palabra has oído?", auto:v[0],
       prompt:`<div class="row" style="justify-content:center"><button class="btn btn--s" data-say="${v[0]}">${svg("play")} Repetir audio</button></div>`,
-      options:[{label:`<span class="th">${v[0]}</span>`, ok:true}, ...w.map(x => ({label:`<span class="th">${x[0]}</span>`, ok:false}))],
+      options:[{label:`<span class="th">${v[0]}</span>`, ok:true, clave:v[0]},
+               ...w.map(x => ({label:`<span class="th">${x[0]}</span>`, ok:false, clave:x[0]}))],
       after:`${v[0]} · ${v[1]} — ${v[2]}`};
   }
   if(kind === "tone"){
     const d = pick(TONE_DEMO);
-    return {tema:kind, question:"¿Qué tono has oído?", auto:d.th,
+    return {tema:kind, clave:"tono:" + d.tone, question:"¿Qué tono has oído?", auto:d.th,
       prompt:`<div class="row" style="justify-content:center"><button class="btn btn--s" data-say="${d.th}">${svg("play")} Repetir audio</button></div>`,
-      options:Object.keys(TONES).map(k => ({label:TONES[k].es, ok:k === d.tone})),
+      options:Object.keys(TONES).map(k => ({label:TONES[k].es, ok:k === d.tone, clave:"tono:" + k})),
       after:`${d.th} · ${d.rom} — ${d.es}`};
   }
   if(kind === "phrase"){
@@ -10753,6 +10823,454 @@ VIEWS.basico = {
     });
   }
 };
+
+/* ══════════════════════════════════════════════════════════
+   REPASO DE TODO · una sola cola
+   ══════════════════════════════════════════════════════════
+   La repetición espaciada ya estaba, pero solo para el vocabulario:
+   las 155 palabras tenían fecha de repaso y volvían justo antes de
+   que se te olvidaran. Las letras y las frases no. Se marcaban a mano
+   con un ✓ y no volvían nunca, así que lo que se marcaba un lunes se
+   perdía igual que si no se hubiera estudiado.
+
+   Aquí las letras, las frases y los patrones de gramática entran en el
+   mismo sistema que ya funciona. No hay dos mecanismos: es el mismo
+   S.due de siempre, que guarda una fecha por clave, y las claves no
+   chocan porque una letra, una palabra y una frase nunca se escriben
+   igual.
+
+   Lo que sí hace falta nuevo es un nivel para lo que no es vocabulario
+   (el vocabulario ya tenía S.vocab), y eso es S.lvl.
+
+   Va después de part3.js (usa S, quizEngine, marcaFecha…) y antes de
+   part4.js. */
+
+const LVL_MAX = 4;
+const lvlDe = k => ((S.lvl && S.lvl[k]) || 0);
+function subeLvl(k, d){
+  if(!S.lvl || typeof S.lvl !== "object") S.lvl = {};
+  S.lvl[k] = Math.max(0, Math.min(LVL_MAX, lvlDe(k) + d));
+  marcaFecha(k, S.lvl[k], d > 0);
+  save();
+}
+
+/* ── de qué está hecha la cola ─────────────────────────────
+   Cada tipo sabe tres cosas: qué cosas tiene, cómo se llama cada una
+   y cómo se pregunta. Donde el curso no tenga ese material, el tipo
+   no aporta nada y no se nota. */
+const COLA_TIPOS = [
+  {
+    k: "palabra", es: "palabras", ico: "cards",
+    lista: () => (typeof VOCAB !== "undefined" ? VOCAB : []),
+    clave: v => v[0],
+    nivel: v => (S.vocab && S.vocab[v[0]]) || 0,
+    marca: (v, bien) => {
+      if(!S.vocab || typeof S.vocab !== "object") S.vocab = {};
+      S.vocab[v[0]] = Math.max(0, Math.min(4, (S.vocab[v[0]] || 0) + (bien ? 1 : -1)));
+      marcaFecha(v[0], S.vocab[v[0]], bien); save();
+    },
+    pregunta: v => {
+      const otras = shuffle((typeof VOCAB !== "undefined" ? VOCAB : [])
+        .filter(x => x[2] !== v[2])).slice(0, 3);
+      return {tema:"vocab-es", clave:v[0],
+        prompt:`<div style="text-align:center;font-size:52px;line-height:1.2">${dibujo(v)}</div>
+          <div class="big-thai" style="text-align:center">${v[0]}</div>
+          <div class="row" style="justify-content:center">${sayBtn(v[0], v[1])}</div>`,
+        question:"¿Qué significa?",
+        options:[{label:esc(v[2]), ok:true, clave:v[0]},
+                 ...otras.map(x => ({label:esc(x[2]), ok:false, clave:x[0]}))],
+        oir:v[0], decir:v[0], after:`${v[0]} · ${v[1]}`};
+    }
+  },
+  {
+    k: "letra", es: "letras", ico: "abc",
+    lista: () => (typeof CONS !== "undefined" ? CONS.filter(c => !c[6]) : []),
+    clave: c => c[0],
+    nivel: c => lvlDe(c[0]),
+    marca: (c, bien) => {
+      subeLvl(c[0], bien ? 1 : -1);
+      /* el ✓ de «aprendida» sigue valiendo: se pone solo al llegar arriba */
+      if(!S.known || typeof S.known !== "object") S.known = {};
+      if(lvlDe(c[0]) >= 3) S.known[c[0]] = 1;
+      save();
+    },
+    pregunta: c => {
+      const otras = shuffle((typeof CONS !== "undefined" ? CONS.filter(x => !x[6]) : [])
+        .filter(x => x[3] !== c[3])).slice(0, 3);
+      const opciones = [...new Set([c[3], ...otras.map(x => x[3])])];
+      return {tema:"cons-sound", clave:c[0],
+        prompt:`<div class="big-thai" style="text-align:center;color:var(--accent)">${c[0]}</div>
+          ${typeof letraSuena === "function" && letraSuena(c)
+            ? `<div class="row" style="justify-content:center">${sayBtn(letraSuena(c), "la letra")}</div>` : ""}`,
+        question:"¿Qué sonido tiene al principio de sílaba?",
+        options:opciones.map(s => ({label:esc(s), ok:s === c[3], clave:s})),
+        after:`${c[1]} — ${c[2]}`};
+    }
+  },
+  {
+    k: "frase", es: "frases", ico: "chat",
+    lista: () => (typeof PHRASES !== "undefined" ? PHRASES : []),
+    clave: p => renderPhrase(p[0]),
+    nivel: p => lvlDe(renderPhrase(p[0])),
+    marca: (p, bien) => {
+      const k = renderPhrase(p[0]);
+      subeLvl(k, bien ? 1 : -1);
+      if(!S.phr || typeof S.phr !== "object") S.phr = {};
+      if(lvlDe(k) >= 3) S.phr[p[0]] = 1;
+      save();
+    },
+    pregunta: p => {
+      const th = renderPhrase(p[0]), rom = renderRom(p[1]);
+      const otras = shuffle((typeof PHRASES !== "undefined" ? PHRASES : [])
+        .filter(x => x[2] !== p[2])).slice(0, 3);
+      return {tema:"phrase", clave:th,
+        prompt:`<div class="big-thai" style="text-align:center;font-size:26px">${th}</div>
+          <div class="row" style="justify-content:center">${sayBtn(th, rom)}</div>`,
+        question:"¿Qué quiere decir?",
+        options:[{label:ponHuecosEs(p[2]), ok:true, clave:th},
+                 ...otras.map(x => ({label:ponHuecosEs(x[2]), ok:false, clave:renderPhrase(x[0])}))],
+        oir:th, decir:th, after:rom};
+    }
+  },
+  {
+    k: "patron", es: "patrones", ico: "grammar",
+    lista: () => (typeof GRAMMAR !== "undefined" ? GRAMMAR : []),
+    clave: g => g[3],
+    nivel: g => lvlDe(g[3]),
+    marca: (g, bien) => subeLvl(g[3], bien ? 1 : -1),
+    pregunta: g => {
+      const otros = shuffle((typeof GRAMMAR !== "undefined" ? GRAMMAR : [])
+        .filter(x => x[5] !== g[5])).slice(0, 3);
+      return {tema:"gram", clave:g[3],
+        prompt:`<div class="big-thai" style="text-align:center;font-size:24px">${g[3]}</div>
+          <div class="row" style="justify-content:center">${sayBtn(g[3], g[4])}</div>`,
+        question:"¿Qué dice esta frase?",
+        options:[{label:esc(g[5]), ok:true, clave:g[3]},
+                 ...otros.map(x => ({label:esc(x[5]), ok:false, clave:x[3]}))],
+        oir:g[3], decir:g[3], after:`${g[4]} — ${g[0]}`};
+    }
+  }
+];
+
+const tiposVivos = () => COLA_TIPOS.filter(t => t.lista().length >= 4);
+
+/* Cuántas cosas SIN ESTRENAR entran al día. Sin este tope, el primer
+   día te tocarían las 272 del curso entero, que no es una cola de
+   repaso: es la lista de todo lo que existe, y verla entera desanima
+   en vez de ayudar. Lo vencido no tiene tope: eso sí hay que hacerlo. */
+const NUEVAS_DIA = 8;
+
+/* lo que toca hoy, de todo: vencidas primero y sin estrenar después */
+function colaDeHoy(max){
+  const hoy = hoyISO();
+  const vencidas = [], nuevas = [];
+  tiposVivos().forEach(t => t.lista().forEach(x => {
+    const k = t.clave(x);
+    const f = fechaDe(k);
+    if(!f) nuevas.push({t, x, k, f:"", n:t.nivel(x)});
+    else if(f <= hoy) vencidas.push({t, x, k, f, n:t.nivel(x)});
+  }));
+  vencidas.sort((a, b) => (a.f < b.f ? -1 : a.f > b.f ? 1 : a.n - b.n));
+  /* las nuevas se reparten entre los tipos por turnos: si no, el cupo
+     del día se lo come entero el vocabulario (que es lo más numeroso)
+     y las letras no se estrenan nunca */
+  const porTipo = {};
+  nuevas.forEach(x => { (porTipo[x.t.k] = porTipo[x.t.k] || []).push(x); });
+  const turnos = Object.keys(porTipo);
+  const tocan = [];
+  for(let v = 0; tocan.length < NUEVAS_DIA && turnos.some(k => porTipo[k][v]); v++)
+    for(const k of turnos){
+      if(tocan.length >= NUEVAS_DIA) break;
+      if(porTipo[k][v]) tocan.push(porTipo[k][v]);
+    }
+  const todo = vencidas.concat(tocan);
+  return max ? todo.slice(0, max) : todo;
+}
+/* el número que se enseña: lo vencido más las nuevas que caben hoy */
+const tocanHoy = () => {
+  const c = cuentaDeHoy();
+  return c.vencidas + Math.min(c.nuevas, NUEVAS_DIA);
+};
+function cuentaDeHoy(){
+  const hoy = hoyISO();
+  const r = {vencidas:0, nuevas:0, aldia:0, porTipo:{}};
+  tiposVivos().forEach(t => {
+    const c = {vencidas:0, nuevas:0, aldia:0};
+    t.lista().forEach(x => {
+      const f = fechaDe(t.clave(x));
+      if(!f) c.nuevas++; else if(f <= hoy) c.vencidas++; else c.aldia++;
+    });
+    r.porTipo[t.k] = Object.assign({es:t.es, ico:t.ico}, c);
+    r.vencidas += c.vencidas; r.nuevas += c.nuevas; r.aldia += c.aldia;
+  });
+  return r;
+}
+
+/* ── el mapa de confusiones ────────────────────────────────
+   El curso apuntaba «fallas en escucha». Eso no se puede arreglar: no
+   dice qué confundes. Aquí se guarda el par concreto —lo que era y lo
+   que contestaste— para poder decirte «confundes esto con esto» y
+   hacerte una tanda solo con eso. */
+function apuntaConfusion(era, dijiste){
+  if(!era || !dijiste || era === dijiste) return;
+  if(!S.confuso || typeof S.confuso !== "object") S.confuso = {};
+  const k = LANG.id + "\u0000" + era + "\u0000" + dijiste;
+  S.confuso[k] = Math.min(20, (S.confuso[k] || 0) + 1);
+  save();
+}
+function confusionesDe(){
+  const fuera = [];
+  Object.keys(S.confuso || {}).forEach(k => {
+    const p = k.split("\u0000");
+    if(p[0] !== LANG.id || p.length !== 3) return;
+    fuera.push({era:p[1], dijiste:p[2], n:S.confuso[k]});
+  });
+  return fuera.sort((a, b) => b.n - a.n);
+}
+/* para que un fallo de hace un mes no te persiga cuando ya está
+   aprendido, cada acierto de esa pareja la rebaja */
+function olvidaConfusion(era, dijiste){
+  if(!S.confuso) return;
+  const k = LANG.id + "\u0000" + era + "\u0000" + dijiste;
+  if(!S.confuso[k]) return;
+  S.confuso[k]--;
+  if(S.confuso[k] <= 0) delete S.confuso[k];
+  save();
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOY Y TU SEMANA
+   ══════════════════════════════════════════════════════════
+   Lo que tenías que saber estaba repartido en cuatro sitios: cuántas
+   tarjetas tocaban (dentro de Vocabulario), qué llevabas flojo (al
+   final de una tanda), la racha (en la barra de arriba) y los días
+   estudiados (en Inicio). Para saber qué hacer un martes a las ocho
+   había que recorrer el curso entero.
+
+   Aquí está junto, y con un botón por cada cosa. Tres bloques:
+
+     1 · Lo que toca hoy, de TODO (palabras, letras, frases y
+         patrones), con el repaso que lo despacha.
+     2 · Lo que confundes, par por par, y una tanda hecha solo con
+         tus confusiones.
+     3 · La semana: qué días entraste y qué llevas flojo.
+
+   Va después de repasar.js y antes de part4.js. */
+
+/* ── 1 · lo que toca hoy ── */
+function hoyColaHTML(){
+  const c = cuentaDeHoy();
+  const nuevasHoy = Math.min(c.nuevas, NUEVAS_DIA);
+  const total = c.vencidas + nuevasHoy;
+  const cola = colaDeHoy();
+  /* el desglose cuenta lo que de verdad va a salir hoy, no todo lo que
+     existe en el curso */
+  const porTipo = {};
+  cola.forEach(it => { porTipo[it.t.k] = (porTipo[it.t.k] || 0) + 1; });
+  if(!total) return `<div class="hoy-cero">
+    <b>Todo al día.</b>
+    <span>No te toca nada. Si quieres seguir, entra en cualquier sección y el curso
+    irá poniendo fecha a lo nuevo que veas.</span></div>`;
+  return `<div class="hoy-caja">
+    <div class="hoy-n"><b>${total}</b><span>para hoy</span></div>
+    <div class="hoy-det">
+      ${c.vencidas ? `<span class="hoy-chip hoy-chip--v">${c.vencidas} para repasar</span>` : ""}
+      ${nuevasHoy ? `<span class="hoy-chip">${nuevasHoy} nuevas</span>` : ""}
+      <div class="hoy-tipos">
+        ${Object.keys(porTipo).map(k => {
+          const t = c.porTipo[k];
+          return `<span class="hoy-tipo">${svg(t.ico)} ${porTipo[k]} ${esc(t.es)}</span>`;
+        }).join("")}
+      </div>
+      ${c.nuevas > nuevasHoy ? `<p class="hoy-resto">Quedan <b>${c.nuevas - nuevasHoy}</b> sin estrenar
+        en el curso. Entran de ${NUEVAS_DIA} en ${NUEVAS_DIA} al día: así da tiempo a que se asienten.</p>` : ""}
+    </div>
+    <button class="btn btn--p btn--lg" data-hoy="repasar">Repasar ahora →</button>
+  </div>
+  <div id="hoyQuiz"></div>`;
+}
+
+const HOY_N = 12;
+function hoyArranca(){
+  const caja = document.getElementById("hoyQuiz");
+  if(!caja) return;
+  const cola = colaDeHoy(HOY_N);
+  if(!cola.length) return;
+  let i = 0;
+  caja.innerHTML = `<div class="card" id="hoyMotor"></div>`;
+  quizEngine(document.getElementById("hoyMotor"), Math.min(HOY_N, cola.length), () => {
+    const it = cola[i % cola.length];
+    i++;
+    const q = it.t.pregunta(it.x);
+    /* el acierto sube el nivel y aleja la fecha; el fallo la trae a
+       mañana. Es el mismo sistema que ya tenían las tarjetas. */
+    q.alAcertar = (root, ok) => it.t.marca(it.x, ok);
+    return q;
+  }, () => {
+    const b = document.querySelector("[data-hoy=repasar]");
+    if(b) b.remove();
+    const c = document.querySelector(".hoy-caja");
+    if(c) c.insertAdjacentHTML("beforeend",
+      `<p class="hoy-hecho">✓ Tanda hecha. Las que acertaste no vuelven hasta dentro de unos días.</p>`);
+  });
+  const b = document.querySelector("[data-hoy=repasar]");
+  if(b) b.disabled = true;
+}
+
+/* ── 2 · lo que confundes ── */
+/* el nombre legible de una clave: puede ser una letra, una palabra,
+   una frase o un sonido suelto */
+function hoyNombre(k){
+  /* los tonos no son texto del idioma: van con su nombre y su curva,
+     que es como se enseñan en el resto del curso */
+  if(String(k).indexOf("tono:") === 0 && typeof TONES !== "undefined"){
+    const t = TONES[String(k).slice(5)];
+    if(t) return `${typeof miniTono === "function" ? miniTono(String(k).slice(5)) : ""}
+      <b class="${t.cls}">${esc(t.es)}</b>`;
+  }
+  const v = (typeof VOCAB !== "undefined" ? VOCAB : []).find(x => x[0] === k);
+  if(v) return `<span class="th">${v[0]}</span> <span class="muted">${esc(v[2])}</span>`;
+  const c = (typeof CONS !== "undefined" ? CONS : []).find(x => x[0] === k);
+  if(c) return `<span class="th">${c[0]}</span> <span class="muted">${esc(c[3])}</span>`;
+  const p = (typeof PHRASES !== "undefined" ? PHRASES : []).find(x => renderPhrase(x[0]) === k);
+  if(p) return `<span class="th">${k}</span> <span class="muted">${esc(p[2])}</span>`;
+  return `<span class="muted">${esc(k)}</span>`;
+}
+function hoyConfusoHTML(){
+  const l = confusionesDe().filter(x => x.n >= 2).slice(0, 6);
+  if(!l.length) return `<p class="sec-note">Todavía no hay suficientes fallos para ver un patrón.
+    Según vayas haciendo tandas, aquí aparecerá <b>qué confundes con qué</b> —no «fallas en escucha»,
+    sino el par concreto— y podrás repasar solo eso.</p>`;
+  return `<p class="sec-note">No es que falles «en vocabulario»: es que estas parejas se te
+    mezclan. Cada acierto baja el contador; cuando llega a cero, desaparece de aquí.</p>
+    <div class="list conf-l">
+      ${l.map(x => `<div class="li conf-f">
+        <div class="conf-par">
+          <span class="conf-era">${hoyNombre(x.era)}</span>
+          <span class="conf-flecha" aria-hidden="true">↔</span>
+          <span class="conf-dijiste">${hoyNombre(x.dijiste)}</span>
+        </div>
+        <span class="conf-n">${x.n}×</span>
+      </div>`).join("")}
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn btn--p" data-hoy="confuso">Tanda solo con estas →</button>
+    </div>
+    <div id="confQuiz"></div>`;
+}
+function hoyConfusoArranca(){
+  const caja = document.getElementById("confQuiz");
+  if(!caja) return;
+  const pares = confusionesDe().filter(x => x.n >= 2).slice(0, 8);
+  if(!pares.length) return;
+  /* la pregunta enfrenta justo las dos que confundes, no cuatro al azar:
+     si no se enfrentan, no se aprende a separarlas */
+  const buscaItem = k => {
+    for(const t of tiposVivos()){
+      const x = t.lista().find(y => t.clave(y) === k);
+      if(x) return {t, x};
+    }
+    return null;
+  };
+  /* los tonos no son una cosa de la cola: se preguntan aparte, con una
+     palabra de ejemplo de ese tono y solo las dos opciones que mezclas */
+  const esTono = k => String(k).indexOf("tono:") === 0;
+  const preguntaTono = par => {
+    const a = String(par.era).slice(5), b = String(par.dijiste).slice(5);
+    const d = (typeof TONE_DEMO !== "undefined" ? TONE_DEMO : []).find(x => x.tone === a);
+    if(!d || !TONES[a] || !TONES[b]) return null;
+    return {tema:"tone", clave:par.era, auto:d.th,
+      prompt:`<div class="row" style="justify-content:center">${sayBtn(d.th, d.rom)}</div>`,
+      question:"¿Qué tono has oído?",
+      options:shuffle([a, b]).map(k => ({
+        label:`${miniTono(k)} <b class="${TONES[k].cls}">${esc(TONES[k].es)}</b>`,
+        ok:k === a, clave:"tono:" + k})),
+      /* el descuento de la pareja lo hace ya el motor al acertar
+         (ver quizEngine): aquí volvería a restar y contaría doble */
+      after:`${d.th} · ${d.rom} — ${d.es}`};
+  };
+
+  caja.innerHTML = `<div class="card" id="confMotor"></div>`;
+  let i = 0;
+  quizEngine(document.getElementById("confMotor"), Math.min(8, pares.length * 2), () => {
+    const par = pares[i % pares.length]; i++;
+    if(esTono(par.era)){
+      const q = preguntaTono(par);
+      if(q) return q;
+    }
+    const a = buscaItem(par.era), b = buscaItem(par.dijiste);
+    if(!a) return makeMixed();
+    const q = a.t.pregunta(a.x);
+    if(b){
+      /* se dejan solo las dos: la buena y justo la que confundes */
+      const buena = q.options.find(o => o.ok);
+      const mala = {label: (b.t.pregunta(b.x).options.find(o => o.ok) || {}).label || esc(par.dijiste),
+                    ok:false, clave:par.dijiste};
+      q.options = shuffle([buena, mala]);
+    }
+    q.alAcertar = (root, ok) => a.t.marca(a.x, ok);
+    return q;
+  });
+  const b = document.querySelector("[data-hoy=confuso]");
+  if(b) b.disabled = true;
+}
+
+/* ── 3 · la semana ── */
+function hoySemanaHTML(){
+  const dias = [];
+  for(let i = 6; i >= 0; i--){
+    const d = new Date(Date.now() - i * 864e5);
+    const iso = d.toISOString().slice(0, 10);
+    dias.push({iso, letra:["D","L","M","X","J","V","S"][d.getDay()],
+               hecho: !!(S.dias && S.dias[iso]), hoy: i === 0});
+  }
+  const n = dias.filter(x => x.hecho).length;
+  const flojos = (typeof temasFlojos === "function" ? temasFlojos() : []).slice(0, 3);
+  return `<div class="sem">
+    <div class="sem-dias">
+      ${dias.map(d => `<div class="sem-d ${d.hecho ? "sem-d--si" : ""} ${d.hoy ? "sem-d--hoy" : ""}"
+        title="${d.iso}"><span>${d.letra}</span><i aria-hidden="true"></i></div>`).join("")}
+    </div>
+    <p class="sem-txt">Has entrado <b>${n}</b> ${n === 1 ? "día" : "días"} de los últimos siete.
+      ${S.streak && S.streak.n > 1 ? `Llevas <b>${S.streak.n}</b> seguidos.` : ""}</p>
+  </div>
+  ${flojos.length ? `
+    <h3 class="sem-h">Lo que peor llevas</h3>
+    <div class="row" style="flex-wrap:wrap;gap:8px">
+      ${flojos.map(f => {
+        const inf = temaInfo(f.tema) || {};
+        return `<button class="btn btn--s" data-go="${esc(inf.go || "repaso")}">${esc(inf.es || f.tema)} →</button>`;
+      }).join("")}
+    </div>` : ""}`;
+}
+
+VIEWS.hoy = {
+  html(){
+    return `
+    <div class="vhead"><div class="eyebrow">Tu sitio</div>
+      <h1>Hoy</h1>
+      <p class="lede">Qué te toca, qué confundes y cómo va la semana. Todo en una pantalla,
+      para no tener que recorrer el curso buscándolo.</p></div>
+
+    <h2 class="sec">Lo que toca hoy</h2>
+    <p class="sec-note">De todo: palabras, letras, frases y patrones. Lo que aciertas no vuelve
+    hasta dentro de unos días; lo que fallas, mañana.</p>
+    ${hoyColaHTML()}
+
+    <h2 class="sec">Lo que confundes</h2>
+    ${hoyConfusoHTML()}
+
+    <h2 class="sec">Tu semana</h2>
+    ${hoySemanaHTML()}`;
+  }
+};
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-hoy]");
+  if(!b) return;
+  if(b.dataset.hoy === "repasar") hoyArranca();
+  if(b.dataset.hoy === "confuso") hoyConfusoArranca();
+});
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:

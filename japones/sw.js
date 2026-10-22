@@ -1,5 +1,5 @@
-/* Kana no Michi — caché offline. Versión: japones-20261022-kwak */
-const CACHE = "japones-20261022-kwak";
+/* Kana no Michi — caché offline. Versión: japones-20261022-qo4z */
+const CACHE = "japones-20261022-qo4z";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
@@ -16,6 +16,10 @@ self.addEventListener("fetch", e => {
   if(req.method !== "GET") return;
   const url = new URL(req.url);
   const isFont = /(^|\.)fonts\.(googleapis|gstatic)\.com$/.test(url.hostname);
+  /* las páginas de cada tema (/tonos/, /alfabeto/…) son otras páginas:
+     ni se guardan como si fueran el curso ni se sirven desde la caché */
+  const raiz = new URL("./", self.location).pathname;
+  if(req.mode === "navigate" && url.pathname !== raiz && url.pathname !== raiz + "index.html") return;
   if(req.mode === "navigate"){
     e.respondWith(
       fetch(req).then(r => { const cp = r.clone();

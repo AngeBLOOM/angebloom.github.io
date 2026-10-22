@@ -3987,22 +3987,33 @@ function locucion(text, rate){
 const hayGrabado = t => typeof AUDIO !== "undefined" && AUDIO && AUDIO[t];
 const urlGrabada = t => "./audio/" + AUDIO[t];
 
-let sonando = null;
+/* un solo reproductor para todo: Safari solo deja sonar sin toque al
+   elemento que ya sonó con uno, y un Audio nuevo por palabra hacía que lo
+   que suena solo (el cuento, la pregunta del test) cayera en la voz vieja */
+let sonando = null, turnoGrabado = 0;
+const reproductor = typeof Audio === "function" ? new Audio() : null;
 function tocaGrabado(text, rate, alArrancar, alTerminar, alFallar){
   if(sonando){ try{ sonando.pause(); }catch(e){} sonando = null; }
-  const a = new Audio(urlGrabada(text));
+  const a = reproductor || new Audio();
+  a.onplaying = a.onended = a.onerror = null;
+  a.src = urlGrabada(text);
   /* la velocidad del curso vale igual para un fichero */
   a.playbackRate = Math.max(0.5, Math.min(2, rate || S.speed));
   let acabo = false;
+  const mio = ++turnoGrabado;
   const fin = () => { if(acabo) return; acabo = true; if(alTerminar) alTerminar(); };
+  /* si ya se pidió otra cosa, este fallo es solo que lo cortaron: antes
+     se volvía a decir la palabra cortada con la voz del navegador, y de
+     ahí las dos voces mezcladas */
+  const falla = e => { fin(); if(mio === turnoGrabado && !(e && e.name === "AbortError") && alFallar) alFallar(); };
   a.onplaying = () => { if(alArrancar) alArrancar(); };
   a.onended = fin;
-  a.onerror = () => { fin(); if(alFallar) alFallar(); };
+  a.onerror = falla;
   sonando = a;
   const p = a.play();
   /* si el navegador se niega (sin gesto del usuario, fichero que falta),
      no se queda en silencio: lo dice quien llame */
-  if(p && p.catch) p.catch(() => { fin(); if(alFallar) alFallar(); });
+  if(p && p.catch) p.catch(falla);
   return true;
 }
 
@@ -4034,6 +4045,8 @@ function diAlgo(text, rate, alArrancar, alTerminar, alFallar){
 }
 function diConVoz(text, rate, alArrancar, alTerminar, alFallar){
   if(!window.speechSynthesis || !text) return;
+  /* que no se pisen: si sonaba un fichero, se corta */
+  if(sonando){ turnoGrabado++; try{ sonando.pause(); }catch(e){} sonando = null; }
   const sintesis = window.speechSynthesis;
   sintesis.cancel();
   const mio = ++ultimaLocucion;

@@ -1,5 +1,5 @@
-/* Kana no Michi — caché offline. Versión: japones-20261022-b6nt */
-const CACHE = "japones-20261022-b6nt";
+/* Kana no Michi — caché offline. Versión: japones-20261022-yn5f */
+const CACHE = "japones-20261022-yn5f";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
@@ -28,6 +28,10 @@ self.addEventListener("fetch", e => {
     return;
   }
   if(url.origin !== location.origin && !isFont) return;
+  /* el audio va aparte: el reproductor pide trozos (Range) y Safari no toca
+     un fichero si le llega entero, así que se guarda entero y se sirve el
+     trozo pedido. Sin esto el fichero fallaba y entraba la voz vieja. */
+  if(/\/audio\/[^/]+\.mp3$/.test(url.pathname)){ e.respondWith(audioDe(req, url.href)); return; }
   e.respondWith(caches.match(req).then(hit => hit ||
     fetch(req).then(r => {
       if(r && (r.ok || r.type === "opaque")){ const cp = r.clone();
@@ -35,3 +39,20 @@ self.addEventListener("fetch", e => {
       return r;
     }).catch(() => hit || Response.error())));
 });
+async function audioDe(req, href){
+  const cache = await caches.open(CACHE);
+  let r = await cache.match(href);
+  if(!r){
+    try{ r = await fetch(href); }catch(e){ return Response.error(); }
+    if(!r.ok) return r;
+    await cache.put(href, r.clone());
+  }
+  const rango = req.headers.get("range");
+  if(!rango) return r;
+  const datos = await r.arrayBuffer(), n = datos.byteLength;
+  const m = /bytes=(\d*)-(\d*)/.exec(rango) || [];
+  const ini = m[1] ? +m[1] : 0, fin = m[2] ? Math.min(+m[2], n - 1) : n - 1;
+  return new Response(datos.slice(ini, fin + 1), {status:206, headers:{
+    "Content-Type":"audio/mpeg", "Content-Length":String(fin - ini + 1),
+    "Content-Range":"bytes " + ini + "-" + fin + "/" + n, "Accept-Ranges":"bytes"}});
+}

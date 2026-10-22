@@ -1,5 +1,5 @@
-/* Sounds Right — caché offline. Versión: ingles-20261022-qpma */
-const CACHE = "ingles-20261022-qpma";
+/* Sounds Right — caché offline. Versión: ingles-20261022-8lgu */
+const CACHE = "ingles-20261022-8lgu";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
               "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 

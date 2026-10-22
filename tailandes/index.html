@@ -2751,6 +2751,34 @@ body.ens-on{overflow:hidden}
   .ruta-lec{padding:14px 12px 16px; border-radius:15px}
 }
 
+/* ── cuentos con dibujos y reto de oído (cuentos.js) ── */
+.cu-esc{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:22px 16px 18px;
+  display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center}
+.cu-dib{display:flex; align-items:center; justify-content:center; gap:18px; font-size:72px; line-height:1.1; min-height:96px}
+.cu-dib .ico{width:1.15em; height:1.15em}
+.cu-ico{font-size:.6em; opacity:.85}
+.cu-th{border:0; background:transparent; cursor:pointer; color:var(--ink); font-size:28px; line-height:1.5;
+  padding:4px 8px; border-radius:10px}
+.cu-th:hover{background:var(--surface-2)}
+.cu-rom{font-size:14px}
+.cu-puntos{display:flex; justify-content:center; gap:7px; margin-top:14px}
+.cu-puntos i{width:9px; height:9px; border-radius:50%; background:var(--line)}
+.cu-puntos i.ya{background:var(--brand); opacity:.45}
+.cu-puntos i.on{background:var(--brand)}
+.reto-op{display:flex; flex-direction:column; align-items:center; gap:2px; font-size:44px; line-height:1.15}
+.reto-op .ico{width:1.1em; height:1.1em}
+.reto-op small{font-size:12.5px; color:var(--ink-2)}
+#retoBox{margin-top:14px}
+@media (max-width:560px){
+  .cu-dib{font-size:58px; gap:12px; min-height:78px}
+  .cu-th{font-size:24px}
+}
+
+.ruta-dip{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  background:var(--surface); border:2px solid var(--gold); border-radius:16px; padding:14px 16px; margin:0 0 18px}
+.ruta-dip-txt{display:flex; flex-direction:column; gap:8px; font-size:15px}
+.ruta-dip-txt label{display:flex; flex-direction:column; gap:4px; font-size:12.5px; color:var(--ink-3)}
+.ruta-dip-txt input{max-width:240px}
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -4410,11 +4438,15 @@ const NAV_GROUPS = [
                    ["lectura","Cómo se lee","ear"],
                    ["sonidos","Sonidos","ear"], ["alfabeto","Alfabeto","abc"],
                    ["escritura","Escritura","pen"], ["gramatica","Gramática","grammar"]]],
-  ["Práctica", [["ejercicios","Ejercicios","hueco"], ["leer","Leer","book"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
+  ["Práctica", [["ejercicios","Ejercicios","hueco"], ["leer","Leer","book"], ["cuentos","Cuentos","book"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
                 ["hablar","Hablar","mic"], ["charla","Conversaciones","chat"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
 ];
 /* la ruta de lecciones (ruta.js) está en todos los cursos: va detrás de Inicio */
 if(LANG.secciones.indexOf("ruta") < 0) LANG.secciones.splice(1, 0, "ruta");
+/* y los cuentos (cuentos.js), donde el paquete trae el constructor de frases */
+if(LANG.secciones.indexOf("cuentos") < 0 && typeof BUILD !== "undefined" && typeof SUBJ !== "undefined"
+   && typeof BVERBS !== "undefined" && typeof BMODES !== "undefined")
+  LANG.secciones.splice(Math.max(1, LANG.secciones.indexOf("vocabulario")), 0, "cuentos");
 const NAV_ALL = NAV_GROUPS.reduce((a, g) => a.concat(g[1]), []);
 const NAV = NAV_ALL.filter(n => LANG.secciones.indexOf(n[0]) >= 0)
   .map(n => [n[0], (LANG.etiquetas && LANG.etiquetas[n[0]]) || n[1], n[2]]);
@@ -4607,7 +4639,7 @@ const ICONO_PARADA = {
   tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
   alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
   ruta:"ruta", hoy:"clock", basico:"cup", leer:"book", nivel:"check", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
-  charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
+  charla:"chat", cuentos:"book", juegos:"game", repaso:"check", estudiar:"book"
 };
 /* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
    al que viaja le sirven antes las frases, los números y hablar que el
@@ -4750,6 +4782,7 @@ VIEWS.inicio = {
     <div id="goalBox">${goalHTML()}</div>
     <!-- el repaso corto va pegado a las tareas: es la tarea de verdad -->
     <div id="cincoSlot">${cincoHTML()}</div>
+    ${typeof retoHTML === "function" ? retoHTML() : ""}
     <div class="vhead">
       <div class="hero">
         <div>
@@ -11849,6 +11882,7 @@ function rutaPinta(){
     ${hechas === lecs.length ? `<div class="hoy-cero"><b>¡Ruta terminada!</b>
       <span>Has visto todo el curso. Ahora el repaso de <button class="bas-ir" data-go="hoy">Hoy</button>
       te trae cada cosa justo antes de que se te olvide.</span></div>` : ""}
+    ${rutaDiplomasHTML()}
     ${rutaMapaHTML()}
     ${rutaLeccionHTML(lecs[rutaSel])}`;
   caja.querySelectorAll("[data-ruta]").forEach(b => b.addEventListener("click", () => {
@@ -11856,6 +11890,9 @@ function rutaPinta(){
     const lec = caja.querySelector(".ruta-lec");
     if(lec) lec.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
   }));
+  caja.querySelectorAll("[data-diploma]").forEach(b => b.addEventListener("click", () => diplomaBaja(+b.dataset.diploma)));
+  const nom = document.getElementById("dipNombre");
+  if(nom) nom.addEventListener("input", () => { S.nombre = nom.value.slice(0, 24); save(); });
   const bt = document.getElementById("rutaEmpieza");
   if(bt) bt.addEventListener("click", () => rutaTest(lecs[rutaSel]));
 }
@@ -11917,6 +11954,291 @@ VIEWS.ruta = {
   },
   init(){ rutaPinta(); }
 };
+
+/* ── el diploma: uno cada diez lecciones ─────────────────────
+   Se gana al aprobar las diez de un tramo, y se baja como imagen para
+   guardarla o enseñarla. Va dibujado en un lienzo, sin servidor. */
+const RUTA_TRAMO = 10;
+function rutaTramos(){
+  const lecs = rutaLecciones(), fuera = [];
+  for(let de = 0; de < lecs.length; de += RUTA_TRAMO){
+    const tramo = lecs.slice(de, de + RUTA_TRAMO);
+    fuera.push({n:fuera.length + 1, de:de + 1, a:de + tramo.length, lecs:tramo,
+                hecho:tramo.every(l => rutaHecha(l.i))});
+  }
+  return fuera;
+}
+function rutaDiplomasHTML(){
+  const ganados = rutaTramos().filter(t => t.hecho);
+  if(!ganados.length) return "";
+  return `<div class="ruta-dip">
+    <div class="ruta-dip-txt"><b>🎓 ${ganados.length === 1 ? "Tienes un diploma" : "Tienes " + ganados.length + " diplomas"}</b>
+      <label>Tu nombre en el diploma
+        <input id="dipNombre" maxlength="24" value="${esc(S.nombre || "")}" placeholder="Escribe tu nombre"></label></div>
+    <div class="row">${ganados.map(t => `<button class="btn btn--p btn--s" data-diploma="${t.n}">
+      Nivel ${t.n} · bajar</button>`).join("")}</div>
+  </div>`;
+}
+function diplomaLienzo(n){
+  const t = rutaTramos()[n - 1];
+  if(!t || !t.hecho) return null;
+  const W = 1600, H = 1130, c = document.createElement("canvas");
+  c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  const css = getComputedStyle(document.documentElement);
+  const marca = (css.getPropertyValue("--brand") || "#D93B1E").trim();
+  const ui = (css.getPropertyValue("--ui") || "sans-serif").trim();
+  const serif = (css.getPropertyValue("--disp") || "Georgia, serif").trim();
+  g.fillStyle = "#FDFBF7"; g.fillRect(0, 0, W, H);
+  g.strokeStyle = marca; g.lineWidth = 14; g.strokeRect(40, 40, W - 80, H - 80);
+  g.lineWidth = 3; g.strokeRect(70, 70, W - 140, H - 140);
+  g.textAlign = "center"; g.fillStyle = marca;
+  g.font = "700 30px " + ui; g.fillText("SUENA · " + String(LANG.titulo || document.title).split(" — ")[0].toUpperCase(), W / 2, 170);
+  g.fillStyle = "#1d1a17"; g.font = "600 104px " + serif; g.fillText("Diploma", W / 2, 300);
+  g.font = "400 34px " + ui; g.fillStyle = "#4a443d";
+  g.fillText("Se entrega a", W / 2, 400);
+  g.fillStyle = "#1d1a17"; g.font = "600 76px " + serif;
+  g.fillText((S.nombre || "").trim() || "quien ha estudiado con constancia", W / 2, 500, W - 260);
+  g.strokeStyle = "#c9c1b6"; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(W / 2 - 420, 530); g.lineTo(W / 2 + 420, 530); g.stroke();
+  g.fillStyle = "#4a443d"; g.font = "400 36px " + ui;
+  g.fillText("por completar el nivel " + n + " de la ruta de " + LANG.nombre.toLowerCase(), W / 2, 610);
+  const cuenta = {};
+  t.lecs.forEach(l => l.items.forEach(it => { cuenta[it.t.es] = (cuenta[it.t.es] || 0) + 1; }));
+  g.font = "400 30px " + ui; g.fillStyle = "#6b645b";
+  g.fillText("Lecciones " + t.de + " a " + t.a + " · " +
+    Object.keys(cuenta).map(k => cuenta[k] + " " + k).join(" · "), W / 2, 670, W - 260);
+  g.fillStyle = marca; g.font = "400 120px " + ui; g.fillText("🎓", W / 2, 840);
+  g.fillStyle = "#4a443d"; g.font = "400 28px " + ui;
+  const fecha = new Date().toLocaleDateString("es", {day:"numeric", month:"long", year:"numeric"});
+  g.textAlign = "left"; g.fillText(fecha, 160, 980);
+  g.textAlign = "right"; g.fillText(AUTOR.nombre, W - 160, 980);
+  return c;
+}
+function diplomaBaja(n){
+  const c = diplomaLienzo(n);
+  if(!c) return;
+  c.toBlob(b => {
+    if(!b) return;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b);
+    a.download = "diploma-" + LANG.id + "-nivel-" + n + ".png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }, "image/png");
+}
+
+/* ══════════════════════════════════════════════════════════
+   CUENTOS CON DIBUJOS · y el reto de oído de cada día
+   ══════════════════════════════════════════════════════════
+   1 · CUENTOS. Leer (leer.js) ya armaba textos cortos, pero era leer:
+       letras y más letras. Esto es lo mismo para el oído y la vista:
+       un día de alguien, escena a escena, con un dibujo grande, la
+       frase sonando sola y la traducción escondida. Primero se mira y
+       se escucha; el texto, si quieres, después.
+
+       Como en leer.js, no hay texto escrito a mano: cada frase sale del
+       constructor de la gramática (BUILD.arma), así que es correcta, sale
+       distinta cada vez y funciona igual en los siete cursos.
+
+   2 · RETO DE OÍDO. Cinco palabras al día que solo se oyen, y se
+       contesta tocando el dibujo. Las mismas para todo el día (se
+       sortean con la fecha), así que se puede repetir para mejorar la
+       nota. Se coge de lo que ya has visto, que es lo que hay que fijar.
+
+   Va después de ruta.js y antes de part4.js. */
+
+/* ── 1 · los cuentos ───────────────────────────────────────── */
+const HAY_CUENTOS = () => typeof HAY_LEER === "function" && HAY_LEER();
+const CU_ESCENAS = 5;
+/* el verbo se dibuja por lo que significa en español, que es igual en los siete */
+const CU_VERBO = {comer:"🍽️", beber:"🥤", comprar:"🛍️", ir:"🚶", hablar:"🗣️", ver:"👀",
+  leer:"📖", entender:"💡", necesitar:"🙏", querer:"💗", saber:"🧠", tener:"🤲"};
+const CU_CONCRETOS = ["comer", "beber", "comprar", "ir", "hablar", "ver", "leer"];
+const cuTitulo = s => ["Mi día", "Tu día", null, "Nuestro día"][s.p] || ("Un día de " + s.es.toLowerCase());
+
+function cuInventa(){
+  const s = pick(SUBJ.filter(x => x.p === 2)) || pick(SUBJ);
+  const modo = BMODES.some(m => m.k === "pas") ? "pas" : BMODES[0].k;
+  /* se va a algún sitio primero, si el idioma tiene «ir»: así empieza como un día */
+  /* solo verbos que se pueden dibujar: «supo la ciudad» o «quiso la cuenta»
+     son frases correctas, pero no cuentan nada */
+  const verbos = BVERBS.filter(v => (v.obj || []).length && CU_CONCRETOS.indexOf(v.inf) >= 0);
+  const ir = verbos.filter(v => v.inf === "ir");
+  const orden = ir.concat(shuffle(verbos.filter(v => v.inf !== "ir")));
+  const escenas = [];
+  for(let vuelta = 0; escenas.length < CU_ESCENAS && vuelta < 3; vuelta++)
+    for(const vb of orden){
+      if(escenas.length >= CU_ESCENAS) break;
+      const o = pick(vb.obj);
+      let r; try{ r = BUILD.arma(s, vb, o, modo); }catch(e){ continue; }
+      if(!r || !r.th || escenas.some(x => x.th === r.th)) continue;
+      escenas.push({th:r.th, rom:r.rom, es:r.es, verbo:vb, obj:o,
+                    dib:dibujo(["", "", o.es]), ico:CU_VERBO[vb.inf] || "✨"});
+    }
+  return {titulo:cuTitulo(s), s, escenas};
+}
+
+let cuAhora = null, cuI = 0, cuSonando = false;
+function cuEscenaHTML(){
+  const c = cuAhora, e = c.escenas[cuI];
+  return `<div class="cu-esc pop">
+    <div class="cu-dib" aria-hidden="true"><span class="cu-ico">${e.ico}</span><span class="cu-obj">${e.dib}</span></div>
+    <button class="cu-th th" data-say="${esc(e.th)}" title="Tocar para oírla">${e.th}</button>
+    <div class="cu-rom rom">${esc(e.rom)}</div>
+    <button class="lc-ver" data-cu-ver>¿Qué dice?</button>
+    <div class="lc-es" id="cuEs" hidden>${esc(e.es)}</div>
+  </div>
+  <div class="cu-puntos" aria-hidden="true">${c.escenas.map((_, i) =>
+    `<i class="${i === cuI ? "on" : i < cuI ? "ya" : ""}"></i>`).join("")}</div>
+  <div class="row" style="justify-content:center;margin-top:12px">
+    <button class="btn btn--s" data-cu="atras" ${cuI ? "" : "disabled"}>←</button>
+    <button class="btn btn--p" data-cu="todo">${svg("play")} ${cuSonando ? "Parar" : "Cuéntamelo entero"}</button>
+    <button class="btn btn--s" data-cu="sigue">${cuI < c.escenas.length - 1 ? "→" : "Preguntas →"}</button>
+  </div>`;
+}
+function cuPinta(sonar){
+  const caja = document.getElementById("cuCaja");
+  if(!caja || !cuAhora) return;
+  document.getElementById("cuTit").textContent = cuAhora.titulo;
+  caja.innerHTML = cuEscenaHTML();
+  if(sonar) diAlgo(cuAhora.escenas[cuI].th);
+}
+function cuEntero(){
+  cuSonando = true; cuI = 0;
+  const paso = () => {
+    if(!cuSonando || !document.getElementById("cuCaja")) return;
+    cuPinta(false);
+    const sig = () => setTimeout(() => {
+      if(!cuSonando) return;
+      if(cuI < cuAhora.escenas.length - 1){ cuI++; paso(); }
+      else { cuSonando = false; cuPinta(false); }
+    }, 900);
+    diAlgo(cuAhora.escenas[cuI].th, null, null, sig, sig);
+  };
+  paso();
+}
+/* al final, tres preguntas de oído: suena una frase del cuento y se toca el dibujo */
+function cuPreguntas(){
+  const caja = document.getElementById("cuCaja");
+  const esc3 = shuffle(cuAhora.escenas).slice(0, 3);
+  let k = 0;
+  caja.innerHTML = `<div class="card" id="cuQuiz"></div>`;
+  quizEngine(document.getElementById("cuQuiz"), esc3.length, () => {
+    const e = esc3[k++ % esc3.length];
+    const otros = shuffle(BVERBS.flatMap(v => v.obj || []).filter(o => o.es !== e.obj.es))
+      .filter((o, i, a) => a.findIndex(x => dibujo(["", "", x.es]) === dibujo(["", "", o.es])) === i
+                           && dibujo(["", "", o.es]) !== e.dib).slice(0, 2);
+    return {tema:"cuento",
+      prompt:`<div style="text-align:center;font-size:44px">${e.ico}</div>
+        <div class="row" style="justify-content:center">${sayBtn(e.th, e.rom)}</div>`,
+      question:"Escucha: ¿qué sale en esta frase?",
+      options:[{label:`<span class="reto-op">${e.dib}<small>${esc(e.obj.es)}</small></span>`, ok:true},
+               ...otros.map(o => ({label:`<span class="reto-op">${dibujo(["", "", o.es])}<small>${esc(o.es)}</small></span>`, ok:false}))],
+      auto:e.th, after:`${e.th} — ${e.es}`};
+  }, () => {
+    caja.insertAdjacentHTML("beforeend", `<div style="text-align:center;margin-top:14px">
+      <button class="btn btn--p btn--lg" data-cu="otro">Otro cuento →</button></div>`);
+  });
+}
+
+VIEWS.cuentos = {
+  html(){
+    if(!HAY_CUENTOS()) return `<div class="vhead"><h1>Cuentos</h1>
+      <p class="lede">Este curso todavía no tiene los cuentos.</p></div>`;
+    if(!cuAhora) cuAhora = cuInventa();
+    return `
+    <div class="vhead"><div class="eyebrow">Para el oído</div>
+      <h1>Cuentos con dibujos</h1>
+      <p class="lede">Un día de alguien, escena a escena. Mira el dibujo y escucha: la frase
+      suena sola y la traducción está escondida. Intenta entenderla antes de destaparla.</p></div>
+    <h2 class="sec" id="cuTit">${esc(cuAhora.titulo)}</h2>
+    <div id="cuCaja"></div>`;
+  },
+  init(){
+    if(!HAY_CUENTOS()) return;
+    cuI = 0; cuSonando = false; cuPinta(false);
+  }
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-cu],[data-cu-ver]");
+  if(!b || !cuAhora) return;
+  if(b.hasAttribute("data-cu-ver")){ const x = document.getElementById("cuEs"); if(x) x.hidden = false; b.remove(); return; }
+  const que = b.dataset.cu;
+  if(que === "todo"){ if(cuSonando){ cuSonando = false; cuPinta(false); } else cuEntero(); return; }
+  cuSonando = false;
+  if(que === "atras" && cuI > 0){ cuI--; cuPinta(true); }
+  else if(que === "sigue"){ if(cuI < cuAhora.escenas.length - 1){ cuI++; cuPinta(true); } else cuPreguntas(); }
+  else if(que === "otro"){ cuAhora = cuInventa(); cuI = 0; cuPinta(true); }
+});
+
+/* ── 2 · el reto de oído de cada día ────────────────────────── */
+const RETO_N = 5;
+/* un azar que se repite: el mismo día y el mismo curso dan las mismas palabras */
+function retoAzar(semilla){
+  let h = 2166136261;
+  for(const ch of semilla){ h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  return () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 1e6) / 1e6; };
+}
+function retoPalabras(){
+  const todas = (typeof VOCAB !== "undefined" ? VOCAB : []);
+  /* solo las que tienen dibujo propio: si no, dos opciones saldrían iguales */
+  const conDib = todas.filter(v => dibujo(v) !== dibujo(["", "", "", v[3]]));
+  const vistas = conDib.filter(v => typeof fechaDe === "function" && fechaDe(v[0]));
+  const base = vistas.length >= RETO_N + 3 ? vistas : conDib;
+  const az = retoAzar(LANG.id + today());
+  return base.map(v => ({v, r:az()})).sort((a, b) => a.r - b.r).map(x => x.v);
+}
+const retoEstado = () => {
+  if(!S.reto || typeof S.reto !== "object") S.reto = {};
+  const r = S.reto[LANG.id];
+  return r && r.dia === today() ? r : null;
+};
+function retoHTML(){
+  if(LANG.secciones.indexOf("inicio") < 0 || retoPalabras().length < RETO_N + 3) return "";
+  const r = retoEstado();
+  return `<div class="cinco${r ? " cinco--hecho" : ""}" id="retoBox">
+    <div class="cinco-cab">
+      <span class="cinco-reloj" aria-hidden="true">🎧</span>
+      <div class="cinco-txt">
+        <b>Reto de oído de hoy</b>
+        <span>${r ? "Hoy: " + r.nota + " de " + RETO_N + ". Puedes repetirlo para mejorar."
+                  : "Cinco palabras que solo se oyen. Toca el dibujo que corresponde."}</span>
+      </div>
+      <button class="btn ${r ? "btn--s" : "btn--p"}" data-reto>${r ? "Repetir" : "Empezar →"}</button>
+    </div>
+    <div id="retoQuiz"></div>
+  </div>`;
+}
+function retoArranca(){
+  const caja = document.getElementById("retoQuiz");
+  if(!caja) return;
+  const pal = retoPalabras(), cinco = pal.slice(0, RETO_N);
+  let k = 0, bien = 0;
+  caja.innerHTML = `<div class="card" id="retoMotor"></div>`;
+  quizEngine(document.getElementById("retoMotor"), RETO_N, () => {
+    const v = cinco[k++ % RETO_N];
+    const d = dibujo(v);
+    const otras = shuffle(pal.filter(x => x !== v && dibujo(x) !== d))
+      .filter((x, i, a) => a.findIndex(y => dibujo(y) === dibujo(x)) === i).slice(0, 3);
+    return {tema:"listen", clave:v[0],
+      prompt:`<div class="row" style="justify-content:center;margin:6px 0">${sayBtn(v[0], v[1])}</div>
+        ${S.mudo ? `<div class="big-thai" style="text-align:center">${v[0]}</div>` : ""}`,
+      question:"¿Cuál has oído?",
+      options:[{label:`<span class="reto-op">${d}</span>`, ok:true, clave:v[0]},
+               ...otras.map(x => ({label:`<span class="reto-op">${dibujo(x)}</span>`, ok:false, clave:x[0]}))],
+      auto:v[0], after:`${v[0]} · ${v[1]} — ${v[2]}`,
+      alAcertar:(root, ok) => { if(ok) bien++; }};
+  }, () => {
+    const antes = retoEstado();
+    S.reto[LANG.id] = {dia:today(), nota:Math.max(bien, antes ? antes.nota : 0)};
+    save();
+    if(bien === RETO_N && typeof celebra === "function") celebra();
+  });
+}
+document.addEventListener("click", e => {
+  if(e.target.closest("[data-reto]")) retoArranca();
+});
 
 /* ══════════════════════════════════════════════════════════
    DOS EJERCICIOS VISUALES Y UNO DE PRODUCIR

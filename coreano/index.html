@@ -2721,6 +2721,36 @@ body.ens-on{overflow:hidden}
 .rep-red-btns{display:flex; flex-wrap:wrap; gap:8px; margin-top:11px}
 @media (max-width:560px){ .rep-red-btns .btn{width:100%} }
 
+/* ── tu ruta: lecciones en orden (ruta.js) ── */
+.ruta-avance{display:flex; align-items:center; gap:12px; font-size:14px; color:var(--ink-2); margin:0 0 14px}
+.ruta-avance b{font:800 22px var(--ui); color:var(--brand)}
+.ruta-mapa{display:grid; grid-template-columns:repeat(auto-fill, minmax(46px, 1fr)); gap:8px; margin:0 0 22px}
+.ruta-p{
+  aspect-ratio:1; border-radius:50%; border:2px solid var(--line); background:var(--surface);
+  color:var(--ink-2); font:700 15px var(--ui); cursor:pointer; display:grid; place-items:center;
+  transition:transform .15s;
+}
+.ruta-p:hover:not(:disabled){transform:scale(1.08)}
+.ruta-p--ok{background:var(--brand); border-color:var(--brand); color:#fff}
+.ruta-p--ya{border-color:var(--brand); color:var(--brand); animation:late 1.6s ease-in-out infinite}
+.ruta-p--cerrada{opacity:.45; cursor:default; font-size:13px}
+.ruta-p[aria-pressed="true"]{outline:3px solid var(--brand); outline-offset:2px}
+.ruta-lec{background:var(--surface-2); border-radius:18px; padding:18px 18px 20px}
+.ruta-paso{display:flex; align-items:center; gap:10px; font:700 17px var(--ui); margin:22px 0 4px}
+.ruta-paso span{
+  width:28px; height:28px; border-radius:50%; background:var(--brand); color:#fff;
+  display:grid; place-items:center; font-size:14px; flex:none;
+}
+.ruta-letra{font-size:46px}
+.ruta-larga{grid-column:span 2}
+.ruta-regla{font-size:12.5px; color:var(--ink-3)}
+.ruta-ini{border:2px solid var(--brand)}
+@media (prefers-reduced-motion:reduce){ .ruta-p--ya{animation:none} }
+@media (max-width:560px){
+  .ruta-mapa{grid-template-columns:repeat(6, 1fr); gap:7px}
+  .ruta-lec{padding:14px 12px 16px; border-radius:15px}
+}
+
 </style>
 
 <a class="saltar" href="#view">Saltar al contenido</a>
@@ -3772,6 +3802,13 @@ function aplicaLetra(){
     b.setAttribute("aria-pressed", +b.dataset.letra === n));
 }
 
+/* El día es el del reloj de quien estudia, no el de Greenwich: con
+   toISOString, en América el día cambiaba a las ocho de la tarde y el
+   repaso y la racha se adelantaban un día. */
+function fechaLocal(ms){
+  const d = new Date(ms === undefined ? Date.now() : ms);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
 function load(){
   try{
     const raw = localStorage.getItem("huajai");
@@ -3781,10 +3818,10 @@ function load(){
 }
 function save(){ try{ localStorage.setItem("huajai", JSON.stringify(S)); }catch(e){} }
 function touchStreak(){
-  const d = new Date().toISOString().slice(0,10);
+  const d = fechaLocal();
   marcaDiaEstudiado();
   if(S.streak.day === d) return;
-  const y = new Date(Date.now()-864e5).toISOString().slice(0,10);
+  const y = fechaLocal(Date.now()-864e5);
   S.streak.n = (S.streak.day === y) ? S.streak.n + 1 : 1;
   S.streak.day = d; save();
 }
@@ -3977,6 +4014,7 @@ const shuffle = a => a.map(v => [Math.random(), v]).sort((x,y) => x[0]-y[0]).map
 const pick = a => a[Math.floor(Math.random()*a.length)];
 const ICON = {
   home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/>',
+  ruta:'<path d="M5 21V4"/><path d="M5 4h11l-2.5 3.5L16 11H5"/><circle cx="17" cy="18" r="2"/><path d="M5 18h4a3 3 0 0 0 3-3"/>',
   abc:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   wave:'<path d="M2 12h3l3-8 4 16 3-11 2 3h5"/>',
   ear:'<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8.5a5 5 0 0 1 0 7"/>',
@@ -4038,7 +4076,7 @@ const pctOf = k => Math.round((P[k] ? P[k]() : 0) * 100);
 
 /* ══ NAVEGACIÓN ══════════════════════════════════════════ */
 const NAV_GROUPS = [
-  ["Empezar", [["inicio","Inicio","home"], ["hoy","Hoy","clock"], ["basico","Lo básico","cup"],
+  ["Empezar", [["inicio","Inicio","home"], ["ruta","Tu ruta","ruta"], ["hoy","Hoy","clock"], ["basico","Lo básico","cup"],
                 ["nivel","Prueba de nivel","check"],
                 ["estudiar","Cómo estudiar","book"]]],
   ["Fundamentos", [["tonos","Tonos","wave"], ["ritmo","Ritmo y moras","wave"], ["bloques","Bloques silábicos","abc"],
@@ -4048,6 +4086,8 @@ const NAV_GROUPS = [
   ["Práctica", [["ejercicios","Ejercicios","hueco"], ["leer","Leer","book"], ["vocabulario","Vocabulario","cards"], ["frases","Frases","chat"], ["numeros","Números","num"],
                 ["hablar","Hablar","mic"], ["charla","Conversaciones","chat"], ["juegos","Juegos","game"], ["repaso","Repaso","check"]]]
 ];
+/* la ruta de lecciones (ruta.js) está en todos los cursos: va detrás de Inicio */
+if(LANG.secciones.indexOf("ruta") < 0) LANG.secciones.splice(1, 0, "ruta");
 const NAV_ALL = NAV_GROUPS.reduce((a, g) => a.concat(g[1]), []);
 const NAV = NAV_ALL.filter(n => LANG.secciones.indexOf(n[0]) >= 0)
   .map(n => [n[0], (LANG.etiquetas && LANG.etiquetas[n[0]]) || n[1], n[2]]);
@@ -4239,7 +4279,7 @@ document.addEventListener("click", e => {
 const ICONO_PARADA = {
   tonos:"wave", ritmo:"wave", bloques:"abc", lectura:"ear", sonidos:"ear",
   alfabeto:"abc", escritura:"pen", gramatica:"grammar", ejercicios:"hueco",
-  hoy:"clock", basico:"cup", leer:"book", nivel:"check", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
+  ruta:"ruta", hoy:"clock", basico:"cup", leer:"book", nivel:"check", vocabulario:"cards", frases:"chat", numeros:"num", hablar:"mic",
   charla:"chat", juegos:"game", repaso:"check", estudiar:"book"
 };
 /* Un viaje en tres semanas y aprenderlo bien no piden el mismo orden:
@@ -4376,6 +4416,7 @@ VIEWS.inicio = {
         <div><b>${label}</b><span>${p}% completado</span></div></div>`;
     };
     return `
+    ${typeof rutaTarjetaHTML === "function" && rutaTarjetaHTML() ? `<div class="misionSlot misionSlot--top">${rutaTarjetaHTML()}</div>` : ""}
     ${xpActual() ? `<div class="misionSlot misionSlot--top">${misionHTML()}</div>` : ""}
     <!-- las tres tareas del día van arriba del todo: son lo que se mira a diario,
          y enterradas bajo la portada no las encontraba nadie -->
@@ -5104,7 +5145,11 @@ function comparaHabla(dicho, objetivo){
 let spkIntentos = 0, spkAciertos = 0;
 const stripThai = s => (s||"").replace(/[\p{M}\s….,!?¿¡]/gu, "");
 let spkIdx = 0;
-const SPK = VOCAB.filter(v => ["saludos","comida","viajar","básico"].includes(v[3])).slice(0,30);
+/* Eran siempre las mismas treinta (saludos, comida, viajar): quien
+   volvía cada día decía siempre lo mismo. Ahora, de todo el vocabulario,
+   lo que peor llevas primero y en otro orden cada vez que abres el curso. */
+const SPK = VOCAB.map(v => ({v, n:(S.vocab && S.vocab[v[0]]) || 0, az:Math.random()}))
+  .sort((a, b) => a.n - b.n || a.az - b.az).slice(0, 30).map(x => x.v);
 VIEWS.hablar = {
   html(){
     const w = SPK[spkIdx % SPK.length];
@@ -5224,8 +5269,8 @@ VIEWS.hablar = {
    tenías hecho vale igual; lo nuevo es S.due, y una palabra sin fecha
    se trata como nueva, que es lo que es. */
 const DIAS_NIVEL = [1, 2, 5, 12, 30];
-const hoyISO = () => new Date().toISOString().slice(0, 10);
-const diaMas = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+const hoyISO = () => fechaLocal();
+const diaMas = n => fechaLocal(Date.now() + n * 864e5);
 
 function marcaFecha(palabra, nivel, acerto){
   if(!S.due || typeof S.due !== "object") S.due = {};
@@ -5245,7 +5290,16 @@ function ordenaTarjetas(pool){
   conOrden.sort((a, b) =>
     a.g - b.g ||
     (a.g === 1 ? a.n - b.n || a.az - b.az : (a.f < b.f ? -1 : a.f > b.f ? 1 : a.n - b.n)));
-  return conOrden.map(x => x.v);
+  /* Si se fallaban muchas, las vencidas llenaban la tanda entera y las
+     nuevas no llegaban nunca: se repasaba lo mismo cada día sin avanzar.
+     Ahora entra una nueva cada tres de repaso. */
+  const venc = conOrden.filter(x => x.g === 0), nuev = conOrden.filter(x => x.g === 1),
+        resto = conOrden.filter(x => x.g === 2), mezcla = [];
+  while(venc.length || nuev.length){
+    venc.splice(0, 3).forEach(x => mezcla.push(x));
+    if(nuev.length) mezcla.push(nuev.shift());
+  }
+  return mezcla.concat(resto).map(x => x.v);
 }
 
 function tarjetasDeHoy(pool){
@@ -7562,7 +7616,7 @@ function semanaHTML(){
   const dias = [];
   for(let i = 6; i >= 0; i--){
     const f = new Date(Date.now() - i * 864e5);
-    const clave = f.toISOString().slice(0, 10);
+    const clave = fechaLocal(f.getTime());
     dias.push({ini:INI[f.getDay()], hecho:!!(S.dias && S.dias[clave]), hoy:i === 0});
   }
   const cuantos = dias.filter(d => d.hecho).length;
@@ -11007,7 +11061,13 @@ function colaDeHoy(max){
       if(tocan.length >= NUEVAS_DIA) break;
       if(porTipo[k][v]) tocan.push(porTipo[k][v]);
     }
-  const todo = vencidas.concat(tocan);
+  /* las nuevas van intercaladas, una cada tres de repaso: puestas al
+     final, con muchas vencidas no se llegaba nunca a ellas */
+  const todo = [];
+  while(vencidas.length || tocan.length){
+    vencidas.splice(0, 3).forEach(x => todo.push(x));
+    if(tocan.length) todo.push(tocan.shift());
+  }
   return max ? todo.slice(0, max) : todo;
 }
 /* el número que se enseña: lo vencido más las nuevas que caben hoy */
@@ -11244,7 +11304,7 @@ function hoySemanaHTML(){
   const dias = [];
   for(let i = 6; i >= 0; i--){
     const d = new Date(Date.now() - i * 864e5);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = fechaLocal(d.getTime());
     dias.push({iso, letra:["D","L","M","X","J","V","S"][d.getDay()],
                hecho: !!(S.dias && S.dias[iso]), hoy: i === 0});
   }
@@ -11295,6 +11355,241 @@ document.addEventListener("click", e => {
   if(b.dataset.hoy === "repasar") hoyArranca();
   if(b.dataset.hoy === "confuso") hoyConfusoArranca();
 });
+
+/* ══════════════════════════════════════════════════════════
+   TU RUTA · lecciones que avanzan
+   ══════════════════════════════════════════════════════════
+   Usándolo a diario salía siempre lo mismo: la misión de Inicio pedía
+   cada día «repasa tarjetas, haz un test, aprende letras», y cada una
+   de esas pantallas empieza la lista por el principio. Se repasaba
+   mucho y no se avanzaba nada.
+
+   Aquí el curso entero se corta en lecciones pequeñas, en orden: cada
+   una trae unas pocas palabras, letras, frases y patrones que no han
+   salido antes. Se conocen (dibujo y sonido primero), se hace un test
+   corto solo de eso, y al aprobar se abre la siguiente. Lo aprendido
+   entra en el repaso espaciado (repasar.js), así que no se pierde.
+
+   No hay contenido inventado: las lecciones se reparten el paquete de
+   cada idioma (VOCAB, CONS, PHRASES, GRAMMAR) en el orden en que viene,
+   así que funciona igual en los siete.
+
+   Va después de hoy.js (usa COLA_TIPOS y basFichaHTML) y antes de part4.js. */
+
+const RUTA_N = 30;        /* lecciones del curso, si hay material para tantas */
+const RUTA_APRUEBA = 70;  /* el test de una lección se aprueba con esto */
+const RUTA_REPASO = 2;    /* preguntas de lecciones anteriores en cada test */
+
+/* las lecciones: cada tipo de la cola se reparte a partes iguales */
+let rutaCache = null;
+function rutaLecciones(){
+  if(rutaCache) return rutaCache;
+  const tipos = (typeof tiposVivos === "function" ? tiposVivos() : []);
+  const mayor = Math.max(0, ...tipos.map(t => t.lista().length));
+  const n = Math.max(1, Math.min(RUTA_N, mayor));
+  const lecs = Array.from({length:n}, (_, i) => ({i, items:[]}));
+  tipos.forEach(t => {
+    const lista = t.lista(), L = lista.length;
+    for(let i = 0; i < n; i++){
+      const de = Math.floor(i * L / n), a = Math.floor((i + 1) * L / n);
+      lista.slice(de, a).forEach(x => lecs[i].items.push({t, x, k:t.clave(x)}));
+    }
+  });
+  rutaCache = lecs.filter(l => l.items.length);
+  rutaCache.forEach((l, i) => { l.i = i; });
+  return rutaCache;
+}
+
+/* el progreso va por idioma: los siete cursos comparten el navegador */
+function rutaEstado(){
+  if(!S.ruta || typeof S.ruta !== "object") S.ruta = {};
+  if(!S.ruta[LANG.id]) S.ruta[LANG.id] = {hechas:{}};
+  return S.ruta[LANG.id];
+}
+const rutaHecha = i => rutaEstado().hechas[i] !== undefined;
+const rutaAbierta = i => i === 0 || rutaHecha(i - 1);
+/* la que toca: la primera sin aprobar */
+function rutaActual(){
+  const lecs = rutaLecciones();
+  const i = lecs.findIndex(l => !rutaHecha(l.i));
+  return i < 0 ? null : lecs[i];
+}
+
+/* un nombre que diga de qué va: las categorías de sus palabras */
+function rutaTitulo(l){
+  const cats = [...new Set(l.items.filter(it => it.t.k === "palabra")
+    .map(it => it.x[3]).filter(Boolean))].slice(0, 2);
+  if(cats.length) return cats.map(c => c[0].toUpperCase() + c.slice(1)).join(" y ");
+  const hay = [...new Set(l.items.map(it => it.t.es))];
+  return hay.join(", ").replace(/^./, c => c.toUpperCase());
+}
+function rutaResumen(l){
+  const n = {};
+  l.items.forEach(it => { n[it.t.k] = (n[it.t.k] || 0) + 1; });
+  const nom = {palabra:["palabra","palabras"], letra:["letra","letras"],
+               frase:["frase","frases"], patron:["patrón","patrones"]};
+  return Object.keys(n).map(k => n[k] + " " + (nom[k] ? nom[k][n[k] === 1 ? 0 : 1] : k)).join(" · ");
+}
+
+/* ── la ficha de cada cosa nueva: el dibujo o la letra manda ── */
+function rutaFicha(it){
+  const x = it.x;
+  if(it.t.k === "palabra")
+    return basFichaHTML(x[0], x[1], x[2], typeof dibujo === "function" ? dibujo(x) : "");
+  if(it.t.k === "letra"){
+    const suena = typeof letraSuena === "function" ? letraSuena(x) : null;
+    return `<div class="bas-f">
+      <button class="bas-th th ruta-letra" data-say="${esc(suena || x[0])}" title="Tocar para oírla">${x[0]}</button>
+      <span class="bas-rom rom">${esc(x[3] || "")}</span>
+      <span class="bas-es">${esc(x[1] || "")}${x[2] ? " — " + esc(x[2]) : ""}</span>
+    </div>`;
+  }
+  if(it.t.k === "frase"){
+    const th = renderPhrase(x[0]), rom = renderRom(x[1]);
+    return `<div class="bas-f ruta-larga">
+      <div class="bas-dib" aria-hidden="true">💬</div>
+      <button class="bas-th th" data-say="${esc(th)}" title="Tocar para oírla">${th}</button>
+      <span class="bas-rom rom">${esc(rom)}</span>
+      <span class="bas-es">${ponHuecosEs(x[2])}</span>
+    </div>`;
+  }
+  return `<div class="bas-f ruta-larga">
+    <div class="bas-dib" aria-hidden="true">🧩</div>
+    <button class="bas-th th" data-say="${esc(x[3])}" title="Tocar para oírla">${x[3]}</button>
+    <span class="bas-rom rom">${esc(x[4] || "")}</span>
+    <span class="bas-es">${esc(x[5] || "")}</span>
+    <span class="bas-es ruta-regla">${esc(x[0] || "")}</span>
+  </div>`;
+}
+
+/* ── el test: lo de la lección, y un par de cosas de antes ── */
+function rutaPreguntas(l){
+  const lecs = rutaLecciones();
+  const antes = [].concat(...lecs.slice(0, l.i).map(x => x.items));
+  const propias = shuffle(l.items);
+  const total = Math.min(10, Math.max(6, propias.length));
+  const cola = [];
+  for(let v = 0; cola.length < total - (antes.length ? RUTA_REPASO : 0); v++)
+    cola.push(propias[v % propias.length]);
+  if(antes.length) shuffle(antes).slice(0, RUTA_REPASO).forEach(it => cola.push(it));
+  return shuffle(cola);
+}
+
+let rutaSel = null;   /* la lección abierta en pantalla */
+
+function rutaMapaHTML(){
+  const lecs = rutaLecciones(), act = rutaActual();
+  return `<div class="ruta-mapa" role="list">${lecs.map(l => {
+    const hecha = rutaHecha(l.i), abierta = rutaAbierta(l.i);
+    const cls = hecha ? "ruta-p--ok" : (act && act.i === l.i) ? "ruta-p--ya" : abierta ? "" : "ruta-p--cerrada";
+    return `<button class="ruta-p ${cls}" role="listitem" data-ruta="${l.i}"
+      ${abierta ? "" : "disabled"} aria-pressed="${rutaSel === l.i}"
+      title="Lección ${l.i + 1}: ${esc(rutaTitulo(l))}">
+      <b>${hecha ? "✓" : abierta ? l.i + 1 : "🔒"}</b></button>`;
+  }).join("")}</div>`;
+}
+
+function rutaLeccionHTML(l){
+  const nota = rutaEstado().hechas[l.i];
+  return `<div class="ruta-lec pop">
+    <div class="ruta-cab">
+      <div class="eyebrow">Lección ${l.i + 1} de ${rutaLecciones().length}${nota !== undefined ? " · aprobada con " + nota + " %" : ""}</div>
+      <h2 class="sec" style="margin-top:4px">${esc(rutaTitulo(l))}</h2>
+      <p class="sec-note">${rutaResumen(l)}: lo que trae esta lección.</p>
+    </div>
+    <h3 class="ruta-paso"><span>1</span> Conócelas</h3>
+    <p class="sec-note">Mira el dibujo, toca para oírlo y repítelo en voz alta.</p>
+    <div class="bas-rej">${l.items.map(rutaFicha).join("")}</div>
+    <h3 class="ruta-paso"><span>2</span> Pruébate</h3>
+    <p class="sec-note">Preguntas de esta lección${l.i ? " y un par de las anteriores, para que no se olviden" : ""}.
+      Con ${RUTA_APRUEBA} % o más se abre la siguiente.</p>
+    <div class="card" id="rutaQuiz"><button class="btn btn--p btn--lg" id="rutaEmpieza">Empezar el test →</button></div>
+  </div>`;
+}
+
+function rutaPinta(){
+  const caja = document.getElementById("rutaCaja");
+  if(!caja) return;
+  const lecs = rutaLecciones();
+  if(rutaSel === null || !lecs[rutaSel] || !rutaAbierta(rutaSel)){
+    const act = rutaActual();
+    rutaSel = act ? act.i : lecs.length - 1;
+  }
+  const hechas = lecs.filter(l => rutaHecha(l.i)).length;
+  caja.innerHTML = `
+    <div class="ruta-avance"><b>${hechas}</b> de ${lecs.length} lecciones
+      <div class="bar" style="flex:1;margin:0"><i style="width:${hechas / lecs.length * 100}%"></i></div></div>
+    ${hechas === lecs.length ? `<div class="hoy-cero"><b>¡Ruta terminada!</b>
+      <span>Has visto todo el curso. Ahora el repaso de <button class="bas-ir" data-go="hoy">Hoy</button>
+      te trae cada cosa justo antes de que se te olvide.</span></div>` : ""}
+    ${rutaMapaHTML()}
+    ${rutaLeccionHTML(lecs[rutaSel])}`;
+  caja.querySelectorAll("[data-ruta]").forEach(b => b.addEventListener("click", () => {
+    rutaSel = +b.dataset.ruta; rutaPinta();
+    const lec = caja.querySelector(".ruta-lec");
+    if(lec) lec.scrollIntoView({block:"start", behavior:pocoMovimiento() ? "auto" : "smooth"});
+  }));
+  const bt = document.getElementById("rutaEmpieza");
+  if(bt) bt.addEventListener("click", () => rutaTest(lecs[rutaSel]));
+}
+
+function rutaTest(l){
+  const cola = rutaPreguntas(l);
+  let k = 0;
+  quizEngine(document.getElementById("rutaQuiz"), cola.length, () => {
+    const it = cola[k++ % cola.length];
+    const q = it.t.pregunta(it.x);
+    q.alAcertar = (root, ok) => it.t.marca(it.x, ok);
+    return q;
+  }, pc => {
+    if(pc < RUTA_APRUEBA) return;
+    const est = rutaEstado(), antes = est.hechas[l.i];
+    est.hechas[l.i] = Math.max(pc, antes || 0);
+    save();
+    if(antes !== undefined) return;
+    const sig = rutaLecciones()[l.i + 1];
+    setTimeout(() => {
+      aviso("🗺️", "¡Lección " + (l.i + 1) + " superada!",
+            sig ? "Se abre la " + (sig.i + 1) + ": " + rutaTitulo(sig) : "Has terminado la ruta");
+      ganaXP(40);
+      const quiz = document.getElementById("rutaQuiz");
+      if(quiz && sig) quiz.insertAdjacentHTML("beforeend",
+        `<div style="text-align:center;margin-top:14px"><button class="btn btn--p btn--lg" id="rutaSigue">
+          Lección ${sig.i + 1}: ${esc(rutaTitulo(sig))} →</button></div>`);
+      const s = document.getElementById("rutaSigue");
+      if(s) s.addEventListener("click", () => { rutaSel = sig.i; rutaPinta(); window.scrollTo(0, 0); });
+    }, 900);
+  });
+}
+
+/* para Inicio y para la misión: qué lección toca */
+function rutaTarjetaHTML(){
+  if(LANG.secciones.indexOf("ruta") < 0) return "";
+  const act = rutaActual(), N = rutaLecciones().length;
+  if(!act) return "";
+  return `<div class="mision ruta-ini" data-go="ruta" role="button" tabindex="0">
+    <div class="mi-emoji" aria-hidden="true">🗺️</div>
+    <div class="mi-txt">
+      <div class="mi-eyebrow">${act.i ? "Tu siguiente lección" : "Empieza tu ruta"} · ${act.i + 1} de ${N}</div>
+      <b>${esc(rutaTitulo(act))}</b>
+      <span>${rutaResumen(act)} para aprender hoy.</span>
+    </div>
+    <div class="mi-go">Vamos <span aria-hidden="true">→</span></div>
+  </div>`;
+}
+
+VIEWS.ruta = {
+  html(){
+    return `
+    <div class="vhead"><div class="eyebrow">Paso a paso</div>
+      <h1>Tu ruta</h1>
+      <p class="lede">El curso entero en lecciones cortas, en orden. Cada una trae cosas que
+      no has visto todavía: las conoces, haces un test corto y se abre la siguiente.
+      Lo que aprendes vuelve solo en el repaso de <button class="bas-ir" data-go="hoy">Hoy</button>.</p></div>
+    <div id="rutaCaja"></div>`;
+  },
+  init(){ rutaPinta(); }
+};
 
 /* ══════════════════════════════════════════════════════════
    DOS EJERCICIOS VISUALES Y UNO DE PRODUCIR
@@ -11818,7 +12113,7 @@ function fijaMetasDeHoy(){
   S.today.tareas.forEach(k => { GOALS[k] = TAREAS[k].n; });
   if(!Object.keys(GOALS).length) GOALS = {plays:TAREAS.plays.n};
 }
-function today(){ return new Date().toISOString().slice(0,10); }
+function today(){ return fechaLocal(); }
 function bump(k, n){
   const d = today();
   if(!S.today || S.today.day !== d) fijaMetasDeHoy();
@@ -11959,8 +12254,11 @@ function ecoDiEspanol(texto, alTerminar){
 function ecoArmaLista(){
   /* lo que peor llevas primero, y si no hay datos, de lo más básico a lo
      menos: la sesión tiene que servir desde el primer día */
-  const base = VOCAB.slice().sort((a, b) => (S.vocab[a[0]] || 0) - (S.vocab[b[0]] || 0));
-  const frases = (typeof PHRASES !== "undefined" ? PHRASES : [])
+  /* a igualdad de nivel, al azar: si no, con todo a cero salían siempre
+     las 24 primeras del paquete, y las mismas 12 frases */
+  const base = VOCAB.map(v => ({v, n:S.vocab[v[0]] || 0, az:Math.random()}))
+    .sort((a, b) => a.n - b.n || a.az - b.az).map(x => x.v);
+  const frases = shuffle(typeof PHRASES !== "undefined" ? PHRASES : [])
     .slice(0, 12).map(p => [renderPhrase(p[0]), renderRom(p[1]), p[2], "frase"]);
   ecoLista = base.slice(0, 24).concat(frases);
 }

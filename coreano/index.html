@@ -1268,6 +1268,17 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   padding:14px; border-radius:18px; background:var(--surface-2); border:1px solid var(--line);
   position:sticky; top:14px;
 }
+/* La figura es una ilustracion con las zonas tocables encima. El SVG de
+   las zonas se estira a la misma caja que la imagen, asi que sus
+   coordenadas en porcentaje caen siempre donde tienen que caer. */
+.cu-figura{position:relative; display:block; width:100%}
+.cu-img{width:100%; height:auto; display:block}
+.cu-zonas{position:absolute; inset:0; width:100%; height:100%}
+.cu-zonas polygon{fill:transparent; stroke:none}
+.cu-g[data-parte]:hover polygon{fill:var(--brand); fill-opacity:.18}
+.cu-g.activa polygon{fill:var(--brand); fill-opacity:.34;
+  stroke:var(--brand); stroke-width:2; vector-effect:non-scaling-stroke}
+.cu-gira{margin:10px auto 0; display:block}
 .cu-svg{width:100%; height:auto; display:block}
 .cu-g{fill:none; stroke:var(--ink-2); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
 .cu-g[data-parte]{cursor:pointer; transition:fill .14s, stroke .14s}
@@ -2026,6 +2037,10 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   fill:none; stroke:currentColor; stroke-width:2.6;
   stroke-linecap:round; stroke-linejoin:round; overflow:visible;
 }
+/* Los dibujos hechos a mano ocupan la misma caja, pero traen su propio
+   color: no siguen al texto como los de linea, asi que no heredan ni el
+   trazo ni el relleno. */
+img.ico-arte{object-fit:contain; vertical-align:-.18em; stroke:none; fill:none}
 .ico .a{stroke:var(--brand)}
 .ico .af{fill:var(--brand); stroke:none}
 .ico .f{fill:currentColor; stroke:none}
@@ -3750,6 +3765,7 @@ const DIBUJO_PAIS = {
 };
 
 const AUDIO = {"안녕하세요":"e9a95de0add7.mp3","안녕히 가세요":"c47dadc5d8f5.mp3","감사합니다":"8311e7f7e1ed.mp3","죄송합니다":"845b3bc66909.mp3","네":"4bc5d65ee391.mp3","아니요":"ccf0c3a2f89b.mp3","괜찮아요":"853bf3c8124e.mp3","실례합니다":"042b32f2c4f3.mp3","또 만나요":"1fc619835265.mp3","저":"42072be3da06.mp3","나":"811e02934458.mp3","너":"002a4c1ba22d.mp3","우리":"055c18cbfbf1.mp3","친구":"8c2400975133.mp3","가족":"0fc79d30fe79.mp3","어머니":"0e3301813779.mp3","아버지":"7e3ccf684e2d.mp3","선생님":"620be2237701.mp3","학생":"d8f324428d3c.mp3","사람":"f7de8479218d.mp3","물":"be8a7912294f.mp3","차":"9e4bb560ba94.mp3","커피":"98bb79d2c3e7.mp3","밥":"1283cbaee724.mp3","고기":"77895dd5803a.mp3","생선":"b6f5983bf7be.mp3","채소":"0bb951fc27cd.mp3","과일":"d51c5e2b06bd.mp3","계란":"01622928ec34.mp3","빵":"57407f69ace1.mp3","맛있어요":"cdd53fc66531.mp3","매워요":"f3fc28f45912.mp3","먹다":"238f350ebcf1.mp3","마시다":"a4423fa93f33.mp3","가게":"8621f0f991c3.mp3","역":"05a40b3a46ee.mp3","기차":"c00869777165.mp3","공항":"c93de8f10e73.mp3","호텔":"76838ad577e8.mp3","화장실":"3c8becac138b.mp3","오른쪽":"16f66ac24b86.mp3","왼쪽":"2df94c8444e2.mp3","직진":"49b95df9c036.mp3","가까워요":"7ca0a2efa984.mp3","멀어요":"0ca2309c3396.mp3","가다":"025a1355840c.mp3","오다":"85d5b5a2e972.mp3","얼마예요":"7142cb20d309.mp3","비싸요":"86860ab8f94f.mp3","싸요":"20931411a95f.mp3","돈":"28ea0681ee74.mp3","원":"21ba070b23b6.mp3","사다":"c9b08d4fa6ae.mp3","오늘":"2bdce5e8cc42.mp3","내일":"ad95f2b6dcc7.mp3","어제":"476b58b7e5a4.mp3","아침":"b175acc377e7.mp3","점심":"51208381144e.mp3","저녁":"05a95a7cfe78.mp3","밤":"5706f152001e.mp3","지금":"d07eb370764a.mp3","시간":"6c35133c478b.mp3","색":"e3b541f97e68.mp3","빨간색":"92cc3d611c12.mp3","파란색":"62223f2fe187.mp3","하얀색":"3ae32ccf7f0e.mp3","검은색":"83bd76e42e5c.mp3","노란색":"b21adc24189c.mp3","초록색":"15b44aa9ca3b.mp3","커요":"ba7659781416.mp3","작아요":"aa41f7661a5e.mp3","더워요":"efdbd5252bfa.mp3","추워요":"7f7670dccbaa.mp3","좋아요":"224a288614c3.mp3","나빠요":"d682947cb9e7.mp3","재미있어요":"336a717cd916.mp3","어려워요":"d4a82bd09bbb.mp3","쉬워요":"0c83244d7116.mp3","보다":"5f45df35feb5.mp3","듣다":"478f371b9651.mp3","말하다":"f7724797bfea.mp3","읽다":"dff818fc8b2f.mp3","쓰다":"f428a7a566c6.mp3","하다":"da46be93f93f.mp3","뭐":"059ee37f8be7.mp3","어디":"3bdf9e8a53ce.mp3","누구":"4b5ff02aecf4.mp3","언제":"7dcab285023f.mp3","왜":"96873754251b.mp3","이거":"a58f7c29f225.mp3","그거":"b1b9ffdb5c93.mp3","여기":"4d6729522e29.mp3","조금":"95d62887ffdc.mp3","아주":"3ee3e5583b75.mp3","한국":"900e95b6971a.mp3","한국어":"6e081b5948ef.mp3","스페인":"4c059d455234.mp3","안녕히 계세요":"9dc6e23e4804.mp3","만나서 반갑습니다":"9a2ab7c07d32.mp3","이름이 뭐예요":"332f4f890084.mp3","저는 …예요":"51d07c138e83.mp3","____에서 왔어요":"7dc82be10dc2.mp3","한국어를 조금 해요":"27c613c7fd9d.mp3","잘 모르겠어요":"72de22cba4bd.mp3","다시 한 번 말해 주세요":"c5d72377e69b.mp3","천천히 말해 주세요":"3ac4293ba5f0.mp3","영어 할 수 있어요":"a89d8a9381d5.mp3","메뉴 주세요":"fd301ba266df.mp3","이거 주세요":"e24cf14e1aa7.mp3","맵지 않게 해 주세요":"72178eeabd87.mp3","물 좀 주세요":"9743102efe6f.mp3","고기 안 먹어요":"6ab52cb337fe.mp3","계산해 주세요":"0c4b82f57c70.mp3","잘 먹겠습니다":"a77ae0b757b8.mp3","화장실이 어디예요":"3f6d2a201003.mp3","역이 어디예요":"c58dcb5c4021.mp3","공항까지 가 주세요":"3fe61978e3de.mp3","여기서 세워 주세요":"ad854af4a0e7.mp3","이거 얼마예요":"35c821fac528.mp3","너무 비싸요":"49e5d85f89bc.mp3","깎아 주세요":"c692de2e738f.mp3","카드 돼요":"2b513d1dca51.mp3","괜찮아요, 감사합니다":"f995ed9d371a.mp3","도와주세요":"f429d5becc35.mp3","병원이 어디예요":"031c6becd9c5.mp3","저는 밥을 먹어요":"b438798015b7.mp3","저는 학생이에요":"e8074cfa29b3.mp3","친구가 와요":"73b477e68274.mp3","물을 마셔요":"a0eb49b99e69.mp3","가게에서 사요":"4acf75a1f412.mp3","어제 갔어요":"c394b35e8d2c.mp3","내일 갈 거예요":"1812a0115b33.mp3","밥 먹어요":"4183c6fb8d3a.mp3","김치를 먹고 싶어요":"cddf037309aa.mp3","한국어 할 수 있어요":"77b02b41000f.mp3","맥주 두 병":"0e333d74dcdd.mp3","어디 가요":"2d843d9f5f09.mp3","ㄱ":"a5b48933fe90.mp3","그":"3cdc6744f777.mp3","ㄴ":"69882486de0b.mp3","느":"54b306c967c5.mp3","ㄷ":"5b328e62f719.mp3","드":"f631c4f8dfda.mp3","ㄹ":"f1f53363111f.mp3","르":"d0ad7583dc37.mp3","ㅁ":"2f0c8e1d4d5e.mp3","므":"77f56aeca312.mp3","ㅂ":"829340e529be.mp3","브":"30b708d7a340.mp3","ㅅ":"30a7dfb9259d.mp3","스":"9a0f8a6048c5.mp3","ㅇ":"bde7622017c9.mp3","으":"08906e22553d.mp3","ㅈ":"1067ad461898.mp3","즈":"d4647baee98a.mp3","ㅎ":"699ac884ed54.mp3","흐":"2d9b3464f33e.mp3","ㅊ":"cfa8a536cdf8.mp3","츠":"3ccad3f3aa5f.mp3","ㅋ":"29cf1751fa36.mp3","크":"f5163600f45f.mp3","ㅌ":"df788a1f34e6.mp3","트":"0a9d4934f77d.mp3","ㅍ":"3298ec0eba80.mp3","프":"3cd91447bfbf.mp3","ㄲ":"5feada7aedb0.mp3","끄":"6ec57362065d.mp3","ㄸ":"3fe08d54a0aa.mp3","뜨":"6f58b7790617.mp3","ㅃ":"3024190325f1.mp3","쁘":"513a18c67861.mp3","ㅆ":"ecc27a3e37db.mp3","쓰":"9abd89679723.mp3","ㅉ":"e7df8afcba3a.mp3","쯔":"4e597a4f5ad6.mp3","머리카락":"05e90be5e310.mp3","머리":"75b9f271b083.mp3","눈":"374a49894676.mp3","귀":"91344d8e722d.mp3","코":"b3576909072e.mp3","입":"24c61cc2cfb1.mp3","이":"6c0cd2af1e1b.mp3","목":"5664a634af5f.mp3","어깨":"6bddda243a04.mp3","팔":"c6d6e215b12b.mp3","손":"df4db2933c80.mp3","손가락":"c8bf0b256cef.mp3","배":"61569786dba5.mp3","등":"1cfd61b4d5cc.mp3","다리":"4cf9cb9723c1.mp3","무릎":"ee4b7b2fb3a0.mp3","발":"5379d7a7a1db.mp3","달":"f743af38a934.mp3","딸":"9bed732d368a.mp3","탈":"2bb4ab46ae0f.mp3","불":"e0a777a2f285.mp3","풀":"6c147ad62597.mp3","자다":"814853ef8752.mp3","차다":"0252e6228937.mp3","서울":"ea9858eeebb6.mp3","소울":"981cafdcb694.mp3","구":"e8b701a28309.mp3","싸다":"f7d28146bcbc.mp3","가":"efd23dd5edb2.mp3","강":"89ee069631db.mp3","개":"11600c9ada77.mp3","캐":"794c8418c3aa.mp3","말":"4d65d9d94356.mp3","라면":"4b917d2ec496.mp3","아이":"92d77633148a.mp3","영":"2bc634a4ddbc.mp3","일":"06cf3e90de6e.mp3","삼":"59463e84fb8f.mp3","사":"ec488add9d1d.mp3","오":"4a3ea882accc.mp3","육":"959f80bb167c.mp3","칠":"4259dd769cec.mp3","십":"bda0208a5c6a.mp3","십일":"d1c2a15c47ba.mp3","십이":"9caa972ad079.mp3","십삼":"83ff63712eef.mp3","십사":"15c383dcd8ca.mp3","십오":"97de453149bf.mp3","십육":"e16c51a1345a.mp3","십칠":"c0141c0549c2.mp3","십팔":"b97f04f14f7f.mp3","십구":"68cf34669a3a.mp3","이십":"ec4e46b9065e.mp3","이십일":"fa812511e828.mp3","이십이":"3300c29efb29.mp3","이십삼":"c3f653648096.mp3","이십사":"4bd39a13dfa3.mp3","이십오":"cecc2856b8a3.mp3","이십육":"0350c33ea1b4.mp3","이십칠":"9da9e5ee5d7e.mp3","이십팔":"87a6813aafcf.mp3","이십구":"eaacebc65871.mp3","삼십":"2f9aa4eb00a1.mp3","삼십일":"e061f9f48155.mp3","삼십이":"e8d73b132409.mp3","삼십삼":"3229aca78978.mp3","삼십사":"c57395265ee8.mp3","삼십오":"74092c832d68.mp3","삼십육":"847fab05e9ba.mp3","삼십칠":"a635d1d55dd1.mp3","삼십팔":"28c3a4f6acb8.mp3","삼십구":"165ff82d45d0.mp3","사십":"2b4c60942e8b.mp3","사십일":"38739c0185e8.mp3","사십이":"574471739ba4.mp3","사십삼":"2fd1d08a071a.mp3","사십사":"27dc24612af2.mp3","사십오":"039a0fd12037.mp3","사십육":"3bb953700dea.mp3","사십칠":"31f1512cdf48.mp3","사십팔":"1dfc7e26a177.mp3","사십구":"96dcdc1c4e3f.mp3","오십":"0baa71062872.mp3","오십일":"faa5b8c4ec88.mp3","오십이":"415fbc79345c.mp3","오십삼":"ab81e0ca60f8.mp3","오십사":"9c02efa89307.mp3","오십오":"49b81675bf87.mp3","오십육":"381bfd5801ed.mp3","오십칠":"6e03afbdfe0c.mp3","오십팔":"9121d09770cc.mp3","오십구":"4e5ef1c0821a.mp3","육십":"3d4abe772530.mp3","육십일":"a1da764e2b69.mp3","육십이":"989a6836a71c.mp3","육십삼":"1d39eb069279.mp3","육십사":"168bd1b9f63e.mp3","육십오":"adb370f95950.mp3","육십육":"3e571727dd63.mp3","육십칠":"285d10174cbb.mp3","육십팔":"9750bae7fc83.mp3","육십구":"9b4d96c07fa4.mp3","칠십":"3cbf0c6076ff.mp3","칠십일":"07e94c096af1.mp3","칠십이":"304ceead5970.mp3","칠십삼":"3cab4c73898e.mp3","칠십사":"8a36a97d040f.mp3","칠십오":"53c5db9a78b1.mp3","칠십육":"637ad27c0960.mp3","칠십칠":"ee7d670188c8.mp3","칠십팔":"66fd01173ba4.mp3","칠십구":"202ef2561209.mp3","팔십":"b8cb8dcab2e4.mp3","팔십일":"1f762fa865c6.mp3","팔십이":"3a95b6d165a5.mp3","팔십삼":"4d4c697733eb.mp3","팔십사":"4f9f9eef4cb2.mp3","팔십오":"161d050df8c6.mp3","팔십육":"f8444c0479c2.mp3","팔십칠":"32d58c9d2d42.mp3","팔십팔":"76bbb2ba2194.mp3","팔십구":"ea222fa6c314.mp3","구십":"d26bb0d6b853.mp3","구십일":"1e9eacc47393.mp3","구십이":"7e89c0e09f4b.mp3","구십삼":"2afb52fe7a2b.mp3","구십사":"35a11d963e08.mp3","구십오":"5fb6d954a240.mp3","구십육":"72c1538a3b2b.mp3","구십칠":"9429672aba88.mp3","구십팔":"73fb2cce843d.mp3","구십구":"7d4c007c9274.mp3","백":"89d5348b4e00.mp3","저는 밥을 안 먹어요":"7083c61fa1e4.mp3","저는 밥을 먹었어요":"93f5150f04de.mp3","저는 밥을 먹고 싶어요":"ec62d465f098.mp3","저는 밥을 먹어요?":"7e2a22a1cbf4.mp3","저는 고기를 먹어요":"be47112b8357.mp3","저는 고기를 안 먹어요":"c7051ca32f32.mp3","저는 고기를 먹었어요":"5c4c7a2e80a1.mp3","저는 고기를 먹고 싶어요":"65d721a79ae1.mp3","저는 고기를 먹어요?":"92fc45f5e7b4.mp3","저는 과일을 먹어요":"b56f97d2a3d9.mp3","저는 과일을 안 먹어요":"9cfc251cc4c3.mp3","저는 과일을 먹었어요":"63dce4dbe07f.mp3","저는 과일을 먹고 싶어요":"180bbbec88f7.mp3","저는 과일을 먹어요?":"cc00f58094c7.mp3","저는 물을 마셔요":"64922a909edd.mp3","저는 물을 안 마셔요":"913c5b14f7ff.mp3","저는 물을 마셨어요":"91bfce28e0a9.mp3","저는 물을 마시고 싶어요":"1da29fd1c2d1.mp3","저는 물을 마셔요?":"29f4c87ce607.mp3","저는 차를 마셔요":"dbbf8307e2e5.mp3","저는 차를 안 마셔요":"cc34782f6e43.mp3","저는 차를 마셨어요":"b747b7d70dc2.mp3","저는 차를 마시고 싶어요":"2bd426afbce4.mp3","저는 차를 마셔요?":"8f19d9f5935e.mp3","저는 커피를 마셔요":"dc4eca362511.mp3","저는 커피를 안 마셔요":"a4d21764eb1c.mp3","저는 커피를 마셨어요":"8b31c68cb543.mp3","저는 커피를 마시고 싶어요":"986749281953.mp3","저는 커피를 마셔요?":"c32fbc73b0b9.mp3","저는 가게에 가요":"2490362f9837.mp3","저는 가게에 안 가요":"35a82d4157ca.mp3","저는 가게에 갔어요":"2a4ddbfc1697.mp3","저는 가게에 가고 싶어요":"30415b6aa145.mp3","저는 가게에 가요?":"cc2498775af4.mp3","저는 역에 가요":"8d2f03e30138.mp3","저는 역에 안 가요":"39324c950583.mp3","저는 역에 갔어요":"1d429c7ed539.mp3","저는 역에 가고 싶어요":"16f23238d5cc.mp3","저는 역에 가요?":"3d5e82cf1477.mp3","저는 한국에 가요":"ef62ede0930c.mp3","저는 한국에 안 가요":"a42cc44637a5.mp3","저는 한국에 갔어요":"f36837bb75eb.mp3","저는 한국에 가고 싶어요":"84de91821edf.mp3","저는 한국에 가요?":"b80f137bb0fb.mp3","저는 한국어를 말해요":"08dedfb50e54.mp3","저는 한국어를 안 말해요":"1e448a6c31fa.mp3","저는 한국어를 말했어요":"554adcfab801.mp3","저는 한국어를 말하고 싶어요":"ddfb8a63dbea.mp3","저는 한국어를 말해요?":"ba3cc400ebf7.mp3","저는 스페인어를 말해요":"f90962a2bb05.mp3","저는 스페인어를 안 말해요":"2b4a42ee8a55.mp3","저는 스페인어를 말했어요":"52fd4591af21.mp3","저는 스페인어를 말하고 싶어요":"be68550b5345.mp3","저는 스페인어를 말해요?":"f6718b6000b3.mp3","저는 빵을 사요":"f4ed2b5e2233.mp3","저는 빵을 안 사요":"86c599dc1828.mp3","저는 빵을 샀어요":"2ff58a8408ee.mp3","저는 빵을 사고 싶어요":"5523eec95754.mp3","저는 빵을 사요?":"743f416f163a.mp3","저는 표를 사요":"a5a71209aa1d.mp3","저는 표를 안 사요":"4801e60d0736.mp3","저는 표를 샀어요":"7e2703265c45.mp3","저는 표를 사고 싶어요":"3ccda1051d48.mp3","저는 표를 사요?":"71e372f284e9.mp3","저는 과일을 사요":"ac8ecca07029.mp3","저는 과일을 안 사요":"9b57282d2969.mp3","저는 과일을 샀어요":"d39a243956d5.mp3","저는 과일을 사고 싶어요":"3bebfa27abb7.mp3","저는 과일을 사요?":"7be87e2f34e1.mp3","저는 영화를 봐요":"6a536c14800e.mp3","저는 영화를 안 봐요":"73c040261dd1.mp3","저는 영화를 봤어요":"235fc8d005be.mp3","저는 영화를 보고 싶어요":"843c30e81505.mp3","저는 영화를 봐요?":"e29dd0a81ec7.mp3","저는 친구를 봐요":"7dda3863c990.mp3","저는 친구를 안 봐요":"9475ff2295bd.mp3","저는 친구를 봤어요":"260d617e598a.mp3","저는 친구를 보고 싶어요":"9b7cb0a11a8e.mp3","저는 친구를 봐요?":"911880b9e6c5.mp3","너는 밥을 먹어요":"67d77c27286c.mp3","너는 밥을 안 먹어요":"ce7865458531.mp3","너는 밥을 먹었어요":"d439b065421b.mp3","너는 밥을 먹고 싶어요":"2577f8b064a2.mp3","너는 밥을 먹어요?":"513060e72615.mp3","너는 고기를 먹어요":"8e637f6ab61f.mp3","너는 고기를 안 먹어요":"d9401d5e32a1.mp3","너는 고기를 먹었어요":"68f4f4f6d1af.mp3","너는 고기를 먹고 싶어요":"4564da2265d6.mp3","너는 고기를 먹어요?":"70864f7db068.mp3","너는 과일을 먹어요":"f5209c2f1884.mp3","너는 과일을 안 먹어요":"986c3124d40d.mp3","너는 과일을 먹었어요":"cf67863e54b3.mp3","너는 과일을 먹고 싶어요":"84c14f47fa24.mp3","너는 과일을 먹어요?":"a9038e7eb37f.mp3","너는 물을 마셔요":"c0b364bc9da0.mp3","너는 물을 안 마셔요":"f7286fb0d2de.mp3","너는 물을 마셨어요":"3bf214ef326e.mp3","너는 물을 마시고 싶어요":"c31fb21c448a.mp3","너는 물을 마셔요?":"d0617b1fa26e.mp3","너는 차를 마셔요":"fca1d80b7b22.mp3","너는 차를 안 마셔요":"6c93d761bbae.mp3","너는 차를 마셨어요":"26333c6afe40.mp3","너는 차를 마시고 싶어요":"3ebee4efe5da.mp3","너는 차를 마셔요?":"f91f7c6c5c4e.mp3","너는 커피를 마셔요":"e775a6964e5c.mp3","너는 커피를 안 마셔요":"70b5b781c43e.mp3","너는 커피를 마셨어요":"646e07b8a356.mp3","너는 커피를 마시고 싶어요":"a4bd2b97bb13.mp3","너는 커피를 마셔요?":"c573041e18ef.mp3","너는 가게에 가요":"21a2745790b4.mp3","너는 가게에 안 가요":"435e1aad1daf.mp3","너는 가게에 갔어요":"a1b1d939b148.mp3","너는 가게에 가고 싶어요":"04b19015aa3a.mp3","너는 가게에 가요?":"00c14c064957.mp3","너는 역에 가요":"1ab1a1a26b75.mp3","너는 역에 안 가요":"80d61b266f3d.mp3","너는 역에 갔어요":"27f0ade8eaf4.mp3","너는 역에 가고 싶어요":"bf0394b1e6e8.mp3","너는 역에 가요?":"ef296a2fbf50.mp3","너는 한국에 가요":"5eea563e36e0.mp3","너는 한국에 안 가요":"85ab4e1e96cc.mp3","너는 한국에 갔어요":"bc058f5e039c.mp3","너는 한국에 가고 싶어요":"4515749dcf94.mp3","너는 한국에 가요?":"1848ac45f3a6.mp3","너는 한국어를 말해요":"3fb276c736ba.mp3","너는 한국어를 안 말해요":"4809618bc7b2.mp3","너는 한국어를 말했어요":"d7536d3dc87b.mp3","너는 한국어를 말하고 싶어요":"98bf3388a7d8.mp3","너는 한국어를 말해요?":"e5d899300dbf.mp3","너는 스페인어를 말해요":"5d056367af54.mp3","너는 스페인어를 안 말해요":"11c461925c02.mp3","너는 스페인어를 말했어요":"ac565d8f472d.mp3","너는 스페인어를 말하고 싶어요":"ae9473387baa.mp3","너는 스페인어를 말해요?":"7034824e0a9a.mp3","너는 빵을 사요":"f98789f669f2.mp3","너는 빵을 안 사요":"b07c21ad367e.mp3","너는 빵을 샀어요":"e66585e8e848.mp3","너는 빵을 사고 싶어요":"eaac2dc56bfa.mp3","너는 빵을 사요?":"6f8ae6582833.mp3","너는 표를 사요":"0b9548e434cd.mp3","너는 표를 안 사요":"8b1ade583f6d.mp3","너는 표를 샀어요":"dde733230fba.mp3","너는 표를 사고 싶어요":"2af64021b191.mp3","너는 표를 사요?":"e4d0d4f9e6ae.mp3","너는 과일을 사요":"113c62562305.mp3","너는 과일을 안 사요":"e6be67f9f104.mp3","너는 과일을 샀어요":"b775cbac5771.mp3","너는 과일을 사고 싶어요":"3d6c220bc186.mp3","너는 과일을 사요?":"151236720200.mp3","너는 영화를 봐요":"8438d94fada7.mp3","너는 영화를 안 봐요":"05518c50a98f.mp3","너는 영화를 봤어요":"11e14761c729.mp3","너는 영화를 보고 싶어요":"e1464054cda7.mp3","너는 영화를 봐요?":"e259a07c8524.mp3","너는 친구를 봐요":"18399bda4548.mp3","너는 친구를 안 봐요":"cf8e2e4a6e09.mp3","너는 친구를 봤어요":"7ff3c3e44eb6.mp3","너는 친구를 보고 싶어요":"5cc29f5259da.mp3","너는 친구를 봐요?":"86d9f3e0e2d7.mp3","그는 밥을 먹어요":"c31e0f7ece6d.mp3","그는 밥을 안 먹어요":"282702dd64b7.mp3","그는 밥을 먹었어요":"467d87593251.mp3","그는 밥을 먹고 싶어요":"4b7754bba80f.mp3","그는 밥을 먹어요?":"3e066baa2b3a.mp3","그는 고기를 먹어요":"d3bdd5f8cb99.mp3","그는 고기를 안 먹어요":"9f04276e67bd.mp3","그는 고기를 먹었어요":"23335e2e798b.mp3","그는 고기를 먹고 싶어요":"f42874266382.mp3","그는 고기를 먹어요?":"c17aed0fe532.mp3","그는 과일을 먹어요":"b5d327b61f69.mp3","그는 과일을 안 먹어요":"2e25f5589d81.mp3","그는 과일을 먹었어요":"76362938e51d.mp3","그는 과일을 먹고 싶어요":"15a5eb0f4703.mp3","그는 과일을 먹어요?":"200ee577daf4.mp3","그는 물을 마셔요":"e1a09fc7eb61.mp3","그는 물을 안 마셔요":"88972a3bc367.mp3","그는 물을 마셨어요":"2bdc872f53f0.mp3","그는 물을 마시고 싶어요":"7c185baba93e.mp3","그는 물을 마셔요?":"8eda6fa6bf8f.mp3","그는 차를 마셔요":"b20ada6707f2.mp3","그는 차를 안 마셔요":"6a63fc5513e7.mp3","그는 차를 마셨어요":"b7cba38cbaee.mp3","그는 차를 마시고 싶어요":"1a56d21e0e0e.mp3","그는 차를 마셔요?":"23d4dc2bb503.mp3","그는 커피를 마셔요":"9b2ec17dbe56.mp3","그는 커피를 안 마셔요":"db6d67777281.mp3","그는 커피를 마셨어요":"cfc4ea2d3131.mp3","그는 커피를 마시고 싶어요":"72da9b4dab07.mp3","그는 커피를 마셔요?":"345c6d602799.mp3","그는 가게에 가요":"600980d6986e.mp3","그는 가게에 안 가요":"cbe62a2aa213.mp3","그는 가게에 갔어요":"e72b66cba268.mp3","그는 가게에 가고 싶어요":"69e04ebec1e6.mp3","그는 가게에 가요?":"8470085d05a3.mp3","그는 역에 가요":"9abbfe2519d4.mp3","그는 역에 안 가요":"bdddaa1d1f7a.mp3","그는 역에 갔어요":"147549031469.mp3","그는 역에 가고 싶어요":"ea1ba16a0fda.mp3","그는 역에 가요?":"425ec5bccda8.mp3","그는 한국에 가요":"518777c3a21b.mp3","그는 한국에 안 가요":"da7c6dff55d2.mp3","그는 한국에 갔어요":"a04a0f5e0dae.mp3","그는 한국에 가고 싶어요":"2e9af5502d63.mp3","그는 한국에 가요?":"d6bc4bda56c7.mp3","그는 한국어를 말해요":"526f36e22a36.mp3","그는 한국어를 안 말해요":"0023d1da8c72.mp3","그는 한국어를 말했어요":"cc34704e9962.mp3","그는 한국어를 말하고 싶어요":"65831ec77317.mp3","그는 한국어를 말해요?":"88cfc18ff839.mp3","그는 스페인어를 말해요":"ecb4c45de4e0.mp3","그는 스페인어를 안 말해요":"c2bfd8fc818c.mp3","그는 스페인어를 말했어요":"775e60974dc5.mp3","그는 스페인어를 말하고 싶어요":"2a59207c6c5e.mp3","그는 스페인어를 말해요?":"5d74644568c0.mp3","그는 빵을 사요":"771acc974aad.mp3","그는 빵을 안 사요":"fdd4efa8b1d2.mp3","그는 빵을 샀어요":"a1c6d38661c3.mp3","그는 빵을 사고 싶어요":"909cec621f87.mp3","그는 빵을 사요?":"f5b7ad310253.mp3","그는 표를 사요":"9e2418ce7600.mp3","그는 표를 안 사요":"3c1f08a4b58d.mp3","그는 표를 샀어요":"1f25cb2772c5.mp3","그는 표를 사고 싶어요":"ba85344a10dc.mp3","그는 표를 사요?":"5a47ff789aad.mp3","그는 과일을 사요":"39198ce0ab5a.mp3","그는 과일을 안 사요":"1d5a924875f9.mp3","그는 과일을 샀어요":"58b82a0ad0ef.mp3","그는 과일을 사고 싶어요":"7819e51700af.mp3","그는 과일을 사요?":"7ff8da65c356.mp3","그는 영화를 봐요":"c4cd4cdeff8c.mp3","그는 영화를 안 봐요":"d0d97800af0a.mp3","그는 영화를 봤어요":"bb9f5a10854a.mp3","그는 영화를 보고 싶어요":"87ab2f2e7404.mp3","그는 영화를 봐요?":"ece5aba4b22a.mp3","그는 친구를 봐요":"5679abb019d0.mp3","그는 친구를 안 봐요":"5225cb5e803d.mp3","그는 친구를 봤어요":"aa1297e9c5bd.mp3","그는 친구를 보고 싶어요":"0a44f6a849aa.mp3","그는 친구를 봐요?":"6a8bcb45faca.mp3","우리는 밥을 먹어요":"c7b97d0d9c9d.mp3","우리는 밥을 안 먹어요":"8479565a72a9.mp3","우리는 밥을 먹었어요":"bc779e38342c.mp3","우리는 밥을 먹고 싶어요":"046e61c7034f.mp3","우리는 밥을 먹어요?":"cde61f42837d.mp3","우리는 고기를 먹어요":"ed5268bb5f01.mp3","우리는 고기를 안 먹어요":"19e2f9eed992.mp3","우리는 고기를 먹었어요":"d4430d054a78.mp3","우리는 고기를 먹고 싶어요":"0997f57e1508.mp3","우리는 고기를 먹어요?":"d84324a28894.mp3","우리는 과일을 먹어요":"31ebc9efad8f.mp3","우리는 과일을 안 먹어요":"a9918d548a3f.mp3","우리는 과일을 먹었어요":"e90ddc9afd3c.mp3","우리는 과일을 먹고 싶어요":"b4e47b0e87f0.mp3","우리는 과일을 먹어요?":"6ea67b1c70e6.mp3","우리는 물을 마셔요":"6be9e8cc0541.mp3","우리는 물을 안 마셔요":"eb453ae21f5a.mp3","우리는 물을 마셨어요":"a98ccccc40d7.mp3","우리는 물을 마시고 싶어요":"dedb010644c4.mp3","우리는 물을 마셔요?":"4b9b17e64afc.mp3","우리는 차를 마셔요":"0df47859528f.mp3","우리는 차를 안 마셔요":"969cd934eac0.mp3","우리는 차를 마셨어요":"d2bff5297a02.mp3","우리는 차를 마시고 싶어요":"13b588f52cb4.mp3","우리는 차를 마셔요?":"248a9f60aeb6.mp3","우리는 커피를 마셔요":"0c6e0a637d5f.mp3","우리는 커피를 안 마셔요":"19ac723eff26.mp3","우리는 커피를 마셨어요":"c3e8e15bd52e.mp3","우리는 커피를 마시고 싶어요":"c518e3fa7e57.mp3","우리는 커피를 마셔요?":"ce2b7211c9da.mp3","우리는 가게에 가요":"34c1892ef99c.mp3","우리는 가게에 안 가요":"b496111528eb.mp3","우리는 가게에 갔어요":"08cdc0cd7558.mp3","우리는 가게에 가고 싶어요":"fa2ca7fc44aa.mp3","우리는 가게에 가요?":"c98dcf4bedc6.mp3","우리는 역에 가요":"2c689b3b5c7b.mp3","우리는 역에 안 가요":"203fff99c7e6.mp3","우리는 역에 갔어요":"c3b6f821cbaf.mp3","우리는 역에 가고 싶어요":"265b7cf2cc98.mp3","우리는 역에 가요?":"d8bf28adff0d.mp3","우리는 한국에 가요":"c76e5e109579.mp3","우리는 한국에 안 가요":"537fb996b881.mp3","우리는 한국에 갔어요":"56c20e5d8076.mp3","우리는 한국에 가고 싶어요":"1c82c613f19b.mp3","우리는 한국에 가요?":"e63bde36c11f.mp3","우리는 한국어를 말해요":"a47d649c9ce4.mp3","우리는 한국어를 안 말해요":"2d193f48f4c3.mp3","우리는 한국어를 말했어요":"63f97ea4a3b8.mp3","우리는 한국어를 말하고 싶어요":"7f2203374af9.mp3","우리는 한국어를 말해요?":"89bf404f5b81.mp3","우리는 스페인어를 말해요":"fde87f1f2ecf.mp3","우리는 스페인어를 안 말해요":"a7d93336894c.mp3","우리는 스페인어를 말했어요":"4791c466a8e5.mp3","우리는 스페인어를 말하고 싶어요":"12eb9152bf01.mp3","우리는 스페인어를 말해요?":"a0c8391e1faf.mp3","우리는 빵을 사요":"42816bf6adb8.mp3","우리는 빵을 안 사요":"6bb1318b030f.mp3","우리는 빵을 샀어요":"fdb3d18ee9d6.mp3","우리는 빵을 사고 싶어요":"8116627255a1.mp3","우리는 빵을 사요?":"431a160950f2.mp3","우리는 표를 사요":"429f76a1d958.mp3","우리는 표를 안 사요":"c87fc351382a.mp3","우리는 표를 샀어요":"c106f5cf7cf0.mp3","우리는 표를 사고 싶어요":"6276440dd038.mp3","우리는 표를 사요?":"2bc92edfedb0.mp3","우리는 과일을 사요":"44defc3e82ea.mp3","우리는 과일을 안 사요":"18c826138a0e.mp3","우리는 과일을 샀어요":"33523f5465ab.mp3","우리는 과일을 사고 싶어요":"247615cb4bc4.mp3","우리는 과일을 사요?":"93594624e846.mp3","우리는 영화를 봐요":"dc9c8d273c4d.mp3","우리는 영화를 안 봐요":"30105334761a.mp3","우리는 영화를 봤어요":"99030abc0df5.mp3","우리는 영화를 보고 싶어요":"1cfd4416c075.mp3","우리는 영화를 봐요?":"39978943823f.mp3","우리는 친구를 봐요":"261bc3b595f3.mp3","우리는 친구를 안 봐요":"e4628b5e5b6b.mp3","우리는 친구를 봤어요":"8febd462d706.mp3","우리는 친구를 보고 싶어요":"c2515fbfea71.mp3","우리는 친구를 봐요?":"496a2d59bac8.mp3","아":"be6b235a0274.mp3","어":"196c53c8f98a.mp3","우":"4118d67c96ec.mp3","악":"7606fd7609b7.mp3","안":"c01bb55b8907.mp3","앗":"25a032c9069f.mp3","알":"bc89708ff7b3.mp3","암":"22cd875fb70d.mp3","압":"50d36272c737.mp3","앙":"30c7307a4223.mp3","기역":"67c714efd0b3.mp3","니은":"4a944dc43868.mp3","디귿":"7b2f60ff100a.mp3","리을":"4e3de7725345.mp3","미음":"21cff493814d.mp3","비읍":"38c9576ce5be.mp3","시옷":"1ebd30068eae.mp3","이응":"f65598412963.mp3","지읒":"067272e3ddd0.mp3","히읗":"17e5b0e1e3d5.mp3","치읓":"f7a58944ac64.mp3","키읔":"c52e73c3c761.mp3","티읕":"518b43090d10.mp3","피읖":"6c18e083838e.mp3","쌍기역":"9606075f94d9.mp3","쌍디귿":"f2706742f4b9.mp3","쌍비읍":"ee307695f3ed.mp3","쌍시옷":"88e65ea48ca6.mp3","쌍지읒":"05ea7fb49ddd.mp3","ㅏ":"d94b17588b31.mp3","아기":"2c96b0a0898f.mp3","ㅑ":"0d5a87fb47a4.mp3","야구":"97283b0795af.mp3","ㅓ":"cc70839f8e0f.mp3","ㅕ":"a652fac6ab45.mp3","여자":"e75d4ba8379a.mp3","ㅗ":"84139776fb34.mp3","오이":"4672972ea1f7.mp3","ㅛ":"9eedfe88f0c8.mp3","요리":"b96dd98753ac.mp3","ㅜ":"d2151db0a969.mp3","우유":"153ff43ea00e.mp3","ㅠ":"f689307ef812.mp3","유리":"b94b569f14f9.mp3","ㅡ":"a282dcd6237d.mp3","그림":"8a512aa870b0.mp3","ㅣ":"ebe3967cb112.mp3","이름":"9aa18e507125.mp3","ㅐ":"0ba96a69ddcd.mp3","ㅒ":"c22ae6153d2a.mp3","얘기":"f55282967cc7.mp3","ㅔ":"ba09c138e7e7.mp3","ㅖ":"6f648a5471d8.mp3","예":"a842629afdcd.mp3","ㅘ":"c0622dac9220.mp3","ㅙ":"ff66cedac675.mp3","돼지":"72ed1e10fc95.mp3","ㅚ":"986b1b4bd31b.mp3","외국":"380ce3376b62.mp3","ㅝ":"dd7f4d7e7f5e.mp3","ㅞ":"4a20b536e3f9.mp3","웨이터":"560d28c33aec.mp3","ㅟ":"73bb946d3b3c.mp3","위":"b44963f67fa8.mp3","ㅢ":"42ca828ebc1e.mp3","의사":"3135f62c00e4.mp3","사과 두 개":"5bf5a79c9a19.mp3","명":"5a62fd50d243.mp3","세 명":"b4fce5e4b4d7.mp3","분":"0b877b721418.mp3","두 분":"d44b353246ca.mp3","마리":"4b689ca04f06.mp3","개 한 마리":"b7b62b4f88ff.mp3","병":"2ea32f5c54dd.mp3","잔":"5f51b383d2c1.mp3","커피 한 잔":"c736bca1144e.mp3","권":"7c8118eaeef6.mp3","책 세 권":"7872b126eaa6.mp3","장":"b241493768da.mp3","표 두 장":"5bd2178dfb49.mp3","대":"8cbb379d2425.mp3","차 한 대":"11f87b9fb195.mp3","시":"a7762a2330f0.mp3","세 시":"b4edaa8c6813.mp3","오만":"b2c27492bbe9.mp3","하나":"e78498f904fe.mp3","둘":"f8bf7a93905e.mp3","셋":"0b4af546d3ed.mp3","넷":"ca5eea5b5296.mp3","다섯":"fbbd1d1816e0.mp3","여섯":"23bcb56d5961.mp3","일곱":"c0ee2d76b9a3.mp3","여덟":"796c92dfb2ea.mp3","아홉":"c52d6e38a4a3.mp3","열":"cfc1e124a640.mp3"};
+const ARTE = {"adiós":"adios.webp","allí":"alli.webp","alérgico":"alergico.webp","aquí":"aqui.webp","año":"ano.webp","baño":"bano.webp","buenas tardes":"buenas-tardes.webp","buenos días":"buenos-dias.webp","básico":"basico.webp","café":"cafe.webp","carne de vaca":"carne-de-vaca.webp","cortes-el":"cortes-el.webp","cortes-ella":"cortes-ella.webp","cuánto":"cuanto.webp","de nada":"de-nada.webp","difícil":"dificil.webp","día":"dia.webp","dónde":"donde.webp","el mediodía":"el-mediodia.webp","es caro":"es-caro.webp","es divertido":"es-divertido.webp","estación":"estacion.webp","está rico":"esta-rico.webp","frío":"frio.webp","fácil":"facil.webp","habitación":"habitacion.webp","hace calor":"hace-calor.webp","hermano-mayor":"hermano-mayor.webp","hermano-menor":"hermano-menor.webp","hermano/a mayor":"hermano-a-mayor.webp","hermano/a menor":"hermano-a-menor.webp","ir a pie":"ir-a-pie.webp","lo siento":"lo-siento.webp","mañana":"manana.webp","me gusta":"me-gusta.webp","montaña":"montana.webp","médico":"medico.webp","niño":"nino.webp","no pasa nada":"no-pasa-nada.webp","partícula cortés":"particula-cortes.webp","partícula cortés (hombre)":"particula-cortes-hombre.webp","partícula cortés (mujer)":"particula-cortes-mujer.webp","pequeño":"pequeno.webp","perdón":"perdon.webp","por favor":"por-favor.webp","por la mañana":"por-la-manana.webp","por qué":"por-que.webp","quién":"quien.webp","qué":"que.webp","rápido":"rapido.webp","saber hacer":"saber-hacer.webp","sueño":"sueno.webp","sí":"si.webp","tener hambre":"tener-hambre.webp","todo recto":"todo-recto.webp","té":"te.webp","tú":"tu.webp","vehículo":"vehiculo.webp","yo (hombre)":"yo-hombre.webp","yo (mujer)":"yo-mujer.webp","yo-el":"yo-el.webp","yo-ella":"yo-ella.webp","árbol":"arbol.webp","él":"el.webp"};
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -6332,6 +6348,12 @@ const SINONIMO = {
 function ilustracion(clave){
   if(!clave) return null;
   const k = SINONIMO[clave] || clave;
+  /* Si la palabra tiene dibujo hecho a mano, ese manda. Va en la misma
+     caja de 1 em que el de linea, asi que entra donde ya habia un dibujo
+     sin tocar ninguna pantalla. Lo pone build.js con el manifest de
+     arte-palabras; si no hay, ARTE queda vacio y esto ni se entera. */
+  if(typeof ARTE !== "undefined" && ARTE && ARTE[k])
+    return `<img class="ico ico-arte" src="./dibujos/${ARTE[k]}" alt="" loading="lazy" decoding="async">`;
   return Object.prototype.hasOwnProperty.call(ILUSTRA, k) ? ILUSTRA[k] : null;
 }
 
@@ -9004,70 +9026,75 @@ const parteDe = k => HAY_CUERPO() ? CUERPO.find(p => p[0] === k) : null;
 /* el muñeco. Cada trozo lleva data-parte, así que se toca el dibujo
    mismo y no un puntito aparte. Los que el idioma no nombre se quitan
    al pintar. */
-function munecoSVG(){
-  /* Toda la clase en un solo atributo: dos «class» en la misma etiqueta
-     y el navegador se queda con el primero, así que la parte sin palabra
-     perdía el estilo y salía en negro. */
-  const P = k => {
+/* ── el muneco ─────────────────────────────────────────────
+   Ya no se dibuja por codigo: son dos ilustraciones, de frente y de
+   espaldas, con las zonas que se tocan puestas encima.
+
+   Las zonas van en porcentaje de la imagen y el SVG que las lleva se
+   estira a la misma caja (preserveAspectRatio="none"), asi que las
+   coordenadas valen igual con la figura grande o pequena y no hay que
+   tocarlas si manana cambia el dibujo de tamano.
+
+   Hacen falta las dos vistas porque la espalda no se puede senalar en
+   una figura de frente: antes se hacia trampa y se marcaba el tronco. */
+const CU_CARAS = ["frente", "espalda"];
+let cuCara = "frente";
+
+/* los puntos van en porcentaje: x de 0 a 100, y de 0 a 100 */
+const CU_COMUN = {
+  pelo:    [[[29,0],[71,0],[71,12],[63,7],[37,7],[29,12]]],
+  cabeza:  [[[34,7],[66,7],[66,21],[60,27],[40,27],[34,21]]],
+  oreja:   [[[30,13],[37,13],[37,21],[30,21]], [[63,13],[70,13],[70,21],[63,21]]],
+  cuello:  [[[44,27],[56,27],[56,31],[44,31]]],
+  hombro:  [[[30,31],[42,32],[42,37],[30,37]], [[58,32],[70,31],[70,37],[58,37]]],
+  brazo:   [[[30,33],[40,35],[21,61],[12,58]], [[70,33],[60,35],[79,61],[88,58]]],
+  mano:    [[[6,54],[24,56],[24,62],[6,61]], [[94,54],[76,56],[76,62],[94,61]]],
+  dedo:    [[[5,62],[23,62],[23,69],[5,69]], [[95,62],[77,62],[77,69],[95,69]]],
+  /* el muslo y la espinilla van aparte para dejarle sitio a la rodilla */
+  pierna:  [[[36,57],[48,57],[48,70],[36,70]], [[52,57],[64,57],[64,70],[52,70]],
+            [[36,78],[48,78],[48,92],[36,92]], [[52,78],[64,78],[64,92],[52,92]]],
+  rodilla: [[[36,70],[48,70],[48,78],[36,78]], [[52,70],[64,70],[64,78],[52,78]]],
+  pie:     [[[33,92],[49,92],[49,100],[33,100]], [[51,92],[67,92],[67,100],[51,100]]]
+};
+const CU_ZONAS = {
+  frente: Object.assign({}, CU_COMUN, {
+    ojo:     [[[39,14],[47,14],[47,18],[39,18]], [[53,14],[61,14],[61,18],[53,18]]],
+    nariz:   [[[46,18],[54,18],[54,21],[46,21]]],
+    diente:  [[[45,21],[55,21],[55,23],[45,23]]],
+    boca:    [[[43,23],[57,23],[57,26],[43,26]]],
+    barriga: [[[36,41],[64,41],[64,50],[36,50]]]
+  }),
+  espalda: Object.assign({}, CU_COMUN, {
+    espalda: [[[34,33],[66,33],[64,50],[36,50]]]
+  })
+};
+
+/** En que vista se puede senalar una parte. */
+function cuCaraDe(k){
+  if(CU_ZONAS[cuCara][k]) return cuCara;
+  return CU_CARAS.find(c => CU_ZONAS[c][k]) || cuCara;
+}
+
+function munecoHTML(){
+  const zonas = CU_ZONAS[cuCara];
+  const formas = Object.keys(zonas).map(k => {
     const p = parteDe(k);
-    return p
-      ? `class="cu-g" data-parte="${k}" tabindex="0" role="button" aria-label="${esc(p[3])}"`
-      : `class="cu-g sin" aria-hidden="true"`;
-  };
-  /* Los brazos y las piernas son trazos gruesos con la punta redonda:
-     así parecen miembros y no alambres, y además se tocan fácil con el
-     dedo, que es de lo que se trata. */
-  /* El muñeco de antes parecía un espantapájaros: la cabeza era un
-     círculo con un arco de pelo del que salían dos orejas como unos
-     auriculares, los hombros eran dos charreteras sueltas, los brazos
-     barras que no llegaban a tocarlas y el tronco un rectángulo con
-     una tripa flotando dentro.
-
-     Este está hecho con proporciones de persona: la cabeza es óvalo y
-     cabe unas seis veces en el alto, los ojos van a media altura de la
-     cara (no arriba, que es el error de todos los monigotes), las
-     orejas a la altura de los ojos, el tronco se estrecha en la
-     cintura y los brazos salen del hombro y caen.
-
-     Cada parte sigue siendo su propio grupo, que es lo que permite
-     tocarla; lo único que cambia es el dibujo. */
-  return `<svg viewBox="0 0 240 450" class="cu-svg" role="img" aria-label="Dibujo de una persona">
-    <!-- piernas y pies -->
-    <g ${P("pierna")}><path d="M96 250 C93 288 92 330 92 372 L110 372 C110 330 110 288 110 250z"/>
-      <path d="M130 250 C130 288 130 330 130 372 L148 372 C148 330 147 288 144 250z"/></g>
-    <g ${P("pie")}><path d="M92 372 h18 v8 q10 2 10 8 q0 5 -7 5 H92 q-6 0 -6 -6z"/>
-      <path d="M148 372 h-18 v8 q-10 2 -10 8 q0 5 7 5 h21 q6 0 6 -6z"/></g>
-    <g ${P("rodilla")}><path class="cu-linea" d="M94 314 q7 6 14 0"/>
-      <path class="cu-linea" d="M132 314 q7 6 14 0"/></g>
-    <!-- tronco: hombros anchos, cintura estrecha, cadera -->
-    <g ${P("espalda")}><path d="M86 130 q2 -14 14 -16 h40 q12 2 14 16
-      l-8 54 q-2 12 0 24 l6 42 q-20 8 -32 8 q-12 0 -32 -8 l6 -42 q2 -12 0 -24z"/></g>
-    <g ${P("barriga")}><path class="cu-linea" d="M102 208 q18 11 36 0"/>
-      <path class="cu-linea" d="M120 198 v5"/></g>
-    <!-- brazos, manos y dedos -->
-    <g ${P("brazo")}><path d="M84 132 C77 162 70 192 64 218 L78 222 C85 194 92 164 98 134z"/>
-      <path d="M156 132 C163 162 170 192 176 218 L162 222 C155 194 148 164 142 134z"/></g>
-    <g ${P("mano")}><path d="M64 220 q-9 4 -9 13 q0 12 12 14 q12 -2 12 -14 q0 -9 -9 -13z"/>
-      <path d="M176 220 q9 4 9 13 q0 12 -12 14 q-12 -2 -12 -14 q0 -9 9 -13z"/></g>
-    <g ${P("dedo")}>
-      <path class="cu-linea" d="M61 245 v9M67 248 v9M74 245 v8"/>
-      <path class="cu-linea" d="M179 245 v9M173 248 v9M166 245 v8"/>
-    </g>
-    <g ${P("hombro")}><path class="cu-linea" d="M87 126 q7 -11 21 -12"/>
-      <path class="cu-linea" d="M153 126 q-7 -11 -21 -12"/></g>
-    <!-- cabeza -->
-    <g ${P("cuello")}><path d="M109 97 v13 q0 6 11 6 q11 0 11 -6 V97"/></g>
-    <g ${P("cabeza")}><ellipse cx="120" cy="64" rx="31" ry="36"/></g>
-    <g ${P("pelo")}><path d="M88 66 C86 28 102 20 120 20 C138 20 154 28 152 66
-      C150 47 141 41 120 41 C99 41 90 47 88 66z"/></g>
-    <g ${P("oreja")}><path d="M89 55 q-11 1 -11 11 q0 10 11 12"/>
-      <path d="M151 55 q11 1 11 11 q0 10 -11 12"/></g>
-    <g ${P("ojo")}><ellipse cx="108" cy="64" rx="5" ry="5.5"/>
-      <ellipse cx="132" cy="64" rx="5" ry="5.5"/></g>
-    <g ${P("nariz")}><path class="cu-linea" d="M120 68 v12 q0 4 5 4"/></g>
-    <g ${P("boca")}><path d="M107 91 q13 12 26 0 q-13 -5 -26 0z"/></g>
-    <g ${P("diente")}><path d="M110 90 h20 v4 q-10 2 -20 0z"/></g>
-  </svg>`;
+    if(!p) return "";                       /* este idioma no la nombra */
+    const puntos = zonas[k].map(poly =>
+      `<polygon points="${poly.map(c => c.join(",")).join(" ")}"/>`).join("");
+    return `<g class="cu-g" data-parte="${k}" tabindex="0" role="button"
+      aria-label="${esc(p[3])}">${puntos}</g>`;
+  }).join("");
+  const otra = cuCara === "frente" ? "espalda" : "frente";
+  return `<div class="cu-figura">
+    <img class="cu-img" src="./cuerpo/${cuCara}.webp" alt="Dibujo de una persona"
+      width="430" height="849" decoding="async">
+    <svg class="cu-zonas" viewBox="0 0 100 100" preserveAspectRatio="none"
+      aria-hidden="true">${formas}</svg>
+  </div>
+  <button class="btn btn--s cu-gira" data-cu-gira="${otra}">
+    ${cuCara === "frente" ? "Verla de espaldas" : "Verla de frente"}
+  </button>`;
 }
 
 let cuSel = null;
@@ -9091,7 +9118,7 @@ function cuFichaHTML(){
 function cuerpoHTML(){
   if(!HAY_CUERPO()) return "";
   return `<div class="cu">
-    <div class="cu-dibujo">${munecoSVG()}</div>
+    <div class="cu-dibujo" id="cuDibujo">${munecoHTML()}</div>
     <div class="cu-lado">
       <div id="cuFicha">${cuFichaHTML()}</div>
       <div class="cu-lista">
@@ -9102,7 +9129,32 @@ function cuerpoHTML(){
   </div>`;
 }
 
-function cuPinta(){
+/* Se llama cuerpoPinta y no cuPinta porque cuentos.js tambien tenia una
+   funcion con ese nombre y, al ir despues en el montaje, la pisaba: tocar
+   una parte del dibujo no encendia nada ni actualizaba la ficha. */
+function cuerpoPinta(){
+  const f = document.getElementById("cuFicha");
+  if(f) f.innerHTML = cuFichaHTML();
+  /* si lo elegido solo se ve por el otro lado, la figura se gira sola:
+     es lo que pasa con la espalda, que de frente no esta */
+  if(cuSel){
+    const debe = cuCaraDe(cuSel);
+    if(debe !== cuCara) cuCara = debe;
+  }
+  const d = document.getElementById("cuDibujo");
+  if(d) d.innerHTML = munecoHTML();
+  document.querySelectorAll("#view [data-parte]").forEach(el =>
+    el.classList.toggle("activa", el.dataset.parte === cuSel));
+}
+
+/** El boton de girar. */
+function cuGira(cara){
+  if(CU_CARAS.indexOf(cara) < 0) return;
+  cuCara = cara;
+  /* lo que estuviera elegido y no se vea por este lado se suelta */
+  if(cuSel && !CU_ZONAS[cuCara][cuSel]) cuSel = null;
+  const d = document.getElementById("cuDibujo");
+  if(d) d.innerHTML = munecoHTML();
   const f = document.getElementById("cuFicha");
   if(f) f.innerHTML = cuFichaHTML();
   document.querySelectorAll("#view [data-parte]").forEach(el =>
@@ -9112,7 +9164,7 @@ function cuPinta(){
 function cuElige(k){
   if(!parteDe(k)) return;
   cuSel = k;
-  cuPinta();
+  cuerpoPinta();
   /* El muñeco es de consulta: aquí no hay nada que adivinar y la barra
      puede decirlo todo. Se destapa solo para esto y se deja como estaba,
      porque al lado están las tarjetas y ahí sí hay que taparla. */
@@ -9123,6 +9175,8 @@ function cuElige(k){
 }
 
 document.addEventListener("click", e => {
+  const gira = e.target.closest("#view [data-cu-gira]");
+  if(gira){ cuGira(gira.dataset.cuGira); return; }
   const el = e.target.closest("#view [data-parte]");
   /* ojo: los botones de oír y de repetir llevan lo suyo y no son esto */
   if(el && !e.target.closest("[data-say]") && !e.target.closest("[data-rep]")) cuElige(el.dataset.parte);

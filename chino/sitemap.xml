@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://angebloom.github.io/chino/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/basico/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/leer/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/estudiar/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/tonos/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/lectura/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/sonidos/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/alfabeto/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/escritura/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/gramatica/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/vocabulario/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/frases/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/numeros/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://angebloom.github.io/chino/charla/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://angebloom.github.io/chino/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
 </urlset>

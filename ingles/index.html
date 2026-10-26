@@ -2889,7 +2889,6 @@ img{max-width:100%;height:auto}
         <li><b>Juega para consolidar</b> — Emparejar y escribir de oído: lo que más cuesta y más fija.</li>
         <li><b>Ponte a prueba</b> — Repaso mezclado de todo lo anterior.</li>
       </ul>
-      <p style="margin-top:18px;color:var(--ink-2)"><b>Cada tema por separado:</b> <a href="./basico/">Lo básico</a> · <a href="./leer/">Leer</a> · <a href="./estudiar/">Cómo estudiar</a> · <a href="./ritmo/">Errores típicos</a> · <a href="./lectura/">Cómo se lee</a> · <a href="./sonidos/">Trampas del oído</a> · <a href="./alfabeto/">Los 20 sonidos</a> · <a href="./gramatica/">Gramática</a> · <a href="./vocabulario/">Vocabulario</a> · <a href="./frases/">Frases</a> · <a href="./numeros/">Números</a> · <a href="./charla/">Conversaciones</a></p>
     </div>
   </main>
 </div>
@@ -3895,9 +3894,12 @@ function findVoice(){
 function paintVoice(){
   const dot = document.getElementById("vdot"), txt = document.getElementById("vtxt");
   if(!dot) return;
-  if(!window.speechSynthesis){ dot.className = "dot off"; txt.textContent = "sin audio"; return; }
+  /* Las grabaciones primero: son las que suenan de verdad. Preguntando
+     antes por la voz del sistema, dentro de la app de Android —que no
+     trae ninguna— se anunciaba «sin audio» aunque todo sonara bien. */
   const propio = typeof AUDIO !== "undefined" && AUDIO && Object.keys(AUDIO).length;
   if(propio){ dot.className = "dot on"; txt.textContent = "audio propio"; }
+  else if(!window.speechSynthesis){ dot.className = "dot off"; txt.textContent = "sin audio"; }
   else if(thaiVoice){ dot.className = "dot on"; txt.textContent = "voz lista"; }
   else { dot.className = "dot off"; txt.textContent = "sin voz de " + LANG.nombre.toLowerCase(); }
   const vh = document.getElementById("voiceHelp");
@@ -3920,6 +3922,9 @@ let lastBtn = null;
    entonces el navegador se calla sin decir nada. */
 let avisosMudo = 0;
 function motivoDelSilencio(){
+  /* con grabaciones propias, la voz del navegador no pinta nada */
+  if(typeof AUDIO !== "undefined" && AUDIO && Object.keys(AUDIO).length)
+    return "No ha sonado. Vuelve a tocarlo, y mira que el volumen no este bajo.";
   if(!window.speechSynthesis) return "Este navegador no sabe leer en voz alta.";
   if(!thaiVoice) return "Aquí no hay voz de " + LANG.nombre.toLowerCase()
     + ": lo que oyes es otra voz leyendo las letras, y no vale. Guíate por la lectura de aquí arriba."
@@ -4035,7 +4040,11 @@ function diConVoz(text, rate, alArrancar, alTerminar, alFallar){
 }
 
 function speak(text, btn, rate){
-  if(!window.speechSynthesis || !text) return;
+  /* Aqui NO se pregunta por la voz del navegador. La pregunta estaba, y
+     dejaba muda la app de Android entera: alli no hay voz de sistema, pero
+     si estan las grabaciones, que son las que de verdad se oyen. Quien
+     decide como suena cada palabra es diAlgo, mas abajo. */
+  if(!text) return;
   if(lastBtn) lastBtn.classList.remove("playing");
   if(btn){ btn.classList.add("playing"); lastBtn = btn; }
   const apaga = () => { if(btn) btn.classList.remove("playing"); };
@@ -7347,8 +7356,10 @@ function lecPalabraHTML(){
    solo de onend: algunos navegadores no lo lanzan, así que hay un tope. */
 function lecDiSeguido(items, sel){
   const token = ++lecCola;
-  if(!window.speechSynthesis) return;
-  speechSynthesis.cancel();
+  /* Igual que en speak(): no se descarta todo por no haber voz de
+     sistema. Las grabaciones suenan igual, y mas abajo este mismo
+     bucle ya las prefiere cuando existen. */
+  if(window.speechSynthesis) speechSynthesis.cancel();
   const piezas = () => document.querySelectorAll(sel || "#lecPiezas .pieza");
   let k = 0;
   const siguiente = () => {
@@ -7366,6 +7377,9 @@ function lecDiSeguido(items, sel){
       setTimeout(fin, 2600 + it.texto.length * 220);
       return;
     }
+    /* sin grabacion y sin voz de sistema no hay nada que decir, pero la
+       cadena tiene que seguir o se queda la lectura a medias */
+    if(!window.speechSynthesis){ fin(); return; }
     const u = locucion(it.texto, S.speed * (it.entera ? 1 : 0.85));
     u.onend = fin; u.onerror = fin;
     setTimeout(fin, 1100 + it.texto.length * 450);
@@ -9877,7 +9891,15 @@ let vozCtx = null, vozParar = null;
 function vozGraba(segundos, alAvanzar){
   return new Promise((listo, mal) => {
     if(!HAY_MICRO){ mal(new Error("sin micrófono")); return; }
-    navigator.mediaDevices.getUserMedia({audio:true}).then(stream => {
+    /* Sin los filtros de llamada, y por dos razones.
+       La primera es que el cancelador de eco pone el telefono en modo
+       conversacion: a partir de ahi TODO el sonido sale por el auricular
+       de la oreja en vez de por el altavoz, y el curso se queda mudo.
+       La segunda es que el volumen automatico y el supresor de ruido
+       deforman la altura de la voz, que es justo lo que aqui se mide. */
+    navigator.mediaDevices.getUserMedia({audio:{
+      echoCancellation: false, autoGainControl: false, noiseSuppression: false
+    }}).then(stream => {
       const AC = window.AudioContext || window.webkitAudioContext;
       vozCtx = new AC();
       const fuente = vozCtx.createMediaStreamSource(stream);
@@ -10048,7 +10070,9 @@ function vozArranca(caja){
         ${vozJuicio(curva, piezasConTono(th, rom))}`;
       if(curva){ ganaXP(8); touchStreak(); bump("decir"); }
     })
-    .catch(() => {
+    .catch(e => {
+      /* sin esto, cuando el microfono falla no hay forma de saber por que */
+      console.error("voz: " + (e && e.name ? e.name : "?") + " / " + (e && e.message ? e.message : e));
       btn.disabled = false;
       salida.innerHTML = `<div class="voz-nada">No he podido usar el micrófono.
         Si el navegador ha preguntado, dile que sí; si no, mira el candado de la barra de direcciones.</div>`;
@@ -12423,6 +12447,102 @@ document.addEventListener("click", e => {
     if(b.dataset.lc === "oir") lcOyeTodo();
   }
 });
+
+/* ══════════════════════════════════════════════════════════
+   EL EMBUDO DEL CUADERNO
+   ══════════════════════════════════════════════════════════
+   Saber cuánta gente toca «Comprar» no sirve de nada solo. Diez clics
+   son estupendos si la tarjeta la vieron cien personas y son un
+   desastre si la vieron diez mil. Así que se cuentan DOS cosas:
+
+     ve-cuaderno-<idioma>   la tarjeta ha entrado en pantalla de verdad
+     comprar-<idioma>       han tocado el botón
+
+   Y la diferencia entre las dos es el dato que de verdad decide qué
+   hacer: si la ven y no compran, el problema es el precio o la
+   confianza; si ni la ven, el problema es dónde está puesta.
+
+   Va a GoatCounter, que ya estaba puesto en la web: cuenta sucesos
+   anónimos y sin cookies, no guarda nada de quien los hace y no manda
+   ningún dato del progreso. Si la analítica está apagada en el
+   paquete, todo esto no hace absolutamente nada.
+
+   Va después de part3.js (usa LANG) y antes de part4.js. */
+
+const MEDIDO = {};
+function mide(que){
+  /* una vez por carga de página: que alguien toque dos veces el mismo
+     botón no son dos personas interesadas */
+  if(MEDIDO[que]) return;
+  MEDIDO[que] = 1;
+  const id = (typeof LANG !== "undefined" && LANG.id) ? LANG.id : "curso";
+  const envia = () => {
+    if(!window.goatcounter || typeof window.goatcounter.count !== "function") return false;
+    window.goatcounter.count({path: que + "-" + id, title: que + " · " + id, event: true});
+    return true;
+  };
+  if(envia()) return;
+  /* el contador se carga en diferido y puede no estar listo cuando se
+     toca el botón: se reintenta un rato y luego se deja estar */
+  let intentos = 0;
+  const t = setInterval(() => { if(envia() || ++intentos > 24) clearInterval(t); }, 250);
+}
+
+/* ── el clic ──
+   Se cuenta antes de que el navegador se vaya a PayPal. El enlace abre
+   en otra pestaña, así que esta página no se descarga y da tiempo de
+   sobra a que salga el aviso. */
+document.addEventListener("click", e => {
+  if(e.target.closest(".compra-btn")) mide("comprar");
+}, true);
+
+/* ── que la tarjeta se haya visto ──
+   No vale con que esté en la página: tiene que llegar a la pantalla.
+
+   Se mira la posición a mano en vez de con IntersectionObserver por
+   dos razones. Una, que así se puede comprobar que funciona (el
+   observador no avisa de nada cuando la pestaña no se está pintando,
+   y entonces no hay manera de saber si está bien). Y dos, que la
+   tarjeta puede ser más alta que la pantalla, y ahí pedir «la mitad
+   visible» no se cumple nunca: esto pide la mitad de la tarjeta O
+   media pantalla, lo que sea menos. */
+function tarjetaALaVista(){
+  const t = document.querySelector(".compra");
+  if(!t) return false;
+  const r = t.getBoundingClientRect();
+  const alto = window.innerHeight || document.documentElement.clientHeight || 0;
+  if(!alto || !r.height) return false;
+  const dentro = Math.min(r.bottom, alto) - Math.max(r.top, 0);
+  return dentro >= Math.min(r.height * 0.5, alto * 0.5);
+}
+(function vigilaLaTarjeta(){
+  let ultima = 0;
+  const comprueba = () => {
+    if(MEDIDO["ve-cuaderno"]) return;
+    if(tarjetaALaVista()) mide("ve-cuaderno");
+  };
+  const alMover = () => {
+    const ahora = Date.now();
+    if(ahora - ultima < 200) return;      /* no en cada píxel de scroll */
+    ultima = ahora;
+    comprueba();
+  };
+  addEventListener("scroll", alMover, {passive: true});
+  addEventListener("resize", alMover, {passive: true});
+  const vista = document.getElementById("view");
+  if(vista) new MutationObserver(() => setTimeout(comprueba, 400))
+    .observe(vista, {childList: true});
+  /* Y una red por debajo: se mira cada medio segundo durante un rato.
+     No todo el mundo llega a la tarjeta moviendo el dedo —se puede
+     entrar con la página ya puesta ahí— y hay navegadores que no
+     avisan del scroll cuando la pestaña no está delante. En cuanto
+     cuenta, se para. */
+  let vueltas = 0;
+  const red = setInterval(() => {
+    comprueba();
+    if(MEDIDO["ve-cuaderno"] || ++vueltas > 120) clearInterval(red);
+  }, 500);
+})();
 
 /* ══ OBJETIVO DIARIO ═════════════════════════════════════ */
 /* Las tareas posibles y cuánto pide cada una. Cada día se eligen tres:

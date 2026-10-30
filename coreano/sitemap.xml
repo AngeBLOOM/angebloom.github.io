@@ -1,16 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://angebloom.github.io/coreano/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/basico/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/estudiar/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/ritmo/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/lectura/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/sonidos/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/alfabeto/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/escritura/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/gramatica/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/vocabulario/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/frases/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/numeros/</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://angebloom.github.io/coreano/charla/</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://angebloom.github.io/coreano/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
 </urlset>

@@ -4259,11 +4259,20 @@ function paintNav(cur){
 const VIEWS = {};
 let current = "", viewCleanup = null;
 const nextOf = id => { const i = NAV.findIndex(n => n[0] === id); return i >= 0 && i < NAV.length-1 ? NAV[i+1] : null; };
-function go(id){
+/* `vuelta` = true cuando quien manda es el propio historial (al cargar la
+   página o al dar atrás): entonces NO se apunta nada nuevo, solo se pinta. */
+function go(id, vuelta){
   if(!VIEWS[id]) id = "inicio";
   if(viewCleanup){ viewCleanup(); viewCleanup = null; }
   current = id;
-  history.replaceState(null, "", "#" + id);
+  /* Cada sección deja su huella en el historial. Antes esto era
+     replaceState, que PISA la entrada en vez de añadirla: el curso entero
+     era una sola pantalla y en Android el botón de atrás no tenía a dónde
+     volver, así que cerraba la app a la primera, estuvieras donde
+     estuvieras. */
+  const aqui = "#" + id;
+  if(vuelta || location.hash === aqui) history.replaceState(null, "", aqui);
+  else history.pushState(null, "", aqui);
   paintNav(id);
   const nx = nextOf(id);
   $("#view").innerHTML = `<div class="view">
@@ -13650,8 +13659,8 @@ pintaNivel();
 pintaTema();
 vigilaHora();
 vigilaMarca();
-go((location.hash || "#inicio").slice(1));
-window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if(h !== current) go(h); });
+go((location.hash || "#inicio").slice(1), true);
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if(h !== current) go(h, true); });
 
 </script>
 <script>

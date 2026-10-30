@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://angebloom.github.io/italiano/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://angebloom.github.io/italiano/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/basico/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/leer/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/estudiar/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/ritmo/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/lectura/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/sonidos/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/alfabeto/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/gramatica/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/vocabulario/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/frases/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/numeros/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/italiano/charla/</loc><lastmod>2026-10-30</lastmod></url>
 </urlset>

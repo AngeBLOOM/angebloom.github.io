@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://angebloom.github.io/tailandes/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://angebloom.github.io/tailandes/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/basico/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/leer/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/estudiar/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/tonos/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/lectura/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/sonidos/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/alfabeto/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/escritura/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/gramatica/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/vocabulario/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/frases/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/numeros/</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://angebloom.github.io/tailandes/charla/</loc><lastmod>2026-10-30</lastmod></url>
 </urlset>

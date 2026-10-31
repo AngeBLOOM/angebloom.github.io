@@ -9155,7 +9155,14 @@ function ordNueva(){
   let g;
   do { g = gs[Math.floor(Math.random() * gs.length)]; }
   while(gs.length > 1 && ordEsc && g.id === ordEsc.id);
-  const dichas = g.turnos.filter(t => t.q !== "escena").slice(0, ORD_MAX)
+  /* Una bifurcación no es una frase: es un par de opciones, y no lleva
+     ni th ni rom ni es. Colándola tal cual, la ficha salía con la
+     palabra «undefined» escrita. Aquí se ordena una escena, no se
+     elige, así que se coge la primera opción —igual que al oír la
+     conversación entera— y lo que no tenga frase se cae. */
+  const dichas = g.turnos.filter(t => t.q !== "escena")
+    .map(t => t.q === "bifurca" ? Object.assign({q:"tu"}, t.ops[0]) : t)
+    .filter(t => t && t.th).slice(0, ORD_MAX)
     .map((t, i) => ({i, quien:t.q, th:t.th, rom:t.rom, es:t.es}));
   ordEsc = {id:g.id, emoji:g.emoji, titulo:g.titulo, piezas:dichas};
   ordPuestas = [];

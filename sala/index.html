@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Marcelo Go · Sala</title>
+<meta property="og:title" content="¡Te invitan a jugar en Marcelo Go!">
+<meta property="og:description" content="Toca para entrar directo a la sala.">
+<style>
+  :root { --fondo:#1B1238; --tarjeta:#2A1E52; --oro:#FFD54F; --verde:#2EBD6B; --texto:#FFFFFF; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;
+         background:radial-gradient(circle at 50% 20%, #3B2A7A, var(--fondo)); color:var(--texto);
+         font-family:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-align:center; }
+  .t { width:100%; max-width:420px; background:var(--tarjeta); border:3px solid var(--oro); border-radius:26px; padding:26px 20px; }
+  .e { font-size:56px; line-height:1; }
+  h1 { font-size:24px; margin:12px 0 6px; }
+  p { margin:6px 0; opacity:.85; }
+  .c { font-size:44px; font-weight:900; letter-spacing:10px; color:var(--oro); margin:14px 0; }
+  a.b { display:block; margin-top:14px; padding:16px; border-radius:18px; font-weight:900; font-size:19px; text-decoration:none; color:#fff; }
+  .si { background:linear-gradient(90deg,#FFB300,#FF6D00); }
+  .no { background:var(--verde); font-size:16px !important; }
+  small { display:block; margin-top:16px; opacity:.6; }
+</style>
+</head>
+<body>
+<div class="t">
+  <div class="e" id="emoji">🎮</div>
+  <h1 id="titulo">¡Te invitan a jugar!</h1>
+  <p>Código de la sala</p>
+  <div class="c" id="codigo">····</div>
+  <a class="b si" id="abrir" href="#">▶ Entrar a la sala</a>
+  <a class="b no" href="https://play.google.com/store/apps/details?id=com.freethepress.floomi">📲 No tengo Marcelo Go</a>
+  <small>Si no se abre solo, toca «Entrar a la sala». Si no, abre Marcelo Go y escribe el código.</small>
+</div>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var juego = (q.get("j") || "").toLowerCase().replace(/[^a-z]/g, "");
+    var codigo = (q.get("c") || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 4);
+    var nombres = { vs: ["⚔", "Pelea VS"], rally: ["🏁", "Rally"], carrom: ["🎯", "Carrom"], ludo: ["🎲", "Ludo"], pool: ["🎱", "Pool"],
+                    domino: ["🁫", "Dominó"], damas: ["⛀", "Damas"], tejo: ["🥏", "Tejo"], criolla: ["🎳", "Bolas criollas"], beisbol: ["⚾", "Béisbol"] };
+    var n = nombres[juego];
+    if (n) { document.getElementById("emoji").textContent = n[0]; document.getElementById("titulo").textContent = "¡Te invitan a " + n[1] + "!"; }
+    if (codigo.length === 4) document.getElementById("codigo").textContent = codigo;
+    if (!juego || codigo.length !== 4) return;
+    var tienda = "https://play.google.com/store/apps/details?id=com.freethepress.floomi";
+    var intento = "intent://sala/" + juego + "/" + codigo + "#Intent;scheme=marcelogo;package=com.freethepress.floomi;S.browser_fallback_url=" + encodeURIComponent(tienda) + ";end";
+    var esAndroid = /android/i.test(navigator.userAgent);
+    var destino = esAndroid ? intento : "marcelogo://sala/" + juego + "/" + codigo;
+    document.getElementById("abrir").href = destino;
+    if (esAndroid) setTimeout(function () { location.href = destino; }, 300);
+  })();
+</script>
+</body>
+</html>

@@ -599,10 +599,19 @@ kbd{
 .bout .bes{font-family:var(--disp); font-size:20px; font-weight:600; margin-top:4px}
 
 /* ── juego de parejas ───────────────────────────────────── */
-.board{display:grid; grid-template-columns:repeat(4,1fr); gap:9px}
+/* `minmax(0,1fr)` y no `1fr` a secas: una columna `1fr` NO se encoge por
+   debajo de lo que mide su contenido, así que con una palabra larga o un
+   dibujo dentro, las cuatro cartas sumaban más que la pantalla del móvil
+   y empujaban la página entera a lo ancho. El teléfono respondía
+   alejando el zoom y el curso se veía como si fuera de escritorio.
+   En pantalla estrecha, además, tres columnas en vez de cuatro: así la
+   carta no queda del tamaño de un sello. */
+.board{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px}
+@media (max-width:460px){ .board{grid-template-columns:repeat(3,minmax(0,1fr))} }
 .mcard{
   aspect-ratio:1; border-radius:12px; border:1px solid var(--line-2); cursor:pointer;
   display:grid; place-items:center; padding:6px; text-align:center;
+  min-width:0; overflow-wrap:anywhere;
   background:linear-gradient(150deg, var(--surface-2), var(--surface));
   transition:transform .16s, background .16s, border-color .16s, opacity .3s;
   font-size:14px; color:var(--ink); line-height:1.25;
@@ -13639,8 +13648,24 @@ window.addEventListener("hashchange", () => { const h = location.hash.slice(1); 
 
 </script>
 <script>
+/* La caché para funcionar sin conexión es para la WEB. Dentro de la app
+   de Android sobra —los ficheros ya están en el teléfono— y además
+   estorba: sirve copias viejas de la página y de los audios, así que al
+   actualizar la app seguía viéndose el curso de antes y había palabras
+   que no sonaban aunque su grabación estuviera dentro del APK. Aquí no
+   se registra, y de paso se borra la que hubiera quedado de versiones
+   anteriores. */
 if("serviceWorker" in navigator)
-  addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); });
+  addEventListener("load", function(){
+    if(location.hostname === "appassets.androidplatform.net"){
+      navigator.serviceWorker.getRegistrations()
+        .then(function(rs){ rs.forEach(function(r){ r.unregister(); }); }).catch(function(){});
+      if(window.caches) caches.keys()
+        .then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); }).catch(function(){});
+      return;
+    }
+    navigator.serviceWorker.register("./sw.js").catch(function(){});
+  });
 </script>
 </body>
 </html>

@@ -95,6 +95,12 @@ p{margin:0}
 }
 .nav svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
 .nav .n-badge{margin-left:auto; font:500 11px var(--mono); color:var(--ink-3)}
+/* candado de lo que es del curso completo */
+.nav .n-cand{margin-left:auto; font-size:11px; opacity:.55}
+.nav .n-badge + .n-cand{margin-left:6px}
+.pago{display:grid; gap:14px; margin-top:6px}
+.pago .card p{margin:6px 0 10px}
+.pago .row{flex-wrap:wrap}
 .nav button[aria-current="true"] .n-badge{color:var(--accent-ink)}
 
 .rail-foot{margin-top:auto; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:8px}
@@ -2760,3 +2766,355 @@ h1,h2,h3,h4,p,figure,blockquote,dl,dd,ul,ol{margin:0}
 ul,ol{padding-left:1.1em}
 button,input,select,textarea{font-family:inherit;font-size:100%}
 img{max-width:100%;height:auto}
+
+
+/* ══════════════════════════════════════════════════════════
+   AURORA · la piel nueva de Suena
+   ══════════════════════════════════════════════════════════
+   Va ENCIMA de la hoja de part1.html, sin tocarla: build.js la mete al
+   final del <body>, así que manda también sobre los estilos que los
+   módulos (temas.js, diaria.js, oidotonos.js…) añaden al arrancar.
+
+   Las reglas de siempre:
+   · Ningún nombre de clase cambia: aquí solo se viste lo que hay.
+   · Solo se animan transform y opacity. El desenfoque (backdrop-filter)
+     solo en piezas fijas: barra de arriba, barra de abajo, menú, ventanas.
+   · Con «reducir movimiento» todo se queda quieto.
+   · El color de cada curso (--brand) manda: la aurora se mezcla con él. */
+
+/* ── 1 · paleta ─────────────────────────────────────────── */
+:root{
+  --au-1: var(--brand);
+  --au-2: #8B5CF6;          /* violeta */
+  --au-3: #22D3C5;          /* turquesa */
+  --au-oro: #FFC94D;
+  --glass: rgba(255,255,255,.62);
+  --glass-2: rgba(255,255,255,.78);
+  --glass-line: rgba(30,20,60,.09);
+  --glass-hi: rgba(255,255,255,.9);
+  --au-grad: linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 45%, var(--au-2)));
+  --au-sombra: 0 1px 0 rgba(255,255,255,.6) inset, 0 10px 30px -14px rgba(40,20,80,.25);
+  --au-glow: 0 8px 26px -8px color-mix(in srgb, var(--brand) 70%, transparent);
+  --r: 20px; --r-s: 13px;
+  --ground: #F6F3FB; --surface: #FFFFFF; --surface-2: #F0ECF7; --surface-3: #E4DEEF;
+  --line: rgba(40,25,80,.1); --line-2: rgba(40,25,80,.16);
+  --ease-rebote: cubic-bezier(.3,1.5,.5,1);
+}
+/* el oscuro es el de la casa: se aplica si lo pide el sistema o el usuario */
+:root[data-theme="dark"]{
+  --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
+  --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
+  --glass: rgba(255,255,255,.055);
+  --glass-2: rgba(255,255,255,.085);
+  --glass-line: rgba(255,255,255,.11);
+  --glass-hi: rgba(255,255,255,.22);
+  --au-sombra: 0 1px 0 rgba(255,255,255,.07) inset, 0 14px 34px -18px rgba(0,0,0,.9);
+  --au-glow: 0 10px 30px -8px color-mix(in srgb, var(--brand) 75%, transparent);
+  --accent-soft: color-mix(in srgb, var(--brand) 20%, #16121F);
+  --accent-wash: color-mix(in srgb, var(--brand) 10%, #0C0A12);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
+    --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
+    --glass: rgba(255,255,255,.055); --glass-2: rgba(255,255,255,.085);
+    --glass-line: rgba(255,255,255,.11); --glass-hi: rgba(255,255,255,.22);
+    --au-sombra: 0 1px 0 rgba(255,255,255,.07) inset, 0 14px 34px -18px rgba(0,0,0,.9);
+    --au-glow: 0 10px 30px -8px color-mix(in srgb, var(--brand) 75%, transparent);
+    --accent-soft: color-mix(in srgb, var(--brand) 20%, #16121F);
+    --accent-wash: color-mix(in srgb, var(--brand) 10%, #0C0A12);
+  }
+}
+
+/* ── 2 · el fondo: auroras que se mueven despacio ─────────── */
+body{background:var(--ground)}
+#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+#aurora i{position:absolute; border-radius:50%; filter:blur(50px); opacity:.85; will-change:transform}
+#aurora i:nth-child(1){width:60vmax; height:60vmax; left:-18vmax; top:-24vmax;
+  background:radial-gradient(circle, var(--au-1), transparent 65%); animation:auMueve1 22s ease-in-out infinite}
+#aurora i:nth-child(2){width:52vmax; height:52vmax; right:-20vmax; top:-10vmax;
+  background:radial-gradient(circle, var(--au-2), transparent 65%); animation:auMueve2 26s ease-in-out infinite}
+#aurora i:nth-child(3){width:46vmax; height:46vmax; left:20vmax; bottom:-30vmax;
+  background:radial-gradient(circle, var(--au-3), transparent 65%); opacity:.32; animation:auMueve1 30s ease-in-out infinite reverse}
+:root:not([data-theme="dark"]) #aurora i{opacity:.28}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) #aurora i{opacity:.85} }
+:root[data-theme="dark"] #aurora i{opacity:.85}
+@keyframes auMueve1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,4vmax) scale(1.12)}}
+@keyframes auMueve2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-5vmax,6vmax) scale(.92)}}
+/* la rejilla de puntitos, apenas */
+#aurora::after{content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1.2px); background-size:26px 26px;
+  -webkit-mask:linear-gradient(#000, transparent 70%); mask:linear-gradient(#000, transparent 70%)}
+#shell, main{background:transparent}
+
+/* ── 3 · tipografía ─────────────────────────────────────── */
+.vhead{border:0}
+.vhead h1{letter-spacing:-.035em;
+  background:linear-gradient(100deg, var(--ink) 30%, color-mix(in srgb, var(--brand) 70%, var(--ink)) 70%, var(--au-2));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.eyebrow{letter-spacing:.14em}
+h2.sec::before{background:var(--au-grad); box-shadow:var(--au-glow); border-radius:9px}
+
+/* ── 4 · superficies de cristal ─────────────────────────── */
+.card, .nextbar, .tm-tema, .tm-tarjeta, .tm-resumen, .ot-op, .ot-pal, .dd-banner,
+.mcard, .hoy, .mision, .routine, .pattern, .detail, .gitem, .son-carta, .camino-parada,
+.qopt, .tm-paso, .cu-chip, .promo, .li{
+  background:var(--glass) !important;
+  border:1px solid var(--glass-line) !important;
+  box-shadow:var(--au-sombra);
+  border-radius:var(--r);
+}
+.card{border-radius:22px}
+.qopt, .tm-paso, .cu-chip, .li{border-radius:16px}
+/* en las tarjetas que se tocan, el brillo del borde sigue al dedo */
+.tm-tema, .nextbar, .mcard, .ot-op, .qopt, .camino-parada{position:relative; overflow:hidden; isolation:isolate}
+.tm-tema::before, .nextbar::before, .mcard::before, .ot-op::before, .qopt::before, .camino-parada::before{
+  content:""; position:absolute; inset:0; z-index:-1; opacity:0; transition:opacity .25s;
+  background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%), color-mix(in srgb, var(--brand) 22%, transparent), transparent 60%)}
+.tm-tema:hover::before, .nextbar:hover::before, .mcard:hover::before, .ot-op:hover::before,
+.qopt:hover:not([disabled])::before, .camino-parada:hover::before{opacity:1}
+.tm-tema:hover, .nextbar:hover, .mcard:hover{transform:translateY(-3px)}
+
+/* el borde de luz que recorre lo importante */
+.dd-banner, .tm-tarjeta, .hero-panel{position:relative}
+.dd-banner::after, .tm-tarjeta::after{
+  content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; pointer-events:none;
+  background:linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--brand) 80%, #fff), var(--au-2), transparent 65%);
+  background-size:250% 100%; animation:auBorde 4s linear infinite;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude}
+@keyframes auBorde{from{background-position:200% 0}to{background-position:-50% 0}}
+
+/* ── 5 · botones ────────────────────────────────────────── */
+.btn{border-radius:14px; border:1px solid var(--glass-line); background:var(--glass-2); color:var(--ink);
+  transition:transform .14s var(--ease-rebote), background .2s, box-shadow .2s, border-color .2s;
+  position:relative; overflow:hidden; isolation:isolate}
+.btn:hover{background:var(--glass-hi); border-color:var(--line-2)}
+.btn:active{transform:scale(.96)}
+.btn--p, .tm-ficha.tm-ok{
+  background:var(--au-grad) !important; border-color:transparent !important; color:#fff !important;
+  box-shadow:var(--au-glow), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn--p:hover{filter:brightness(1.08); box-shadow:0 12px 34px -8px color-mix(in srgb, var(--brand) 85%, transparent), inset 0 1px 0 rgba(255,255,255,.4)}
+/* el brillo que pasa por encima del botón principal */
+.btn--p::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+  transform:translateX(-120%); transition:transform .7s ease}
+.btn--p:hover::after{transform:translateX(120%)}
+.btn[aria-pressed="true"]{background:var(--au-grad); color:#fff; border-color:transparent}
+.btn--lg{border-radius:16px; padding:14px 24px}
+/* la onda al tocar (la pone aurora.js) */
+.au-onda{position:absolute; border-radius:50%; transform:scale(0); pointer-events:none; z-index:2;
+  background:rgba(255,255,255,.4); animation:auOnda .6s ease-out forwards}
+@keyframes auOnda{to{transform:scale(4); opacity:0}}
+
+.iconbtn{border-radius:50%; background:var(--glass-2); border:1px solid var(--glass-line);
+  transition:transform .14s var(--ease-rebote), box-shadow .2s}
+.iconbtn:active{transform:scale(.9)}
+.iconbtn:hover{box-shadow:var(--au-glow)}
+.iconbtn.playing{background:var(--au-grad); border-color:transparent; color:#fff;
+  box-shadow:0 0 0 0 color-mix(in srgb, var(--brand) 60%, transparent); animation:auLate 1.1s ease-out infinite}
+@keyframes auLate{0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--brand) 60%, transparent)}100%{box-shadow:0 0 0 14px transparent}}
+
+/* lo que se toca con el dedo: se hunde y vuelve con rebote */
+.qopt, .tm-tema, .tm-ficha, .ot-op, .ot-pal, .cu-chip, .tm-paso, .nextbar, .mcard, [data-go].card{
+  transition:transform .16s var(--ease-rebote), box-shadow .2s, border-color .2s, background .2s}
+.qopt:active:not([disabled]), .tm-tema:active, .ot-op:active:not([disabled]), .cu-chip:active, .tm-paso:active, .nextbar:active{transform:scale(.97)}
+
+/* aciertos y fallos */
+.qopt.ok, .ot-op.ok{border-color:var(--ok) !important; background:color-mix(in srgb, var(--ok) 16%, transparent) !important;
+  box-shadow:0 0 0 1px var(--ok), 0 0 26px -6px var(--ok); animation:auAcierto .5s var(--ease-rebote)}
+.qopt.no, .ot-op.no{border-color:var(--bad) !important; background:color-mix(in srgb, var(--bad) 13%, transparent) !important;
+  animation:auFallo .4s ease}
+@keyframes auAcierto{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes auFallo{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+/* las fichas de escribir: teclas de cristal */
+.tm-ficha{background:var(--glass-2); border:1px solid var(--glass-line); color:var(--ink);
+  box-shadow:0 4px 0 color-mix(in srgb, var(--ink) 14%, transparent), var(--au-sombra); border-radius:16px}
+.tm-ficha:active{transform:translateY(3px); box-shadow:0 1px 0 color-mix(in srgb, var(--ink) 14%, transparent)}
+.tm-hueco{background:var(--glass); border-color:var(--glass-line)}
+.tm-hueco.puesta{box-shadow:0 0 18px -4px var(--ok)}
+
+/* ── 6 · progreso ───────────────────────────────────────── */
+.bar{background:var(--glass-2); border-radius:99px; overflow:hidden}
+.bar i{background:var(--au-grad); border-radius:99px; box-shadow:0 0 12px color-mix(in srgb, var(--brand) 60%, transparent);
+  transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.chip{border-radius:99px}
+
+/* ── 7 · barra de arriba (móvil) y menú ─────────────────── */
+#topbar{background:color-mix(in srgb, var(--ground) 72%, transparent) !important; border-bottom:1px solid var(--glass-line) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.4); backdrop-filter:blur(18px) saturate(1.4)}
+.tb-btn{background:var(--glass-2) !important; border-color:var(--glass-line) !important; border-radius:14px !important}
+#rail{background:color-mix(in srgb, var(--ground) 80%, transparent) !important; border-right:1px solid var(--glass-line) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.3); backdrop-filter:blur(22px) saturate(1.3)}
+.brand .mark{background:var(--au-grad); box-shadow:var(--au-glow); border-radius:15px}
+.nav button{border-radius:14px; transition:background .2s, transform .14s var(--ease-rebote)}
+.nav button:active{transform:scale(.97)}
+.nav button[aria-current="true"]{background:var(--au-grad) !important; color:#fff !important; box-shadow:var(--au-glow)}
+.ngtit{border-radius:12px}
+
+/* el avatar en la barra de arriba y en el menú (perfil.js) */
+.au-av{width:36px; height:36px; border-radius:50%; padding:2px; flex:none; cursor:pointer; border:0;
+  background:conic-gradient(from 0deg, var(--au-1), var(--au-2), var(--au-3), var(--au-1));
+  display:grid; place-items:center}
+.au-av > span{width:100%; height:100%; border-radius:50%; background:var(--surface); display:grid; place-items:center;
+  overflow:hidden; font-size:18px; line-height:1}
+.au-av img, .au-av svg{width:100%; height:100%; object-fit:cover; display:block}
+.au-av.r0{background:var(--line-2)}
+.au-av.r30{background:conic-gradient(var(--au-oro), #FF8A3D, var(--au-oro), #FFE7A3, var(--au-oro));
+  box-shadow:0 0 14px -2px var(--au-oro)}
+
+/* ── 8 · la barra de abajo (móvil) ──────────────────────── */
+#auAbajo{display:none}
+@media (max-width:860px){
+  #auAbajo{display:flex; position:fixed; z-index:44; left:10px; right:10px;
+    bottom:calc(10px + env(safe-area-inset-bottom, 0px)); padding:7px 6px; border-radius:24px;
+    justify-content:space-around; align-items:stretch;
+    background:color-mix(in srgb, var(--surface) 72%, transparent); border:1px solid var(--glass-line);
+    -webkit-backdrop-filter:blur(20px) saturate(1.5); backdrop-filter:blur(20px) saturate(1.5);
+    box-shadow:0 18px 40px -16px rgba(0,0,0,.55)}
+  #auAbajo button{flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px;
+    border:0; background:none; color:var(--ink-3); font:600 10.5px var(--ui); border-radius:16px; cursor:pointer;
+    position:relative; transition:color .2s, transform .14s var(--ease-rebote)}
+  #auAbajo button:active{transform:scale(.9)}
+  #auAbajo svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+  #auAbajo button[aria-current="true"]{color:var(--ink)}
+  #auAbajo button[aria-current="true"] svg{stroke:var(--brand); filter:drop-shadow(0 0 6px color-mix(in srgb, var(--brand) 80%, transparent))}
+  #auAbajo button[aria-current="true"]::after{content:""; position:absolute; bottom:1px; width:5px; height:5px; border-radius:50%;
+    background:var(--brand); box-shadow:0 0 8px var(--brand)}
+  #auAbajo .au-punto{position:absolute; top:3px; right:calc(50% - 16px); width:8px; height:8px; border-radius:50%;
+    background:var(--bad); box-shadow:0 0 0 2px var(--surface)}
+  main{padding-bottom:120px !important}
+  /* lo que flota abajo sube por encima de la barra */
+  .subt{bottom:calc(92px + env(safe-area-inset-bottom, 0px)) !important}
+  .arriba{bottom:calc(96px + env(safe-area-inset-bottom, 0px)) !important}
+}
+
+/* ── 9 · la barra de lo que suena ───────────────────────── */
+.subt{background:color-mix(in srgb, var(--surface) 78%, transparent) !important; color:var(--ink) !important;
+  border:1px solid var(--glass-line); border-radius:20px !important;
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); box-shadow:0 18px 40px -14px rgba(0,0,0,.6) !important}
+.subt .sub-txt b, .subt .sub-txt .rom, .subt .sub-txt em{color:var(--ink) !important}
+.subt .sub-b, .subt .sub-x{color:var(--ink) !important}
+
+/* ── 10 · la del día y el resto de módulos nuevos ────────── */
+.dd-banner{border-radius:24px !important; padding:14px 16px}
+.dd-pal b{text-shadow:0 0 22px color-mix(in srgb, var(--brand) 55%, transparent)}
+.dd-racha.on{text-shadow:0 0 12px rgba(255,140,60,.8)}
+.dd-caja, .bq-panel{background:color-mix(in srgb, var(--surface) 88%, transparent) !important; border:1px solid var(--glass-line);
+  -webkit-backdrop-filter:blur(24px); backdrop-filter:blur(24px)}
+.dd-modal{background:rgba(6,4,12,.55) !important}
+.tm-palabra, .ot-pal b{text-shadow:0 0 26px color-mix(in srgb, var(--brand) 40%, transparent)}
+.tm-tema.tm-sig{box-shadow:0 0 0 2px var(--brand), var(--au-glow) !important}
+.tm-estrellas i.si{filter:drop-shadow(0 0 4px var(--au-oro))}
+
+/* hero del inicio */
+.hero-panel{background:var(--au-grad) !important; border-radius:26px !important; box-shadow:var(--au-glow) !important; overflow:hidden}
+.hero-panel::before{content:""; position:absolute; inset:-40%; pointer-events:none;
+  background:radial-gradient(40% 40% at 30% 30%, rgba(255,255,255,.25), transparent 70%); animation:auMueve1 14s ease-in-out infinite}
+
+/* ── 11 · campos ────────────────────────────────────────── */
+input[type="search"], input[type="text"], textarea, select{
+  background:var(--glass-2) !important; border:1px solid var(--glass-line) !important; color:var(--ink) !important; border-radius:14px !important}
+input:focus, textarea:focus, select:focus{outline:none; box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 35%, transparent) !important}
+
+/* ── 12 · al cambiar de pantalla: entra escalonado ───────── */
+/* (la entrada escalonada la hace animaVista, en vida.js: aquí no se
+   añade otra encima, que juntas dejaban la pantalla en blanco un segundo) */
+@keyframes auEntra{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
+
+/* ── 13 · quietos si se pide ────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  #aurora i, .dd-banner::after, .tm-tarjeta::after, .hero-panel::before, .iconbtn.playing,
+  .view > *, .qopt.ok, .qopt.no, .ot-op.ok, .ot-op.no{animation:none !important}
+  .btn--p::after{display:none}
+}
+
+
+/* ── 14 · personalización (aspecto.js) ──────────────────── */
+/* el color: pisa al del idioma, en claro y en oscuro */
+:root[data-acento="violeta"]{--brand:#A78BFA; --brand-ink:#7C5CFF; --brand-dark:#A78BFA; --accent:#A78BFA; --accent-ink:#7C5CFF}
+:root[data-acento="turquesa"]{--brand:#2DD4BF; --brand-ink:#0F9F8F; --brand-dark:#2DD4BF; --accent:#2DD4BF; --accent-ink:#0F9F8F}
+:root[data-acento="rosa"]{--brand:#F472B6; --brand-ink:#DB2777; --brand-dark:#F472B6; --accent:#F472B6; --accent-ink:#DB2777}
+:root[data-acento="oro"]{--brand:#FBBF24; --brand-ink:#B7791F; --brand-dark:#FBBF24; --accent:#FBBF24; --accent-ink:#B7791F}
+:root[data-acento="esmeralda"]{--brand:#34D399; --brand-ink:#059669; --brand-dark:#34D399; --accent:#34D399; --accent-ink:#059669}
+/* los fondos: las tres manchas cambian de color o se quedan quietas */
+:root[data-fondo="quieta"] #aurora i{animation:none}
+:root[data-fondo="liso"] #aurora{display:none}
+:root[data-fondo="atardecer"]{--au-1:#F97316; --au-2:#E11D48; --au-3:#FBBF24}
+:root[data-fondo="oceano"]{--au-1:#0EA5E9; --au-2:#2563EB; --au-3:#14B8A6}
+:root[data-fondo="galaxia"]{--au-1:#6D28D9; --au-2:#DB2777; --au-3:#1E3A8A}
+:root[data-fondo="galaxia"] #aurora::after{
+  background-image:radial-gradient(rgba(255,255,255,.9) 1px, transparent 1.4px), radial-gradient(rgba(255,255,255,.5) 1px, transparent 1.2px);
+  background-size:120px 120px, 47px 47px; background-position:0 0, 23px 31px;
+  -webkit-mask:none; mask:none; animation:auEstrellas 60s linear infinite}
+@keyframes auEstrellas{to{background-position:120px 240px, 70px 125px}}
+/* efectos suaves: lo mismo, sin movimiento de adorno */
+:root[data-efectos="suaves"] #aurora i, :root[data-efectos="suaves"] #aurora::after,
+:root[data-efectos="suaves"] .dd-banner::after, :root[data-efectos="suaves"] .tm-tarjeta::after,
+:root[data-efectos="suaves"] .hero-panel::before, :root[data-efectos="suaves"] .view > *,
+:root[data-efectos="suaves"] .iconbtn.playing, :root[data-efectos="suaves"] .pf-grande,
+:root[data-efectos="suaves"] .pf-grande > *{animation:none !important}
+:root[data-efectos="suaves"] .btn--p::after, :root[data-efectos="suaves"] .au-onda{display:none}
+
+
+/* ── 15 · nada se sale por los lados ────────────────────────
+   Los carruseles asoman un poco por los bordes a propósito. Sin esto,
+   en el móvil la página entera se hacía más ancha que la pantalla, y
+   la barra de abajo se salía por la derecha (no se veía Perfil).
+   clip y no hidden: hidden rompe lo que va pegado arriba (las pestañas). */
+html, body{overflow-x:clip}
+#view, main{max-width:100vw}
+.rings{grid-template-columns:repeat(auto-fit,minmax(72px,1fr)) !important}
+
+
+/* ── 16 · luces LED azul y morado (solo en oscuro) ──────────
+   Un suelo de rejilla de neón que avanza hacia ti, una línea de
+   horizonte que brilla, el resplandor de los bordes de la pantalla y un
+   barrido de luz que cruza despacio. Todo con transform y opacity, y
+   todo quieto con «efectos suaves» o con reducir movimiento. */
+#aurora .au-suelo, #aurora .au-horizonte, #aurora .au-bordes, #aurora .au-barrido{display:none; position:absolute; pointer-events:none}
+:root[data-theme="dark"] #aurora .au-suelo, :root[data-theme="dark"] #aurora .au-horizonte,
+:root[data-theme="dark"] #aurora .au-bordes, :root[data-theme="dark"] #aurora .au-barrido{display:block}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) #aurora .au-suelo, :root:not([data-theme="light"]) #aurora .au-horizonte,
+  :root:not([data-theme="light"]) #aurora .au-bordes, :root:not([data-theme="light"]) #aurora .au-barrido{display:block}
+}
+#aurora .au-suelo{left:-50%; right:-50%; bottom:-8vh; height:58vh; opacity:.55;
+  background-image:
+    linear-gradient(to right, rgba(56,189,248,.55) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(168,85,247,.55) 1.5px, transparent 1.5px);
+  background-size:64px 64px;
+  transform:perspective(320px) rotateX(68deg); transform-origin:50% 100%;
+  -webkit-mask:linear-gradient(to top, #000 10%, transparent 85%); mask:linear-gradient(to top, #000 10%, transparent 85%);
+  filter:drop-shadow(0 0 6px rgba(139,92,246,.9));
+  animation:auSuelo 3.2s linear infinite}
+@keyframes auSuelo{from{background-position:0 0, 0 0} to{background-position:0 0, 0 64px}}
+#aurora .au-horizonte{left:0; right:0; bottom:calc(50vh - 4px); height:2px;
+  background:linear-gradient(90deg, transparent, #38BDF8 20%, #A855F7 50%, #38BDF8 80%, transparent);
+  box-shadow:0 0 18px 4px rgba(139,92,246,.75), 0 0 60px 14px rgba(56,189,248,.35); opacity:.8;
+  animation:auLatido 4s ease-in-out infinite}
+@keyframes auLatido{0%,100%{opacity:.55} 50%{opacity:1}}
+#aurora .au-bordes{inset:0;
+  box-shadow:inset 0 0 0 1px rgba(139,92,246,.35), inset 0 0 90px rgba(99,102,241,.32), inset 0 0 26px rgba(56,189,248,.28)}
+#aurora .au-barrido{top:-20%; bottom:-20%; width:26vw; left:-30vw; transform:skewX(-18deg);
+  background:linear-gradient(90deg, transparent, rgba(56,189,248,.10), rgba(168,85,247,.16), transparent);
+  animation:auBarrido 11s ease-in-out infinite}
+@keyframes auBarrido{0%{transform:translateX(0) skewX(-18deg)} 55%,100%{transform:translateX(160vw) skewX(-18deg)}}
+/* las auroras, más «LED»: un azul eléctrico y un morado intenso de fondo */
+:root[data-theme="dark"]{--au-2:#7C3AED; --au-3:#0EA5E9}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){--au-2:#7C3AED; --au-3:#0EA5E9} }
+/* los bordes de las tarjetas, con un filo de neón muy fino */
+:root[data-theme="dark"] .card, :root[data-theme="dark"] .tm-tema, :root[data-theme="dark"] .ini-a, :root[data-theme="dark"] .dd-banner{
+  box-shadow:0 0 0 1px rgba(139,92,246,.10), 0 0 22px -10px rgba(56,189,248,.45), var(--au-sombra) !important}
+:root[data-theme="dark"] #auAbajo{box-shadow:0 0 0 1px rgba(139,92,246,.25), 0 0 30px -6px rgba(99,102,241,.55), 0 18px 40px -16px rgba(0,0,0,.6) !important}
+:root[data-fondo="liso"] #aurora .au-suelo, :root[data-fondo="liso"] #aurora .au-barrido{display:none !important}
+:root[data-efectos="suaves"] #aurora .au-suelo, :root[data-efectos="suaves"] #aurora .au-horizonte,
+:root[data-efectos="suaves"] #aurora .au-barrido{animation:none !important}
+@media (prefers-reduced-motion:reduce){ #aurora .au-suelo, #aurora .au-horizonte, #aurora .au-barrido{animation:none !important} }
+
+/* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
+#aurora .au-horizonte{display:none !important}
+

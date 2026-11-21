@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t) document.documentElement.dataset.theme=_t;}catch(e){}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -42,6 +42,20 @@ a.btn{text-decoration:none}
   </header>
   <main class="view">
     
+    <div class="dd-banner ">
+    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
+    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <div class="dd-txt">
+      <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
+      <div class="dd-pal"><b class="th" data-say="สวัสดี" role="button" tabindex="0" lang="th-TH">สวัสดี</b>
+        <span class="rom" lang="es">sà-wàt-dii</span> <em>hola / adiós</em></div>
+    </div>
+    <div class="dd-acc">
+      <button class="iconbtn" data-say="สวัสดี" aria-label="Oír"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"></path></svg></button>
+      <button class="btn btn--p btn--s" data-dd-escribe="">Escríbela</button>
+      <span class="dd-racha " title="Escríbela para mantener la racha">🔥 0</span>
+    </div>
+  </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
       <h1>El alfabeto</h1>
@@ -111,7 +125,7 @@ a.btn{text-decoration:none}
   </div>
 
     
-    </div></section><section class="bloque abierto" id="bl2" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl2-c"><span class="bl-num" aria-hidden="true">2</span><h2 class="sec">De un vistazo</h2>
+    </div></section><section class="bloque abierto" id="bl2"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl2-c"><span class="bl-num" aria-hidden="true">2</span><h2 class="sec">De un vistazo</h2>
        </button><div class="bl-cuerpo" id="bl2-c">
     <p class="sec-note">Las letras repartidas en grupos, cada uno con su color. Ese color es el mismo
     en toda la página: en la lista, en la ficha de cada letra y en los tests. Toca cualquiera para oírla.</p>
@@ -322,7 +336,7 @@ a.btn{text-decoration:none}
       </section>
   </div>
 
-    </div></section><section class="bloque abierto" id="bl3" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl3-c"><span class="bl-num" aria-hidden="true">3</span><h2 class="sec">Consonantes <span class="th" lang="th-TH">พยัญชนะ</span></h2>
+    </div></section><section class="bloque abierto" id="bl3"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl3-c"><span class="bl-num" aria-hidden="true">3</span><h2 class="sec">Consonantes <span class="th" lang="th-TH">พยัญชนะ</span></h2>
        </button><div class="bl-cuerpo" id="bl3-c">
     <div class="filters" id="cFilters">
       <button data-f="all" aria-pressed="true">Todas (44)</button><button data-f="m" aria-pressed="false">Clase media (9)</button><button data-f="h" aria-pressed="false">Clase alta (11)</button><button data-f="l" aria-pressed="false">Clase baja (24)</button><button data-f="known" aria-pressed="false">Aprendidas</button>
@@ -463,7 +477,7 @@ a.btn{text-decoration:none}
       <span class="g th" lang="th-TH">ฮ</span><span class="n th" lang="th-TH">ฮ นกฮูก</span><span class="s">nók-hûuk</span>
       <button class="tick" data-tick="ฮ" title="Marcar como aprendida" aria-label="Marcar como aprendida">✓</button></div></div>
 
-    </div></section><section class="bloque abierto" id="bl4" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl4-c"><span class="bl-num" aria-hidden="true">4</span><h2 class="sec">Vocales <span class="th" lang="th-TH">สระ</span></h2>
+    </div></section><section class="bloque abierto" id="bl4"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl4-c"><span class="bl-num" aria-hidden="true">4</span><h2 class="sec">Vocales <span class="th" lang="th-TH">สระ</span></h2>
        </button><div class="bl-cuerpo" id="bl4-c">
     <p class="sec-note">El círculo ◌ marca dónde va la consonante. Algunas vocales se escriben <b>antes</b> de la consonante aunque se pronuncien después: เ◌ en เพลง se lee «phleeng».</p>
     <div class="tablewrap"><table>
@@ -616,7 +630,7 @@ a.btn{text-decoration:none}
         <td><button class="iconbtn" data-say="ฤดู" aria-label="Escuchar rʉ́-duu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"></path></svg></button></td></tr></tbody>
     </table></div>
 
-    </div></section><section class="bloque abierto" id="bl5" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl5-c"><span class="bl-num" aria-hidden="true">5</span><h2 class="sec">Marcas y signos <span class="th" lang="th-TH">เครื่องหมาย</span></h2>
+    </div></section><section class="bloque activo abierto" id="bl5"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl5-c"><span class="bl-num" aria-hidden="true">5</span><h2 class="sec">Marcas y signos <span class="th" lang="th-TH">เครื่องหมาย</span></h2>
        </button><div class="bl-cuerpo" id="bl5-c">
     <div class="list">
       <div class="li">
@@ -649,7 +663,7 @@ a.btn{text-decoration:none}
     En el curso cada palabra suena al tocarla, y hay tests y juegos de este tema.<br>
     <a class="btn btn--p btn--lg" style="margin-top:12px" href="../#alfabeto">Abrir «Alfabeto» en el curso →</a></div>
   <nav class="tema-nav" aria-label="Temas del curso">
-      <a href="../basico/">Lo básico</a><a href="../leer/">Leer</a><a href="../estudiar/">Cómo estudiar</a><a href="../tonos/">Tonos</a><a href="../lectura/">Cómo se lee</a><a href="../sonidos/">Sonidos</a><b>Alfabeto</b><a href="../escritura/">Escritura</a><a href="../gramatica/">Gramática</a><a href="../vocabulario/">Vocabulario</a><a href="../frases/">Frases</a><a href="../numeros/">Números</a><a href="../charla/">Conversaciones</a>
+      <a href="../basico/">Lo básico</a><a href="../temas/">Primeras palabras</a><a href="../cuerpo/">El cuerpo</a><a href="../estudiar/">Cómo estudiar</a><a href="../tonos/">Tonos</a><a href="../sonidos/">Sonidos</a><b>Alfabeto</b><a href="../lectura/">Cómo se lee</a><a href="../escritura/">Escritura</a><a href="../gramatica/">Gramática</a><a href="../leer/">Leer</a><a href="../vocabulario/">Vocabulario</a><a href="../frases/">Frases</a><a href="../numeros/">Números</a><a href="../charla/">Conversaciones</a><a href="../chat/">Chat</a><a href="../companeros/">Compañeros</a><a href="../perfil/">Tu perfil</a>
     </nav>
   <footer class="sitefoot"><span>© 2026 Adjgd by FDP · Gratis, sin anuncios y sin registro ·
     <a href="https://angebloom.github.io/">Todos los cursos de Suena</a></span></footer>

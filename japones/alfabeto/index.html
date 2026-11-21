@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t) document.documentElement.dataset.theme=_t;}catch(e){}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -42,6 +42,20 @@ a.btn{text-decoration:none}
   </header>
   <main class="view">
     
+    <div class="dd-banner ">
+    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
+    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <div class="dd-txt">
+      <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
+      <div class="dd-pal"><b class="th" data-say="こんにちは" role="button" tabindex="0" lang="ja-JP">こんにちは</b>
+        <span class="rom" lang="es">konnichiwa</span> <em>hola (de día)</em></div>
+    </div>
+    <div class="dd-acc">
+      <button class="iconbtn" data-say="こんにちは" aria-label="Oír"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"></path></svg></button>
+      <button class="btn btn--p btn--s" data-dd-escribe="">Escríbela</button>
+      <span class="dd-racha " title="Escríbela para mantener la racha">🔥 0</span>
+    </div>
+  </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
       <h1>Los kana</h1>
@@ -200,7 +214,7 @@ a.btn{text-decoration:none}
       <span class="g th" lang="ja-JP">ん</span><span class="n th" lang="ja-JP">n</span><span class="s">n</span>
       <button class="tick" data-tick="ん" title="Marcar como aprendida" aria-label="Marcar como aprendida">✓</button></div></div>
 
-    </div></section><section class="bloque abierto" id="bl2" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl2-c"><span class="bl-num" aria-hidden="true">2</span><h2 class="sec">Katakana <span class="th" lang="ja-JP">カタカナ</span></h2>
+    </div></section><section class="bloque abierto" id="bl2"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl2-c"><span class="bl-num" aria-hidden="true">2</span><h2 class="sec">Katakana <span class="th" lang="ja-JP">カタカナ</span></h2>
        </button><div class="bl-cuerpo" id="bl2-c">
     <p class="sec-note">Los mismos 46 sonidos con otra forma. Se usan para todo lo que viene de fuera: nombres extranjeros, marcas, comida importada y onomatopeyas. Tu propio nombre se escribirá con estos.</p>
     <div class="tablewrap"><table>
@@ -438,7 +452,7 @@ a.btn{text-decoration:none}
         <td><button class="iconbtn" data-say="パン" aria-label="Escuchar pan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z" fill="currentColor" stroke="none"></path></svg></button></td></tr></tbody>
     </table></div>
 
-    </div></section><section class="bloque abierto" id="bl3" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl3-c"><span class="bl-num" aria-hidden="true">3</span><h2 class="sec">Los modificadores <span class="th" lang="ja-JP">記号</span></h2>
+    </div></section><section class="bloque activo abierto" id="bl3"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl3-c"><span class="bl-num" aria-hidden="true">3</span><h2 class="sec">Los modificadores <span class="th" lang="ja-JP">記号</span></h2>
        </button><div class="bl-cuerpo" id="bl3-c">
     <div class="list">
       <div class="li">
@@ -471,7 +485,7 @@ a.btn{text-decoration:none}
     En el curso cada palabra suena al tocarla, y hay tests y juegos de este tema.<br>
     <a class="btn btn--p btn--lg" style="margin-top:12px" href="../#alfabeto">Abrir «Alfabeto» en el curso →</a></div>
   <nav class="tema-nav" aria-label="Temas del curso">
-      <a href="../basico/">Lo básico</a><a href="../estudiar/">Cómo estudiar</a><a href="../ritmo/">Ritmo y moras</a><a href="../lectura/">Cómo se lee</a><a href="../sonidos/">Sonidos</a><b>Alfabeto</b><a href="../escritura/">Escritura</a><a href="../gramatica/">Gramática</a><a href="../vocabulario/">Vocabulario</a><a href="../frases/">Frases</a><a href="../numeros/">Números</a><a href="../charla/">Conversaciones</a>
+      <a href="../basico/">Lo básico</a><a href="../temas/">Primeras palabras</a><a href="../cuerpo/">El cuerpo</a><a href="../estudiar/">Cómo estudiar</a><a href="../ritmo/">Ritmo y moras</a><a href="../sonidos/">Sonidos</a><b>Alfabeto</b><a href="../lectura/">Cómo se lee</a><a href="../escritura/">Escritura</a><a href="../gramatica/">Gramática</a><a href="../vocabulario/">Vocabulario</a><a href="../frases/">Frases</a><a href="../numeros/">Números</a><a href="../charla/">Conversaciones</a><a href="../chat/">Chat</a><a href="../companeros/">Compañeros</a><a href="../perfil/">Tu perfil</a>
     </nav>
   <footer class="sitefoot"><span>© 2026 Adjgd by FDP · Gratis, sin anuncios y sin registro ·
     <a href="https://angebloom.github.io/">Todos los cursos de Suena</a></span></footer>

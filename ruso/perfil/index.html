@@ -66,7 +66,7 @@ a.btn{text-decoration:none}
     </div>
 
     <div id="pfElige" class="card pf-elige" hidden="">
-      <div class="pf-avs"><button class="pf-op si" data-pf-av="zorro" style="background:linear-gradient(135deg,#FF8A4C,#C2399A)" aria-label="zorro">🦊</button><button class="pf-op " data-pf-av="panda" style="background:linear-gradient(135deg,#9AA7B8,#4B5563)" aria-label="panda">🐼</button><button class="pf-op " data-pf-av="tigre" style="background:linear-gradient(135deg,#FFB020,#E2582B)" aria-label="tigre">🐯</button><button class="pf-op " data-pf-av="koala" style="background:linear-gradient(135deg,#8BA4C9,#5B6B91)" aria-label="koala">🐨</button><button class="pf-op " data-pf-av="leon" style="background:linear-gradient(135deg,#F7C548,#C27A1A)" aria-label="leon">🦁</button><button class="pf-op " data-pf-av="rana" style="background:linear-gradient(135deg,#7ED957,#1E9E6A)" aria-label="rana">🐸</button><button class="pf-op " data-pf-av="pulpo" style="background:linear-gradient(135deg,#FF7AB6,#8B5CF6)" aria-label="pulpo">🐙</button><button class="pf-op " data-pf-av="buho" style="background:linear-gradient(135deg,#C49A6C,#6B4A2B)" aria-label="buho">🦉</button><button class="pf-op " data-pf-av="pinguino" style="background:linear-gradient(135deg,#6EC1FF,#3341C4)" aria-label="pinguino">🐧</button><button class="pf-op " data-pf-av="unicornio" style="background:linear-gradient(135deg,#F5A3FF,#7C5CFF)" aria-label="unicornio">🦄</button><button class="pf-op " data-pf-av="dragon" style="background:linear-gradient(135deg,#4ADE80,#0E8A63)" aria-label="dragon">🐲</button><button class="pf-op " data-pf-av="gato" style="background:linear-gradient(135deg,#FFD36B,#FF8A3D)" aria-label="gato">🐱</button></div>
+      <div class="pf-avs"><button class="pf-op si" data-pf-av="zorro" style="background:linear-gradient(135deg,#FF8A4C,#C2399A)" aria-label="zorro">🦊</button><button class="pf-op " data-pf-av="panda" style="background:linear-gradient(135deg,#9AA7B8,#4B5563)" aria-label="panda">🐼</button><button class="pf-op " data-pf-av="tigre" style="background:linear-gradient(135deg,#FFB020,#E2582B)" aria-label="tigre">🐯</button><button class="pf-op " data-pf-av="koala" style="background:linear-gradient(135deg,#8BA4C9,#5B6B91)" aria-label="koala">🐨</button><button class="pf-op " data-pf-av="leon" style="background:linear-gradient(135deg,#F7C548,#C27A1A)" aria-label="leon">🦁</button><button class="pf-op " data-pf-av="rana" style="background:linear-gradient(135deg,#7ED957,#1E9E6A)" aria-label="rana">🐸</button><button class="pf-op " data-pf-av="pulpo" style="background:linear-gradient(135deg,#FF7AB6,#8B5CF6)" aria-label="pulpo">🐙</button><button class="pf-op " data-pf-av="buho" style="background:linear-gradient(135deg,#C49A6C,#6B4A2B)" aria-label="buho">🦉</button><button class="pf-op " data-pf-av="pinguino" style="background:linear-gradient(135deg,#6EC1FF,#3341C4)" aria-label="pinguino">🐧</button><button class="pf-op " data-pf-av="unicornio" style="background:linear-gradient(135deg,#F5A3FF,#7C5CFF)" aria-label="unicornio">🦄</button><button class="pf-op " data-pf-av="dragon" style="background:linear-gradient(135deg,#4ADE80,#0E8A63)" aria-label="dragon">🐲</button><button class="pf-op " data-pf-av="gato" style="background:linear-gradient(135deg,#FFD36B,#FF8A3D)" aria-label="gato">🐱</button><button class="pf-op " data-pf-av="conejo" style="background:linear-gradient(135deg,#FFB3D1,#B388FF)" aria-label="conejo">🐰</button></div>
       <div class="row" style="justify-content:center;margin-top:12px;gap:8px;flex-wrap:wrap">
         <label class="btn btn--p">📷 Usar una foto mía<input type="file" accept="image/*" id="pfFoto" hidden=""></label>
         
@@ -129,6 +129,29 @@ a.btn{text-decoration:none}
     <div class="asp-fila"><span class="asp-tit">Efectos</span>
       <div class="asp-seg"><button class="si" data-asp="efectos" data-asp-id="todos">✨ Todos los efectos</button><button class="" data-asp="efectos" data-asp-id="suaves">🍃 Suaves</button></div></div>
     
+  </div>
+
+    
+  <div class="av-tit">Avisos</div>
+  <div class="card av-card">
+    <button class="av-fila" data-av="sonido" aria-pressed="true">
+    <span class="av-tx"><b>Sonido de notificación</b><em>El «bip» suave cuando el amigo escribe</em></span>
+    <span class="av-int"><i></i></span></button>
+    <button class="av-fila" data-av="mensajes" aria-pressed="true">
+    <span class="av-tx"><b>Aviso de mensaje nuevo</b><em>Un aviso del teléfono cuando te escriben</em></span>
+    <span class="av-int"><i></i></span></button>
+    <button class="av-fila" data-av="recordar" aria-pressed="true">
+    <span class="av-tx"><b>Recordatorio de práctica</b><em>A la hora que elijas, aunque la app esté cerrada</em></span>
+    <span class="av-int"><i></i></span></button>
+    <button class="av-fila" data-av="teclas" aria-pressed="true">
+    <span class="av-tx"><b>Sonido al tocar</b><em>Un toque suave en los botones, solo si el teléfono no está en silencio</em></span>
+    <span class="av-int"><i></i></span></button>
+    <button class="av-fila" data-av="explica" aria-pressed="false">
+    <span class="av-tx"><b>Explicaciones en voz alta</b><em>Al entrar en cada pantalla, te la leen. Y en cada explicación hay un 🔊</em></span>
+    <span class="av-int"><i></i></span></button>
+    <label class="av-hora">A qué hora
+      <input type="time" id="avHora" value="19:00"></label>
+    <p class="av-nota">Los avisos del teléfono necesitan que se permitan en Android.</p>
   </div>
 
     </div></section><section class="bloque abierto" id="bl4"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl4-c"><span class="bl-num" aria-hidden="true">4</span><h2 class="sec">Meta diaria</h2>

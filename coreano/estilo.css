@@ -2827,7 +2827,10 @@ img{max-width:100%;height:auto}
 
 /* ── 2 · el fondo: auroras que se mueven despacio ─────────── */
 body{background:var(--ground)}
-#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; animation:auAparece .5s ease-out both}
+/* al entrar en un curso las luces aparecen con un fundido: de golpe y sin
+   las tarjetas encima se veía un fogonazo claro antes del contenido */
+@keyframes auAparece{from{opacity:0}}
 #aurora i{position:absolute; border-radius:50%; filter:blur(50px); opacity:.85; will-change:transform}
 #aurora i:nth-child(1){width:60vmax; height:60vmax; left:-18vmax; top:-24vmax;
   background:radial-gradient(circle, var(--au-1), transparent 65%); animation:auMueve1 22s ease-in-out infinite}
@@ -3114,4 +3117,5 @@ html, body{overflow-x:clip}
 
 /* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
 #aurora .au-horizonte{display:none !important}
+
 

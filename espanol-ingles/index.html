@@ -38,7 +38,8 @@ h1{font:800 30px/1.15 var(--thai);margin:6px 0 6px;letter-spacing:-.01em;
   background:linear-gradient(100deg,var(--ink) 30%,color-mix(in srgb,var(--brand) 70%,var(--ink)) 70%,#A78BFA);-webkit-background-clip:text;background-clip:text;color:transparent}
 h2{font:700 20px var(--thai);margin:0}
 .lede{color:var(--ink-2);margin:0 0 14px}
-#aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+#aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;animation:auAparece .5s ease-out both}
+@keyframes auAparece{from{opacity:0}}
 #aurora i{position:absolute;border-radius:50%;filter:blur(50px);opacity:.8}
 #aurora i:nth-child(1){width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:radial-gradient(circle,var(--brand),transparent 65%);animation:m1 22s ease-in-out infinite}
 #aurora i:nth-child(2){width:52vmax;height:52vmax;right:-20vmax;top:-10vmax;background:radial-gradient(circle,var(--au2),transparent 65%);animation:m2 26s ease-in-out infinite}
@@ -268,10 +269,15 @@ const UI = {
   numeros: "Numbers 0–20", cuerpo: "The body",
   perfil_tit: "My profile", tu_nombre: "Your name", velocidad: "Voice speed", lento: "Slow", normal: "Normal",
   cambiar_avatar: "Change picture", sobre: "This course teaches Latin American Spanish (Mexico and beyond). It's free with no sign-up. Your progress stays on your device.",
+  av_tit: "Notifications", av_sonido: "Notification sound", av_sonido_em: "A soft chime when your partner writes", av_teclas: "Tap sound", av_teclas_em: "A soft tap on buttons, only when your phone isn't on silent",
+  av_mensajes: "New message alert", av_mensajes_em: "A phone notification when someone writes to you",
+  av_recordar: "Practice reminder", av_recordar_em: "At the time you choose, even if the app is closed",
+  av_hora: "What time", av_nota: "Phone notifications need permission in Android.",
   descarga_play: "Get the app on Google Play", play_d: "Works offline, with native partners to chat with",
   toca_oir: "Tap any Spanish word to hear it",
   sin_audio: "No audio for this word yet",
   nuevo_nivel: "Level up!", leccion_hecha: "Lesson complete!",
+  av_rec_tit: "Time to practice", av_rec_txt: "Your {min}-minute session is waiting. Open Suena and pick up where you left off.",
   cat: {saludos:"Greetings", personas:"People & family", cuerpo:"The body", colores:"Colors", comida:"Food & drink",
         casa:"Home", tiempo:"Time & days", naturaleza:"Nature", viajar:"Getting around", compras:"Shopping",
         salud:"Health", "básico":"Basic words", numeros:"Numbers"},
@@ -377,6 +383,7 @@ const CP_TEXTOS = {
   "✈️ Viajes":"✈️ Travel", "🎵 Música":"🎵 Music", "🍜 Comida":"🍜 Food", "🎬 Cine y series":"🎬 Movies & TV",
   "⚽ Deporte":"⚽ Sports", "💻 Tecnología":"💻 Tech", "📚 Libros":"📚 Books", "🎮 Juegos":"🎮 Games",
   "🎨 Arte":"🎨 Art", "🌿 Naturaleza":"🌿 Nature", "💼 Trabajo":"💼 Work", "🗣️ Idiomas":"🗣️ Languages",
+  "Nuevo mensaje":"New message",
   "💬 Practicar":"💬 Practice"
 };
 
@@ -1259,7 +1266,8 @@ function marcaCambia(t){ if(S.lista[t]) delete S.lista[t]; else S.lista[t] = 1; 
 const AVATARES = [["zorro","🦊","#FF8A4C","#C2399A"], ["panda","🐼","#9AA7B8","#4B5563"], ["tigre","🐯","#FFB020","#E2582B"],
   ["elefante","🐘","#8BA4C9","#5B6B91"], ["gato","🐱","#FFD36B","#FF8A3D"], ["rana","🐸","#7ED957","#1E9E6A"],
   ["pulpo","🐙","#FF7AB6","#8B5CF6"], ["buho","🦉","#C49A6C","#6B4A2B"], ["pinguino","🐧","#6EC1FF","#3341C4"],
-  ["unicornio","🦄","#F5A3FF","#7C5CFF"], ["dragon","🐲","#4ADE80","#0E8A63"], ["mono","🐵","#D9A066","#8A5A2B"]];
+  ["unicornio","🦄","#F5A3FF","#7C5CFF"], ["dragon","🐲","#4ADE80","#0E8A63"], ["mono","🐵","#D9A066","#8A5A2B"],
+  ["conejo","🐰","#FFB3D1","#B388FF"]];
 const avatarDe = k => AVATARES.find(a => a[0] === k) || AVATARES[0];
 const perfilDatos = () => S.perfil;
 function avatarHTML(px){
@@ -1592,6 +1600,7 @@ VIEWS.perfil = {
         <div class="card"><b>✍️ ${S.diaria.hechos.length}</b><small>${UI.dd_tit}</small></div></div>
       <div class="tit">${UI.velocidad}</div>
       <div class="fila">${[[.7, UI.lento], [.9, UI.normal]].map(([v, t]) => `<button class="btn ${S.speed === v ? "btn-p" : ""}" data-vel="${v}">${t}</button>`).join("")}</div>
+      ${typeof avisosHTML === "function" ? avisosHTML() : ""}
       <a class="btn" style="margin-top:18px;display:flex;gap:10px;justify-content:center;text-decoration:none" href="../espanol/?cambiar">🌐 ${CURSO.bandera || ""} ${esc(CURSO.lengua || "")} ⇄</a>
       <p class="nota" style="margin-top:18px">${UI.sobre}</p>`;
   },
@@ -1608,6 +1617,354 @@ document.addEventListener("click", e => {
   document.body.insertBefore(a, document.body.firstChild);
   try{ if(window.Suena && Suena.tema) Suena.tema(true); }catch(e){}
   addEventListener("load", () => go((location.hash || "#inicio").slice(1), true));
+})();
+
+/* ══════════════════════════════════════════════════════════
+   AVISOS · el «bip» del chat y los avisos del teléfono
+   ══════════════════════════════════════════════════════════
+   Tres interruptores, en el Perfil:
+
+     · sonido     el bip suave de OpenCode cuando el amigo escribe
+     · mensajes   un aviso del teléfono cuando llega un mensaje nuevo
+     · recordar   el recordatorio de práctica, a la hora elegida
+     · teclas     un toque suave al tocar los botones (solo si el
+                  teléfono no está en silencio)
+
+   Todo se guarda en S.avisos. En la web el sonido sale del fichero
+   aviso.mp3 (lo deja build.js al lado del curso) y los avisos del
+   teléfono no existen; en la app, la página los pide por Suena.
+
+   Va después de perfil.js/aspecto.js y antes de part4.js. Los cursos
+   de «español para…» lo llaman desde su propio Perfil. */
+
+const AVISOS_DEF = {sonido:1, mensajes:1, recordar:1, teclas:1, explica:0, hora:"19:00"};
+
+/* Los interruptores son de la APP, no de cada curso: en el teléfono hay un
+   solo recordatorio y un solo aviso de mensajes. Si cada curso guardara
+   los suyos, apagarlo en uno y abrir otro lo volvía a encender. Por eso
+   viven en su propia clave de localStorage, que comparten todos los cursos
+   (en la app y en la web todos son del mismo sitio). La primera vez se
+   copian los que hubiera en el curso (S.avisos). */
+const AV_CLAVE = "suena-avisos";
+let avCache = null;
+function avisosDatos(){
+  if(avCache) return avCache;
+  let g = null;
+  try{ g = JSON.parse(localStorage.getItem(AV_CLAVE) || "null"); }catch(e){}
+  if(!g || typeof g !== "object") g = (typeof S !== "undefined" && S.avisos && typeof S.avisos === "object") ? S.avisos : {};
+  avCache = Object.assign({}, AVISOS_DEF, g);
+  return avCache;
+}
+function avGuarda(){ try{ localStorage.setItem(AV_CLAVE, JSON.stringify(avisosDatos())); }catch(e){} }
+
+/* los textos: en los cursos al revés la interfaz es del idioma de quien
+   estudia, así que salen de UI; en los siete grandes, del castellano */
+function avTxt(){
+  if(typeof UI !== "undefined" && UI.av_sonido){
+    return {
+      tit: UI.av_tit, sonido: UI.av_sonido, sonidoEm: UI.av_sonido_em,
+      mensajes: UI.av_mensajes, mensajesEm: UI.av_mensajes_em,
+      recordar: UI.av_recordar, recordarEm: UI.av_recordar_em,
+      hora: UI.av_hora, nota: UI.av_nota, lacks: UI.av_faltan,
+      teclas: UI.av_teclas || "♪", teclasEm: UI.av_teclas_em || ""
+    };
+  }
+  return {
+    tit: "Avisos",
+    sonido: "Sonido de notificación",
+    sonidoEm: "El «bip» suave cuando el amigo escribe",
+    mensajes: "Aviso de mensaje nuevo",
+    mensajesEm: "Un aviso del teléfono cuando te escriben",
+    recordar: "Recordatorio de práctica",
+    recordarEm: "A la hora que elijas, aunque la app esté cerrada",
+    hora: "A qué hora",
+    nota: "Los avisos del teléfono necesitan que se permitan en Android.",
+    lacks: "Faltan permisos: avísanos y te lo pedimos",
+    teclas: "Sonido al tocar",
+    teclasEm: "Un toque suave en los botones, solo si el teléfono no está en silencio"
+  };
+}
+
+/* ── el interruptor ─────────────────────────────────────── */
+function avFila(k, t, em, si){
+  return `<button class="av-fila" data-av="${k}" aria-pressed="${si ? "true" : "false"}">
+    <span class="av-tx"><b>${esc(t)}</b><em>${esc(em)}</em></span>
+    <span class="av-int"><i></i></span></button>`;
+}
+
+function avisosHTML(){
+  const a = avisosDatos(), t = avTxt();
+  /* el recordatorio de los siete cursos usa el horario de siempre;
+     los cursos al revés llevan su propia hora aquí */
+  const conHorario = typeof horario === "function" && typeof hayHorario === "function" && hayHorario();
+  /* el interruptor enseña lo que manda: a.recordar (programaRecordatorio
+     lo apaga con días vacíos aunque haya horario) */
+  const siHora = !!a.recordar;
+  return `
+  <div class="av-tit">${esc(t.tit)}</div>
+  <div class="card av-card">
+    ${avFila("sonido", t.sonido, t.sonidoEm, a.sonido)}
+    ${avFila("mensajes", t.mensajes, t.mensajesEm, a.mensajes)}
+    ${avFila("recordar", t.recordar, t.recordarEm, siHora)}
+    ${avFila("teclas", t.teclas, t.teclasEm, a.teclas)}
+    ${typeof exLee === "function" ? avFila("explica", "Explicaciones en voz alta", "Al entrar en cada pantalla, te la leen. Y en cada explicación hay un 🔊", a.explica) : ""}
+    ${conHorario ? "" : `<label class="av-hora">${esc(t.hora)}
+      <input type="time" id="avHora" value="${esc(a.hora || "19:00")}"></label>`}
+    <p class="av-nota">${conHorario ? esc(t.nota) : esc(t.nota)}</p>
+  </div>`;
+}
+
+/* ── el bip ─────────────────────────────────────────────── */
+/* Un solo reproductor: crear uno por mensaje hacía que el segundo
+   callara al primero a la mitad. */
+let avisoAudio = null;
+function suenaAviso(){
+  const a = avisosDatos();
+  if(!a.sonido) return;
+  if(typeof S.mudo !== "undefined" && S.mudo) return;   /* el silencio manda */
+  try{
+    if(window.Suena && Suena.sonidoAviso){ Suena.sonidoAviso(); return; }
+  }catch(e){}
+  try{
+    if(!avisoAudio) avisoAudio = new Audio("aviso.mp3");
+    avisoAudio.currentTime = 0;
+    const p = avisoAudio.play();
+    if(p && p.catch) p.catch(() => {});
+  }catch(e){}
+}
+
+/* ── el sonido de las teclas ────────────────────────────
+   Un toque corto y bajito, como una marimba de juguete: dos senos (la
+   nota y su octava de abajo) que se apagan en una décima de segundo. Se
+   hace con Web Audio, sin ficheros, y sale al instante.
+
+   Cuándo NO suena:
+     · con el interruptor apagado, o el curso en modo sin sonido;
+     · en la app, si el teléfono está en silencio o en vibración
+       (Suena.timbreActivo). En la web no hay forma de saberlo: en el
+       iPhone el propio navegador lo calla con el botón de silencio, y en
+       el resto se apaga con el interruptor;
+     · en lo que ya suena por sí mismo (una palabra, una frase) y en los
+       botones de grabarse: el clic se colaría en la grabación. */
+let tqCtx = null, tqUlt = 0, tqDuerme = null, tqTimbre = {t:0, si:true};
+const TQ_FUERA = "[data-say],[data-voz-grabar],[data-tn2=graba],[data-cn=canta],[data-spk],input[type=range]";
+function tqTimbreActivo(){
+  if(!(window.Suena && Suena.timbreActivo)) return true;
+  const ahora = Date.now();
+  if(ahora - tqTimbre.t > 1500){            /* se pregunta como mucho cada segundo y medio */
+    try{ tqTimbre.si = !!Suena.timbreActivo(); }catch(e){ tqTimbre.si = true; }
+    tqTimbre.t = ahora;
+  }
+  return tqTimbre.si;
+}
+function suenaTecla(fuerte){
+  const a = avisosDatos();
+  if(!a.teclas) return;
+  if(typeof S !== "undefined" && S.mudo) return;
+  if(typeof vozCtx !== "undefined" && vozCtx) return;      /* grabando: nada */
+  const ahora = performance.now();
+  if(ahora - tqUlt < 45) return;
+  tqUlt = ahora;
+  if(!tqTimbreActivo()) return;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    if(!tqCtx) tqCtx = new AC();
+    if(tqCtx.state === "suspended") tqCtx.resume();
+    const c = tqCtx, t = c.currentTime + 0.005;
+    const nota = fuerte ? 1318.5 : 1046.5;            /* mi o do agudos */
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(fuerte ? 0.05 : 0.04, t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+    g.connect(c.destination);
+    [[nota, 1], [nota / 2, 0.6]].forEach(([f, v]) => {
+      const o = c.createOscillator(), gv = c.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(f, t);
+      o.frequency.exponentialRampToValueAtTime(f * 0.94, t + 0.1);
+      gv.gain.value = v;
+      o.connect(gv); gv.connect(g);
+      o.start(t); o.stop(t + 0.13);
+    });
+    /* el contexto se duerme al rato: uno despierto sin sonar tiene el
+       audio del teléfono ocupado y gasta batería */
+    clearTimeout(tqDuerme);
+    tqDuerme = setTimeout(() => { try{ c.suspend(); }catch(e){} }, 1500);
+  }catch(e){}
+}
+document.addEventListener("pointerdown", e => {
+  if(e.button > 0 || !e.isPrimary) return;
+  const b = e.target.closest && e.target.closest("button,a[href],[role=button],[data-go],.chip,label,select,summary");
+  if(!b || b.disabled || b.closest(TQ_FUERA)) return;
+  suenaTecla(b.classList.contains("btn--p"));
+}, {passive: true, capture: true});
+
+/* ── la celebración ─────────────────────────────────────
+   Cuando algo sale bien: confeti que sale del sitio donde lo hiciste y
+   tres notas suaves subiendo (do-mi-sol). «peque» para un paso, «grande»
+   para cuando terminas algo entero. El sonido sigue las mismas reglas
+   que el de las teclas (silencio del teléfono, modo sin sonido); el
+   confeti sale siempre, salvo si el sistema pide menos movimiento. */
+function celebra(desde, tam){
+  const grande = tam === "grande";
+  try{ celebraSuena(grande); }catch(e){}
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r = desde && desde.getBoundingClientRect ? desde.getBoundingClientRect() : {left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0};
+  const x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
+  const colores = ["var(--accent)", "var(--t-rise)", "var(--t-high)", "var(--t-fall)", "var(--t-low)", "#FFC83D", "#FF8AD8"];
+  const n = grande ? 70 : 22;
+  for(let i = 0; i < n; i++){
+    const p = document.createElement("i");
+    p.className = "cel-p";
+    if(grande && i % 7 === 0){ p.textContent = ["🎉", "⭐", "✨", "💖"][i % 4]; p.classList.add("cel-e"); }
+    else p.style.background = colores[i % colores.length];
+    p.style.left = x0 + "px"; p.style.top = y0 + "px";
+    document.body.appendChild(p);
+    const ang = Math.random() * Math.PI * 2, v = (grande ? 160 : 90) + Math.random() * (grande ? 260 : 120);
+    const dx = Math.cos(ang) * v, dy = Math.sin(ang) * v - (grande ? 140 : 60);
+    const dur = 900 + Math.random() * (grande ? 900 : 400);
+    const an = p.animate([
+      {transform: "translate(-50%,-50%) scale(1) rotate(0deg)", opacity: 1},
+      {transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1) rotate(${Math.random() * 540}deg)`, opacity: 1, offset: .55},
+      {transform: `translate(calc(-50% + ${dx * 1.15}px), calc(-50% + ${dy + 220}px)) scale(.6) rotate(${Math.random() * 720}deg)`, opacity: 0}
+    ], {duration: dur, easing: "cubic-bezier(.2,.7,.3,1)"});
+    an.onfinish = () => p.remove();
+  }
+}
+function celebraSuena(grande){
+  if(typeof S !== "undefined" && S.mudo) return;
+  if(typeof vozCtx !== "undefined" && vozCtx) return;
+  if(!tqTimbreActivo()) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  if(!tqCtx) tqCtx = new AC();
+  if(tqCtx.state === "suspended") tqCtx.resume();
+  const c = tqCtx, t0 = c.currentTime + 0.02;
+  const notas = grande ? [523.3, 659.3, 784, 1046.5] : [659.3, 784];
+  notas.forEach((f, i) => {
+    const t = t0 + i * 0.09;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = "sine"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (grande && i === notas.length - 1 ? 0.7 : 0.35));
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + 0.8);
+  });
+  clearTimeout(tqDuerme);
+  tqDuerme = setTimeout(() => { try{ c.suspend(); }catch(e){} }, 1800);
+}
+
+/* ── el aviso del teléfono ──────────────────────────────── */
+function avisoNativo(titulo, cuerpo){
+  const a = avisosDatos();
+  if(!a.mensajes) return;
+  try{
+    if(window.Suena && Suena.aviso){ Suena.aviso(titulo, cuerpo); return; }
+  }catch(e){}
+}
+
+/* ── el recordatorio ────────────────────────────────────── */
+/* Se llama al arrancar y cada vez que cambia el horario. días vacío
+   lo apaga. */
+function programaRecordatorio(){
+  if(!window.Suena || !Suena.recordatorio) return;
+  const a = avisosDatos();
+  let dias = "", hora = a.hora || "19:00", min = 20;
+  if(typeof horario === "function" && typeof hayHorario === "function" && hayHorario()){
+    const h = horario();
+    dias = h.dias.join(","); hora = h.hora; min = h.min;
+  } else if(a.recordar){
+    dias = "0,1,2,3,4,5,6";
+  }
+  /* el texto del aviso, en el idioma del curso (los cursos al revés lo
+     traen en UI); {min} lo cambia el teléfono por los minutos */
+  const tit = (typeof UI !== "undefined" && UI.av_rec_tit) || "Toca practicar";
+  const txt = (typeof UI !== "undefined" && UI.av_rec_txt) || "Tu sesión de {min} minutos te espera. Abre Suena y sigue donde lo dejaste.";
+  try{ if(Suena.textoRecordatorio) Suena.textoRecordatorio(tit, txt); }catch(e){}
+  try{ Suena.recordatorio(a.recordar ? dias : "", hora, min); }catch(e){}
+  try{ localStorage.setItem("suena-rec", (a.recordar ? dias : "-") + "@" + hora); }catch(e){}
+}
+
+/* ── los botones ────────────────────────────────────────── */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-av]");
+  if(!b) return;
+  const a = avisosDatos(), k = b.dataset.av;
+  a[k] = a[k] ? 0 : 1;
+  /* para los avisos del teléfono hace falta el permiso de Android 13 */
+  if(a[k] && (k === "mensajes" || k === "recordar")){
+    try{ if(window.Suena && Suena.pedirAvisos) Suena.pedirAvisos(); }catch(err){}
+  }
+  avGuarda();
+  if(k === "recordar") programaRecordatorio();
+  if(k === "mensajes" && a[k] && typeof cpEscuchaDeFondo === "function") cpEscuchaDeFondo();
+  save();
+  const c = document.querySelector(".av-card");
+  if(c){ const y = window.scrollY; go(current, true); window.scrollTo(0, y); }
+});
+
+document.addEventListener("change", e => {
+  if(e.target.id !== "avHora") return;
+  const a = avisosDatos();
+  a.hora = e.target.value || "19:00";
+  avGuarda(); save(); programaRecordatorio();
+});
+
+/* al arrancar: la primera vez en este teléfono, que el recordatorio quede
+   programado aunque no se toque nada. Solo la primera: si cada curso lo
+   reprogramara al abrirse, el último abierto pisaría lo que eligió el
+   usuario. En load, no antes: el horario vive en part4.js, más abajo. */
+addEventListener("load", () => {
+  let hecho = "";
+  try{ hecho = localStorage.getItem("suena-rec") || ""; }catch(e){}
+  if(!hecho){ try{ programaRecordatorio(); }catch(e){} }
+  /* y, en la app, Compañeros escucha de fondo para avisar de mensajes */
+  if(typeof cpEscuchaDeFondo === "function") setTimeout(cpEscuchaDeFondo, 4000);
+});
+
+(function(){
+  const css = `
+.cel-p{position:fixed;z-index:200;width:9px;height:13px;border-radius:3px;pointer-events:none;will-change:transform}
+.cel-e{width:auto;height:auto;font-size:22px;background:none}
+.t-pasos{margin:4px 0 12px;padding:10px 12px;border-radius:var(--r);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));
+  background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.t-pasos-et{display:block;font-size:13px;color:var(--ink-2);margin-bottom:8px}
+.t-pasos-fila{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.t-paso{position:relative;min-width:46px;height:50px;padding:0 10px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink);font-size:26px;cursor:pointer}
+.t-paso.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
+.t-paso.ya{border-color:var(--ok)}
+.t-paso i{position:absolute;top:-7px;right:-6px;font-style:normal;font-size:12px;background:var(--ok);color:#fff;
+  border-radius:99px;width:18px;height:18px;display:grid;place-items:center}
+.t-junta{font-size:22px}
+.t-flecha{color:var(--ink-3);font-size:18px}
+.t-logro{font-size:18px;font-weight:700;text-align:center;padding:10px;margin-bottom:8px;border-radius:var(--r);
+  background:color-mix(in srgb,var(--ok) 14%,transparent);animation:celLogro .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes celLogro{from{transform:scale(.7);opacity:0}}
+.av-tit{font:700 12px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:24px 4px 10px}
+.av-card{padding:6px 6px 10px}
+.av-fila{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;color:var(--ink);
+  padding:12px 10px;cursor:pointer;text-align:left;font:inherit;border-radius:14px}
+.av-fila:hover{background:var(--glass-2,var(--surface-2))}
+.av-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.av-tx b{font-size:14.5px}
+.av-tx em{font-style:normal;font-size:12px;color:var(--ink-3)}
+.av-int{width:46px;height:27px;border-radius:99px;flex:none;background:var(--glass-2,var(--surface-2));
+  border:1px solid var(--glass-line,var(--line));position:relative;transition:background .18s}
+.av-int i{position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:50%;background:var(--ink-3);
+  transition:transform .18s,background .18s}
+.av-fila[aria-pressed="true"] .av-int{background:var(--au-grad,var(--brand));border-color:transparent}
+.av-fila[aria-pressed="true"] .av-int i{transform:translateX(19px);background:#fff}
+.av-hora{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 10px 4px;
+  font-size:13.5px;color:var(--ink-2)}
+.av-hora input{background:var(--glass-2,var(--surface-2));border:1px solid var(--glass-line,var(--line));
+  color:var(--ink);border-radius:10px;padding:7px 10px;font:inherit}
+.av-nota{font-size:12px;color:var(--ink-3);margin:8px 10px 2px}`;
+  const st = document.createElement("style");
+  st.textContent = css;
+  document.head.appendChild(st);
 })();
 
 /* ══════════════════════════════════════════════════════════
@@ -1723,7 +2080,7 @@ async function cpArranca(){
   catch(e){ cp.cargando = false; cp.error = "sinred"; cpPinta(); return; }
   cp.fb.auth.onAuthStateChanged(async u => {
     cpAp(); cp.subs = [];
-    cp.user = u; cp.perfil = null; cp.privado = null;
+    cp.user = u; cp.perfil = null; cp.privado = null; cp.avisados = null;
     if(u){
       try{
         const [p, q] = await Promise.all([cp.fb.db.collection("perfiles").doc(u.uid).get(),
@@ -1739,8 +2096,9 @@ async function cpArranca(){
 function cpEscucha(){
   const db = cp.fb.db, uid = cp.user.uid;
   db.collection("perfiles").doc(uid).update({activo:firebase.firestore.FieldValue.serverTimestamp()}).catch(() => {});
+  try{ localStorage.setItem("cp-entrado", "1"); }catch(e){}
   cp.subs.push(db.collection("solicitudes").where("para", "==", uid).where("estado", "==", "pendiente")
-    .onSnapshot(s => { cp.recibidos = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpPintaSuave(); }, () => {}));
+    .onSnapshot(s => { cp.recibidos = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpAvisaSaludos(); cpPintaSuave(); }, () => {}));
   cp.subs.push(db.collection("solicitudes").where("de", "==", uid)
     .onSnapshot(s => { cp.enviados = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpPintaSuave(); }, () => {}));
   cp.subs.push(db.collection("chats").where("miembros", "array-contains", uid)
@@ -1748,8 +2106,66 @@ function cpEscucha(){
       cp.chats = s.docs.map(d => Object.assign({id:d.id}, d.data()))
         .sort((a, b) => ((b.ultimo && b.ultimo.hora && b.ultimo.hora.seconds) || 0) - ((a.ultimo && a.ultimo.hora && a.ultimo.hora.seconds) || 0));
       await Promise.all(cp.chats.map(c => cpPerfilDe(cpOtroDe(c))));
+      cpAvisaNuevos();
       cpPintaSuave();
     }, () => {}));
+}
+
+/* El aviso del teléfono, solo con el interruptor de «mensajes» puesto.
+   Lo ya avisado se apunta en el teléfono (cp-avisados-<uid>), así que al
+   abrir la app avisa de lo que llegó mientras estaba cerrada, pero nunca
+   dos veces de lo mismo ni de mensajes de hace más de 3 días. La primera
+   vez en este teléfono no avisa: solo apunta lo que ya había. Tampoco
+   avisa del chat que estás mirando. */
+const cpAvKey = () => "cp-avisados-" + (cp.user ? cp.user.uid : "");
+function cpAvLee(){ try{ return JSON.parse(localStorage.getItem(cpAvKey()) || "null"); }catch(e){ return null; } }
+function cpAvGuarda(){ try{ localStorage.setItem(cpAvKey(), JSON.stringify(cp.avisados || {})); }catch(e){} }
+function cpAvisaNuevos(){
+  if(!cp.chats || !cp.user) return;
+  let primero = false;
+  if(!cp.avisados){ cp.avisados = cpAvLee(); if(!cp.avisados){ cp.avisados = {}; primero = true; } }
+  const viejo = Date.now() / 1000 - 3 * 864e2;
+  for(const c of cp.chats){
+    const u = c.ultimo;
+    if(!u || u.de === cp.user.uid || !u.hora) continue;
+    const seg = u.hora.seconds || 0;
+    const ya = cp.avisados[c.id] || 0;
+    cp.avisados[c.id] = Math.max(ya, seg);
+    if(primero || seg <= ya || seg < viejo) continue;
+    if(cp.chat && cp.chat.id === c.id && document.visibilityState === "visible") continue;
+    const p = cp.perfilesCache[cpOtroDe(c)] || {};
+    avisoNativo(String(p.nombre || cpT("Nuevo mensaje")), String(u.texto || "").slice(0, 80));
+  }
+  cpAvGuarda();
+}
+/* los saludos nuevos («alguien quiere practicar contigo»), igual */
+function cpAvisaSaludos(){
+  if(!cp.user) return;
+  if(!cp.avisados){ cp.avisados = cpAvLee() || {}; }
+  const vistos = cp.avisados._saludos || (cp.avisados._saludos = []);
+  const primera = !cp.avisados._saludosHechos;
+  for(const r of cp.recibidos){
+    if(vistos.indexOf(r.id) >= 0) continue;
+    vistos.push(r.id);
+    if(!primera) cpPerfilDe(r.de).then(p => avisoNativo(String((p && p.nombre) || cpT("Compañeros")), cpT("Te han saludado") + " 👋")).catch(() => {});
+  }
+  cp.avisados._saludosHechos = 1;
+  if(vistos.length > 60) vistos.splice(0, vistos.length - 60);
+  cpAvGuarda();
+}
+
+/* En la app, Compañeros escucha de fondo desde que se abre cualquier
+   curso (no hace falta entrar en su pestaña) para poder avisar de los
+   mensajes. Solo si ya entraste alguna vez con tu cuenta en este teléfono
+   (cp-entrado) y el interruptor de mensajes está puesto: así quien no usa
+   Compañeros no carga Firebase para nada. Con la app CERRADA del todo no
+   hay avisos: eso necesitaría un servidor de pago (Cloud Functions). */
+function cpEscuchaDeFondo(){
+  if(cp.fb || cpListo) return;
+  if(!window.Suena) return;
+  try{ if(!localStorage.getItem("cp-entrado")) return; }catch(e){ return; }
+  if(typeof avisosDatos === "function" && !avisosDatos().mensajes) return;
+  cpArranca();
 }
 const cpOtroDe = c => c.miembros[0] === cp.user.uid ? c.miembros[1] : c.miembros[0];
 async function cpPerfilDe(uid){
@@ -1809,6 +2225,7 @@ async function cpEntra(){
 }
 async function cpSal(){
   try{ if(window.SuenaCuenta) SuenaCuenta.salir(); }catch(e){}
+  try{ localStorage.removeItem("cp-entrado"); }catch(e){}
   await cp.fb.auth.signOut();
 }
 

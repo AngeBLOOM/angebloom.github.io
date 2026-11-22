@@ -413,6 +413,36 @@ h2.sub{font:700 13px var(--ui);letter-spacing:.14em;text-transform:uppercase;col
   });
 })();
 </script>
+<style>
+/* al tocar un curso: la tarjeta se hunde al instante y la pantalla se
+   oscurece mientras el curso carga. Antes la portada se quedaba quieta
+   ~0,3 s sin dar señal y parecía que el toque no había entrado. */
+a.card:active{transform:scale(.97) !important}
+a.card.tocada{transform:scale(.97) !important; box-shadow:0 0 0 2px var(--c), 0 0 40px -6px var(--c) !important}
+body.saliendo::after{content:""; position:fixed; inset:0; z-index:9999; pointer-events:none;
+  background:#0C0A12; opacity:.55; animation:portalSale .3s ease-out forwards}
+@keyframes portalSale{to{opacity:.92}}
+</style>
+<script>
+(function(){
+  document.addEventListener("click", function(e){
+    if(e.defaultPrevented || e.target.closest(".oir")) return;
+    var a = e.target.closest("a.card"); if(!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    a.classList.add("tocada"); document.body.classList.add("saliendo");
+    /* se navega cuando el oscurecido YA está pintado (dos fotogramas):
+       si se navega en el mismo instante, la página se congela antes de
+       enseñarlo y el toque parece no haber entrado */
+    e.preventDefault();
+    var ir = a.href;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ location.href = ir; }); });
+  });
+  /* al volver atrás (la página puede venir de la caché), limpia */
+  addEventListener("pageshow", function(){
+    document.body.classList.remove("saliendo");
+    var t = document.querySelectorAll("a.card.tocada"); for(var i = 0; i < t.length; i++) t[i].classList.remove("tocada");
+  });
+})();
+</script>
 <script>
 /* ── tu progreso en cada curso ────────────────────────────
    Los siete cursos guardan en el MISMO sitio (mismo dominio, carpetas

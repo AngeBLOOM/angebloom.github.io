@@ -2830,7 +2830,10 @@ img{max-width:100%;height:auto}
 
 /* ── 2 · el fondo: auroras que se mueven despacio ─────────── */
 body{background:var(--ground)}
-#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; animation:auAparece .5s ease-out both}
+/* al entrar en un curso las luces aparecen con un fundido: de golpe y sin
+   las tarjetas encima se veía un fogonazo claro antes del contenido */
+@keyframes auAparece{from{opacity:0}}
 #aurora i{position:absolute; border-radius:50%; filter:blur(50px); opacity:.85; will-change:transform}
 #aurora i:nth-child(1){width:60vmax; height:60vmax; left:-18vmax; top:-24vmax;
   background:radial-gradient(circle, var(--au-1), transparent 65%); animation:auMueve1 22s ease-in-out infinite}
@@ -3117,4 +3120,57 @@ html, body{overflow-x:clip}
 
 /* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
 #aurora .au-horizonte{display:none !important}
+
+/* ══ CLASE DE CANTO (canto.js) ══ */
+.cn{display:flex;flex-direction:column;gap:14px}
+.cn-profe{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);padding:14px 14px 14px 12px}
+.cn-cara{font-size:40px;line-height:1;flex:none;transition:transform .2s}
+.cn-profe.habla .cn-cara{animation:cnHabla .5s ease-in-out infinite alternate}
+@keyframes cnHabla{from{transform:scale(1) rotate(-2deg)}to{transform:scale(1.08) rotate(2deg)}}
+.cn-profe p{margin:2px 0 0;font-size:17px;line-height:1.45;flex:1}
+.cn-nombre{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.cn-repite{flex:none;border:0;background:transparent;font-size:22px;cursor:pointer;padding:2px 4px;opacity:.75}
+.cn-repite:hover{opacity:1}
+.cn-inicio{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0}
+.cn-empieza{font-size:19px;padding:16px 28px}
+.cn-etapas{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.cn-etapa{font-size:12.5px;padding:5px 10px;border-radius:99px;border:1px solid var(--line);color:var(--ink-3);white-space:nowrap}
+.cn-etapa.on{border-color:var(--accent);color:var(--ink);font-weight:700}
+.cn-etapa.ya{color:var(--ink-2)}
+.cn-tono{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center}
+.cn-tono b{font-size:24px}
+.cn-flecha{font-size:30px;line-height:1}
+.cn-pal{font-size:38px;line-height:1.2;cursor:pointer}
+.cn-pauta{width:100%;max-width:560px;margin:0 auto;display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.cn-lin{stroke:var(--line);stroke-width:1}
+.cn-tu{stroke:var(--ink-3);stroke-width:1.5;stroke-dasharray:5 5}
+.cn-et{fill:var(--ink-3);font-size:10px;font-family:inherit}
+.cn-et-tu{fill:var(--ink-2);font-weight:700}
+.cn-forma{fill:none;stroke:currentColor;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;opacity:.32}
+.cn-voz{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.cn-bola{fill:currentColor;stroke:var(--bg,#fff);stroke-width:3;transition:opacity .2s}
+.cn-bola:not([class*="t-"]){fill:var(--accent)}
+.cn-botones{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.cn-mic{font-size:18px;padding:14px 24px}
+.cn-res{display:flex;align-items:center;justify-content:center;gap:8px;font-size:17px;font-weight:600;text-align:center;
+  padding:10px 14px;border-radius:var(--r)}
+.cn-res.ok{color:var(--t-rise)}
+.cn-res.no{color:var(--ink)}
+.cn-res-f{font-size:28px}
+.cn-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin-top:4px}
+.cn-chip{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px 8px;
+  border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:currentColor;cursor:pointer;font:inherit}
+.cn-chip.on{border-color:currentColor;box-shadow:0 0 0 1px currentColor inset}
+.cn-chip svg{width:64px;height:22px}
+.cn-chip path{fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round}
+.cn-chip b{font-size:12.5px;color:var(--ink)}
+.cn-chip i{position:absolute;top:4px;right:7px;font-style:normal;color:var(--t-rise);font-weight:800}
+.cn-chip-f{font-size:18px;line-height:1}
+.cn-entra{display:flex;align-items:center;gap:14px;cursor:pointer;text-decoration:none;color:var(--ink);margin-bottom:22px;
+  border-color:var(--accent);box-shadow:0 0 28px -14px var(--accent)}
+.cn-entra .cn-cara{font-size:44px}
+.cn-entra b{display:block;font-size:18px}
+.cn-entra span.muted{font-size:14px}
+#cnCaja{scroll-margin-top:70px}
 

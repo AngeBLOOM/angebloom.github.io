@@ -2,7 +2,7 @@
 <!--
   Kana no Michi — aprender japonés desde cero, en español
   © 2026 1 mes. Todos los derechos reservados.
-  https://angebloom.github.io/japones/
+  https://USUARIO.github.io/japones/
 -->
 <html lang="es">
 <head>
@@ -12,13 +12,13 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FDFBF7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12100E" media="(prefers-color-scheme: dark)">
-<link rel="canonical" href="https://angebloom.github.io/japones/">
+<link rel="canonical" href="https://USUARIO.github.io/japones/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kana no Michi">
 <meta property="og:title" content="Kana no Michi — aprender japonés desde cero, en español">
 <meta property="og:description" content="Curso de japonés en español: los 46 hiragana y los 46 katakana con trazado a mano, el ritmo de las moras, ">
-<meta property="og:url" content="https://angebloom.github.io/japones/">
-<meta property="og:image" content="https://angebloom.github.io/japones/og.png?v=2">
+<meta property="og:url" content="https://USUARIO.github.io/japones/">
+<meta property="og:image" content="https://USUARIO.github.io/japones/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Kana no Michi — Curso de japonés en español: los 46 hiragana y los 46 katakana con trazado a mano, el ritmo de las moras, ">
@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kana no Michi — aprender japonés desde cero, en español">
 <meta name="twitter:description" content="Curso de japonés en español: los 46 hiragana y los 46 katakana con trazado a mano, el ritmo de las moras, ">
-<meta name="twitter:image" content="https://angebloom.github.io/japones/og.png?v=2">
+<meta name="twitter:image" content="https://USUARIO.github.io/japones/og.png?v=2">
 <meta name="author" content="1 mes">
 <meta name="copyright" content="© 2026 1 mes. Todos los derechos reservados.">
 <script type="application/ld+json">
@@ -35,7 +35,7 @@
   "@type": "LearningResource",
   "name": "Kana no Michi — aprender japonés desde cero, en español",
   "description": "Curso de japonés en español: los 46 hiragana y los 46 katakana con trazado a mano, el ritmo de las moras, ",
-  "url": "https://angebloom.github.io/japones/",
+  "url": "https://USUARIO.github.io/japones/",
   "inLanguage": "es",
   "teaches": "Idioma japonés para hispanohablantes",
   "educationalLevel": "Principiante",
@@ -55,7 +55,7 @@
   },
   "copyrightYear": 2026,
   "copyrightNotice": "© 2026 1 mes. Todos los derechos reservados.",
-  "image": "https://angebloom.github.io/japones/icon-512.png"
+  "image": "https://USUARIO.github.io/japones/icon-512.png"
 }
 </script>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
@@ -3002,7 +3002,10 @@ img{max-width:100%;height:auto}
 
 /* ── 2 · el fondo: auroras que se mueven despacio ─────────── */
 body{background:var(--ground)}
-#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+#aurora{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; animation:auAparece .5s ease-out both}
+/* al entrar en un curso las luces aparecen con un fundido: de golpe y sin
+   las tarjetas encima se veía un fogonazo claro antes del contenido */
+@keyframes auAparece{from{opacity:0}}
 #aurora i{position:absolute; border-radius:50%; filter:blur(50px); opacity:.85; will-change:transform}
 #aurora i:nth-child(1){width:60vmax; height:60vmax; left:-18vmax; top:-24vmax;
   background:radial-gradient(circle, var(--au-1), transparent 65%); animation:auMueve1 22s ease-in-out infinite}
@@ -3289,6 +3292,7 @@ html, body{overflow-x:clip}
 
 /* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
 #aurora .au-horizonte{display:none !important}
+
 
 </style>
 <script>
@@ -4174,6 +4178,10 @@ const DIBUJO_PAIS = {
 const AUDIO = {"こんにちは":"20427a708c3f.mp3","おはよう":"2d6e22246673.mp3","こんばんは":"eabdada4abd0.mp3","さようなら":"800001ba2441.mp3","またね":"e9e1f2ff8baf.mp3","ありがとう":"42d0969029e9.mp3","すみません":"cce1862bcbd9.mp3","はい":"c92b4cda8bdf.mp3","いいえ":"f901585367d6.mp3","おねがいします":"eab3d932d73e.mp3","だいじょうぶ":"54640dc1d65f.mp3","わたし":"b8020da03ae5.mp3","あなた":"91cb5276610f.mp3","かれ":"b71dd58a83cc.mp3","かのじょ":"0d3b68ee13e8.mp3","ともだち":"fa04cb341f01.mp3","かぞく":"710a4d550b6e.mp3","おかあさん":"a2a755f4c07f.mp3","おとうさん":"35e78f55d014.mp3","こども":"bd26a6703971.mp3","せんせい":"4ca0d0546bc2.mp3","がくせい":"58f16b7e1247.mp3","ひと":"2fb460b79529.mp3","みず":"1a3d0aa360f2.mp3","おちゃ":"23d07bd2dd9e.mp3","コーヒー":"cab9ec7ba27d.mp3","ごはん":"35206e78999e.mp3","にく":"03fbadfbb041.mp3","さかな":"c9a3ad83d0ca.mp3","やさい":"33fb5c3a814f.mp3","くだもの":"f5a2cde1bf5a.mp3","たまご":"7446c97eeae7.mp3","パン":"7fc267f6fbea.mp3","おいしい":"ac15ff145286.mp3","たべる":"2e65baf82e33.mp3","のむ":"12bf65896f99.mp3","みせ":"6b25a3bc2621.mp3","えき":"1f819272ac2b.mp3","でんしゃ":"c5b48d951de5.mp3","くうこう":"b61d3a1d519a.mp3","ホテル":"6f0b069faec6.mp3","トイレ":"4bdd080a827c.mp3","みぎ":"85780a204de7.mp3","ひだり":"162849cc94da.mp3","まっすぐ":"3729cf98eb6d.mp3","ちかい":"49c98b6f70fe.mp3","とおい":"429a9494df3b.mp3","いく":"3bfd96ad5e62.mp3","くる":"f9d2806efb3c.mp3","いくら":"b90e2e1a940b.mp3","たかい":"3b4cc3f02fb1.mp3","やすい":"ae7eb22455fe.mp3","おかね":"9fadedc0cac8.mp3","えん":"b54e1f4e4113.mp3","かう":"ba7fcc21bc06.mp3","きょう":"858a1996f848.mp3","あした":"542cc28807b4.mp3","きのう":"c1da8370349b.mp3","あさ":"4dcc6bc4aacb.mp3","ひる":"b20c67bcce59.mp3","よる":"fdf618195ba6.mp3","いま":"23a32f106a4e.mp3","じかん":"43528285458d.mp3","ねん":"911930093c1b.mp3","いろ":"2b4861b6770c.mp3","あかい":"dd450823cddf.mp3","あおい":"e9b0c313e141.mp3","しろい":"b9be63dcb45f.mp3","くろい":"5b0f8b645612.mp3","きいろい":"8a3c3c156936.mp3","みどり":"f8e84e4cf775.mp3","にほん":"01b64b5814b8.mp3","おおきい":"8638ff4445f2.mp3","ちいさい":"c8584afcd2d0.mp3","あつい":"f2bb1e2a7a1d.mp3","さむい":"5ff1c21752cc.mp3","いい":"46b255d3a847.mp3","わるい":"778a277d96b4.mp3","たのしい":"e2ed223cac40.mp3","むずかしい":"a5ccde9361fb.mp3","やさしい":"c8368ca4826b.mp3","みる":"f9d31780d729.mp3","きく":"1114ac602d26.mp3","はなす":"9910ed03a62c.mp3","よむ":"c9f65b24e99d.mp3","かく":"f3e764dadfe0.mp3","する":"4aa34648b67c.mp3","なに":"b41e23d04a56.mp3","どこ":"27b6a68a3360.mp3","だれ":"2fb84bb825f8.mp3","いつ":"2d6221baa73f.mp3","どうして":"0dfa61bfb6d7.mp3","これ":"ac62cbc2adad.mp3","それ":"41fa8f054626.mp3","ここ":"c92a9d33a651.mp3","すこし":"586ffebb6982.mp3","とても":"b4831cdd1062.mp3","にほんご":"f31040750b56.mp3","スペイン":"6c29d6fd0a2c.mp3","おはようございます":"5a3c5f71eeac.mp3","ありがとうございます":"24afcca10e22.mp3","だいじょうぶです":"bf20af317908.mp3","はじめまして":"75f97f586024.mp3","よろしくおねがいします":"0742d4ed3a53.mp3","またあした":"9367e4674a63.mp3","おなまえは":"0a5f9028a14f.mp3","わたしは…です":"adfab573500f.mp3","____からきました":"20cdcfedd09e.mp3","にほんごがすこしわかります":"5243cb665fa9.mp3","わかりません":"6dcfc9b79bdb.mp3","もういちどおねがいします":"e95ac941bcf1.mp3","ゆっくりおねがいします":"a63cdcc7ec23.mp3","えいごがはなせますか":"b6c73f6abae2.mp3","メニューをおねがいします":"2c67ecf43eb2.mp3","これをください":"39eb03e8b77c.mp3","おすすめはなんですか":"0aa47411d383.mp3","おいしいです":"e5ebc10a0c3c.mp3","みずをください":"c8f566cdc6e6.mp3","にくはたべません":"2bf52f59ff38.mp3","おかいけいおねがいします":"16bf09313dfe.mp3","ごちそうさまでした":"11c8fca7e223.mp3","トイレはどこですか":"5d52bcd566e4.mp3","えきはどこですか":"b5401469120f.mp3","くうこうまでおねがいします":"6cdd0ccb05d4.mp3","まっすぐです":"53b1f6226758.mp3","ここでとめてください":"07905b9f7ec4.mp3","とおいですか":"685702914182.mp3","これはいくらですか":"d33c910ad45c.mp3","たかいです":"82e3ca26adf0.mp3","カードでいいですか":"d43791820253.mp3","みてもいいですか":"7d90fd277adb.mp3","たすけて":"16964075e457.mp3","きぶんがわるいです":"13ea1208b40a.mp3","びょういんはどこですか":"4b6e633f0d27.mp3","わたしはごはんをたべます":"bcf3dca194f7.mp3","わたしはがくせいです":"15ed7e6f5756.mp3","みずをのみます":"46063869f21c.mp3","えきでともだちにあいます":"9a2e774aaa29.mp3","きのうたべました":"5723ea58b848.mp3","あしたいきます":"643ba5b2bd5b.mp3","たべますか":"ebf0adc925b8.mp3","すしがたべたいです":"88717bb99d04.mp3","しずかなところ":"d395de1a4cd3.mp3","ほんをよみます":"675a4fa9acac.mp3","わたしもいきます":"d8fe8f6e56c1.mp3","あ":"98fdfc0a7426.mp3","い":"3c01c77f19cd.mp3","う":"af2b29a995c7.mp3","え":"a60311a2fc88.mp3","お":"ac6bc7de7112.mp3","か":"288c9e077190.mp3","き":"27acc76c0055.mp3","く":"ac94e112183c.mp3","け":"d32afeb0abe6.mp3","こ":"91714b00e5a3.mp3","さ":"7a4faed063b6.mp3","し":"812f45bfcf7e.mp3","す":"5b8252a1e93f.mp3","せ":"e1c730bd83c3.mp3","そ":"b345d8cc8368.mp3","た":"cf4d17f99d10.mp3","ち":"e022bea2e9d6.mp3","つ":"0c414c812bd8.mp3","て":"e2d970611589.mp3","と":"a986a7bc9e03.mp3","な":"478d2f9eb192.mp3","に":"de3d1ecc94b2.mp3","ぬ":"ad142ed0573d.mp3","ね":"3a104bbe569e.mp3","の":"56377d14d4ef.mp3","は":"1fa0519cfd09.mp3","ひ":"469e92c9cf65.mp3","ふ":"382a438fd4c5.mp3","へ":"72c746d609d4.mp3","ほ":"5a340fe4758d.mp3","ま":"400805e5a9e2.mp3","み":"1c5425dae8c9.mp3","む":"50029791cb9f.mp3","め":"634540f05d98.mp3","も":"3c6945772d72.mp3","や":"bdab1b17397d.mp3","ゆ":"44567171f335.mp3","よ":"6f46f7d4a286.mp3","ら":"ba7526a5c03f.mp3","り":"71d1c63e507f.mp3","る":"ffab9d02a311.mp3","れ":"df82f999c7fb.mp3","ろ":"eb766006aba2.mp3","わ":"dedb707d8398.mp3","を":"eba95ba0c666.mp3","ん":"48a866bfdaf9.mp3","かみ":"8fc5be8946b3.mp3","あたま":"ffcae03e6057.mp3","みみ":"ff4b34926500.mp3","はな":"e37121deba2f.mp3","くち":"08c26b98ba98.mp3","くび":"22deaaa84f7a.mp3","かた":"24d7060bada9.mp3","うで":"c2ce4efe1a08.mp3","ゆび":"2dae3c3a3ef7.mp3","おなか":"a3a37e953808.mp3","せなか":"49bfd7a80d08.mp3","ひざ":"96c084d3b1d1.mp3","あし":"07edf881b7d9.mp3","おばさん":"e25d9407dc58.mp3","おばあさん":"55ab764826fe.mp3","きて":"84452006558d.mp3","きって":"e72b7d7266eb.mp3","いっしょ":"5cd112204972.mp3","いしょ":"c7fe58af0e3c.mp3","こうこう":"c53c9bc9de35.mp3","しかん":"206b5a59ba4e.mp3","がく":"25605a500016.mp3","つき":"e83cd9518ea1.mp3","すき":"01f5cef4b0aa.mp3","きん":"e548b66f2e5c.mp3","きんえん":"c5f142d6c696.mp3","られる":"addbe5c7cc28.mp3","かめ":"1838a8ce3c63.mp3","らく":"8e2ac824242d.mp3","ふゆ":"f7e47c223ebd.mp3","しち":"032c8901930a.mp3","です":"b76f99438b35.mp3","しんぶん":"4c1993fed88c.mp3","はし":"646b771596fa.mp3","ゆうめい":"c829449c5bdd.mp3","ゼロ":"d3a4ab7b3e1d.mp3","いち":"e0ef1ee214c0.mp3","さん":"0d0fd2531ac7.mp3","よん":"ceb4a54e2de4.mp3","ご":"27a87259d93f.mp3","ろく":"ea67c234af27.mp3","なな":"1e0b17cf5100.mp3","はち":"17728bef111e.mp3","きゅう":"850ea8378a58.mp3","じゅう":"c3c54579ea2a.mp3","じゅういち":"291e4d540757.mp3","じゅうに":"4168d783193c.mp3","じゅうさん":"2ed995113163.mp3","じゅうよん":"cbca1ae8529b.mp3","じゅうご":"b1e54ac54e42.mp3","じゅうろく":"260f5044cc51.mp3","じゅうなな":"e99a023f2402.mp3","じゅうはち":"b872b71da215.mp3","じゅうきゅう":"4041ff247b2c.mp3","にじゅう":"b37ef4affd8a.mp3","にじゅういち":"0b68747f8c07.mp3","にじゅうに":"b71d1c7bad4d.mp3","にじゅうさん":"b7451af850f8.mp3","にじゅうよん":"a33c483417ff.mp3","にじゅうご":"4df42f1c2441.mp3","にじゅうろく":"03680266b80c.mp3","にじゅうなな":"ecfa3c0ee16d.mp3","にじゅうはち":"a7d996951216.mp3","にじゅうきゅう":"1262c8204dbe.mp3","さんじゅう":"456646675181.mp3","さんじゅういち":"0de709c96a74.mp3","さんじゅうに":"35e4dabfbc14.mp3","さんじゅうさん":"458cb5aba43d.mp3","さんじゅうよん":"085fa224e1a5.mp3","さんじゅうご":"cf440f8ca7aa.mp3","さんじゅうろく":"fdb032c1c4ab.mp3","さんじゅうなな":"04559a83fc19.mp3","さんじゅうはち":"53b2cb0b7d5a.mp3","さんじゅうきゅう":"a351da958dfe.mp3","よんじゅう":"fcf78769cda5.mp3","よんじゅういち":"1d89371f69cd.mp3","よんじゅうに":"2af5e34fa974.mp3","よんじゅうさん":"308f7971d7c4.mp3","よんじゅうよん":"2b562afc2bae.mp3","よんじゅうご":"b109a5964fcd.mp3","よんじゅうろく":"2dad3940e1da.mp3","よんじゅうなな":"6e97e2f4db01.mp3","よんじゅうはち":"5c0148db3c3d.mp3","よんじゅうきゅう":"a07e033253e0.mp3","ごじゅう":"298de825d787.mp3","ごじゅういち":"1708d79725ab.mp3","ごじゅうに":"afd2974136d0.mp3","ごじゅうさん":"f84b68a98766.mp3","ごじゅうよん":"e43653da60e0.mp3","ごじゅうご":"188acb7c7af7.mp3","ごじゅうろく":"dec10ea50f0a.mp3","ごじゅうなな":"aa1347aaf94b.mp3","ごじゅうはち":"221dcc5fba94.mp3","ごじゅうきゅう":"600377e36ff8.mp3","ろくじゅう":"02a136c09688.mp3","ろくじゅういち":"aa472a574cff.mp3","ろくじゅうに":"6600c8acc8ce.mp3","ろくじゅうさん":"80055f4707ee.mp3","ろくじゅうよん":"f5c2180ae6df.mp3","ろくじゅうご":"4164a9953505.mp3","ろくじゅうろく":"8a3ab4adb5d2.mp3","ろくじゅうなな":"44af8bc404b4.mp3","ろくじゅうはち":"14a96e0c0f06.mp3","ろくじゅうきゅう":"1abca070f208.mp3","ななじゅう":"4d0161accded.mp3","ななじゅういち":"1ca7a2e67bf6.mp3","ななじゅうに":"a46c9c34d8c0.mp3","ななじゅうさん":"7fd8b98b704c.mp3","ななじゅうよん":"d23e89e17952.mp3","ななじゅうご":"7e6843258566.mp3","ななじゅうろく":"0a34333e7f08.mp3","ななじゅうなな":"153c9fe61d13.mp3","ななじゅうはち":"0fc0d565cd6b.mp3","ななじゅうきゅう":"eaea3edc157b.mp3","はちじゅう":"a24e9414b3ee.mp3","はちじゅういち":"82d540e23f34.mp3","はちじゅうに":"140534973faa.mp3","はちじゅうさん":"0387ed105dd6.mp3","はちじゅうよん":"02fa01730f90.mp3","はちじゅうご":"0a82eadecf02.mp3","はちじゅうろく":"212aaaab7acf.mp3","はちじゅうなな":"2c845ddaf03b.mp3","はちじゅうはち":"a570d216be07.mp3","はちじゅうきゅう":"ad2c747a39dd.mp3","きゅうじゅう":"9a78c480d6b9.mp3","きゅうじゅういち":"14658a254ec6.mp3","きゅうじゅうに":"d81da7f7bddf.mp3","きゅうじゅうさん":"94735e0a539b.mp3","きゅうじゅうよん":"effae24b1db1.mp3","きゅうじゅうご":"2ccb9d0a9d73.mp3","きゅうじゅうろく":"4ba402718418.mp3","きゅうじゅうなな":"9c25d9b76e86.mp3","きゅうじゅうはち":"3851f31f4668.mp3","きゅうじゅうきゅう":"c5fcfa93b5da.mp3","ひゃく":"1119c7bdbd3b.mp3","わたしはごはんをたべません":"a2ff74f8bb4c.mp3","わたしはごはんをたべました":"f0ea4ab414a5.mp3","わたしはごはんをたべたいです":"8ea95261366b.mp3","わたしはごはんをたべますか":"3e98914947f1.mp3","わたしはさかなをたべます":"b1b1727f4b40.mp3","わたしはさかなをたべません":"b71f9c18cfb3.mp3","わたしはさかなをたべました":"525e5bd7780d.mp3","わたしはさかなをたべたいです":"2cae4f8f6e1c.mp3","わたしはさかなをたべますか":"c625352ef5f3.mp3","わたしはくだものをたべます":"92ccc4f83e99.mp3","わたしはくだものをたべません":"17408b6eae81.mp3","わたしはくだものをたべました":"123f747f376f.mp3","わたしはくだものをたべたいです":"65d9abf3ea67.mp3","わたしはくだものをたべますか":"6b95d5994575.mp3","わたしはみずをのみます":"de56db116042.mp3","わたしはみずをのみません":"bd22649020f6.mp3","わたしはみずをのみました":"902210e2aff1.mp3","わたしはみずをのみたいです":"ff6933b0cbe9.mp3","わたしはみずをのみますか":"b507d31894bb.mp3","わたしはおちゃをのみます":"eccd0f8cf312.mp3","わたしはおちゃをのみません":"856e3c694ac5.mp3","わたしはおちゃをのみました":"d88ffc1fce0a.mp3","わたしはおちゃをのみたいです":"bbe2b5d42de1.mp3","わたしはおちゃをのみますか":"68ccc5687010.mp3","わたしはコーヒーをのみます":"cc79b8002a5a.mp3","わたしはコーヒーをのみません":"f830c376e6fc.mp3","わたしはコーヒーをのみました":"01cf3e9fa249.mp3","わたしはコーヒーをのみたいです":"7d83f3f2c1fc.mp3","わたしはコーヒーをのみますか":"8a331a059ecb.mp3","わたしはえきにいきます":"b3a3afe6393d.mp3","わたしはえきにいきません":"0913e916d6b3.mp3","わたしはえきにいきました":"e1343eefb37a.mp3","わたしはえきにいきたいです":"63019cf9d019.mp3","わたしはえきにいきますか":"f0c553bd10c1.mp3","わたしはみせにいきます":"139a4c5d488c.mp3","わたしはみせにいきません":"b1f16d31a375.mp3","わたしはみせにいきました":"da72e97ff3ba.mp3","わたしはみせにいきたいです":"6c88d582400c.mp3","わたしはみせにいきますか":"1d54c0f08663.mp3","わたしはにほんにいきます":"5d3892a15891.mp3","わたしはにほんにいきません":"e844ad0a6637.mp3","わたしはにほんにいきました":"269c14ff33a5.mp3","わたしはにほんにいきたいです":"a6f9fddfae04.mp3","わたしはにほんにいきますか":"65d1ace53a1f.mp3","わたしはにほんごをはなします":"e7a1655fd45a.mp3","わたしはにほんごをはなしません":"b22aa4d55bdf.mp3","わたしはにほんごをはなしました":"0cb1f24d9321.mp3","わたしはにほんごをはなしたいです":"947a7c33442a.mp3","わたしはにほんごをはなしますか":"5f0032ccee49.mp3","わたしはスペインごをはなします":"f5839c6b3b3e.mp3","わたしはスペインごをはなしません":"eb7dd0c115f7.mp3","わたしはスペインごをはなしました":"1d7a476437fa.mp3","わたしはスペインごをはなしたいです":"c8fa59d96217.mp3","わたしはスペインごをはなしますか":"b7a448e47f03.mp3","わたしはパンをかいます":"387b57ddde40.mp3","わたしはパンをかいません":"9b01d8612dfd.mp3","わたしはパンをかいました":"d1e42ec4a33c.mp3","わたしはパンをかいたいです":"7068c9678020.mp3","わたしはパンをかいますか":"4114dfa02c72.mp3","わたしはきっぷをかいます":"6fa918d6c3c6.mp3","わたしはきっぷをかいません":"50104261ffcc.mp3","わたしはきっぷをかいました":"96b7629b554e.mp3","わたしはきっぷをかいたいです":"80fede7db889.mp3","わたしはきっぷをかいますか":"9cfe59a858d0.mp3","わたしはおみやげをかいます":"ad0a9fc58ff4.mp3","わたしはおみやげをかいません":"b6b52f46e835.mp3","わたしはおみやげをかいました":"df725f6120cf.mp3","わたしはおみやげをかいたいです":"63ddc88ecea2.mp3","わたしはおみやげをかいますか":"dfb8d1d59e57.mp3","わたしはテレビをみます":"d4f48da1a7e8.mp3","わたしはテレビをみません":"e5a7c1e6910d.mp3","わたしはテレビをみました":"46c3c8ff95a2.mp3","わたしはテレビをみたいです":"8fedec5a49bd.mp3","わたしはテレビをみますか":"039535afc550.mp3","わたしはえいがをみます":"87a6d57858c5.mp3","わたしはえいがをみません":"90a34f861ec3.mp3","わたしはえいがをみました":"a4ae004ff638.mp3","わたしはえいがをみたいです":"8bd62730fe6e.mp3","わたしはえいがをみますか":"5f64c2f3fb40.mp3","あなたはごはんをたべます":"562a4576d70c.mp3","あなたはごはんをたべません":"e85f74c79e05.mp3","あなたはごはんをたべました":"b52a86e08310.mp3","あなたはごはんをたべたいです":"305576da6e59.mp3","あなたはごはんをたべますか":"eef5ff5092c4.mp3","あなたはさかなをたべます":"24e4774b7aff.mp3","あなたはさかなをたべません":"f3fb23d02d33.mp3","あなたはさかなをたべました":"1a93400fb57c.mp3","あなたはさかなをたべたいです":"3e44ad5c3b33.mp3","あなたはさかなをたべますか":"5948ea102be1.mp3","あなたはくだものをたべます":"b133b974b09c.mp3","あなたはくだものをたべません":"c9f3fb32adde.mp3","あなたはくだものをたべました":"4d704ca01b87.mp3","あなたはくだものをたべたいです":"543e8a85dc12.mp3","あなたはくだものをたべますか":"6443111f4889.mp3","あなたはみずをのみます":"07e1dfcfb2a9.mp3","あなたはみずをのみません":"2cb172a006f9.mp3","あなたはみずをのみました":"d54b78f298c1.mp3","あなたはみずをのみたいです":"b8dd449c9e10.mp3","あなたはみずをのみますか":"af9184a8ebaf.mp3","あなたはおちゃをのみます":"e8e108a935a6.mp3","あなたはおちゃをのみません":"9e38cf9ff622.mp3","あなたはおちゃをのみました":"86b8d0d99792.mp3","あなたはおちゃをのみたいです":"0a1aa9b530e0.mp3","あなたはおちゃをのみますか":"27fa57508501.mp3","あなたはコーヒーをのみます":"52a26900d338.mp3","あなたはコーヒーをのみません":"546dc67dc243.mp3","あなたはコーヒーをのみました":"c1e42d43ee20.mp3","あなたはコーヒーをのみたいです":"cb266ce82f5e.mp3","あなたはコーヒーをのみますか":"67ca9b55c0e9.mp3","あなたはえきにいきます":"7b1f7cf25411.mp3","あなたはえきにいきません":"5eb8545a95ec.mp3","あなたはえきにいきました":"0677c044e450.mp3","あなたはえきにいきたいです":"808ea3335b47.mp3","あなたはえきにいきますか":"772a7e812f1c.mp3","あなたはみせにいきます":"de0225e16d3d.mp3","あなたはみせにいきません":"deab77861fad.mp3","あなたはみせにいきました":"c9431f43e63c.mp3","あなたはみせにいきたいです":"adad3ea62f3d.mp3","あなたはみせにいきますか":"d6e096ddde8d.mp3","あなたはにほんにいきます":"f68cd009747f.mp3","あなたはにほんにいきません":"e9b85115f346.mp3","あなたはにほんにいきました":"a17a766e02fc.mp3","あなたはにほんにいきたいです":"92c447b9d6c5.mp3","あなたはにほんにいきますか":"1bbbe2930b51.mp3","あなたはにほんごをはなします":"c8e50f5e5b2a.mp3","あなたはにほんごをはなしません":"d6696805c1ff.mp3","あなたはにほんごをはなしました":"1514b312c90a.mp3","あなたはにほんごをはなしたいです":"6dc324d4b7ec.mp3","あなたはにほんごをはなしますか":"f57a4cbbff48.mp3","あなたはスペインごをはなします":"9341eead6d13.mp3","あなたはスペインごをはなしません":"2c860b40f9c1.mp3","あなたはスペインごをはなしました":"a6f25c712636.mp3","あなたはスペインごをはなしたいです":"6b2cd88768ef.mp3","あなたはスペインごをはなしますか":"3379a9739a90.mp3","あなたはパンをかいます":"aa6fe338cc46.mp3","あなたはパンをかいません":"258ea3cefcc9.mp3","あなたはパンをかいました":"940fb9ad92a1.mp3","あなたはパンをかいたいです":"e60f76d691eb.mp3","あなたはパンをかいますか":"ad5f3d8f0bc6.mp3","あなたはきっぷをかいます":"c68c11c872a5.mp3","あなたはきっぷをかいません":"c2ae912c3de4.mp3","あなたはきっぷをかいました":"b9bb0d868e4e.mp3","あなたはきっぷをかいたいです":"a289ee615efa.mp3","あなたはきっぷをかいますか":"2c86e4a99725.mp3","あなたはおみやげをかいます":"c844aa4dcabc.mp3","あなたはおみやげをかいません":"15b895b3a678.mp3","あなたはおみやげをかいました":"5c56b784e231.mp3","あなたはおみやげをかいたいです":"8f6e43ed6a77.mp3","あなたはおみやげをかいますか":"961e293b185f.mp3","あなたはテレビをみます":"71b24f36c1db.mp3","あなたはテレビをみません":"674bb69d670d.mp3","あなたはテレビをみました":"98d115ffa64f.mp3","あなたはテレビをみたいです":"564195a99fab.mp3","あなたはテレビをみますか":"82929ba29466.mp3","あなたはえいがをみます":"faef6345bc12.mp3","あなたはえいがをみません":"2e55b734d23a.mp3","あなたはえいがをみました":"e7d39cb0ad07.mp3","あなたはえいがをみたいです":"cc1b543aa24c.mp3","あなたはえいがをみますか":"d4bc0b067afc.mp3","かれはごはんをたべます":"6a39bcb6afb5.mp3","かれはごはんをたべません":"abf1c72baf6e.mp3","かれはごはんをたべました":"71d2aeb31916.mp3","かれはごはんをたべたいです":"b25182982e30.mp3","かれはごはんをたべますか":"6baabf1707bd.mp3","かれはさかなをたべます":"3e3be445b68f.mp3","かれはさかなをたべません":"4f9aa5e19c35.mp3","かれはさかなをたべました":"028138f2165d.mp3","かれはさかなをたべたいです":"138d04849f4a.mp3","かれはさかなをたべますか":"41c559950122.mp3","かれはくだものをたべます":"62581ebe12bf.mp3","かれはくだものをたべません":"44c875475cec.mp3","かれはくだものをたべました":"a6aca729460a.mp3","かれはくだものをたべたいです":"9dac8add9ced.mp3","かれはくだものをたべますか":"a890778f4212.mp3","かれはみずをのみます":"677cd60894e8.mp3","かれはみずをのみません":"97b651e15d31.mp3","かれはみずをのみました":"658361668af0.mp3","かれはみずをのみたいです":"8ee4958f24f4.mp3","かれはみずをのみますか":"2f7fe27726e7.mp3","かれはおちゃをのみます":"0663b563a6a9.mp3","かれはおちゃをのみません":"1abb48a983b3.mp3","かれはおちゃをのみました":"86ffc5aab329.mp3","かれはおちゃをのみたいです":"f959239567df.mp3","かれはおちゃをのみますか":"6e9f391ea9fe.mp3","かれはコーヒーをのみます":"9e4d51b6b2f4.mp3","かれはコーヒーをのみません":"1045c538fb19.mp3","かれはコーヒーをのみました":"17d4a2f97372.mp3","かれはコーヒーをのみたいです":"34c7bea35d3c.mp3","かれはコーヒーをのみますか":"f3755b4a008b.mp3","かれはえきにいきます":"200d2a35a594.mp3","かれはえきにいきません":"2a37ac8256be.mp3","かれはえきにいきました":"e6041bfea084.mp3","かれはえきにいきたいです":"52e36720b82e.mp3","かれはえきにいきますか":"1bf05581a013.mp3","かれはみせにいきます":"8da5ce0d477f.mp3","かれはみせにいきません":"f670debdc1c9.mp3","かれはみせにいきました":"9f54517281df.mp3","かれはみせにいきたいです":"3ac359d54c7a.mp3","かれはみせにいきますか":"d5b40086efd0.mp3","かれはにほんにいきます":"53a127ecdbbb.mp3","かれはにほんにいきません":"03228b9f7342.mp3","かれはにほんにいきました":"37bd60d3c02d.mp3","かれはにほんにいきたいです":"dfe734f86a25.mp3","かれはにほんにいきますか":"e82888035310.mp3","かれはにほんごをはなします":"4c87c14e3409.mp3","かれはにほんごをはなしません":"2c5c6ff85e51.mp3","かれはにほんごをはなしました":"4e9f87e68ced.mp3","かれはにほんごをはなしたいです":"8954c7991a38.mp3","かれはにほんごをはなしますか":"f44b49ceabee.mp3","かれはスペインごをはなします":"7a70f9668c28.mp3","かれはスペインごをはなしません":"a522b9f5a6a1.mp3","かれはスペインごをはなしました":"46bc41bc51d3.mp3","かれはスペインごをはなしたいです":"41448a0c0c89.mp3","かれはスペインごをはなしますか":"351d6c1f247c.mp3","かれはパンをかいます":"e37adc3ae38d.mp3","かれはパンをかいません":"db5653b110e0.mp3","かれはパンをかいました":"9ad2067e682e.mp3","かれはパンをかいたいです":"64c7bea3016d.mp3","かれはパンをかいますか":"ec40ff60f892.mp3","かれはきっぷをかいます":"95b95f8c9969.mp3","かれはきっぷをかいません":"82cea78f7c6d.mp3","かれはきっぷをかいました":"f87f95d1488f.mp3","かれはきっぷをかいたいです":"c6d8a516c5b3.mp3","かれはきっぷをかいますか":"382e9d579d9a.mp3","かれはおみやげをかいます":"3ec2008aa4ac.mp3","かれはおみやげをかいません":"1efaa446770b.mp3","かれはおみやげをかいました":"21b436532a12.mp3","かれはおみやげをかいたいです":"dfb4d04d03b3.mp3","かれはおみやげをかいますか":"e373fe3a3169.mp3","かれはテレビをみます":"0d72d7cc927b.mp3","かれはテレビをみません":"8ac5f627fc40.mp3","かれはテレビをみました":"c354ba96d234.mp3","かれはテレビをみたいです":"45d713284ba2.mp3","かれはテレビをみますか":"468f594a3dc5.mp3","かれはえいがをみます":"ea0360b2e06d.mp3","かれはえいがをみません":"e7c2355316ca.mp3","かれはえいがをみました":"e6096d6dbf4f.mp3","かれはえいがをみたいです":"322387ddb2f9.mp3","かれはえいがをみますか":"3bc01ec55243.mp3","わたしたちはごはんをたべます":"811c29f77987.mp3","わたしたちはごはんをたべません":"aabbb45d9be3.mp3","わたしたちはごはんをたべました":"c3f0d1a92a19.mp3","わたしたちはごはんをたべたいです":"898bf40ec3a4.mp3","わたしたちはごはんをたべますか":"24c2a933a7a2.mp3","わたしたちはさかなをたべます":"8bfabdff1452.mp3","わたしたちはさかなをたべません":"a39c6da119da.mp3","わたしたちはさかなをたべました":"78ea98911c51.mp3","わたしたちはさかなをたべたいです":"3aa1966fbc98.mp3","わたしたちはさかなをたべますか":"3a61f1b0c3f9.mp3","わたしたちはくだものをたべます":"cd32027451ee.mp3","わたしたちはくだものをたべません":"293d3e161920.mp3","わたしたちはくだものをたべました":"53682a7a7424.mp3","わたしたちはくだものをたべたいです":"b8e8265e8a9b.mp3","わたしたちはくだものをたべますか":"0780302bec65.mp3","わたしたちはみずをのみます":"4dbb84199482.mp3","わたしたちはみずをのみません":"02f2d54cc8dc.mp3","わたしたちはみずをのみました":"f9986e742f5e.mp3","わたしたちはみずをのみたいです":"85eed6ed965f.mp3","わたしたちはみずをのみますか":"ab56b482033c.mp3","わたしたちはおちゃをのみます":"b3ba0b934e8f.mp3","わたしたちはおちゃをのみません":"0ad01419af63.mp3","わたしたちはおちゃをのみました":"e823b59bc1dd.mp3","わたしたちはおちゃをのみたいです":"c84529d5b994.mp3","わたしたちはおちゃをのみますか":"1338ec2ff47a.mp3","わたしたちはコーヒーをのみます":"8f274e55dc0e.mp3","わたしたちはコーヒーをのみません":"54303697dd75.mp3","わたしたちはコーヒーをのみました":"72c5249cbf94.mp3","わたしたちはコーヒーをのみたいです":"c58fbe18d416.mp3","わたしたちはコーヒーをのみますか":"7aaad42646b2.mp3","わたしたちはえきにいきます":"db98a2840716.mp3","わたしたちはえきにいきません":"60cec51b87fa.mp3","わたしたちはえきにいきました":"1b69a419954c.mp3","わたしたちはえきにいきたいです":"d7b12c439ba3.mp3","わたしたちはえきにいきますか":"9fb91d20fc0b.mp3","わたしたちはみせにいきます":"dcac750d7d95.mp3","わたしたちはみせにいきません":"5896e8e5a9f5.mp3","わたしたちはみせにいきました":"45d6d2c85b84.mp3","わたしたちはみせにいきたいです":"4d2bebc1775f.mp3","わたしたちはみせにいきますか":"a6bbd0fe4199.mp3","わたしたちはにほんにいきます":"b8fea1f2b057.mp3","わたしたちはにほんにいきません":"155be14b03f2.mp3","わたしたちはにほんにいきました":"fc3f198d729e.mp3","わたしたちはにほんにいきたいです":"8365ee30b7f8.mp3","わたしたちはにほんにいきますか":"0d02f3804d49.mp3","わたしたちはにほんごをはなします":"e240226f04d9.mp3","わたしたちはにほんごをはなしません":"88e95bc72e80.mp3","わたしたちはにほんごをはなしました":"51e5fa39f85e.mp3","わたしたちはにほんごをはなしたいです":"6752904398de.mp3","わたしたちはにほんごをはなしますか":"878f4f659ad7.mp3","わたしたちはスペインごをはなします":"55e6d6462a5d.mp3","わたしたちはスペインごをはなしません":"44c462fed5d6.mp3","わたしたちはスペインごをはなしました":"a97fe253e5ce.mp3","わたしたちはスペインごをはなしたいです":"5fbd6c7317b3.mp3","わたしたちはスペインごをはなしますか":"83b3a5eb3c03.mp3","わたしたちはパンをかいます":"010613795213.mp3","わたしたちはパンをかいません":"e4cf92eca581.mp3","わたしたちはパンをかいました":"8d3f7e9eb14f.mp3","わたしたちはパンをかいたいです":"5ba3a5ef7b23.mp3","わたしたちはパンをかいますか":"f55b7ab0ca04.mp3","わたしたちはきっぷをかいます":"500f4bd02cc0.mp3","わたしたちはきっぷをかいません":"389f820ebebe.mp3","わたしたちはきっぷをかいました":"fb91c1d044f8.mp3","わたしたちはきっぷをかいたいです":"1aef6ec8daf6.mp3","わたしたちはきっぷをかいますか":"c69678df8359.mp3","わたしたちはおみやげをかいます":"a1ee1ebd3166.mp3","わたしたちはおみやげをかいません":"198b0246705e.mp3","わたしたちはおみやげをかいました":"53adf45cd3d5.mp3","わたしたちはおみやげをかいたいです":"46ed6489c626.mp3","わたしたちはおみやげをかいますか":"b8d5a1736eb9.mp3","わたしたちはテレビをみます":"a94c7c999ac8.mp3","わたしたちはテレビをみません":"f1dc7b9b7507.mp3","わたしたちはテレビをみました":"5ef19c5cfadf.mp3","わたしたちはテレビをみたいです":"cc6c37e4e936.mp3","わたしたちはテレビをみますか":"6be60fe8189b.mp3","わたしたちはえいがをみます":"698b79b70334.mp3","わたしたちはえいがをみません":"b77dc3cd7d0c.mp3","わたしたちはえいがをみました":"4230fd6cf77e.mp3","わたしたちはえいがをみたいです":"c5f390e38e4f.mp3","わたしたちはえいがをみますか":"6b5ed171739d.mp3","おじさん":"c2685d4029a9.mp3","おじいさん":"f309e91869f7.mp3","ほん":"85e03a8cd4d1.mp3","がっこう":"d969bf3c1164.mp3","あい":"cfd60848306e.mp3","ア":"1b4c4cc65ff2.mp3","アメリカ":"2dcbf2a36cf1.mp3","イ":"b284de61340b.mp3","イタリア":"f043c656b4ea.mp3","ウ":"86686c311378.mp3","ウイスキー":"4a4fb9af94a6.mp3","エ":"3707bab0c47b.mp3","エレベーター":"6bc049363dc1.mp3","オ":"06716d34cc81.mp3","オレンジ":"831166ef4b1b.mp3","カ":"00ed9f08e29e.mp3","カメラ":"fb6e4872b720.mp3","キ":"408ae436f0e0.mp3","キロ":"b3af9a7dd56d.mp3","ク":"15901a60a347.mp3","クラス":"8b27332ee07f.mp3","ケ":"b50e4b46f608.mp3","ケーキ":"c973e21d6d52.mp3","コ":"202a6b25e725.mp3","サ":"bf2cbaccbc43.mp3","サッカー":"5c7866a75081.mp3","シ":"1afad7703773.mp3","シャツ":"b0b79149886d.mp3","ス":"4df8398708ab.mp3","セ":"825cec98c430.mp3","セット":"4f70eee769de.mp3","ソ":"7394858d1c1b.mp3","ソース":"36759ebf452e.mp3","タ":"056cfad24eb2.mp3","タクシー":"efd84ccbf402.mp3","チ":"7e62c71ff6cf.mp3","チーズ":"32c454c2e582.mp3","ツ":"ee5fe18a7c76.mp3","ツアー":"ae0748603257.mp3","テ":"8996011e5796.mp3","テレビ":"3e5b741313bc.mp3","ト":"d729bd2b2767.mp3","ナ":"8f67916a925b.mp3","ナイフ":"051e8f938739.mp3","ニ":"d8a8e4205aa7.mp3","ニュース":"68cd1ffec81d.mp3","ヌ":"065ebce83a18.mp3","ヌードル":"cad29b29177b.mp3","ネ":"edc16abe75a1.mp3","ネクタイ":"8d4ce1616a36.mp3","ノ":"6c807d0ae2cd.mp3","ノート":"ac3e6d2e7121.mp3","ハ":"35104655d4d6.mp3","ハンバーガー":"cba9cd9ee9e3.mp3","ヒ":"9da359d5199d.mp3","ヒーター":"55883b0a431e.mp3","フ":"c2fa87c3ddd2.mp3","フランス":"55b4e062f966.mp3","ヘ":"5cf428be4474.mp3","ヘルメット":"f6a3e8ff8387.mp3","ホ":"41a11f66f540.mp3","マ":"55d42f593ce9.mp3","マスク":"2691c20d4232.mp3","ミ":"651d85849d50.mp3","ミルク":"ad3aa4bf97f2.mp3","ム":"c6abfe263593.mp3","ゲーム":"3081d7739206.mp3","メ":"cfc3325ef061.mp3","メニュー":"8f99b5f7c588.mp3","モ":"577210255a86.mp3","メモ":"9060a06d59ff.mp3","ヤ":"8e621f06c443.mp3","タイヤ":"dfcefda8afb1.mp3","ユ":"ea633878f249.mp3","ユーロ":"7e8d1688232e.mp3","ヨ":"da6c6a6baf77.mp3","ヨーロッパ":"e19ae381618a.mp3","ラ":"d5f1ca173fcd.mp3","ラーメン":"9dadb366aba9.mp3","リ":"56cb721117e2.mp3","リモコン":"fc2497f0408a.mp3","ル":"1d672f91e3ff.mp3","レ":"00859a61c08f.mp3","レストラン":"a4e764301cf7.mp3","ロ":"4c1fe526f363.mp3","ロビー":"479954f1b3fe.mp3","ワ":"a2fbf25469bc.mp3","ワイン":"176987c87c65.mp3","ヲ":"b40c5f345cb9.mp3","ン":"6ad7ee833add.mp3","みっつ":"a51025928299.mp3","たまごさんこ":"c36a41b09987.mp3","にん":"60a350556f6c.mp3","さんにん":"4c585e93c466.mp3","ひき":"ca3457d0e216.mp3","ねこにひき":"0913014574d8.mp3","ビールにほん":"2206d015757d.mp3","まい":"c33b7ae2b38f.mp3","きっぷにまい":"cae500d72684.mp3","さつ":"502f21857777.mp3","ほんいっさつ":"270f1aface3a.mp3","だい":"e7de32d4036e.mp3","くるまいちだい":"9f604e61ca3c.mp3","コーヒーにはい":"663008dbb280.mp3","じ":"41f11fe610d4.mp3","さんじ":"9959160f14aa.mp3","にまんごせん":"8a85bb8cccdd.mp3","ひとつ":"b9a975d70cb6.mp3","ふたつ":"c9ffe5da8047.mp3","よっつ":"50df20e65716.mp3","いつつ":"9a4151395fe1.mp3","むっつ":"90e3a4ab0658.mp3","ななつ":"3d15e9f5daa9.mp3","やっつ":"88e3abac66bc.mp3","ここのつ":"54178e61dc94.mp3","とお":"3edf7389c1df.mp3","いちまん":"c9f06a631254.mp3","アメリカからきました":"e22989497e12.mp3","アルゼンチンからきました":"25d3e6680a52.mp3","ウルグアイからきました":"a7ec771862b9.mp3","エクアドルからきました":"572506800845.mp3","エルサルバドルからきました":"ef5a3e3830c3.mp3","キューバからきました":"e0c27940620a.mp3","グアテマラからきました":"03d15cf9084d.mp3","コスタリカからきました":"59f574b770bc.mp3","コロンビアからきました":"49d5096f7083.mp3","スペインからきました":"080805e45565.mp3","チリからきました":"500012677df6.mp3","ドミニカ共和国からきました":"f3e589bb6d24.mp3","ニカラグアからきました":"475a96aae9c9.mp3","パナマからきました":"3848a8187ae0.mp3","パラグアイからきました":"870de4b3a675.mp3","プエルトリコからきました":"331af50a4b99.mp3","ベネズエラからきました":"8449cf848dc5.mp3","ペルーからきました":"96b1b4d4f8d1.mp3","ホンジュラスからきました":"d16c2a5c82d4.mp3","ボリビアからきました":"1c68495c08ce.mp3","メキシコからきました":"f6df7b05f173.mp3","赤道ギニアからきました":"e7e6857d23b4.mp3","さんびゃくろくじゅうご":"d1486ce187b2.mp3","せん":"9d8b7f0ee360.mp3","せんごひゃく":"8108eb548bfd.mp3","さんぜん":"18784f29397b.mp3","はっせん":"f4d686dfb861.mp3","ば":"d8c158e0a2d1.mp3","が":"a142816563b3.mp3","だ":"b3d236275fac.mp3","じょ":"115759838422.mp3","ぶ":"82b3fbb77164.mp3","ぞ":"bad314622d68.mp3","ど":"76504d613664.mp3","ず":"e77eb4831e6a.mp3","ちゃ":"062957be362f.mp3","コー":"beaef34b7e41.mp3","ヒー":"1e443ad6b158.mp3","パ":"d4c65564c4ad.mp3","べ":"eefc5770b9dc.mp3","で":"7350618fcec3.mp3","しゃ":"b6e3f9666c7a.mp3","ぎ":"9a77c2df496e.mp3","っ":"a9d76081a0ac.mp3","ぐ":"6e159a91b7ce.mp3","きょ":"d9ee3c16a677.mp3","ペ":"8a8021085114.mp3","び":"5fb5aba49978.mp3","ざ":"d08b42329511.mp3","ねこ":"d1ca85a1f5c8.mp3","すし":"addb5d19130c.mp3","は…":"77b4e4ccaba2.mp3","ニュー":"bf9e9455afde.mp3","カー":"f4adebf88871.mp3","ド":"a9a84e4c1845.mp3","びょ":"0a1cc845facd.mp3","ビ":"d5725b2f8d16.mp3","ゼ":"56c35c37128e.mp3","ルー":"ea5937d2f53d.mp3","ベ":"e24283733b4a.mp3","ズ":"3c1a103b5b4f.mp3","グ":"65429ee5e7b4.mp3","ボ":"c6be80a62e61.mp3","キュー":"ff12ae0e624b.mp3","バ":"2768d02f9098.mp3","共":"3b6ef811b85a.mp3","和":"9a3eb340971f.mp3","国":"f4bba5643a36.mp3","ジュ":"d689cdfde221.mp3","プ":"a3b8f9e1263b.mp3","赤":"72776ab68f81.mp3","道":"a33670427c5d.mp3","ギ":"5bbbbf8a5aff.mp3"};
 const ARTE = {"adiós":"adios.webp","allí":"alli.webp","alérgico":"alergico.webp","aquí":"aqui.webp","año":"ano.webp","baño":"bano.webp","buenas tardes":"buenas-tardes.webp","buenos días":"buenos-dias.webp","básico":"basico.webp","café":"cafe.webp","carne de vaca":"carne-de-vaca.webp","cortes-el":"cortes-el.webp","cortes-ella":"cortes-ella.webp","cuánto":"cuanto.webp","de nada":"de-nada.webp","difícil":"dificil.webp","día":"dia.webp","dónde":"donde.webp","el mediodía":"el-mediodia.webp","es caro":"es-caro.webp","es divertido":"es-divertido.webp","estación":"estacion.webp","está rico":"esta-rico.webp","frío":"frio.webp","fácil":"facil.webp","habitación":"habitacion.webp","hace calor":"hace-calor.webp","hermano-mayor":"hermano-mayor.webp","hermano-menor":"hermano-menor.webp","hermano/a mayor":"hermano-a-mayor.webp","hermano/a menor":"hermano-a-menor.webp","ir a pie":"ir-a-pie.webp","lo siento":"lo-siento.webp","mañana":"manana.webp","me gusta":"me-gusta.webp","montaña":"montana.webp","médico":"medico.webp","niño":"nino.webp","no pasa nada":"no-pasa-nada.webp","partícula cortés":"particula-cortes.webp","partícula cortés (hombre)":"particula-cortes-hombre.webp","partícula cortés (mujer)":"particula-cortes-mujer.webp","pequeño":"pequeno.webp","perdón":"perdon.webp","por favor":"por-favor.webp","por la mañana":"por-la-manana.webp","por qué":"por-que.webp","quién":"quien.webp","qué":"que.webp","rápido":"rapido.webp","saber hacer":"saber-hacer.webp","sueño":"sueno.webp","sí":"si.webp","tener hambre":"tener-hambre.webp","todo recto":"todo-recto.webp","té":"te.webp","tú":"tu.webp","vehículo":"vehiculo.webp","yo (hombre)":"yo-hombre.webp","yo (mujer)":"yo-mujer.webp","yo-el":"yo-el.webp","yo-ella":"yo-ella.webp","árbol":"arbol.webp","él":"el.webp"};
 const AUDIO_ES = {"Adiós":"071670fb5764.mp3","Adiós (a quien se va)":"7e170ecadbba.mp3","Adiós (si te vas tú)":"d2842d49db08.mp3","Agua, por favor":"e1dd062f58fa.mp3","Al aeropuerto, por favor":"0724eead0551.mp3","Al mercado, por favor":"ccfae4e99efb.mp3","Bien, gracias":"2116dc2641d4.mp3","Buenas noches (al despedirse)":"f10f2e774696.mp3","Buenas noches (al llegar)":"5e3604348794.mp3","Buenos días":"82a09ecf6132.mp3","China":"d2eaf2aa1512.mp3","Corea":"9fd33fbd96fd.mp3","De nada":"329997c41f33.mp3","De nada / Adelante":"bcca4f0bd55b.mp3","De nada / Por favor":"cba35a5ce5d7.mp3","Disculpe":"5f03005ee521.mp3","Disculpe (para llamar la atención)":"d9d2259365bc.mp3","Disculpe (para preguntar)":"73b068004692.mp3","Discúlpeme":"f272f7646254.mp3","Encantado de conocerte":"80f702a3f891.mp3","Entiendo un poco de japonés":"4337b10bdff2.mp3","Es caro":"add1c9d4d30d.mp3","Es demasiado caro":"9f146cbb5e3d.mp3","España":"1ea132ffbd7c.mp3","Esto, por favor":"5a743467e69e.mp3","Estoy bien":"b8b64796b31b.mp3","Estoy bien, gracias":"b69e696108d4.mp3","Estoy enfermo/a":"456486efa2e5.mp3","Está buenísimo":"a153a9e2158e.mp3","Gire a la derecha":"19b100b85d9f.mp3","Gire a la izquierda":"877d6ebf3105.mp3","Gracias":"d8f750f488f5.mp3","Gracias por la comida (al salir)":"e28bd1ddcf20.mp3","Hable más despacio":"61cda0b433b6.mp3","Hable más despacio, por favor":"3294501d9552.mp3","Hablo un poco de chino":"815271cbd33d.mp3","Hablo un poco de coreano":"7a1d9e586467.mp3","Hablo un poco de inglés":"7624cd3f1022.mp3","Hablo un poco de italiano":"235a6bc79cc3.mp3","Hablo un poco de ruso":"624bd5dd0794.mp3","Hablo un poco de tailandés":"d7eef1d22a91.mp3","Hasta la próxima":"2141dc1a8a1f.mp3","Hasta luego":"97fd4d4a7ea6.mp3","Hasta mañana":"e4f7bea5cb2f.mp3","Hola":"4e46dc0969e6.mp3","Hola (de día)":"44d26d367ab7.mp3","Hola (formal)":"4f0756f4b0f2.mp3","Hola / Adiós":"437bc7c29611.mp3","Hola, ¿qué tal?":"9e18b99aaf0c.mp3","Italia":"102fe67471c5.mp3","Japón":"28f883262b70.mp3","La carta, por favor":"22bb9401c638.mp3","La cuenta":"869bf6068cfc.mp3","La cuenta, por favor":"12ef72adf0f4.mp3","Llame a la policía":"db610917e26e.mp3","Llame a un médico":"9166d40f5906.mp3","Llame a un médico, por favor":"c9a1fe14c69e.mp3","Lo siento":"11557b45f62b.mp3","Me encuentro mal":"62edf0a1c728.mp3","Me he perdido":"84ae8c08a48a.mp3","Me llamo {NOMBRE}":"db34813da499.mp3","Me llamo…":"07a5cd354ab1.mp3","Muchas gracias":"2e2f791809cd.mp3","Muchísimas gracias":"e8a34123b4c6.mp3","Más despacio, por favor":"7a9fb75efe2f.mp3","No como carne":"fd738b600880.mp3","No entiendo":"90aae5f52f5f.mp3","No hay problema":"6f1d40520460.mp3","No me encuentro bien":"6a182e4f14e9.mp3","No pasa nada":"3dbf507e418a.mp3","No pasa nada / Estoy bien":"68f234c90265.mp3","No, gracias":"ec7892f31d71.mp3","Otra vez, por favor":"5cc97a4b903b.mp3","Pare aquí":"551f56ea56b1.mp3","Pare aquí, por favor":"7bcd637d59f4.mp3","Perdone":"01c0366e5cd3.mp3","Perdón":"dc41d8dc5276.mp3","Perdón / Disculpe":"4f16635991f8.mp3","Perdón / Disculpe / Oiga":"beb0db49481e.mp3","Poco picante":"e43f21c4dcaa.mp3","Que aproveche (antes de comer)":"b4106ffe8209.mp3","Que no pique, por favor":"6cec37519e43.mp3","Quiero esto":"70b22e45a809.mp3","Quiero ir al aeropuerto":"10744506fdba.mp3","Repítalo, por favor":"9ccf770ba214.mp3","Repítamelo, por favor":"72dbec21506e.mp3","Rusia":"bb1e7cd019d8.mp3","Sin glutamato":"5f5bc5c988b3.mp3","Sin picante":"3b112103348f.mp3","Solo estoy mirando":"20980636cccd.mp3","Solo estoy mirando, gracias":"64383c80710e.mp3","Soy alérgico a los frutos secos":"a029879b6948.mp3","Soy alérgico/a a…":"13d7878a2fe5.mp3","Soy de {PAIS}":"a9d29775e309.mp3","Soy estudiante":"798db2b39d79.mp3","Soy vegetariano":"8fa510a40245.mp3","Soy vegetariano/a":"874436ffd19a.mp3","Soy {GENT}":"06d782d944f4.mp3","Tengo 30 años":"2f70598729ba.mp3","Tengo treinta años":"588912331ded.mp3","Todo recto":"1f869bef04b9.mp3","Un café, por favor":"e888f153ecbf.mp3","Un placer, cuento contigo":"15a8e3dbd8b1.mp3","Una botella de agua, por favor":"6ca17c049bce.mp3","Una mesa para dos, por favor":"7c3470b65504.mp3","Vengo de {PAIS}":"95735a631cc4.mp3","Voy a tomar esto":"5d83662bfcb1.mp3","a la derecha":"058471a84a2a.mp3","a la izquierda":"e1ffea8634d2.mp3","aceite":"c09f7a54ec5e.mp3","adiós":"01674e46d255.mp3","adiós (al que se va)":"060639672195.mp3","aeropuerto":"bec89fc5f75a.mp3","agua":"c1962c232baf.mp3","ahora":"317914bb85c2.mp3","amar":"54cf1edf1143.mp3","amarillo":"56815506e7e2.mp3","amigo":"01f07beb8567.mp3","aquí":"fe01be3cb3e2.mp3","arroz":"fa9db510a295.mp3","arroz / comida":"a7662bb0c849.mp3","ayer":"d2617dbaadf4.mp3","ayudar":"120b591649b3.mp3","azul":"1768d39c5bb4.mp3","año":"8470d9e5f751.mp3","baht":"ea90904be544.mp3","barato":"33e8c86f3960.mp3","barato / correcto":"e987e311a989.mp3","baño":"1d7f53dfb132.mp3","beber":"5c7c319bec7e.mp3","bien":"d4e2f6084164.mp3","blanco":"062c2aa8b289.mp3","bonito":"bc3942446a99.mp3","bonito/a":"3798591e2e4b.mp3","buenas noches (al llegar)":"e6a178fec895.mp3","buenas tardes":"033678943ebe.mp3","bueno":"28e5793a19f2.mp3","bueno, rico":"134d345d7b38.mp3","buenos días":"a25b998dff5d.mp3","café":"f424452a9673.mp3","caliente":"faa0a1fa48e7.mp3","caliente, calor":"af3789e045ad.mp3","calle":"8f9f97eb45ed.mp3","caluroso":"77c65c6d49df.mp3","carne":"8ecc854e0639.mp3","carne de vaca":"fdf4cedd19ad.mp3","caro":"732849d5bc94.mp3","caro / alto":"8c8268eba01f.mp3","casa, familia":"a89e5549fe72.mp3","cerca":"34bbe760fd8d.mp3","cerdo":"c522d41a12d7.mp3","chao":"7541be018774.mp3","chico":"763c189e1069.mp3","chino (idioma)":"00fbd1f16c28.mp3","coche / vehículo":"af2107869407.mp3","color":"6dd0fe800114.mp3","comer":"5fb14f826fec.mp3","comprar":"a2039cb46d6f.mp3","coreano (idioma)":"c84e03358ca9.mp3","cuándo":"4344af9a12e3.mp3","cuánto":"f6af09e4144e.mp3","cuánto (precio)":"e0db44ae90cd.mp3","cuánto cuesta":"48c2c620ff5a.mp3","cómo":"f72338cc0db9.mp3","de nada":"671cfd4fde3f.mp3","de nada / adelante":"813a8cb80b30.mp3","delicioso":"0d10601977cb.mp3","derecha":"50b42d710b76.mp3","derecha / correcto":"6cad52f49c40.mp3","desayuno":"6987adf004aa.mp3","difícil":"87bf808093d4.mp3","dinero":"19bfd1be079a.mp3","disculpe":"801e01bb0ac5.mp3","divertido":"d8e42de78b7e.mp3","día":"743a04a95c73.mp3","dónde":"df95f5c177ba.mp3","el Reino Unido":"653f59a641c8.mp3","el día":"0b8da988765e.mp3","el mediodía":"36cfdc959e0c.mp3","ella":"5edf31da3f42.mp3","ella / usted":"a24cffd65285.mp3","ellos":"3a3b177941b4.mp3","encantado":"78f29cc2c705.mp3","encantado / con gusto":"3a21e74dd957.mp3","entender":"42bd16436f5c.mp3","es barato":"7d37e088d734.mp3","es bueno / me gusta":"9b416945cc82.mp3","es caro":"c6413352123e.mp3","es difícil":"f0ce9ec2057b.mp3","es divertido":"9436c7cd6a40.mp3","es fácil":"f178a31b133b.mp3","es grande":"b21e858a9f34.mp3","es malo":"b87beabbcd0e.mp3","es pequeño":"dfd9842ad890.mp3","escribir":"6aaf02f17df8.mp3","escuchar":"08571a9e04b9.mp3","escuchar, preguntar":"74b8020f8b6e.mp3","ese":"eace5b0b1ec8.mp3","ese, eso":"86a16c0596a4.mp3","eso":"bba68ea88de6.mp3","estación":"1ccac4ca60c7.mp3","estar / vivir en":"3bd1f1420e72.mp3","estar en":"f46d17ac9552.mp3","este":"3957e302fd7d.mp3","este, esto":"2fbbe676e296.mp3","esto":"ed477376c477.mp3","estudiante":"d5d4bc1d777c.mp3","está bien / no pasa nada":"272f930255a1.mp3","está cerca":"804a15a8b87a.mp3","está lejos":"8dd79f9ad0db.mp3","está rico":"0f12928fbbe6.mp3","familia":"3b660a83d52c.mp3","feo":"723d1915db94.mp3","fruta":"1ea8c03fd22c.mp3","frío":"3672f947601a.mp3","frío (clima)":"2568bcc25416.mp3","fácil":"2c60cfa3457e.mp3","fácil / amable":"22d643acbd21.mp3","gamba":"95eb576e0c23.mp3","gente":"b52e0a7a806e.mp3","gente (plural)":"86dcfe50c0cd.mp3","gracias":"a30b3970f3a5.mp3","grande":"35272bf81dfc.mp3","gustar":"bb2e73ca71a4.mp3","hablar":"18c35a29fc2f.mp3","hace calor":"41582c3e97a4.mp3","hace frío":"a606e0e6dfda.mp3","hacer":"44f7a54b02d5.mp3","hasta la próxima":"9808dd5a90a0.mp3","hasta la vista":"9a0a5d8cac70.mp3","hasta luego":"15fee4809bf5.mp3","hermano/a mayor":"654a5c5c926e.mp3","hermano/a menor":"e1a1f6b201ba.mp3","hijo":"cf233a5cdeed.mp3","hijo/a":"7ae6ca3c39ce.mp3","hola":"99800b85d338.mp3","hola (de día)":"d6e90b05d042.mp3","hola (formal)":"274cdfb0003a.mp3","hola (informal)":"d3e241953959.mp3","hola / adiós":"340b8640714b.mp3","izquierda":"61cc6a59b8c3.mp3","japonés (idioma)":"6102afc9ec75.mp3","la mañana":"7d95da446316.mp3","la noche":"7f081a798c88.mp3","la tarde":"bf14caf1b995.mp3","la tarde-noche":"a0be7ee22c32.mp3","leche":"3c60405a251f.mp3","leer":"40a26dbccc0e.mp3","lejos":"96b5d8f2ac16.mp3","lo siento":"557d905c450f.mp3","madre":"10c4070b4a87.mp3","malo":"bf7cdc72adfd.mp3","mantequilla (¡no burro!)":"c8ed56f1b8f5.mp3","mar":"1418c40237ee.mp3","mañana":"8727ae650349.mp3","mañana (parte del día)":"69b1aaf0d80c.mp3","mercado":"a822bd0a82c7.mp3","mes":"9c2cef27efb6.mp3","mirar, ver":"a2053a57a59c.mp3","mucho":"5629cc17d58f.mp3","muy":"060ab0c0903d.mp3","muy, mucho":"4837c1fe946c.mp3","naranja":"3cf349408216.mp3","necesitar":"b11c02e73dc0.mp3","negro":"867268472cd8.mp3","niño":"36a2baf40df6.mp3","niño / hijo":"5d37ff6b496f.mp3","no":"fd1286353570.mp3","no pasa nada":"969c20a84d3d.mp3","no pasa nada / estoy bien":"456a7613faa3.mp3","noche":"fdadc53ed478.mp3","nosotros":"3b7c416b7607.mp3","padre":"05d4ac9a1600.mp3","pagar":"7b125739d81e.mp3","pan":"bd2bd8216b9c.mp3","partícula cortés (hombre)":"7155cdcaf9fe.mp3","partícula cortés (mujer)":"1b74e7f5e536.mp3","pequeño":"f5a425f86ad6.mp3","perdone":"2ed1ea86c49d.mp3","perdón":"e2b4cc30bbd6.mp3","perdón / disculpe":"b514583f9808.mp3","perdón / lo siento":"7e2e33689ff1.mp3","persona":"1c6027c0667c.mp3","pescado":"432e49fede12.mp3","pica":"6a032f5aa3c9.mp3","picante":"203addd5cc3f.mp3","plato, verdura":"ca620389a1cf.mp3","poder":"b1b3592ddf08.mp3","pollo":"0db6b74aff69.mp3","por favor":"e392209eb260.mp3","por favor / de nada":"b82789dd76f7.mp3","por la mañana":"f090afb8cb65.mp3","por la tarde":"57a50b9925c9.mp3","por qué":"296fa0154f66.mp3","por qué / porque":"f49364823f19.mp3","profesor":"aabb211b66e8.mp3","querer":"e4fc0cb8188b.mp3","querer / tomar":"19b5fc15064a.mp3","querer, pensar":"d08fc73eb039.mp3","queso":"8e5fc65edb4d.mp3","quién":"ef3f2c68e5a1.mp3","qué":"d91707e6095d.mp3","rebajar":"a9893bd87b06.mp3","restaurante":"9e8cb07069ec.mp3","rico, sabroso":"1215b928bba1.mp3","rojo":"af6c1a0ca271.mp3","rosa":"5efc86ca883e.mp3","rublo":"6b8a17ca9bd2.mp3","ruso":"3cd2b9eb8a38.mp3","saber":"1b60697026f2.mp3","saber hacer":"c6655935db57.mp3","saber, conocer":"1529b19b2dee.mp3","salir":"684ce6a058b8.mp3","semana":"da05863e0e94.mp3","ser":"605d3374e661.mp3","ser, estar":"227b73e8d3d9.mp3","subir (¡no salir!)":"32e33921607c.mp3","sí":"5e06bd15f983.mp3","sí, así es":"4df7ad8a7ca7.mp3","tailandés / Tailandia":"0120cd4fa55f.mp3","tarde":"8693c78aea4e.mp3","tarde-noche":"ab4f9f248055.mp3","taxi":"4d82205a2028.mp3","tener":"1ab1b3e3530d.mp3","tener / haber":"9d05fee28a01.mp3","tener hambre":"395c327b8fc0.mp3","tener, haber":"ac7c7821ecfb.mp3","tiempo":"a5da6d9c96fa.mp3","tiempo / hora":"b51f0e77515a.mp3","tienda":"586376963777.mp3","todo recto":"31191462b2c0.mp3","trabajar":"a4adaa626dee.mp3","tren":"15047c92a2c3.mp3","té":"77bb3d0baf63.mp3","tú":"044e993fbe3c.mp3","tú (informal)":"9d05459a6f80.mp3","tú / usted":"0458d7e2aa86.mp3","tú / vosotros":"fa416b6e5161.mp3","un poco":"da33d83fbab5.mp3","vender":"9c25bd5844e4.mp3","venir":"2b89b8860027.mp3","ver":"5e0b8aa15aad.mp3","ver, mirar":"0034f6150474.mp3","verde":"2030abee0fb9.mp3","verdura":"c63cd472abf9.mp3","verduras":"6e484c6483ba.mp3","vino":"f0e4876639b7.mp3","won":"a32b8cd11ba5.mp3","yen":"720766642bbc.mp3","yo":"c41975d1dae1.mp3","yo (cortés)":"ed973fbd0325.mp3","yo (hombre)":"1edfa49faae0.mp3","yo (informal)":"c818e13716d3.mp3","yo (mujer)":"044af7ff978a.mp3","¡Ayuda!":"bf14d1957070.mp3","¡Buenos días!":"b086f35d76a9.mp3","¡Está buenísimo!":"5165a36a2f0c.mp3","¡Hasta luego!":"3e20d21ba626.mp3","¡Hola! (informal)":"f54cc6dfa7b5.mp3","¡Socorro!":"90daaf2e4863.mp3","¿Aceptan tarjeta?":"d9f005f35ea2.mp3","¿Cuánto cuesta esto?":"63c6875403ef.mp3","¿Cuánto cuesta ir al aeropuerto?":"ab362e6ba0f8.mp3","¿Cómo llego a la estación?":"23446cc0348f.mp3","¿Cómo se dice en italiano?":"f2cff64a5247.mp3","¿Cómo se dice esto en inglés?":"b7d11e362f14.mp3","¿Cómo se dice esto en tailandés?":"59bb236ecbdd.mp3","¿Cómo se llama?":"b67ffd533dce.mp3","¿Cómo te llamas?":"f9d4d5f29080.mp3","¿Dónde está el baño?":"af76d110de07.mp3","¿Dónde está el hospital?":"40c8a593304f.mp3","¿Dónde está la estación de tren?":"056bcfea3afc.mp3","¿Dónde está la estación?":"4b2491e3820a.mp3","¿Está lejos?":"9d8d304818d2.mp3","¿Habla inglés?":"f1b992253779.mp3","¿Hablas inglés?":"a5fe8f6dfb6a.mp3","¿Me hace descuento?":"d7f6fab85ef0.mp3","¿Me hace un descuento?":"ccf9702ef0f8.mp3","¿Me lo deja más barato?":"e8c58216a251.mp3","¿Me lo puedo probar?":"8e3fdc60517b.mp3","¿Me trae la carta?":"fb0df38698a4.mp3","¿Puede hablar más despacio?":"636772a2dc93.mp3","¿Puede repetirlo, por favor?":"8545e3859ade.mp3","¿Puede repetirlo?":"d868062c31ba.mp3","¿Puedes hablar más despacio?":"ad6cfb6153eb.mp3","¿Puedes repetirlo?":"7283f108a072.mp3","¿Puedo mirarlo?":"b72d8251848d.mp3","¿Puedo pagar con tarjeta?":"48161654b6af.mp3","¿Puedo verlo?":"4aef33f013b9.mp3","¿Qué me recomienda?":"f689378c34ae.mp3","¿Qué tal estás?":"84d360420479.mp3","¿Qué tal?":"a8506c246b78.mp3","¿Tiene otro color?":"b2bfc3af638e.mp3","¿cuánto cuesta?":"f84a7aaf6f39.mp3","él":"b2277c5f3590.mp3","él / ella":"890a852c4f6e.mp3","hola / adiós (informal)":"1504cee887c8.mp3","hotel":"14e833557d06.mp3","hoy":"ec80f5690620.mp3","huevo":"12c2d512a3ad.mp3","idioma":"113cff8ac7ee.mp3","ir":"aa1553beed5d.mp3","ir a pie":"a3bfcb1e882c.mp3","ir en vehículo":"717d2b0b2b2b.mp3"};
+const CANTO = null;
+const AUDIO_PROFE = {};
+const AUDIO_EXPLICA = {"Once herramientas para el oído, la boca y la mano: los 46 hiragana, los 46 katakana, el ritmo de las moras, gramática que sí se entiende, trazado a mano, 99 palabras, 38 frases y juegos para consolidar. Todo en una página, sin cuenta ni instalación.":"835f250e9be2.mp3","El orden importa. El japonés se lee en voz alta antes que en silencio: primero el oído, luego la letra.":"8705a502d4f9.mp3","Hiragana para la gramática, katakana para lo extranjero y kanji para las raíces. Una frase normal mezcla los tres, y no pasa nada: los dos primeros bastan para empezar.":"5e8c89966ea5.mp3","Todo lo demás va antes. es, literalmente, «yo arroz como».":"f4d2156a706b.mp3","Cada kana dura lo mismo, y y cuentan uno entero. Por eso son tres tiempos y no dos.":"a34cfdd7b46b.mp3","La foto se queda en este teléfono. No se sube a ningún sitio.":"1de23017f3aa.mp3","El curso entero en lecciones cortas, en orden. Cada una trae cosas que no has visto todavía: las conoces, haces un test corto y se abre la siguiente. Lo que aprendes vuelve solo en el repaso de Hoy.":"bd738fb6f235.mp3","3 palabras · 1 letra: lo que trae esta lección.":"e209bb14211f.mp3","Mira el dibujo, toca para oírlo y repítelo en voz alta.":"689f0049cd01.mp3","Preguntas de esta lección. Con 70 % o más se abre la siguiente.":"bce33d2f577b.mp3","Qué te toca, qué confundes y cómo va la semana. Todo en una pantalla, para no tener que recorrer el curso buscándolo.":"54a9210cfe38.mp3","De todo: palabras, letras, frases y patrones. Lo que aciertas no vuelve hasta dentro de unos días; lo que fallas, mañana.":"73f1688b4bc0.mp3","Todavía no hay suficientes fallos para ver un patrón. Según vayas haciendo tandas, aquí aparecerá qué confundes con qué —no «fallas en escucha», sino el par concreto— y podrás repasar solo eso.":"738bb7ba0051.mp3","Lo que de verdad se usa el primer día, junto y delante de todo: dar las gracias, decir que sí y que no, pedir perdón, y entender un precio. El resto del curso explica el porqué; esto se usa ya.":"394bcc70c428.mp3","Tócalas para oírlas. La las guarda en Tu lista, que es la pantalla que le enseñas a alguien cuando no te entienden.":"ae0384d4eb7f.mp3","Con estos diez ya se compra, se regatea y se coge un autobús. Arriba el número; abajo, cómo se dice. Lo que viene después —las decenas, los precios dichos deprisa— está en Números.":"031b42663e6f.mp3","Ocho preguntas, y solo de lo de esta pantalla. Nada de letras ni de tonos.":"4d0bab306914.mp3","Por temas y en orden: primero las conoces (dibujo y sonido), luego las reconoces de oído, luego escritas, y al final las escribes tú. Nunca te pregunto nada que no te haya enseñado antes.":"39a317be0222.mp3","Toca una parte del muñeco y te la digo. Gíralo para ver la espalda. Cuando las tengas, practícalas paso a paso: de oído, leyendo y escribiéndolas.":"a12e7c88a34b.mp3","Tener once herramientas no sirve de nada sin un orden. Esto es un plan concreto: qué hacer hoy, qué hacer cada día y en qué orden atacar las secciones.":"ffc1104cf57d.mp3","Quince minutos al día valen más que dos horas el domingo: la memoria se construye por repetición espaciada, no por atracón.":"0b71c97b48b6.mp3","Quince minutos a una hora fija cunden más que una tarde entera sin plan. Elige tus días y tu hora: con eso te genero una cita que se repite en el calendario de tu móvil, y es él quien te avisa.":"244540874314.mp3","El botón del calendario descarga una cita que se repite sola, con un aviso diez minutos antes. La entienden el calendario del iPhone, Google Calendar y Outlook, y suena aunque no tengas la web abierta — es tu móvil quien avisa, no la página. Los avisos del navegador, en cambio, solo aparecen si dejas esta pestaña abierta.":"44a3ac0b74cf.mp3","Leer en silencio no entrena el ritmo. Marca cada mora con un golpecito en la mesa: -- son tres, no dos.":"da59c483bf10.mp3","Cualquier palabra en japonés suena al tocarla: en las listas, en las tablas, en las frases. Es lo que más se olvida.":"e1b6754ddd11.mp3","Ese es una muleta útil dos semanas y un lastre a partir de la tercera. En las tarjetas, usa el modo «ver japonés».":"3df92c8753b1.mp3","Con hiragana y katakana lees, escribes y hablas. Los kanji vienen después y son otra montaña: subirla antes de tiempo es la forma más común de abandonar.":"8eee0f252c0f.mp3","El español cuenta sílabas; el japonés cuenta moras, que son tiempos iguales. Cada kana es una mora, y y también cuentan una entera. Alargar de más o de menos no suena a acento: suena a otra palabra.":"ca2a94bc566a.mp3","Escucha cada pareja seguida, en Lento. La diferencia es solo de duración, y es exactamente lo que un oído español tiende a no registrar.":"1ae2f9093488.mp3","Una vocal larga: la vale dos tiempos. Confundirlas es llamar abuela a alguien de treinta años.":"9ecf624fd524.mp3","El pequeño es un silencio de un tiempo antes de la consonante. Se oye como un frenazo.":"8a141368b780.mp3","Dos moras contra cuatro. Si no marcas la diferencia, no te entienden.":"eb7faa0d0ea8.mp3","Di -- golpeando la mesa tres veces, todos los golpes iguales. No hay sílabas fuertes y débiles como en español.":"5f82d666035a.mp3","son tres tiempos, no dos: ni-ho-n. Es el error más común y el que más marca el acento extranjero.":"0e19146ecdeb.mp3","En paras un tiempo con la lengua ya en posición antes de soltar la «t».":"212fc422366a.mp3","no es «Tokio» en dos sílabas: son cuatro tiempos, to-o-kyo-o.":"11e43164c43e.mp3","Suena una de las dos palabras de una pareja. ¿Cuál era? Mejor marca hasta ahora: 0%.":"a236b4a5c8fe.mp3","Diez trampas concretas para un oído hispanohablante. El japonés tiene pocos sonidos y casi todos nos resultan fáciles: el problema son estos, y el ritmo.":"b5e29039ddd6.mp3","Dos o tres palabras casi idénticas. Escúchalas seguidas, luego tapa la pantalla y adivina.":"975d3c3dbcef.mp3","La diferencia es solo la duración. Es la trampa número uno.":"87e1fdb21ec5.mp3","Suena una de las palabras del par. ¿Cuál era? Mejor marca: 0%.":"8d2af4e136fb.mp3","El japonés se escribe con tres sistemas a la vez. Los dos primeros son alfabéticos y se aprenden en unas semanas: 46 hiragana para las palabras japonesas y 46 katakana para las extranjeras. El tercero, los kanji, viene después y no hace falta para empezar.":"823aae70d24f.mp3","Se aprenden por filas de cinco:, … Cada fila comparte consonante y recorre las cinco vocales. Toca una para verla en grande y oírla.":"289c15398740.mp3","Los mismos 46 sonidos con otra forma. Se usan para todo lo que viene de fuera: nombres extranjeros, marcas, comida importada y onomatopeyas. Tu propio nombre se escribirá con estos.":"24d7a10ae432.mp3","En japonés no hay que juntar consonante y vocal: cada letra ya es una sílaba entera, y todas duran lo mismo. Lo que hay que aprender es otra cosa: las letras que no son sílaba ( y la pequeña) y las vocales largas, que cambian la palabra. Aquí vas palabra a palabra, de la más sencilla a la más enredada.":"469204fc7ba4.mp3","Toca cualquier ejemplo para oírlo. Cada pieza tiene su color, y es el mismo en las palabras de abajo.":"7997dc2c038a.mp3","De la más sencilla a la más enredada. No pases a la siguiente hasta poder decir esta.":"0596c03eb61f.mp3","Dos vocales, dos tiempos: a-i. Cada letra dura lo mismo que la otra.":"32ebe3bd2d86.mp3","Los kana se trazan en un orden fijo, casi siempre de arriba abajo y de izquierda a derecha. Escribirlos a mano es lo que separa reconocerlos de leerlos de verdad.":"7277cf552cd8.mp3","Casi todos los kana se trazan empezando por lo más alto y bajando. Si dudas, empieza arriba.":"729247136e1e.mp3","Los trazos horizontales van siempre hacia la derecha, nunca al revés. Se nota muchísimo en la letra hecha.":"8d9bfb47bb94.mp3","Cuando se cruzan, primero la raya que va de lado y después la que baja. Es la regla que heredan los kanji.":"8ce2939b15c3.mp3","El, el y los pequeños se escriben después del kana al que acompañan, nunca antes.":"04b4b88f11e9.mp3","Elige una letra, repásala encima del modelo con el ratón o el dedo, y luego intenta escribirla en el hueco de la derecha sin modelo. Con Ver cómo se forma la letra se pinta sola siguiendo su forma, con un punto por delante: te enseña de dónde sale cada parte, no el orden exacto de los trazos a mano, que es lo que explican las reglas de aquí arriba.":"0ea5efcd8b1e.mp3","Para escribir sin cambiar la configuración del sistema. Útil para copiar una palabra en un traductor o en un mensaje.":"1eaaf4e54929.mp3","Las teclas resaltadas son marcas: no se sostienen solas, se escriben justo después de la letra a la que acompañan. Aquí se muestran sobre un círculo para que se vean.":"ce3f35363977.mp3","La gramática japonesa asusta de lejos y es muy regular de cerca: no hay géneros, ni plurales, ni artículos, ni concordancia, ni verbos irregulares (salvo dos). Lo que cambia es el orden: el verbo va siempre al final.":"1ddca0c041b9.mp3","El verbo va al final. Lo único que hay que reordenar de verdad. Todo lo demás va antes, y el verbo cierra la frase siempre.":"c870bf52efea.mp3","marca el tema. Señala de qué estamos hablando. Se escribe pero se lee «wa». No es exactamente el sujeto: es «en cuanto a…».":"a57d8175d298.mp3","marca el objeto. Marca lo que recibe la acción. Se escribe y se lee «o». No se usa para nada más.":"86aa608d6642.mp3","y marcan el lugar. es a dónde vas o cuándo; es dónde ocurre algo.":"559c8f057de5.mp3","es «ser» y «estar». No se conjuga por persona. Sirve para yo, tú y ellos por igual, y además hace la frase cortés.":"d77cec9c3b67.mp3","Negar: -. Se cambia la terminación y ya está. No hace falta ninguna palabra extra.":"f46ea6aabb12.mp3","Pasado: -. Otra terminación. El negativo pasado es -.":"918e7b4699a3.mp3","No hay futuro. El japonés no marca el futuro: lo dice la palabra de tiempo. (mañana) basta.":"c80d946cc9b4.mp3","Preguntar: al final. Se añade y listo. No se cambia el orden ni hace falta signo de interrogación.":"3e519c0f3bc2.mp3","Querer hacer algo: -. Se quita - y se añade -. Solo vale para lo que quiere uno mismo.":"ad27cc31fbd0.mp3","Pedir: -. La fórmula educada para pedir cualquier cosa.":"4fc7c69616f9.mp3","Dos tipos de adjetivo. Los que acaban en se conjugan solos. Los demás necesitan delante del sustantivo.":"2f6e7742fde7.mp3","No hay plural ni artículos. es «libro», «el libro», «un libro» o «libros». El contexto decide y casi nunca hay ambigüedad.":"13067c05c5ce.mp3","significa «también». Sustituye a o a, no se le suma.":"3ac288e9bf9e.mp3","Combina las piezas y mira cómo cambia la frase. Es la forma rápida de que los patrones se te queden: no memorizándolos, sino usándolos.":"2f40e6fd6a57.mp3","Lo más ajeno para un hispanohablante. Para contar cosas no basta el número: hace falta una palabra que diga de qué tipo de cosa hablas. Estos diez cubren casi todo el día a día.":"d02f8da40d32.mp3","Tres ejercicios de boca, para soltarse. Elige uno: se hace en dos minutos y puedes cambiar cuando quieras.":"153c5ba4d3e0.mp3","Te damos el significado en español y tú lo dices en voz alta. Te corrijo al momento. Primero palabras sueltas y luego frases enteras; si lo dices bien cuenta, aunque te dejes la partícula de cortesía.":"4cfb27de3657.mp3","Un día de alguien, escena a escena. Mira el dibujo y escucha: la frase suena sola y la traducción está escondida. Intenta entenderla antes de destaparla.":"0cdb919909cb.mp3","99 palabras de uso diario en tarjetas, escritas solo en kana. Cada palabra tiene cinco niveles: acertarla la sube, fallarla la baja. Repasas más lo que peor llevas.":"c379a27be0cd.mp3","Toca una parte del dibujo y te la digo. Debajo las tienes todas escritas, y puedes decirlas tú para que te corrija.":"65e63fc13436.mp3","Lo que tú marques con la, aquí junto. 0 guardadas. Y el botón Enseñar lo pone a pantalla completa para que lo lea otra persona: en un taxi funciona mejor que cualquier explicación.":"57936c574305.mp3","38 frases completas por situación, en la forma cortés -/, que es la que se usa con desconocidos y la única que necesitas de viaje.":"43888895a89f.mp3","Si tu país no está, deja el hueco: verás el patrón de la frase con una raya, y ahí dices el nombre de tu país.":"a11fb1a5a259.mp3","Los números japoneses tienen una trampa preciosa: hay dos sistemas conviviendo, y elegir mal el contador es de las cosas que más delatan a un principiante.":"b6d480ccfa01.mp3","Contar es una cosa y entenderlos dichos a toda velocidad es otra, y la que hace falta en la calle es la segunda. Aquí el número no se lee: se oye.":"d131d0e85090.mp3","Oyes el precio y lo escribes en cifras. Es lo que pasa en una tienda: te lo dicen una vez y rápido.":"1eae79817d6d.mp3","El de la izquierda es el de origen chino y sirve para casi todo: dinero, fechas, minutos, teléfonos. El de la derecha es el japonés nativo y solo llega hasta el diez, pero es el que se usa para contar cosas sin contador.":"c90fd9f60c9d.mp3","y son las seguras. (4) suena igual que «muerte» y (7) se confunde con, así que en la vida diaria se evitan.":"3dced75db152.mp3","No se dice «diez mil»: se dice. Y a partir de ahí se cuenta de diez mil en diez mil, no de mil en mil.":"4f172eef1bf9.mp3","«Dos cervezas» no es: es, porque las botellas son cosas largas. Abajo tienes los diez contadores que cubren el día a día.":"1fff1c232159.mp3","Oír no basta: el ritmo solo se aprende produciéndolo. Escucha el modelo, repite en voz alta marcando cada mora como si dieras golpecitos en la mesa, y compárate.":"060a0182fbcc.mp3","Le das al play y va solo: la palabra, un hueco para que la repitas, lo que significa, y a la siguiente. Para andando, cocinando o en el coche, sin tocar la pantalla.":"526fa313e01d.mp3","Aquí sí te corrige: escucha el modelo, pulsa Dilo tú y habla. Debajo te dice qué ha entendido y en qué fallaste. Es lo que no hace el reproductor de arriba.":"f56abc0fb098.mp3","Treinta palabras de uso diario. Trabaja de cinco en cinco.":"f48bfd348aad.mp3","Una escena, alguien que te habla y tu turno de contestar en voz alta. Lo que dices se compara con el modelo y se te corrige, igual que en el resto del curso. Todo lo que vas a oír y a decir sale de las frases que ya has visto.":"da56b1e9d126.mp3","Empieza por la primera: es la que te va a pasar antes. Necesitas el micrófono; si prefieres no usarlo, puedes pasar de turno igualmente.":"d1cb5837ac91.mp3","Charla con Yuki como en el móvil: te escribe, lo oyes, y contestas tú. Son conversaciones de práctica con frases del curso: te equivoques o no, aquí se aprende.":"6748cf08b2bc.mp3","Practica con personas nativas que aprenden tu idioma.":"90af143068b2.mp3","Tres ejercicios que trabajan lo que las tarjetas no llegan a tocar: encadenar una conversación, asociar sin pistas y escribir de oído. Son los que más cansan y los que más consolidan.":"302f31d4e90e.mp3","Las frases de una escena, revueltas. Ponlas en el orden en que pasarían. Cada una suena al colocarla, así que oyes la conversación montarse; si te equivocas, la ficha se sacude y no pasa nada.":"683f99fb950b.mp3","Toca las frases en el orden en que se dirían. es lo que dicen ellos, lo que dices tú. Sin traducción a propósito: si está ahí, ordenas leyendo castellano y no te enteras de nada.":"b623103e3c0a.mp3","Seis palabras, doce cartas. Encuentra cada una con su español. Cada carta que destapas se pronuncia, así que además entrenas el oído sin darte cuenta.":"610ea9089ab2.mp3","El ejercicio más exigente de la página: oír una palabra y escribirla de cero. Junta oído, moras y kana en un solo gesto. Si aciertas una de cada tres, vas bien.":"3453288d27a8.mp3","Suena una palabra y tocas el dibujo. No hay que leer nada, ni en japonés ni en español: solo oír y reconocer. Es el ejercicio más corto de todos y el que mejor dice si una palabra te entra por el oído.":"b637f624291f.mp3","Al revés que el dictado: ves lo que significa y lo escribes de cero, sin oírlo y sin tenerlo delante. Es lo más difícil de la página, y lo único que de verdad separa «la reconozco» de «me la sé».":"86bf1e532fcc.mp3","Seis viñetas de una misma situación, con su dibujo. Toca una para oírla, o dale a oírla entera y ve siguiéndolas.":"113dc15a75fa.mp3","Doce preguntas de todo: kana, moras, vocabulario, escucha, frases y números. Mejor marca hasta ahora: 0%.":"e41af7738026.mp3","Uno por lección, que pregunta de lo suyo y nada más. Se abre cuando ya has entrado en esa lección, y se aprueba con el 80 %. Lo que llevas pendiente se ve de un golpe.":"5aaa02ef4d08.mp3"};
+const EXPLICA_WEB = "https://angebloom.github.io/japones/explica/";
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -4764,6 +4772,7 @@ function accesoCompleto(){
   return !!(ACCESO_WEB && ACCESO_WEB.exp >= fechaLocal());
 }
 function abierta(id){
+  if(id === "canto") id = "tonos";        /* la clase de canto va con los tonos */
   if(accesoCompleto()) return true;
   /* la app de PRUEBA (compilación debug) lo abre todo para poder probarla;
      la que se publica en Play contesta que no */
@@ -5275,6 +5284,11 @@ VIEWS.tonos = {
       <h1>${T("tonos_h1","Los cinco tonos")}</h1>
       <p class="lede">${T("tonos_lede","Los tonos no son entonación ni énfasis: son parte de la palabra, igual que una vocal. Escúchalos hasta distinguirlos, y solo después aprende a deducirlos al leer.")}</p></div>
 
+    ${typeof HAY_CANTO === "function" && HAY_CANTO() ? `<div class="card cn-entra" data-go="canto" role="button" tabindex="0">
+      <span class="cn-cara" aria-hidden="true">${cnCara(52)}</span>
+      <span><b>🎤 Clase de canto con ${esc(AMIGO.nombre)}</b><span class="muted">¿Te cuesta oír los tonos? ${esc(AMIGO.nombre)} te guía con la voz, paso a paso, como en una clase de canto. Casi sin leer.</span></span>
+      <span class="na" aria-hidden="true" style="margin-left:auto;font-size:22px">→</span></div>` : ""}
+
     ${HAY_TONEAR() ? `<h2 class="sec">Entrénalo con la voz</h2>
     <p class="sec-note">Oírlos y hacerlos son dos cosas distintas. Aquí se pide un tono, lo dices
     en voz alta y se mide hacia dónde ha ido tu voz de verdad. Empieza con los dos que más se
@@ -5553,8 +5567,17 @@ function paintDetail(){
 
 /* ══ VISTA: ESCRITURA ════════════════════════════════════ */
 /* la letra del cuaderno: la última que abriste en el alfabeto o, si no, la primera que aún no sabes */
-let traceChar = null, strokes = [], curStroke = null;
+let traceChar = null, strokes = [], curStroke = null, trazoPal = null;
 const letraPorAprender = () => (CONS.find(c => !c[6] && !S.known[c[0]]) || CONS[0])[0];
+/* la palabra del día también se traza a mano (si es corta: una frase
+   larga no cabe en el recuadro con letra que se pueda repasar) */
+function trazoDelDia(){
+  if(typeof ddHoy !== "function") return null;
+  let it = null; try{ it = ddHoy(); }catch(e){}
+  if(!it || !it.th) return null;
+  const n = typeof tmPiezas === "function" ? tmPiezas(it.th).filter(p => /[\p{L}\p{M}\p{N}]/u.test(p)).length : it.th.length;
+  return n && n <= 12 ? it : null;
+}
 /* el teclado lo aporta el paquete de idioma (KB_ROWS) */
 VIEWS.escritura = {
   html(){
@@ -5572,10 +5595,12 @@ VIEWS.escritura = {
     <p class="sec-note">Elige una letra, repásala encima del modelo con el ratón o el dedo, y luego intenta escribirla en el hueco de la derecha sin modelo. Con <b>▶ Ver cómo se forma</b> la letra se pinta sola siguiendo su forma, con un punto por delante: te enseña de dónde sale cada parte, no el orden exacto de los trazos a mano, que es lo que explican las reglas de aquí arriba.</p>
     <div class="row" style="margin-bottom:10px">
       <select id="tSel" style="max-width:320px">
+        ${trazoDelDia() ? `<optgroup label="✍️ La palabra del día"><option value="${esc(trazoDelDia().th)}">${esc(trazoDelDia().th)} — ${esc(trazoDelDia().es)}</option></optgroup>` : ""}
         <optgroup label="${T("alfa_sec1","Letras")}">${CONS.map(c => `<option value="${c[0]}">${c[0]} — ${c[1]}</option>`).join("")}</optgroup>
         <optgroup label="${TABLA2.titulo}">${TABLA2.filas.map(v => `<option value="${v[0].replace("◌", LANG.portador || "")}">${v[0]} — ${v[1]}</option>`).join("")}</optgroup>
         <optgroup label="${T("alfa_sec3","Signos")}">${MARKS.map(m => `<option value="${m[0].replace("◌", LANG.portador || "")}">${m[0]} — ${m[2]}</option>`).join("")}</optgroup>
       </select>
+      ${trazoDelDia() ? `<button class="btn btn--s btn--p" id="tDia">✍️ La palabra del día</button>` : ""}
       <button class="btn btn--s" id="tClear">Borrar</button>
       <button class="btn btn--s" id="tUndo">Deshacer</button>
       <button class="btn btn--s" id="tGhost" aria-pressed="true">Modelo visible</button>
@@ -5586,6 +5611,7 @@ VIEWS.escritura = {
       <button class="btn btn--s btn--p" id="tNota">¿Qué tal me ha salido?</button>
       <span id="tSay"></span>
     </div>
+    <div class="t-pasos" id="tPasos" hidden></div>
     <div class="tracewrap"><canvas class="trace" id="tCanvas" width="1200" height="380"></canvas></div>
     <div id="tNotaCaja" aria-live="polite"></div>
 
@@ -5629,7 +5655,15 @@ VIEWS.escritura = {
        No es el orden exacto de los trazos a mano (eso lo explican las
        reglas de arriba): la letra se va pintando siguiendo su propia
        forma, desde donde empieza, para ver de dónde sale cada parte. */
-    const fuenteTrazo = () => '220px ' + (CSSVAR('--thai') || 'sans-serif');
+    /* una letra va a 220 px; una palabra entera se encoge hasta caber */
+    const fuenteTrazo = () => {
+      const fam = CSSVAR('--thai') || 'sans-serif';
+      if(!traceChar || [...traceChar].length <= 2) return '220px ' + fam;
+      const m = (fuenteTrazo.c || (fuenteTrazo.c = document.createElement('canvas').getContext('2d')));
+      m.font = '220px ' + fam;
+      const ancho = m.measureText(traceChar).width || 1;
+      return Math.max(60, Math.min(220, Math.floor(220 * anchoCaja * 0.86 / ancho))) + 'px ' + fam;
+    };
     let animComp = null, animPunto = null, animId = null;
 
     function rejillaTinta(){
@@ -5873,6 +5907,50 @@ VIEWS.escritura = {
       redraw();
       if(r.nota >= 70) ganaXP(r.nota >= 85 ? 10 : 5);
       touchStreak();
+      if(r.nota >= 70 && typeof celebra === "function"){
+        const final = trazoPal && trazoPal.i >= trazoPal.piezas.length;
+        celebra(cv, final || !trazoPal ? (r.nota >= 85 || final ? "grande" : "peque") : "peque");
+      }
+      if(trazoPal && r.nota >= 70){
+        trazoPal.hechas[trazoPal.i] = 1;
+        const yaToda = trazoPal.i >= trazoPal.piezas.length;
+        if(yaToda){
+          caja.insertAdjacentHTML("afterbegin", `<div class="t-logro">🎉 ¡Palabra lograda! Ya sabes escribir <span class="th">${esc(trazoPal.pal)}</span></div>`);
+          ganaXP(15);
+        } else {
+          const t0 = trazoPal;
+          setTimeout(() => { if(trazoPal === t0) trazoPaso(t0.i + 1); }, 1300);
+        }
+        pintaPasos();
+      }
+    }
+
+    /* ── la palabra del día, una letra cada vez y luego junta ──
+       Una palabra entera de golpe es mucho para quien empieza: se traza
+       cada letra por separado (grande, como el resto del cuaderno) y al
+       final la palabra completa. Cada acierto lo celebra y pasa solo a
+       la siguiente. */
+    function trazoEmpieza(th){
+      const piezas = (typeof tmPiezas === "function" ? tmPiezas(th) : [...th]).filter(p => /[\p{L}\p{M}\p{N}]/u.test(p));
+      trazoPal = piezas.length > 1 ? {pal: th, piezas, i: 0, hechas: {}} : null;
+      if(trazoPal) trazoPaso(0); else setChar(th);
+    }
+    function trazoPaso(i){
+      if(!trazoPal) return;
+      trazoPal.i = Math.max(0, Math.min(trazoPal.piezas.length, i));
+      setChar(trazoPal.i < trazoPal.piezas.length ? trazoPal.piezas[trazoPal.i] : trazoPal.pal, true);
+      pintaPasos();
+    }
+    function pintaPasos(){
+      const p = $("#tPasos");
+      if(!p) return;
+      if(!trazoPal){ p.hidden = true; p.innerHTML = ""; return; }
+      p.hidden = false;
+      p.innerHTML = `<span class="t-pasos-et">✍️ ${esc(trazoPal.pal)} · una por una y luego junta</span>
+        <div class="t-pasos-fila">${trazoPal.piezas.map((c, k) => `<button class="t-paso th ${k === trazoPal.i ? "on" : ""} ${trazoPal.hechas[k] ? "ya" : ""}" data-tpaso="${k}">${esc(c)}${trazoPal.hechas[k] ? "<i>✓</i>" : ""}</button>`).join('<span class="t-flecha">›</span>')}
+        <span class="t-flecha">→</span>
+        <button class="t-paso t-junta th ${trazoPal.i >= trazoPal.piezas.length ? "on" : ""} ${trazoPal.hechas[trazoPal.piezas.length] ? "ya" : ""}" data-tpaso="${trazoPal.piezas.length}">${esc(trazoPal.pal)}${trazoPal.hechas[trazoPal.piezas.length] ? "<i>✓</i>" : ""}</button></div>`;
+      p.querySelectorAll("[data-tpaso]").forEach(b => b.addEventListener("click", () => trazoPaso(+b.dataset.tpaso)));
     }
 
     const pos = e => { const r = cv.getBoundingClientRect();
@@ -5882,7 +5960,9 @@ VIEWS.escritura = {
     cv.addEventListener("pointermove", e => { if(!curStroke) return; curStroke.push(pos(e)); redraw(); });
     cv.addEventListener("pointerup", () => { curStroke = null; });
     cv.addEventListener("pointerleave", () => { curStroke = null; });
-    const setChar = c => { traceChar = c; strokes = [];
+    const setChar = (c, enPalabra) => {
+      if(!enPalabra && trazoPal){ trazoPal = null; pintaPasos(); }
+      traceChar = c; strokes = [];
       if(animId){ clearTimeout(animId); animId = null; }
       animComp = null; animPunto = null; notaCapa = null;
       const nc = $("#tNotaCaja"); if(nc) nc.innerHTML = "";
@@ -5903,6 +5983,8 @@ VIEWS.escritura = {
     $("#tPrev").addEventListener("click", () => paso(-1));
     $("#tNext").addEventListener("click", () => paso(1));
     $("#tRand").addEventListener("click", () => setChar(pick(CONS)[0]));
+    const bDia = $("#tDia");
+    if(bDia) bDia.addEventListener("click", () => { const it = trazoDelDia(); if(it) trazoEmpieza(it.th); });
     $("#tAnim").addEventListener("click", verComoSeForma);
     $("#tNota").addEventListener("click", pintaNota);
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
@@ -5919,7 +6001,9 @@ VIEWS.escritura = {
     const vigia = window.ResizeObserver ? new ResizeObserver(alRedimensionar) : null;
     if(vigia) vigia.observe(cv);
     viewCleanup = () => { window.removeEventListener("resize", alRedimensionar); if(vigia) vigia.disconnect(); };
-    setChar(traceChar || letraPorAprender());
+    const delDia = trazoDelDia();
+    if(delDia && traceChar === delDia.th) trazoEmpieza(delDia.th);
+    else setChar(traceChar || letraPorAprender());
 
     const out = $("#kbout");
     document.querySelectorAll(".kb [data-k]").forEach(b =>
@@ -11335,6 +11419,8 @@ function ddPaso(){
       <div><div class="tm-es">${esc(it.es)}</div>
         ${modelo ? `<div class="rom">${esc(it.rom)}</div>` : ""}</div>
       <button class="iconbtn" data-say="${esc(it.th)}" aria-label="Oír">${svg("play")}</button>
+      ${typeof trazoDelDia === "function" && trazoDelDia() && LANG.secciones.indexOf("escritura") >= 0
+        ? `<button class="btn btn--s" data-dd-traza title="Trazarla a mano en el cuaderno">✍️ A mano</button>` : ""}
     </div>
     <div class="tm-huecos th dd-huecos ${it.tipo === "frase" ? "dd-frase" : ""}" id="ddHuecos">${piezas.map((p, k) => ddEsPieza(p)
       ? `<span class="tm-hueco ${modelo ? "guia" : ""}" data-k="${k}">${modelo ? esc(p) : ""}</span>`
@@ -11428,6 +11514,7 @@ document.addEventListener("click", ev => {
   if(t.closest("[data-dd-cierra]") || t.id === "ddModal"){ ddCierra(); return; }
   const f = t.closest("[data-dd-ficha]");
   if(f){ ddToca(f); return; }
+  if(t.closest("[data-dd-traza]")){ const th = dd.it.th; ddCierra(); traceChar = th; go("escritura"); return; }
   if(t.closest("[data-dd-sig]")){ dd.fase = "solo"; ddPaso(); return; }
   if(t.closest("[data-dd-pista]")){
     const k = ddFalta();
@@ -11504,7 +11591,8 @@ const AVATARES = [
   ["zorro","🦊","#FF8A4C","#C2399A"], ["panda","🐼","#9AA7B8","#4B5563"], ["tigre","🐯","#FFB020","#E2582B"],
   ["koala","🐨","#8BA4C9","#5B6B91"], ["leon","🦁","#F7C548","#C27A1A"], ["rana","🐸","#7ED957","#1E9E6A"],
   ["pulpo","🐙","#FF7AB6","#8B5CF6"], ["buho","🦉","#C49A6C","#6B4A2B"], ["pinguino","🐧","#6EC1FF","#3341C4"],
-  ["unicornio","🦄","#F5A3FF","#7C5CFF"], ["dragon","🐲","#4ADE80","#0E8A63"], ["gato","🐱","#FFD36B","#FF8A3D"]
+  ["unicornio","🦄","#F5A3FF","#7C5CFF"], ["dragon","🐲","#4ADE80","#0E8A63"], ["gato","🐱","#FFD36B","#FF8A3D"],
+  ["conejo","🐰","#FFB3D1","#B388FF"]
 ];
 const avatarDe = k => AVATARES.find(a => a[0] === k) || AVATARES[0];
 
@@ -11630,6 +11718,8 @@ VIEWS.perfil = {
     }).join("")}</div>
 
     ${typeof aspectoHTML === "function" ? aspectoHTML() : ""}
+
+    ${typeof avisosHTML === "function" ? avisosHTML() : ""}
 
     <h2 class="sec">Meta diaria</h2>
     <div class="pf-meta">${[5, 10, 20].map(m => `<button class="btn ${p.meta === m ? "btn--p" : ""}" data-pf-meta="${m}">${m} min</button>`).join("")}</div>
@@ -12067,6 +12157,595 @@ function auFinLeccion(){ try{ if(window.Suena && Suena.finDeLeccion) Suena.finDe
 })();
 
 /* ══════════════════════════════════════════════════════════
+   AVISOS · el «bip» del chat y los avisos del teléfono
+   ══════════════════════════════════════════════════════════
+   Tres interruptores, en el Perfil:
+
+     · sonido     el bip suave de OpenCode cuando el amigo escribe
+     · mensajes   un aviso del teléfono cuando llega un mensaje nuevo
+     · recordar   el recordatorio de práctica, a la hora elegida
+     · teclas     un toque suave al tocar los botones (solo si el
+                  teléfono no está en silencio)
+
+   Todo se guarda en S.avisos. En la web el sonido sale del fichero
+   aviso.mp3 (lo deja build.js al lado del curso) y los avisos del
+   teléfono no existen; en la app, la página los pide por Suena.
+
+   Va después de perfil.js/aspecto.js y antes de part4.js. Los cursos
+   de «español para…» lo llaman desde su propio Perfil. */
+
+const AVISOS_DEF = {sonido:1, mensajes:1, recordar:1, teclas:1, explica:0, hora:"19:00"};
+
+/* Los interruptores son de la APP, no de cada curso: en el teléfono hay un
+   solo recordatorio y un solo aviso de mensajes. Si cada curso guardara
+   los suyos, apagarlo en uno y abrir otro lo volvía a encender. Por eso
+   viven en su propia clave de localStorage, que comparten todos los cursos
+   (en la app y en la web todos son del mismo sitio). La primera vez se
+   copian los que hubiera en el curso (S.avisos). */
+const AV_CLAVE = "suena-avisos";
+let avCache = null;
+function avisosDatos(){
+  if(avCache) return avCache;
+  let g = null;
+  try{ g = JSON.parse(localStorage.getItem(AV_CLAVE) || "null"); }catch(e){}
+  if(!g || typeof g !== "object") g = (typeof S !== "undefined" && S.avisos && typeof S.avisos === "object") ? S.avisos : {};
+  avCache = Object.assign({}, AVISOS_DEF, g);
+  return avCache;
+}
+function avGuarda(){ try{ localStorage.setItem(AV_CLAVE, JSON.stringify(avisosDatos())); }catch(e){} }
+
+/* los textos: en los cursos al revés la interfaz es del idioma de quien
+   estudia, así que salen de UI; en los siete grandes, del castellano */
+function avTxt(){
+  if(typeof UI !== "undefined" && UI.av_sonido){
+    return {
+      tit: UI.av_tit, sonido: UI.av_sonido, sonidoEm: UI.av_sonido_em,
+      mensajes: UI.av_mensajes, mensajesEm: UI.av_mensajes_em,
+      recordar: UI.av_recordar, recordarEm: UI.av_recordar_em,
+      hora: UI.av_hora, nota: UI.av_nota, lacks: UI.av_faltan,
+      teclas: UI.av_teclas || "♪", teclasEm: UI.av_teclas_em || ""
+    };
+  }
+  return {
+    tit: "Avisos",
+    sonido: "Sonido de notificación",
+    sonidoEm: "El «bip» suave cuando el amigo escribe",
+    mensajes: "Aviso de mensaje nuevo",
+    mensajesEm: "Un aviso del teléfono cuando te escriben",
+    recordar: "Recordatorio de práctica",
+    recordarEm: "A la hora que elijas, aunque la app esté cerrada",
+    hora: "A qué hora",
+    nota: "Los avisos del teléfono necesitan que se permitan en Android.",
+    lacks: "Faltan permisos: avísanos y te lo pedimos",
+    teclas: "Sonido al tocar",
+    teclasEm: "Un toque suave en los botones, solo si el teléfono no está en silencio"
+  };
+}
+
+/* ── el interruptor ─────────────────────────────────────── */
+function avFila(k, t, em, si){
+  return `<button class="av-fila" data-av="${k}" aria-pressed="${si ? "true" : "false"}">
+    <span class="av-tx"><b>${esc(t)}</b><em>${esc(em)}</em></span>
+    <span class="av-int"><i></i></span></button>`;
+}
+
+function avisosHTML(){
+  const a = avisosDatos(), t = avTxt();
+  /* el recordatorio de los siete cursos usa el horario de siempre;
+     los cursos al revés llevan su propia hora aquí */
+  const conHorario = typeof horario === "function" && typeof hayHorario === "function" && hayHorario();
+  /* el interruptor enseña lo que manda: a.recordar (programaRecordatorio
+     lo apaga con días vacíos aunque haya horario) */
+  const siHora = !!a.recordar;
+  return `
+  <div class="av-tit">${esc(t.tit)}</div>
+  <div class="card av-card">
+    ${avFila("sonido", t.sonido, t.sonidoEm, a.sonido)}
+    ${avFila("mensajes", t.mensajes, t.mensajesEm, a.mensajes)}
+    ${avFila("recordar", t.recordar, t.recordarEm, siHora)}
+    ${avFila("teclas", t.teclas, t.teclasEm, a.teclas)}
+    ${typeof exLee === "function" ? avFila("explica", "Explicaciones en voz alta", "Al entrar en cada pantalla, te la leen. Y en cada explicación hay un 🔊", a.explica) : ""}
+    ${conHorario ? "" : `<label class="av-hora">${esc(t.hora)}
+      <input type="time" id="avHora" value="${esc(a.hora || "19:00")}"></label>`}
+    <p class="av-nota">${conHorario ? esc(t.nota) : esc(t.nota)}</p>
+  </div>`;
+}
+
+/* ── el bip ─────────────────────────────────────────────── */
+/* Un solo reproductor: crear uno por mensaje hacía que el segundo
+   callara al primero a la mitad. */
+let avisoAudio = null;
+function suenaAviso(){
+  const a = avisosDatos();
+  if(!a.sonido) return;
+  if(typeof S.mudo !== "undefined" && S.mudo) return;   /* el silencio manda */
+  try{
+    if(window.Suena && Suena.sonidoAviso){ Suena.sonidoAviso(); return; }
+  }catch(e){}
+  try{
+    if(!avisoAudio) avisoAudio = new Audio("aviso.mp3");
+    avisoAudio.currentTime = 0;
+    const p = avisoAudio.play();
+    if(p && p.catch) p.catch(() => {});
+  }catch(e){}
+}
+
+/* ── el sonido de las teclas ────────────────────────────
+   Un toque corto y bajito, como una marimba de juguete: dos senos (la
+   nota y su octava de abajo) que se apagan en una décima de segundo. Se
+   hace con Web Audio, sin ficheros, y sale al instante.
+
+   Cuándo NO suena:
+     · con el interruptor apagado, o el curso en modo sin sonido;
+     · en la app, si el teléfono está en silencio o en vibración
+       (Suena.timbreActivo). En la web no hay forma de saberlo: en el
+       iPhone el propio navegador lo calla con el botón de silencio, y en
+       el resto se apaga con el interruptor;
+     · en lo que ya suena por sí mismo (una palabra, una frase) y en los
+       botones de grabarse: el clic se colaría en la grabación. */
+let tqCtx = null, tqUlt = 0, tqDuerme = null, tqTimbre = {t:0, si:true};
+const TQ_FUERA = "[data-say],[data-voz-grabar],[data-tn2=graba],[data-cn=canta],[data-spk],input[type=range]";
+function tqTimbreActivo(){
+  if(!(window.Suena && Suena.timbreActivo)) return true;
+  const ahora = Date.now();
+  if(ahora - tqTimbre.t > 1500){            /* se pregunta como mucho cada segundo y medio */
+    try{ tqTimbre.si = !!Suena.timbreActivo(); }catch(e){ tqTimbre.si = true; }
+    tqTimbre.t = ahora;
+  }
+  return tqTimbre.si;
+}
+function suenaTecla(fuerte){
+  const a = avisosDatos();
+  if(!a.teclas) return;
+  if(typeof S !== "undefined" && S.mudo) return;
+  if(typeof vozCtx !== "undefined" && vozCtx) return;      /* grabando: nada */
+  const ahora = performance.now();
+  if(ahora - tqUlt < 45) return;
+  tqUlt = ahora;
+  if(!tqTimbreActivo()) return;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    if(!tqCtx) tqCtx = new AC();
+    if(tqCtx.state === "suspended") tqCtx.resume();
+    const c = tqCtx, t = c.currentTime + 0.005;
+    const nota = fuerte ? 1318.5 : 1046.5;            /* mi o do agudos */
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(fuerte ? 0.05 : 0.04, t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+    g.connect(c.destination);
+    [[nota, 1], [nota / 2, 0.6]].forEach(([f, v]) => {
+      const o = c.createOscillator(), gv = c.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(f, t);
+      o.frequency.exponentialRampToValueAtTime(f * 0.94, t + 0.1);
+      gv.gain.value = v;
+      o.connect(gv); gv.connect(g);
+      o.start(t); o.stop(t + 0.13);
+    });
+    /* el contexto se duerme al rato: uno despierto sin sonar tiene el
+       audio del teléfono ocupado y gasta batería */
+    clearTimeout(tqDuerme);
+    tqDuerme = setTimeout(() => { try{ c.suspend(); }catch(e){} }, 1500);
+  }catch(e){}
+}
+document.addEventListener("pointerdown", e => {
+  if(e.button > 0 || !e.isPrimary) return;
+  const b = e.target.closest && e.target.closest("button,a[href],[role=button],[data-go],.chip,label,select,summary");
+  if(!b || b.disabled || b.closest(TQ_FUERA)) return;
+  suenaTecla(b.classList.contains("btn--p"));
+}, {passive: true, capture: true});
+
+/* ── la celebración ─────────────────────────────────────
+   Cuando algo sale bien: confeti que sale del sitio donde lo hiciste y
+   tres notas suaves subiendo (do-mi-sol). «peque» para un paso, «grande»
+   para cuando terminas algo entero. El sonido sigue las mismas reglas
+   que el de las teclas (silencio del teléfono, modo sin sonido); el
+   confeti sale siempre, salvo si el sistema pide menos movimiento. */
+function celebra(desde, tam){
+  const grande = tam === "grande";
+  try{ celebraSuena(grande); }catch(e){}
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r = desde && desde.getBoundingClientRect ? desde.getBoundingClientRect() : {left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0};
+  const x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
+  const colores = ["var(--accent)", "var(--t-rise)", "var(--t-high)", "var(--t-fall)", "var(--t-low)", "#FFC83D", "#FF8AD8"];
+  const n = grande ? 70 : 22;
+  for(let i = 0; i < n; i++){
+    const p = document.createElement("i");
+    p.className = "cel-p";
+    if(grande && i % 7 === 0){ p.textContent = ["🎉", "⭐", "✨", "💖"][i % 4]; p.classList.add("cel-e"); }
+    else p.style.background = colores[i % colores.length];
+    p.style.left = x0 + "px"; p.style.top = y0 + "px";
+    document.body.appendChild(p);
+    const ang = Math.random() * Math.PI * 2, v = (grande ? 160 : 90) + Math.random() * (grande ? 260 : 120);
+    const dx = Math.cos(ang) * v, dy = Math.sin(ang) * v - (grande ? 140 : 60);
+    const dur = 900 + Math.random() * (grande ? 900 : 400);
+    const an = p.animate([
+      {transform: "translate(-50%,-50%) scale(1) rotate(0deg)", opacity: 1},
+      {transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1) rotate(${Math.random() * 540}deg)`, opacity: 1, offset: .55},
+      {transform: `translate(calc(-50% + ${dx * 1.15}px), calc(-50% + ${dy + 220}px)) scale(.6) rotate(${Math.random() * 720}deg)`, opacity: 0}
+    ], {duration: dur, easing: "cubic-bezier(.2,.7,.3,1)"});
+    an.onfinish = () => p.remove();
+  }
+}
+function celebraSuena(grande){
+  if(typeof S !== "undefined" && S.mudo) return;
+  if(typeof vozCtx !== "undefined" && vozCtx) return;
+  if(!tqTimbreActivo()) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  if(!tqCtx) tqCtx = new AC();
+  if(tqCtx.state === "suspended") tqCtx.resume();
+  const c = tqCtx, t0 = c.currentTime + 0.02;
+  const notas = grande ? [523.3, 659.3, 784, 1046.5] : [659.3, 784];
+  notas.forEach((f, i) => {
+    const t = t0 + i * 0.09;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = "sine"; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (grande && i === notas.length - 1 ? 0.7 : 0.35));
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + 0.8);
+  });
+  clearTimeout(tqDuerme);
+  tqDuerme = setTimeout(() => { try{ c.suspend(); }catch(e){} }, 1800);
+}
+
+/* ── el aviso del teléfono ──────────────────────────────── */
+function avisoNativo(titulo, cuerpo){
+  const a = avisosDatos();
+  if(!a.mensajes) return;
+  try{
+    if(window.Suena && Suena.aviso){ Suena.aviso(titulo, cuerpo); return; }
+  }catch(e){}
+}
+
+/* ── el recordatorio ────────────────────────────────────── */
+/* Se llama al arrancar y cada vez que cambia el horario. días vacío
+   lo apaga. */
+function programaRecordatorio(){
+  if(!window.Suena || !Suena.recordatorio) return;
+  const a = avisosDatos();
+  let dias = "", hora = a.hora || "19:00", min = 20;
+  if(typeof horario === "function" && typeof hayHorario === "function" && hayHorario()){
+    const h = horario();
+    dias = h.dias.join(","); hora = h.hora; min = h.min;
+  } else if(a.recordar){
+    dias = "0,1,2,3,4,5,6";
+  }
+  /* el texto del aviso, en el idioma del curso (los cursos al revés lo
+     traen en UI); {min} lo cambia el teléfono por los minutos */
+  const tit = (typeof UI !== "undefined" && UI.av_rec_tit) || "Toca practicar";
+  const txt = (typeof UI !== "undefined" && UI.av_rec_txt) || "Tu sesión de {min} minutos te espera. Abre Suena y sigue donde lo dejaste.";
+  try{ if(Suena.textoRecordatorio) Suena.textoRecordatorio(tit, txt); }catch(e){}
+  try{ Suena.recordatorio(a.recordar ? dias : "", hora, min); }catch(e){}
+  try{ localStorage.setItem("suena-rec", (a.recordar ? dias : "-") + "@" + hora); }catch(e){}
+}
+
+/* ── los botones ────────────────────────────────────────── */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-av]");
+  if(!b) return;
+  const a = avisosDatos(), k = b.dataset.av;
+  a[k] = a[k] ? 0 : 1;
+  /* para los avisos del teléfono hace falta el permiso de Android 13 */
+  if(a[k] && (k === "mensajes" || k === "recordar")){
+    try{ if(window.Suena && Suena.pedirAvisos) Suena.pedirAvisos(); }catch(err){}
+  }
+  avGuarda();
+  if(k === "recordar") programaRecordatorio();
+  if(k === "mensajes" && a[k] && typeof cpEscuchaDeFondo === "function") cpEscuchaDeFondo();
+  save();
+  const c = document.querySelector(".av-card");
+  if(c){ const y = window.scrollY; go(current, true); window.scrollTo(0, y); }
+});
+
+document.addEventListener("change", e => {
+  if(e.target.id !== "avHora") return;
+  const a = avisosDatos();
+  a.hora = e.target.value || "19:00";
+  avGuarda(); save(); programaRecordatorio();
+});
+
+/* al arrancar: la primera vez en este teléfono, que el recordatorio quede
+   programado aunque no se toque nada. Solo la primera: si cada curso lo
+   reprogramara al abrirse, el último abierto pisaría lo que eligió el
+   usuario. En load, no antes: el horario vive en part4.js, más abajo. */
+addEventListener("load", () => {
+  let hecho = "";
+  try{ hecho = localStorage.getItem("suena-rec") || ""; }catch(e){}
+  if(!hecho){ try{ programaRecordatorio(); }catch(e){} }
+  /* y, en la app, Compañeros escucha de fondo para avisar de mensajes */
+  if(typeof cpEscuchaDeFondo === "function") setTimeout(cpEscuchaDeFondo, 4000);
+});
+
+(function(){
+  const css = `
+.cel-p{position:fixed;z-index:200;width:9px;height:13px;border-radius:3px;pointer-events:none;will-change:transform}
+.cel-e{width:auto;height:auto;font-size:22px;background:none}
+.t-pasos{margin:4px 0 12px;padding:10px 12px;border-radius:var(--r);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));
+  background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.t-pasos-et{display:block;font-size:13px;color:var(--ink-2);margin-bottom:8px}
+.t-pasos-fila{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.t-paso{position:relative;min-width:46px;height:50px;padding:0 10px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--surface);color:var(--ink);font-size:26px;cursor:pointer}
+.t-paso.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
+.t-paso.ya{border-color:var(--ok)}
+.t-paso i{position:absolute;top:-7px;right:-6px;font-style:normal;font-size:12px;background:var(--ok);color:#fff;
+  border-radius:99px;width:18px;height:18px;display:grid;place-items:center}
+.t-junta{font-size:22px}
+.t-flecha{color:var(--ink-3);font-size:18px}
+.t-logro{font-size:18px;font-weight:700;text-align:center;padding:10px;margin-bottom:8px;border-radius:var(--r);
+  background:color-mix(in srgb,var(--ok) 14%,transparent);animation:celLogro .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes celLogro{from{transform:scale(.7);opacity:0}}
+.av-tit{font:700 12px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:24px 4px 10px}
+.av-card{padding:6px 6px 10px}
+.av-fila{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;color:var(--ink);
+  padding:12px 10px;cursor:pointer;text-align:left;font:inherit;border-radius:14px}
+.av-fila:hover{background:var(--glass-2,var(--surface-2))}
+.av-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.av-tx b{font-size:14.5px}
+.av-tx em{font-style:normal;font-size:12px;color:var(--ink-3)}
+.av-int{width:46px;height:27px;border-radius:99px;flex:none;background:var(--glass-2,var(--surface-2));
+  border:1px solid var(--glass-line,var(--line));position:relative;transition:background .18s}
+.av-int i{position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:50%;background:var(--ink-3);
+  transition:transform .18s,background .18s}
+.av-fila[aria-pressed="true"] .av-int{background:var(--au-grad,var(--brand));border-color:transparent}
+.av-fila[aria-pressed="true"] .av-int i{transform:translateX(19px);background:#fff}
+.av-hora{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 10px 4px;
+  font-size:13.5px;color:var(--ink-2)}
+.av-hora input{background:var(--glass-2,var(--surface-2));border:1px solid var(--glass-line,var(--line));
+  color:var(--ink);border-radius:10px;padding:7px 10px;font:inherit}
+.av-nota{font-size:12px;color:var(--ink-3);margin:8px 10px 2px}`;
+  const st = document.createElement("style");
+  st.textContent = css;
+  document.head.appendChild(st);
+})();
+
+/* ══════════════════════════════════════════════════════════
+   EXPLICACIONES EN VOZ ALTA
+   ══════════════════════════════════════════════════════════
+   Hay quien aprende con los ojos y el oído y se pierde en un párrafo
+   largo. Para eso, cada explicación del curso lleva un 🔊: la lee la
+   misma voz de la clase de canto, y mientras suena el párrafo se
+   ilumina para no perder el hilo. Arriba de cada pantalla, «Escuchar
+   todo» las lee seguidas, bajando la página con ellas.
+
+   Con el interruptor «Explicaciones en voz alta» (Perfil, guardado con
+   los avisos: vale para los siete cursos) la de arriba suena sola al
+   entrar en cada pantalla.
+
+   De dónde sale la voz: grabaciones (gen-voz-explica.py, a partir de los
+   textos que recoge recoge-explica.js) y, para lo que no esté grabado
+   —textos que cambian, como «te faltan 30 XP»—, la voz en castellano del
+   teléfono o del navegador.
+
+   La clave de cada grabación es el texto tal cual se oye (exTexto): sin
+   las letras del idioma que se estudia, que una voz española leería
+   mal o se saltaría. Va después de part3.js y avisos.js, antes de
+   part4.js. */
+
+const EX_SEL = [
+  ".vhead .lede", ".sec-note", ".card p.muted", "p.rap-d", "p.tp-nota", "p.lec-explica",
+  "p.truco-cab", "p.truco-cierre", "p.mg-truco", "p.qe-nota", ".pattern"
+].join(",");
+const EX_FUERA = ".cn,.ch,.cp,.av-card,.hintbar,.sitefoot,.nextbar,.pago";
+const EX_MIN = 45;           /* lo más corto que merece botón */
+
+/* el texto que se oye: sin botones ni dibujos, sin escrituras que no
+   sean latinas, con los espacios en orden */
+function exTexto(el){
+  const c = el.cloneNode(true);
+  c.querySelectorAll(".ex-oir,svg,script,style,.rom,.lrom,.pex,.pf").forEach(x => x.remove());
+  let t;
+  if(el.classList.contains("pattern")){
+    const b = c.querySelector("b"), d = c.querySelectorAll(":scope > span");
+    t = (b ? b.textContent.trim().replace(/[.:]$/, "") + ". " : "") + (d.length ? d[0].textContent : "");
+  } else t = c.textContent;
+  return t.replace(/[^\p{Script=Latin}\p{N}\p{P}\p{Zs}\s€$%+=°]/gu, "")
+    .replace(/\(\s*\)|«\s*»|“\s*”/g, "")
+    .replace(/\s+([,.;:!?)»])/g, "$1")
+    .replace(/\s+/g, " ").trim();
+}
+
+/* En la web, las grabaciones van al lado de la página. En la app NO van
+   dentro (son 31 MB que nadie tiene por qué cargar si no usa el 🔊): se
+   bajan de la web la primera vez que se piden y se guardan en el
+   teléfono (Cache Storage), así que la segunda vez suenan sin conexión.
+   Mismo fichero, misma calidad. EXPLICA_WEB lo pone build.js. */
+const exRuta = f => "./explica/" + f;
+const EX_CACHE = "suena-explica-1";
+function exTraeApp(f){
+  if(typeof EXPLICA_WEB === "undefined" || !EXPLICA_WEB || !window.caches) return Promise.resolve(null);
+  const url = EXPLICA_WEB + f;
+  return caches.open(EX_CACHE).then(c => c.match(url).then(r => r || fetch(url, {mode: "cors"}).then(n => {
+    if(!n.ok) return null;
+    c.put(url, n.clone()).catch(() => {});
+    return n;
+  }))).then(r => r ? r.blob() : null).then(b => b ? URL.createObjectURL(b) : null).catch(() => null);
+}
+let exBlob = null;
+let exEnCurso = null;        /* {el, turno} */
+let exTurno = 0;
+
+function exPara(){
+  exTurno++;
+  if(exEnCurso && exEnCurso.el){ exEnCurso.el.classList.remove("ex-leyendo"); const b = exEnCurso.el.querySelector(".ex-oir"); if(b) b.textContent = "🔊"; }
+  exEnCurso = null;
+  try{ if(sonando){ turnoGrabado++; sonando.pause(); sonando = null; } }catch(e){}
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  try{ if(typeof callaNativo === "function") callaNativo(); }catch(e){}
+  const todo = document.querySelector(".ex-todo"); if(todo) todo.classList.remove("on");
+}
+
+/* dice un texto y avisa al acabar; null si no hay forma de decirlo */
+function exDi(texto, alFin){
+  const f = typeof AUDIO_EXPLICA !== "undefined" && AUDIO_EXPLICA && AUDIO_EXPLICA[texto];
+  let hecho = false;
+  const fin = () => { if(hecho) return; hecho = true; alFin(); };
+  if(f && reproductor && window.Suena){
+    const turno = exTurno;
+    exTraeApp(f).then(u => {
+      if(turno !== exTurno || hecho) return;
+      if(!u){ exDiVoz(texto, fin); return; }
+      if(exBlob) URL.revokeObjectURL(exBlob);
+      exBlob = u;
+      exToca(u, texto, fin);
+    });
+    return;
+  }
+  if(f && reproductor){ exToca(exRuta(f), texto, fin); return; }
+  exDiVoz(texto, fin);
+}
+function exToca(src, texto, fin){
+  try{ if(sonando) sonando.pause(); }catch(e){}
+  const a = reproductor;
+  a.onplaying = a.onended = a.onerror = null;
+  turnoGrabado++;
+  a.src = src;
+  a.playbackRate = 1;
+  a.onended = fin;
+  a.onerror = () => exDiVoz(texto, fin);
+  sonando = a;
+  const p = a.play();
+  if(p && p.catch) p.catch(() => exDiVoz(texto, fin));
+}
+/* la voz del teléfono o del navegador, en castellano */
+function exDiVoz(texto, fin){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  const v = vs.find(x => /^es[-_](MX|US|419)/i.test(x.lang)) || vs.find(x => /^es/i.test(x.lang));
+  if(v){
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(texto);
+      u.voice = v; u.lang = v.lang; u.rate = 1;
+      u.onend = fin; u.onerror = fin;
+      speechSynthesis.speak(u);
+      return;
+    }catch(e){}
+  }
+  if(typeof diNativo === "function"){
+    let ok = false;
+    try{ ok = diNativo(texto, 1, null, fin, fin, "es-MX") || diNativo(texto, 1, null, fin, fin, "es-ES"); }catch(e){}
+    if(ok) return;
+  }
+  setTimeout(fin, 300);
+}
+
+/* lee una lista de párrafos, uno tras otro */
+function exLee(lista, conScroll){
+  exPara();
+  if(typeof S !== "undefined" && S.mudo) return;
+  const turno = exTurno;
+  let i = 0;
+  const sig = () => {
+    if(turno !== exTurno) return;
+    if(exEnCurso && exEnCurso.el){ exEnCurso.el.classList.remove("ex-leyendo"); const b = exEnCurso.el.querySelector(".ex-oir"); if(b) b.textContent = "🔊"; }
+    const el = lista[i++];
+    if(!el || !el.isConnected){ exEnCurso = null; const todo = document.querySelector(".ex-todo"); if(todo) todo.classList.remove("on"); return; }
+    /* lo que está plegado no se lee en «Escuchar todo» */
+    if(conScroll && !el.offsetParent){ sig(); return; }
+    exEnCurso = {el};
+    el.classList.add("ex-leyendo");
+    const b = el.querySelector(".ex-oir"); if(b) b.textContent = "⏹";
+    if(conScroll){
+      const r = el.getBoundingClientRect();
+      if(r.top < 70 || r.bottom > innerHeight - 90) el.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+    exDi(exTexto(el), () => setTimeout(sig, 350));
+  };
+  sig();
+}
+
+/* los botones: uno en cada párrafo, y «Escuchar todo» arriba */
+function exDecora(){
+  const vista = document.querySelector("#view .view");
+  if(!vista) return;
+  const els = [...vista.querySelectorAll(EX_SEL)].filter(el => !el.closest(EX_FUERA));
+  let n = 0;
+  els.forEach(el => {
+    if(el.dataset.ex) { n++; return; }
+    if(exTexto(el).length < EX_MIN) return;
+    el.dataset.ex = "1";
+    el.classList.add("ex-p");
+    el.insertAdjacentHTML("beforeend", `<button class="ex-oir" type="button" aria-label="Escuchar en voz alta">🔊</button>`);
+    n++;
+  });
+  const cab = vista.querySelector(".vhead");
+  if(cab && n >= 2 && !cab.querySelector(".ex-todo")){
+    cab.insertAdjacentHTML("beforeend", `<button class="ex-todo" type="button">🔊 Escuchar todo</button>`);
+  }
+}
+const exParrafos = () => [...document.querySelectorAll("#view [data-ex]")].filter(el => !el.closest(EX_FUERA));
+
+document.addEventListener("click", e => {
+  const b = e.target.closest(".ex-oir,.ex-todo");
+  if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  if(b.classList.contains("ex-todo")){
+    if(b.classList.contains("on")){ exPara(); return; }
+    exLee(exParrafos(), true);
+    b.classList.add("on");
+    return;
+  }
+  const el = b.parentElement;
+  if(exEnCurso && exEnCurso.el === el){ exPara(); return; }
+  exLee([el], false);
+}, true);
+
+/* cada pantalla nueva: botones, y si está puesto, la explicación de
+   arriba suena sola. Se mira el #view en vez de tocar go(): hay
+   pantallas que repintan trozos después de entrar. */
+let exVista = "", exReloj = null;
+function exMira(){
+  clearTimeout(exReloj);
+  exReloj = setTimeout(() => {
+    exDecora();
+    if(typeof current === "undefined" || current === exVista) return;
+    exVista = current;
+    const a = typeof avisosDatos === "function" ? avisosDatos() : {};
+    if(!a.explica || (typeof S !== "undefined" && S.mudo)) return;
+    const primero = document.querySelector("#view .vhead [data-ex]") || exParrafos()[0];
+    if(primero) setTimeout(() => { if(current === exVista) exLee([primero], false); }, 450);
+  }, 80);
+}
+addEventListener("load", () => {
+  const v = document.getElementById("view");
+  if(!v || !window.MutationObserver) return;
+  new MutationObserver(muts => {
+    /* lo que pone este mismo módulo no cuenta */
+    if(muts.every(m => [...m.addedNodes].every(n => n.nodeType !== 1 || n.classList.contains("ex-oir") || n.classList.contains("ex-todo")))) return;
+    exMira();
+  }).observe(v, {childList: true, subtree: true});
+  exMira();
+});
+/* al cambiar de pantalla, lo que sonaba se calla */
+addEventListener("hashchange", () => { if(exEnCurso) exPara(); });
+
+(function(){
+  const css = `
+.ex-p{position:relative}
+.ex-oir{display:inline-grid;place-items:center;width:30px;height:30px;margin:0 0 0 6px;vertical-align:middle;
+  border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:14px;line-height:1;cursor:pointer;
+  color:var(--ink);padding:0;transition:transform .15s,border-color .15s}
+.ex-oir:hover{border-color:var(--accent);transform:scale(1.08)}
+.pattern.ex-p .ex-oir{position:absolute;top:10px;right:10px;margin:0}
+.ex-leyendo{background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:6px;
+  box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 14%,transparent),-12px 0 0 0 var(--accent);transition:background .25s}
+.ex-leyendo .ex-oir{border-color:var(--accent);background:var(--accent);color:#fff}
+.ex-todo{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:8px 14px;border-radius:99px;
+  border:1px solid var(--accent);background:transparent;color:var(--ink);font:600 14px var(--ui,inherit);cursor:pointer}
+.ex-todo.on{background:var(--accent);color:#fff}
+.ex-todo.on::after{content:" · parar"}`;
+  const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+})();
+
+/* para recoge-explica.js: los textos de la pantalla que se ve */
+function exRecoge(){ exDecora(); return exParrafos().map(exTexto); }
+
+/* ══════════════════════════════════════════════════════════
    CHAT · practicar conversando con un amigo de allí
    ══════════════════════════════════════════════════════════
    Una pantalla de mensajería. El amigo (AMIGO, en el paquete de cada
@@ -12205,6 +12884,9 @@ function chatSigue(){
       if(est) est.textContent = "en línea";
       if(resp) resp.innerHTML = "";
       chatDice({de:"ellos", th:t.th, rom:t.rom, es:t.es});
+      /* el aviso: el mismo «bip» suave de OpenCode cuando el amigo
+         escribe (si en el Perfil no se ha quitado) */
+      suenaAviso();
       chat.i++;
       diAlgo(t.th, S.speed, null, () => { if(mio === chatTurno) setTimeout(chatSigue, 450); });
     }, 650 + Math.min(1400, t.th.length * 40));
@@ -12572,7 +13254,7 @@ async function cpArranca(){
   catch(e){ cp.cargando = false; cp.error = "sinred"; cpPinta(); return; }
   cp.fb.auth.onAuthStateChanged(async u => {
     cpAp(); cp.subs = [];
-    cp.user = u; cp.perfil = null; cp.privado = null;
+    cp.user = u; cp.perfil = null; cp.privado = null; cp.avisados = null;
     if(u){
       try{
         const [p, q] = await Promise.all([cp.fb.db.collection("perfiles").doc(u.uid).get(),
@@ -12588,8 +13270,9 @@ async function cpArranca(){
 function cpEscucha(){
   const db = cp.fb.db, uid = cp.user.uid;
   db.collection("perfiles").doc(uid).update({activo:firebase.firestore.FieldValue.serverTimestamp()}).catch(() => {});
+  try{ localStorage.setItem("cp-entrado", "1"); }catch(e){}
   cp.subs.push(db.collection("solicitudes").where("para", "==", uid).where("estado", "==", "pendiente")
-    .onSnapshot(s => { cp.recibidos = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpPintaSuave(); }, () => {}));
+    .onSnapshot(s => { cp.recibidos = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpAvisaSaludos(); cpPintaSuave(); }, () => {}));
   cp.subs.push(db.collection("solicitudes").where("de", "==", uid)
     .onSnapshot(s => { cp.enviados = s.docs.map(d => Object.assign({id:d.id}, d.data())); cpPintaSuave(); }, () => {}));
   cp.subs.push(db.collection("chats").where("miembros", "array-contains", uid)
@@ -12597,8 +13280,66 @@ function cpEscucha(){
       cp.chats = s.docs.map(d => Object.assign({id:d.id}, d.data()))
         .sort((a, b) => ((b.ultimo && b.ultimo.hora && b.ultimo.hora.seconds) || 0) - ((a.ultimo && a.ultimo.hora && a.ultimo.hora.seconds) || 0));
       await Promise.all(cp.chats.map(c => cpPerfilDe(cpOtroDe(c))));
+      cpAvisaNuevos();
       cpPintaSuave();
     }, () => {}));
+}
+
+/* El aviso del teléfono, solo con el interruptor de «mensajes» puesto.
+   Lo ya avisado se apunta en el teléfono (cp-avisados-<uid>), así que al
+   abrir la app avisa de lo que llegó mientras estaba cerrada, pero nunca
+   dos veces de lo mismo ni de mensajes de hace más de 3 días. La primera
+   vez en este teléfono no avisa: solo apunta lo que ya había. Tampoco
+   avisa del chat que estás mirando. */
+const cpAvKey = () => "cp-avisados-" + (cp.user ? cp.user.uid : "");
+function cpAvLee(){ try{ return JSON.parse(localStorage.getItem(cpAvKey()) || "null"); }catch(e){ return null; } }
+function cpAvGuarda(){ try{ localStorage.setItem(cpAvKey(), JSON.stringify(cp.avisados || {})); }catch(e){} }
+function cpAvisaNuevos(){
+  if(!cp.chats || !cp.user) return;
+  let primero = false;
+  if(!cp.avisados){ cp.avisados = cpAvLee(); if(!cp.avisados){ cp.avisados = {}; primero = true; } }
+  const viejo = Date.now() / 1000 - 3 * 864e2;
+  for(const c of cp.chats){
+    const u = c.ultimo;
+    if(!u || u.de === cp.user.uid || !u.hora) continue;
+    const seg = u.hora.seconds || 0;
+    const ya = cp.avisados[c.id] || 0;
+    cp.avisados[c.id] = Math.max(ya, seg);
+    if(primero || seg <= ya || seg < viejo) continue;
+    if(cp.chat && cp.chat.id === c.id && document.visibilityState === "visible") continue;
+    const p = cp.perfilesCache[cpOtroDe(c)] || {};
+    avisoNativo(String(p.nombre || cpT("Nuevo mensaje")), String(u.texto || "").slice(0, 80));
+  }
+  cpAvGuarda();
+}
+/* los saludos nuevos («alguien quiere practicar contigo»), igual */
+function cpAvisaSaludos(){
+  if(!cp.user) return;
+  if(!cp.avisados){ cp.avisados = cpAvLee() || {}; }
+  const vistos = cp.avisados._saludos || (cp.avisados._saludos = []);
+  const primera = !cp.avisados._saludosHechos;
+  for(const r of cp.recibidos){
+    if(vistos.indexOf(r.id) >= 0) continue;
+    vistos.push(r.id);
+    if(!primera) cpPerfilDe(r.de).then(p => avisoNativo(String((p && p.nombre) || cpT("Compañeros")), cpT("Te han saludado") + " 👋")).catch(() => {});
+  }
+  cp.avisados._saludosHechos = 1;
+  if(vistos.length > 60) vistos.splice(0, vistos.length - 60);
+  cpAvGuarda();
+}
+
+/* En la app, Compañeros escucha de fondo desde que se abre cualquier
+   curso (no hace falta entrar en su pestaña) para poder avisar de los
+   mensajes. Solo si ya entraste alguna vez con tu cuenta en este teléfono
+   (cp-entrado) y el interruptor de mensajes está puesto: así quien no usa
+   Compañeros no carga Firebase para nada. Con la app CERRADA del todo no
+   hay avisos: eso necesitaría un servidor de pago (Cloud Functions). */
+function cpEscuchaDeFondo(){
+  if(cp.fb || cpListo) return;
+  if(!window.Suena) return;
+  try{ if(!localStorage.getItem("cp-entrado")) return; }catch(e){ return; }
+  if(typeof avisosDatos === "function" && !avisosDatos().mensajes) return;
+  cpArranca();
 }
 const cpOtroDe = c => c.miembros[0] === cp.user.uid ? c.miembros[1] : c.miembros[0];
 async function cpPerfilDe(uid){
@@ -12658,6 +13399,7 @@ async function cpEntra(){
 }
 async function cpSal(){
   try{ if(window.SuenaCuenta) SuenaCuenta.salir(); }catch(e){}
+  try{ localStorage.removeItem("cp-entrado"); }catch(e){}
   await cp.fb.auth.signOut();
 }
 
@@ -14980,6 +15722,455 @@ document.addEventListener("click", e => {
   if(b.dataset.tn2 === "otro"){ tnNuevo(); tnPinta(); return; }
   tnGraba();
 });
+
+/* ══════════════════════════════════════════════════════════
+   CLASE DE CANTO · los tonos, cantados
+   ══════════════════════════════════════════════════════════
+   El entrenador de tonos (tonear.js) mide si tu voz sube o baja, pero da
+   por hecho que ya sabes cómo se hace un tono. Quien no oye todavía la
+   diferencia no sabe por dónde empezar: le falta alguien que le diga
+   «empieza arriba y deja caer la voz».
+
+   Esto es esa clase, como la de un profesor de canto:
+     · Una profesora te HABLA (frases grabadas: canto-guion.json →
+       gen-voz-profe.py → audio-profe/). No hace falta leer.
+     · Primero se busca TU nota (dices «mmm» con tu voz normal). Desde ahí
+       se mide todo en semitonos: así también se sabe si estás alto o
+       bajo, no solo si subes o bajas.
+     · Cada tono en tres pasos: tararearlo («mmm»), cantarlo con «aaa», y
+       la palabra de verdad. La app lo tararea primero EN TU NOTA y una
+       pelotita va marcando por dónde va la melodía.
+     · Mientras cantas, tu voz se dibuja encima de la forma, como un
+       karaoke, y la profesora te corrige con la voz.
+
+   Las formas salen de los niveles de Chao del guion (1 grave … 5 agudo,
+   3 = tu nota), a dos semitonos por nivel. Va después de voz.js (usa
+   vozGraba, vozParar, HAY_MICRO) y de part3.js (diAlgo, reproductor). */
+
+const HAY_CANTO = () => typeof CANTO !== "undefined" && CANTO && CANTO.tonos &&
+  typeof HAY_MICRO !== "undefined" && HAY_MICRO && typeof hayTonos === "function" && hayTonos();
+
+const CN_PASO_ST = 2;          /* semitonos por nivel de Chao */
+const CN_W = 320, CN_H = 190, CN_X0 = 22, CN_X1 = 298, CN_RANGO = 7.5;
+const CN_SEG = {mmm: 1.7, aa: 1.7, palabra: 1.4};   /* lo que dura cada intento */
+
+let cn = null;                  /* el estado de la clase en curso */
+let cnTurno = 0;                /* cada cambio de paso invalida lo que estuviera encadenado */
+
+const cnDatos = () => { if(!S.canto) S.canto = {base:0, hechos:{}}; if(!S.canto.hechos) S.canto.hechos = {}; return S.canto; };
+const cnBase = () => cnDatos().base || (S.gender === "m" ? 120 : 210);
+const cnOrden = () => (CANTO.orden || Object.keys(CANTO.tonos)).filter(k => TONES[k] && CANTO.tonos[k]);
+/* la profesora es la amiga del chat del curso (AMIGO, del paquete) */
+const cnNombre = () => typeof AMIGO !== "undefined" && AMIGO && AMIGO.nombre ? "Profe " + AMIGO.nombre : "Tu profe";
+const cnCara = px => typeof amigoAv === "function" && typeof AMIGO !== "undefined" && AMIGO ? amigoAv(px) : "👩‍🏫";
+const cnDemo = k => TONE_DEMO.find(d => d.tone === k) || null;
+
+/* ── la forma de cada tono, en semitonos respecto a tu nota ── */
+function cnForma(k, n){
+  const ch = String(CANTO.tonos[k].chao || "33").split("").map(Number);
+  const pts = ch.map(c => (c - 3) * CN_PASO_ST);
+  const out = [];
+  for(let i = 0; i < n; i++){
+    const p = i / (n - 1) * (pts.length - 1);
+    const a = Math.floor(p), b = Math.min(pts.length - 1, a + 1), f = p - a;
+    /* curva suave (coseno) entre nivel y nivel, como la voz */
+    const g = (1 - Math.cos(f * Math.PI)) / 2;
+    out.push(pts[a] * (1 - g) + pts[b] * g);
+  }
+  return out;
+}
+const cnY = st => CN_H / 2 - Math.max(-CN_RANGO, Math.min(CN_RANGO, st)) * ((CN_H / 2 - 12) / CN_RANGO);
+const cnX = f => CN_X0 + f * (CN_X1 - CN_X0);
+
+/* los hercios de un marco, en semitonos desde tu nota (sin saltos de octava) */
+function cnSt(hz){
+  if(!hz) return null;
+  const b = cnBase();
+  let f = hz;
+  while(f / b > 1.8) f /= 2;
+  while(b / f > 1.8) f *= 2;
+  return 12 * Math.log2(f / b);
+}
+
+/* ── la profesora ──────────────────────────────────────── */
+function cnTexto(id){
+  if(id.indexOf("intro:") === 0){ const t = CANTO.tonos[id.slice(6)]; return t ? t.intro : ""; }
+  return CANTO.frases[id] || "";
+}
+function cnDi(id, turno){
+  const texto = cnTexto(id);
+  const dice = document.getElementById("cnDice"), cara = document.getElementById("cnProfe");
+  if(dice) dice.textContent = texto;
+  if(!texto) return Promise.resolve();
+  return new Promise(listo => {
+    const fin = () => { if(cara) cara.classList.remove("habla"); listo(); };
+    const f = typeof AUDIO_PROFE !== "undefined" && AUDIO_PROFE && AUDIO_PROFE[texto];
+    /* sin sonido, o sin grabación: se deja el tiempo de leerlo */
+    if(S.mudo || !f || !reproductor){ setTimeout(fin, Math.min(5000, 900 + texto.length * 45)); return; }
+    try{ if(sonando) sonando.pause(); }catch(e){}
+    try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+    const a = reproductor;
+    a.onplaying = a.onended = a.onerror = null;
+    const mio = ++turnoGrabado;
+    a.src = "./audio-profe/" + f;
+    a.playbackRate = 1;
+    let hecho = false;
+    const acaba = () => { if(hecho) return; hecho = true; if(sonando === a) sonando = null; fin(); };
+    a.onplaying = () => { if(cara && turno === cnTurno) cara.classList.add("habla"); };
+    a.onended = acaba;
+    a.onerror = acaba;
+    sonando = a;
+    const p = a.play();
+    if(p && p.catch) p.catch(() => { if(mio === turnoGrabado) setTimeout(acaba, Math.min(5000, 900 + texto.length * 45)); else acaba(); });
+  });
+}
+const cnCalla = () => {
+  try{ if(sonando){ turnoGrabado++; sonando.pause(); sonando = null; } }catch(e){}
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  if(cn && cn.osc){ try{ cn.osc(); }catch(e){} cn.osc = null; }
+  const cara = document.getElementById("cnProfe"); if(cara) cara.classList.remove("habla");
+};
+
+/* ── la app tararea el tono, en tu nota ────────────────── */
+function cnTararea(k, seg, abierta){
+  return new Promise(listo => {
+    if(S.mudo){ cnPelota(k, seg, listo); return; }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    let ctx;
+    try{ ctx = new AC(); }catch(e){ cnPelota(k, seg, listo); return; }
+    try{ ctx.resume(); }catch(e){}
+    const base = cnBase(), forma = cnForma(k, 48);
+    const fr = new Float32Array(forma.map(st => base * Math.pow(2, st / 12)));
+    const o = ctx.createOscillator(), filtro = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = abierta ? "sawtooth" : "triangle";
+    filtro.type = "lowpass"; filtro.frequency.value = abierta ? 1500 : 700;
+    o.connect(filtro); filtro.connect(g); g.connect(ctx.destination);
+    const t0 = ctx.currentTime + 0.06;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(abierta ? 0.12 : 0.22, t0 + 0.07);
+    g.gain.setValueAtTime(abierta ? 0.12 : 0.22, t0 + seg - 0.14);
+    g.gain.linearRampToValueAtTime(0, t0 + seg);
+    o.frequency.setValueAtTime(fr[0], t0);
+    try{ o.frequency.setValueCurveAtTime(fr, t0, seg); }catch(e){}
+    o.start(t0); o.stop(t0 + seg + 0.05);
+    let cerrado = false;
+    const cierra = () => { if(cerrado) return; cerrado = true; try{ o.stop(); }catch(e){} setTimeout(() => { try{ ctx.close(); }catch(e){} }, 120); };
+    if(cn) cn.osc = cierra;
+    cnPelota(k, seg, () => { cierra(); if(cn && cn.osc === cierra) cn.osc = null; listo(); });
+  });
+}
+/* la pelotita recorre la forma en `seg` segundos */
+function cnPelota(k, seg, alFin){
+  const bola = document.getElementById("cnBola");
+  const forma = cnForma(k, 60);
+  const t0 = performance.now(), turno = cnTurno;
+  if(bola) bola.style.opacity = 1;
+  const paso = () => {
+    if(turno !== cnTurno){ if(bola) bola.style.opacity = 0; return; }
+    const f = Math.min(1, (performance.now() - t0) / (seg * 1000));
+    cnBolaEn(f, forma);
+    if(f < 1) requestAnimationFrame(paso);
+    else setTimeout(() => { if(bola) bola.style.opacity = 0; if(alFin) alFin(); }, 120);
+  };
+  requestAnimationFrame(paso);
+}
+function cnBolaEn(f, forma){
+  const bola = document.getElementById("cnBola");
+  if(!bola) return;
+  const st = forma[Math.min(forma.length - 1, Math.round(f * (forma.length - 1)))];
+  bola.setAttribute("cx", cnX(f).toFixed(1));
+  bola.setAttribute("cy", cnY(st).toFixed(1));
+}
+
+/* ── el pentagrama ─────────────────────────────────────── */
+function cnPentagrama(k){
+  const lineas = [];
+  for(let st = -6; st <= 6; st += 2) if(st) lineas.push(`<line class="cn-lin" x1="0" x2="${CN_W}" y1="${cnY(st)}" y2="${cnY(st)}"/>`);
+  let forma = "";
+  if(k){
+    const f = cnForma(k, 40);
+    forma = `<path class="cn-forma ${TONES[k].cls}" d="${f.map((st, i) => (i ? "L" : "M") + cnX(i / (f.length - 1)).toFixed(1) + " " + cnY(st).toFixed(1)).join(" ")}"/>`;
+  }
+  return `<svg class="cn-pauta" id="cnPauta" viewBox="0 0 ${CN_W} ${CN_H}" role="img" aria-label="La melodía del tono y la de tu voz">
+    <text class="cn-et" x="${CN_W - 4}" y="14" text-anchor="end">agudo ↑</text>
+    <text class="cn-et" x="${CN_W - 4}" y="${CN_H - 5}" text-anchor="end">grave ↓</text>
+    ${lineas.join("")}
+    <line class="cn-tu" x1="0" x2="${CN_W}" y1="${cnY(0)}" y2="${cnY(0)}"/>
+    <text class="cn-et cn-et-tu" x="4" y="${cnY(0) - 5}">tu nota</text>
+    ${forma}
+    <path class="cn-voz" id="cnVoz" d=""/>
+    <circle class="cn-bola ${k ? TONES[k].cls : ""}" id="cnBola" r="9" cx="${cnX(0)}" cy="${cnY(k ? cnForma(k, 2)[0] : 0)}" style="opacity:0"/>
+  </svg>`;
+}
+/* tu voz, dibujada en directo */
+function cnDibuja(pts){
+  const v = document.getElementById("cnVoz");
+  if(!v) return;
+  let d = "", abierto = false;
+  pts.forEach(p => {
+    if(p.st == null){ abierto = false; return; }
+    d += (abierto ? " L" : " M") + cnX(p.f).toFixed(1) + " " + cnY(p.st).toFixed(1);
+    abierto = true;
+  });
+  v.setAttribute("d", d.trim());
+}
+
+/* ── el juicio ─────────────────────────────────────────── */
+const cnMedia = a => a.reduce((s, x) => s + x, 0) / a.length;
+function cnJuzga(k, marcos){
+  /* solo los tramos con voz, entre la primera y la última */
+  const st = marcos.map(m => cnSt(m.hz));
+  let a = 0, b = st.length - 1;
+  while(a < st.length && st[a] == null) a++;
+  while(b > a && st[b] == null) b--;
+  const vivos = [];
+  for(let i = a; i <= b; i++) if(st[i] != null) vivos.push({i, st: st[i]});
+  if(vivos.length < 6) return {id:"fb_no_oi"};
+  /* mediana de tres: se quitan los picos sueltos */
+  const lisos = vivos.map((p, j) => {
+    const v = [vivos[Math.max(0, j - 1)].st, p.st, vivos[Math.min(vivos.length - 1, j + 1)].st].sort((x, y) => x - y);
+    return {f: (p.i - a) / Math.max(1, b - a), st: v[1]};
+  });
+  /* en 12 trozos iguales de tiempo */
+  const N = 12, u = [];
+  for(let n = 0; n < N; n++){
+    const en = lisos.filter(p => p.f >= n / N && p.f <= (n + 1) / N);
+    u.push(en.length ? cnMedia(en.map(p => p.st)) : null);
+  }
+  for(let n = 0; n < N; n++) if(u[n] == null){
+    let j = 1; while(u[n] == null && j < N){ u[n] = u[n - j] != null ? u[n - j] : (u[n + j] != null ? u[n + j] : null); j++; }
+  }
+  const t = cnForma(k, N);
+  const uS = cnMedia(u.slice(0, 3)), uE = cnMedia(u.slice(-3)), dU = uE - uS;
+  const tS = cnMedia(t.slice(0, 3)), tE = cnMedia(t.slice(-3)), dT = tE - tS;
+  const err = cnMedia(u) - cnMedia(t);
+  const curva = lisos;
+  if(Math.abs(dT) >= 3){
+    if(dT > 0 && dU < Math.max(1.5, dT * 0.35)) return {id:"fb_sube_mas", curva};
+    if(dT < 0 && dU > -Math.max(1.5, -dT * 0.35)) return {id:"fb_cae_mas", curva};
+    if(err > 4) return {id:"fb_mas_grave", curva};
+    if(err < -4) return {id:"fb_mas_agudo", curva};
+  } else {
+    if(Math.abs(dU - dT) > 3.2) return {id:"fb_plano", curva};
+    if(err > 2) return {id:"fb_mas_grave", curva};
+    if(err < -2) return {id:"fb_mas_agudo", curva};
+  }
+  return {id:"fb_bien" + (1 + Math.floor(Math.random() * 3)), bien:true, curva};
+}
+
+/* ── la pantalla ───────────────────────────────────────── */
+const CN_ETAPAS = [
+  {id:"mmm", et:"1 · Tararea", ico:"🎵"},
+  {id:"aa", et:"2 · Canta «aaa»", ico:"🎤"},
+  {id:"palabra", et:"3 · La palabra", ico:"💬"}
+];
+function cnChips(){
+  const h = cnDatos().hechos;
+  return `<div class="cn-chips">${cnOrden().map(k => `<button class="cn-chip ${TONES[k].cls} ${cn && cn.k === k ? "on" : ""}" data-cn-tono="${k}">
+      <span class="cn-chip-f">${CANTO.tonos[k].flecha || ""}</span>
+      <svg viewBox="0 0 110 38" aria-hidden="true"><path d="${TONES[k].path}"/></svg>
+      <b>${esc(TONES[k].es)}</b>${h[k] ? `<i>✓</i>` : ""}</button>`).join("")}</div>`;
+}
+function cnHTML(){
+  if(!HAY_CANTO()) return `<div class="card"><p>La clase de canto necesita un micrófono.</p></div>`;
+  if(S.mudo && typeof avisoMudoHTML === "function") return avisoMudoHTML();
+  const c = cn || {paso:"inicio"};
+  const k = c.k;
+  const d = k ? cnDemo(k) : null;
+  let medio = "";
+  if(c.paso === "inicio"){
+    const hechos = cnOrden().filter(x => cnDatos().hechos[x]).length;
+    medio = `<div class="cn-inicio">
+      <button class="btn btn--p btn--lg cn-empieza" data-cn="empieza">▶ ${hechos ? "Seguir la clase" : "Empezar la clase"}</button>
+      ${cnDatos().base ? `<button class="btn btn--s" data-cn="calibra">🎯 Volver a buscar mi nota</button>` : ""}
+    </div>`;
+  } else {
+    medio = `${c.paso === "tono" ? `<div class="cn-etapas">${CN_ETAPAS.map((e, i) =>
+        `<span class="cn-etapa ${i === c.etapa ? "on" : i < c.etapa ? "ya" : ""}">${e.ico} ${e.et}</span>`).join("")}</div>` : ""}
+      ${c.paso === "tono" ? `<div class="cn-tono ${TONES[k].cls}">
+        <span class="cn-flecha">${CANTO.tonos[k].flecha || ""}</span>
+        <b>${esc(TONES[k].es)}</b>
+        ${c.etapa === 2 && d ? `<span class="th cn-pal" data-say="${esc(d.th)}">${d.th}</span><span class="rom">${esc(d.rom)}</span>` : ""}
+      </div>` : `<div class="cn-tono"><span class="cn-flecha">🎯</span><b>Tu nota</b></div>`}
+      ${cnPentagrama(c.paso === "tono" ? k : null)}
+      <div class="cn-botones">
+        ${c.paso === "tono" ? `<button class="btn btn--s" data-cn="oir">🔁 Escuchar</button>` : ""}
+        <button class="btn btn--p btn--lg cn-mic" data-cn="canta" ${c.ocupada ? "disabled" : ""}>${svg("mic")} ${c.paso === "calibra" ? "Decir «mmm»" : c.etapa === 2 ? "Decirla" : c.etapa === 1 ? "Cantar «aaa»" : "Cantar «mmm»"}</button>
+        ${c.paso === "tono" ? `<button class="btn btn--s" data-cn="salta">Siguiente →</button>` : ""}
+      </div>
+      <div class="cn-oyendo" id="cnOyendo" aria-live="polite"></div>`;
+  }
+  return `<div class="cn">
+    <div class="cn-profe" id="cnProfe"><span class="cn-cara" aria-hidden="true">${cnCara(48)}</span>
+      <p><b class="cn-nombre">${esc(cnNombre())}</b><span id="cnDice">${esc(c.dice || cnTexto("bienvenida"))}</span></p>
+      <button class="cn-repite" data-cn="repite" aria-label="Que lo repita">🔊</button></div>
+    ${medio}
+    ${cnChips()}
+  </div>`;
+}
+function cnPinta(){
+  const caja = document.getElementById("cnCaja");
+  if(!caja) return;
+  caja.innerHTML = cnHTML();
+  /* en el móvil la clase queda debajo de la palabra del día: al empezar
+     un paso, que se vea la profesora y el pentagrama sin tener que bajar */
+  if(cn && cn.paso !== "inicio"){
+    const r = caja.getBoundingClientRect();
+    if(r.top < 0 || r.top > innerHeight * 0.35) caja.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
+
+/* ── el guion de la clase ──────────────────────────────── */
+async function cnDiPaso(ids, turno){
+  for(const id of ids){
+    if(turno !== cnTurno) return false;
+    if(cn) cn.dice = cnTexto(id), cn.ultima = id;
+    await cnDi(id, turno);
+  }
+  return turno === cnTurno;
+}
+function cnNuevoTurno(){ cnTurno++; cnCalla(); if(typeof vozParar === "function" && vozParar) vozParar(); return cnTurno; }
+
+async function cnCalibra(){
+  const turno = cnNuevoTurno();
+  cn = {paso:"calibra", k:null, etapa:0, intentos:0};
+  cnPinta();
+  await cnDiPaso(["calibra"], turno);
+}
+async function cnTono(k, etapa){
+  const turno = cnNuevoTurno();
+  cn = {paso:"tono", k, etapa: etapa || 0, intentos:0};
+  cnPinta();
+  const pre = cn.etapa === 0 ? ["intro:" + k, "escucha"] : cn.etapa === 1 ? ["aa_intro"] : ["palabra_intro"];
+  if(!await cnDiPaso(pre, turno)) return;
+  await cnModelo(turno);
+  if(turno !== cnTurno) return;
+  await cnDiPaso([cn.etapa === 0 ? "tu_turno" : cn.etapa === 1 ? "aa_turno" : "palabra_turno"], turno);
+}
+/* el modelo: tarareado en tu nota, o la palabra grabada */
+function cnModelo(turno){
+  const k = cn.k, etapa = CN_ETAPAS[cn.etapa].id;
+  if(etapa !== "palabra") return cnTararea(k, CN_SEG[etapa], etapa === "aa");
+  const d = cnDemo(k);
+  return new Promise(listo => {
+    if(!d){ listo(); return; }
+    let ida = false;
+    const fin = () => { if(ida) return; ida = true; listo(); };
+    diAlgo(d.th, Math.min(S.speed || 1, 0.9), () => { if(turno === cnTurno) cnPelota(k, CN_SEG.palabra * 0.8); }, fin, fin);
+    setTimeout(fin, 4000);
+  });
+}
+function cnSiguiente(){
+  const orden = cnOrden(), h = cnDatos().hechos;
+  const desde = cn && cn.k ? orden.indexOf(cn.k) + 1 : 0;
+  return orden.slice(desde).concat(orden.slice(0, desde)).find(k => !h[k]) || null;
+}
+function cnEmpieza(){
+  if(!cnDatos().base){ cnCalibra(); return; }
+  const k = cnSiguiente();
+  if(k) cnTono(k, 0); else cnTono(cnOrden()[0], 0);
+}
+
+function cnCanta(){
+  if(!cn || cn.paso === "inicio" || cn.ocupada) return;
+  const turno = cnNuevoTurno();
+  const calibra = cn.paso === "calibra";
+  const etapa = calibra ? "mmm" : CN_ETAPAS[cn.etapa].id;
+  const seg = calibra ? 2.2 : CN_SEG[etapa];
+  const oy = document.getElementById("cnOyendo"), btn = document.querySelector("[data-cn=canta]");
+  if(btn) btn.disabled = true;
+  if(oy) oy.innerHTML = `<div class="voz-oyendo"><i></i><span>Te escucho… canta cuando quieras.</span></div>`;
+  const barra = oy && oy.querySelector("i");
+  const forma = calibra ? null : cnForma(cn.k, 60);
+  const pts = [];
+  cnDibuja([]);
+  const bola = document.getElementById("cnBola");
+  vozGraba(seg, (f, m, fase) => {
+    if(turno !== cnTurno) return;
+    if(barra) barra.style.width = Math.round(f * 100) + "%";
+    if(fase !== "voz") return;
+    pts.push({f, st: cnSt(m.hz)});
+    cnDibuja(pts);
+    if(forma && bola){ bola.style.opacity = 1; cnBolaEn(f, forma); }
+  }, {esperaVoz: true}).then(async marcos => {
+    if(turno !== cnTurno) return;
+    if(btn) btn.disabled = false;
+    if(bola) bola.style.opacity = 0;
+    if(oy) oy.innerHTML = "";
+    if(calibra){
+      const hz = marcos.map(m => m.hz).filter(Boolean).sort((a, b) => a - b);
+      if(hz.length < 8){ await cnDiPaso(["calibra_no"], turno); return; }
+      cnDatos().base = Math.round(hz[Math.floor(hz.length / 2)]);
+      save();
+      touchStreak();
+      if(!await cnDiPaso(["calibra_ok"], turno)) return;
+      const k = cnSiguiente() || cnOrden()[0];
+      cnTono(k, 0);
+      return;
+    }
+    const r = cnJuzga(cn.k, marcos);
+    /* tu voz, alineada con la forma para comparar */
+    if(r.curva) cnDibuja(r.curva);
+    const fb = document.getElementById("cnOyendo");
+    if(r.bien){
+      if(fb) fb.innerHTML = `<div class="cn-res ok">✓ ${esc(cnTexto(r.id))}</div>`;
+      ganaXP(10); touchStreak(); if(typeof bump === "function") bump("decir");
+      if(typeof celebra === "function") celebra(document.getElementById("cnPauta"), cn.etapa >= 2 ? "grande" : "peque");
+      if(!await cnDiPaso([r.id], turno)) return;
+      if(cn.etapa < 2){ cnTono(cn.k, cn.etapa + 1); return; }
+      cnDatos().hechos[cn.k] = 1; save();
+      const sig = cnSiguiente();
+      if(!sig){ cn.paso = "tono"; cnPinta(); await cnDiPaso(["final"], turno); return; }
+      if(!await cnDiPaso(["tono_listo"], turno)) return;
+      cnTono(sig, 0);
+      return;
+    }
+    cn.intentos++;
+    const flecha = {fb_mas_agudo:"⬆️", fb_mas_grave:"⬇️", fb_sube_mas:"↗️", fb_cae_mas:"↘️", fb_plano:"➡️"}[r.id] || "🎤";
+    if(fb) fb.innerHTML = `<div class="cn-res no"><span class="cn-res-f">${flecha}</span> ${esc(cnTexto(r.id))}</div>`;
+    if(!await cnDiPaso([r.id], turno)) return;
+    if(cn.intentos >= 3 && r.id !== "fb_no_oi") await cnDiPaso(["seguimos"], turno);
+  }).catch(e => {
+    if(turno !== cnTurno) return;
+    if(btn) btn.disabled = false;
+    if(oy) oy.innerHTML = (e && e.message === "cancelado") ? "" : `<div class="voz-nada">${vozPorQue(e)}</div>`;
+  });
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-cn],[data-cn-tono]");
+  if(!t || !document.getElementById("cnCaja")) return;
+  if(t.dataset.cnTono){ if(!cnDatos().base){ cnCalibra(); return; } cnTono(t.dataset.cnTono, 0); return; }
+  const q = t.dataset.cn;
+  if(q === "empieza") cnEmpieza();
+  else if(q === "calibra") cnCalibra();
+  else if(q === "canta") cnCanta();
+  else if(q === "oir" && cn && cn.k){ const turno = cnNuevoTurno(); cnModelo(turno); }
+  else if(q === "salta" && cn && cn.k){
+    if(cn.etapa < 2) cnTono(cn.k, cn.etapa + 1);
+    else { const s = cnSiguiente(); cnTono(s || cnOrden()[(cnOrden().indexOf(cn.k) + 1) % cnOrden().length], 0); }
+  }
+  else if(q === "repite"){ const turno = cnNuevoTurno(); cnDi(cn && cn.ultima ? cn.ultima : "bienvenida", turno); }
+});
+
+VIEWS.canto = {
+  html(){
+    return `<div class="vhead"><div class="eyebrow">Tonos</div>
+      <h1>🎤 Clase de canto</h1>
+      <p class="lede">Los tonos son notas. Escucha a ${esc(typeof AMIGO !== "undefined" && AMIGO ? AMIGO.nombre : "la profe")}, mira la pelotita y canta.</p></div>
+      <div id="cnCaja"></div>`;
+  },
+  init(){
+    cn = null; cnTurno++;
+    cnPinta();
+    if(HAY_CANTO() && !S.mudo){
+      const turno = cnTurno;
+      /* la bienvenida suena sola si el navegador deja; si no, está el 🔊 */
+      setTimeout(() => { if(turno === cnTurno && !cn){ cn = {paso:"inicio"}; cnDiPaso(["bienvenida"], turno); } }, 350);
+    }
+    viewCleanup = () => { cnNuevoTurno(); cn = null; };
+  }
+};
 
 /* ══════════════════════════════════════════════════════════
    GIMNASIO DEL OÍDO · distinguir los tonos, poco a poco
@@ -17979,7 +19170,9 @@ document.addEventListener("click", e => {
   if(dia){
     const h = horario(), n = +dia.dataset.dia, i = h.dias.indexOf(n);
     if(i >= 0) h.dias.splice(i, 1); else h.dias.push(n);
-    h.avisado = ""; save(); pintaHorario(); return;
+    h.avisado = ""; save(); pintaHorario();
+    if(typeof programaRecordatorio === "function") programaRecordatorio();
+    return;
   }
   if(e.target.closest("#hIcs")){ descargarIcs(); return; }
   if(e.target.closest("#hAviso")){
@@ -17992,6 +19185,9 @@ document.addEventListener("change", e => {
   const h = horario();
   if(e.target.id === "hHora" && e.target.value){ h.hora = e.target.value; h.avisado = ""; save(); pintaHorario(); }
   if(e.target.id === "hMin"){ h.min = +e.target.value; save(); pintaHorario(); }
+  if(e.target.id === "hHora" || e.target.id === "hMin"){
+    if(typeof programaRecordatorio === "function") programaRecordatorio();
+  }
 });
 
 

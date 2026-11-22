@@ -38,6 +38,9 @@ a.idi.tuyo{border-color:var(--c);box-shadow:0 0 30px -8px var(--c)}
 .idi b{display:block;font-size:19px}
 .idi small{display:block;color:var(--ink-2);font-size:13.5px}
 .ir{margin-left:auto;font-size:22px;color:var(--c)}
+a.idi:active,a.idi.tocada{transform:scale(.98);border-color:var(--c);box-shadow:0 0 30px -8px var(--c)}
+body.saliendo::after{content:"";position:fixed;inset:0;z-index:99;pointer-events:none;background:#0C0A12;opacity:.55;animation:sale .3s ease-out forwards}
+@keyframes sale{to{opacity:.92}}
 .pista{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--c);text-transform:uppercase}
 </style>
 </head>
@@ -91,6 +94,18 @@ a.idi.tuyo{border-color:var(--c);box-shadow:0 0 30px -8px var(--c)}
   }
   if(a){ a.classList.add("tuyo"); a.parentNode.insertBefore(a, a.parentNode.firstChild); }
 })();
+/* al tocar: respuesta al instante mientras carga el curso */
+document.addEventListener("click", function(e){
+  var a = e.target.closest("a.idi"); if(!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  a.classList.add("tocada"); document.body.classList.add("saliendo");
+  e.preventDefault();
+  var ir = a.href;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ location.href = ir; }); });
+});
+addEventListener("pageshow", function(){
+  document.body.classList.remove("saliendo");
+  var t = document.querySelectorAll("a.idi.tocada"); for(var i = 0; i < t.length; i++) t[i].classList.remove("tocada");
+});
 </script>
 </body>
 </html>

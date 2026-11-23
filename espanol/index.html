@@ -41,6 +41,11 @@ a.idi.tuyo{border-color:var(--c);box-shadow:0 0 30px -8px var(--c)}
 a.idi:active,a.idi.tocada{transform:scale(.98);border-color:var(--c);box-shadow:0 0 30px -8px var(--c)}
 body.saliendo::after{content:"";position:fixed;inset:0;z-index:99;pointer-events:none;background:#0C0A12;opacity:.55;animation:sale .3s ease-out forwards}
 @keyframes sale{to{opacity:.92}}
+.play{display:flex;align-items:center;gap:12px;padding:10px 14px;margin:0 0 16px;border-radius:18px;text-decoration:none;color:var(--ink);
+  background:rgba(52,168,83,.12);border:1px solid rgba(52,168,83,.45)}
+.play-l{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,#34A853,#1A73E8)}
+.play-t{flex:1}.play-t b{display:block;font-size:16px}.play-t small{display:block;color:var(--ink-2);font-size:12.5px}
+.play-b{font-size:20px;color:#34A853}
 .pista{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--c);text-transform:uppercase}
 </style>
 </head>
@@ -50,6 +55,10 @@ body.saliendo::after{content:"";position:fixed;inset:0;z-index:99;pointer-events
   <div class="esp">🇪🇸 🇲🇽</div>
   <h1><em>Español</em></h1>
   <p class="sub">¿Qué idioma hablas? · What language do you speak?<br>คุณพูดภาษาอะไร · 何語を話しますか？</p>
+  <a class="play" href="https://play.google.com/store/apps/details?id=com.freethepress.suena" target="_blank" rel="noopener">
+    <span class="play-l" aria-hidden="true">▶</span>
+    <span class="play-t"><b>Google Play</b><small>Get the app · ดาวน์โหลดแอป · アプリを入手</small></span>
+    <span class="play-b">↗</span></a>
   <div class="lista">
     <a class="idi" href="../espanol-ingles/" lang="en" data-ui="en" style="--c:#10B981">
       <span class="band">🇺🇸</span>
@@ -82,6 +91,8 @@ body.saliendo::after{content:"";position:fixed;inset:0;z-index:99;pointer-events
   </div>
 </div>
 <script>
+/* dentro de la app no se invita a bajar la app */
+if(location.hostname === "appassets.androidplatform.net"){ var pl = document.querySelector("a.play"); if(pl) pl.remove(); }
 /* primero y resaltado: el último curso que usó («Continuar»); si no hay,
    el idioma del teléfono. Siempre se puede elegir otro: no salta solo. */
 (function(){

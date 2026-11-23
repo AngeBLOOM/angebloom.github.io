@@ -4909,6 +4909,7 @@ function go(id, vuelta){
     ${S.hintSeen ? "" : `<div class="hintbar">${svg("ear")}
       <span>Toca cualquier palabra en ${LANG.nombre.toLowerCase()} para oírla. La velocidad se cambia abajo a la izquierda.</span>
       <button id="hintX" aria-label="Ocultar consejo">&times;</button></div>`}
+    ${typeof playTiraHTML === "function" ? playTiraHTML(id) : ""}
     ${typeof diariaBannerHTML === "function" ? diariaBannerHTML() : ""}
     ${cerrada ? pagoHTML(id) : VIEWS[id].html()}
     ${nx ? `<div class="nextbar" data-go="${nx[0]}" role="button" tabindex="0">
@@ -6582,6 +6583,11 @@ VIEWS.vocabulario = {
       const hh = document.getElementById("vHoy");
       if(hh) hh.innerHTML = textoDeHoy(VOCAB.filter(v => vCat === "todas" || v[3] === vCat));
       vFlip = false; paintCard();
+      /* la cara de atrás es más alta: al volver a la de delante la página
+         encoge y la tarjeta se quedaba fuera de la vista */
+      const vc = document.getElementById("vCard");
+      if(vc){ const r = vc.getBoundingClientRect();
+        if(r.top < 70 || r.bottom > innerHeight - 70) window.scrollBy({top: r.top - 90, behavior: pocoMovimiento() ? "auto" : "smooth"}); }
     };
     $("#vCats").addEventListener("click", e => {
       const b = e.target.closest("[data-c]"); if(!b) return;
@@ -11151,6 +11157,24 @@ document.addEventListener("click", ev => {
   }
 });
 
+/* ── que no se pierda la tarjeta al pasar ─────────────────
+   Cada paso repinta la caja entera y las tarjetas no miden lo mismo
+   (dibujos de distinto alto; en El cuerpo el muñeco solo va en la
+   primera). Al encoger, la página subía de golpe y te dejaba más abajo,
+   en otra cosa. Después de pasar, la tarjeta nueva se pone a la vista. */
+function tmALaVista(){
+  const caja = document.getElementById("tmCaja");
+  if(!caja) return;
+  const t = caja.querySelector(".tm-tarjeta,.tm-huecos,.tm-fin") || caja;
+  const r = t.getBoundingClientRect();
+  if(r.top < 70 || r.bottom > innerHeight - 70)
+    window.scrollBy({top: r.top - 90, behavior: typeof pocoMovimiento === "function" && pocoMovimiento() ? "auto" : "smooth"});
+}
+document.addEventListener("click", e => {
+  if(e.target.closest && e.target.closest("[data-tm-sig],[data-tm-ant],[data-tm-sigue],[data-tm-paso],[data-tm-esc-sig]"))
+    requestAnimationFrame(() => requestAnimationFrame(tmALaVista));
+});
+
 /* ── el aspecto ─────────────────────────────────────────── */
 (function(){
   const css = `
@@ -11870,6 +11894,17 @@ function inicioPlayHTML(){
       <em>La app: funciona sin conexión, con la voz del teléfono y con Compañeros</em></span>
     <span class="ini-play-ir" aria-hidden="true">↗</span></a>`;
 }
+/* en la web, en todas las demás pantallas: una franja corta hacia la
+   app. La web es la muestra (lo básico, para enganchar); el curso
+   entero está en Google Play. En el móvil el menú lateral no se ve, así
+   que sin esto el botón solo aparecía en Inicio. */
+function playTiraHTML(id){
+  if(EN_APP || id === "inicio" || !(typeof ACCESO !== "undefined" && ACCESO.play)) return "";
+  return `<a class="play-tira" href="${esc(ACCESO.play)}" target="_blank" rel="noopener">
+    <span class="play-tira-l" aria-hidden="true">▶</span>
+    <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
+    <span class="play-tira-b">Instalar</span></a>`;
+}
 function inicioAccesosHTML(){
   const hay = id => LANG.secciones.indexOf(id) >= 0 && VIEWS[id];
   const oido = ["tonos", "ritmo", "sonidos"].find(hay);
@@ -11918,6 +11953,13 @@ function inicioAccesosHTML(){
 .ini-play-tx{flex:1;min-width:0}.ini-play-tx small{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .ini-play-tx b{display:block;font-size:17px}.ini-play-tx em{display:block;font-style:normal;font-size:12px;color:var(--ink-3)}
 .ini-play-ir{font-size:18px;color:#34A853}
+.play-tira{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 8px;margin:0 0 14px;border-radius:14px;text-decoration:none;
+  color:var(--ink);background:color-mix(in srgb,#34A853 9%,var(--surface));border:1px solid color-mix(in srgb,#34A853 35%,var(--line))}
+.play-tira-l{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none;color:#fff;font-size:13px;
+  background:linear-gradient(135deg,#34A853,#1A73E8)}
+.play-tira-t{flex:1;min-width:0;line-height:1.2}.play-tira-t b{display:block;font-size:14px}
+.play-tira-t em{display:block;font-style:normal;font-size:11.5px;color:var(--ink-3)}
+.play-tira-b{flex:none;font-weight:700;font-size:13px;padding:6px 12px;border-radius:99px;background:#34A853;color:#fff}
 .acc--play{text-decoration:none}
 .acc-gp{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:none;color:#fff;font-size:12px;
   background:linear-gradient(135deg,#00D7FE,#00F076 40%,#FFD500 70%,#FF3A44)}

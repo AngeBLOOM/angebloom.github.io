@@ -6057,7 +6057,13 @@ const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
    alError(código), alSinNada() y, siempre al final, alAcabar(). */
 function escuchaVoz(o){
   /* dentro de la app de Android no hay reconocedor del navegador: manda el del teléfono */
-  if(!SR && window.SuenaRecon) return escuchaNativa(o);
+  /* Dentro de la app manda SIEMPRE el reconocedor del teléfono. Los
+     WebView nuevos traen SpeechRecognition, pero dentro de una app no
+     reconoce nada (no hay servicio detrás): se quedaba escuchando hasta
+     el tope y luego «no te he oído». */
+  if(window.SuenaRecon && (!SR || (typeof EN_APP !== "undefined" && EN_APP))){
+    try{ if(window.SuenaRecon.hay()) return escuchaNativa(o); }catch(e){}
+  }
   const MAX = o.max || 12000, t0 = Date.now();
   let r = null, acabado = false, parado = false, interino = null, reaperturas = 0;
   const acaba = (tipo, dato) => {
@@ -15019,7 +15025,7 @@ function vozGraba(segundos, alAvanzar, opciones){
       /* para esperar a la voz: el ruido de fondo se mide al principio,
          y se guarda un poquito de antes de que arranques para no comerte
          el comienzo de la palabra */
-      let tVoz = null, tUltVoz = 0, sumaRuido = 0, nRuido = 0;
+      let tVoz = null, tUltVoz = 0, sumaRuido = 0, nRuido = 0, pico = 0;
       const previos = [];
       const paso = () => {
         if(cerrado) return;
@@ -15033,12 +15039,20 @@ function vozGraba(segundos, alAvanzar, opciones){
             if(alAvanzar) alAvanzar(Math.min(1, ahora / (segundos * 1000)), m, "voz");
             if(ahora >= segundos * 1000){ cierra(); return; }
           } else {
-            if(ahora < CALIBRA){ sumaRuido += m.fuerza; nRuido++; }
-            const umbral = Math.max(0.012, (nRuido ? sumaRuido / nRuido : 0) * 2.5);
-            const hayVoz = ahora >= CALIBRA && m.fuerza > umbral;
+            /* El ruido se mide al principio, pero sin los primeros 80 ms:
+               muchos micrófonos arrancan en ceros, el ruido salía nulo y
+               cualquier rumor de la habitación contaba como voz, así que
+               la grabación no se paraba nunca al callarte (iba hasta el
+               tope de 15 s). Y una vez que hablas, «callado» es también
+               bajar del 15 % de lo más fuerte que has dicho. */
+            if(ahora >= 80 && ahora < CALIBRA + 80){ sumaRuido += m.fuerza; nRuido++; }
+            const ruido = nRuido ? sumaRuido / nRuido : 0;
+            if(tVoz !== null && m.fuerza > pico) pico = m.fuerza;
+            const umbral = Math.max(0.012, ruido * 3, tVoz !== null ? pico * 0.15 : 0);
+            const hayVoz = ahora >= CALIBRA + 80 && m.fuerza > umbral;
             if(tVoz === null){
               previos.push(marco); if(previos.length > 6) previos.shift();
-              if(hayVoz){ tVoz = ahora; tUltVoz = ahora; marcos.push(...previos); }
+              if(hayVoz){ tVoz = ahora; tUltVoz = ahora; pico = m.fuerza; marcos.push(...previos); }
               else {
                 if(alAvanzar) alAvanzar(0, m, "espera");
                 /* si en un buen rato no ha llegado voz, se deja de esperar */
@@ -15331,10 +15345,40 @@ function imitaHTML(){
   </div>`;
 }
 
+/* ¿Ha escrito la frase en español en vez de en el idioma? Pasa mucho:
+   «Hola» en el curso de un idioma con otra escritura. El reconocedor
+   escucha en el idioma del curso, así que nunca la iba a entender. Se
+   avisa y se ofrecen las del curso que significan eso. */
+const imSinTildes = t => String(t || "").toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/[^\p{L}\p{N} ]/gu, " ").replace(/\s+/g, " ").trim();
+const imEscrituraLatina = t => /^[\p{Script=Latin}\p{N}\p{P}\p{Zs}\p{M}]+$/u.test(String(t || "").trim());
+function imEnEspanol(t){
+  if(!t) return null;
+  const n = imSinTildes(t);
+  if(!n) return null;
+  const cursoLatino = typeof VOCAB !== "undefined" && VOCAB.length && imEscrituraLatina(VOCAB[0][0]);
+  const lista = [];
+  (typeof VOCAB !== "undefined" ? VOCAB : []).forEach(v => lista.push({t: v[0], es: v[2]}));
+  imFrasesCurso().forEach(f => lista.push({t: f.t, es: f.es}));
+  const igual = lista.filter(x => imSinTildes(x.es).split(/ ?[\/,;] ?/).some(e => e === n));
+  const contiene = lista.filter(x => igual.indexOf(x) < 0 && n.length >= 3 && imSinTildes(x.es).indexOf(n) >= 0);
+  const sug = igual.concat(contiene).slice(0, 4);
+  /* en un curso de escritura latina solo se sabe que es español si coincide con un significado */
+  if(cursoLatino ? !igual.length : !imEscrituraLatina(t)) return null;
+  return {sug};
+}
+
 function imPintaInfo(){
   const info = document.getElementById("imInfo");
   if(!info) return;
   const t = imTexto();
+  const es = imEnEspanol(t);
+  if(es){
+    info.innerHTML = `<div class="im-es"><b>Eso está en español.</b> Escribe la frase en ${esc(LANG.nombre.toLowerCase())}
+      —el reconocedor escucha en ${esc(LANG.nombre.toLowerCase())}—${es.sug.length ? ", o toca una de estas:" : "."}
+      ${es.sug.length ? `<div class="im-recientes">${es.sug.map(x =>
+        `<button class="im-chip th" data-im-pon="${esc(x.t)}" lang="${esc(LANG.voz)}">${esc(x.t)} <small>${esc(x.es)}</small></button>`).join("")}</div>` : ""}</div>`;
+    return;
+  }
   const d = imDatos(), r = d.frases[t];
   if(!t){ info.innerHTML = ""; return; }
   const conModelo = !!hayGrabado(t);
@@ -15587,16 +15631,18 @@ const imNivel = n => n >= 90 ? ["top", "Excelente"] : n >= 75 ? ["bien", "Muy bi
    media frase. Aquí se juntan todos los trozos hasta que acaba la
    grabación. Dentro de la app, el reconocedor del teléfono ya devuelve la
    frase entera de una vez, así que allí se usa escuchaVoz tal cual. */
-function imEscucha(lang, alInterino){
+function imEscucha(lang, alInterino, alFinal){
   let resolver;
   const fin = new Promise(r => resolver = r);
   let hecho = false;
-  const acaba = res => { if(hecho) return; hecho = true; resolver(res); };
-  if(!SR){
+  const acaba = res => { if(hecho) return; hecho = true; resolver(res); if(res && res.alts && alFinal) alFinal(); };
+  let nativo = false;
+  try{ nativo = !!(window.SuenaRecon && window.SuenaRecon.hay() && (!SR || EN_APP)); }catch(e){}
+  if(nativo || !SR){
     if(!(window.SuenaRecon && window.SuenaRecon.hay())){ acaba({error: "not-available"}); return {para(){}, fin}; }
     const c = escuchaVoz({lang, max: 20000, alInterino,
       alFinal: alts => acaba({alts}), alError: e => acaba({error: e}), alSinNada: () => acaba({})});
-    return {para(){ c.para(); setTimeout(() => acaba({}), 2500); }, fin};
+    return {para(){ c.para(); setTimeout(() => acaba({}), 1800); }, fin};
   }
   const sesiones = [];
   let actual = [], interino = null, error = null, parado = false, r = null, aperturas = 0;
@@ -15637,7 +15683,7 @@ function imEscucha(lang, alInterino){
       parado = true;
       try{ r && r.stop(); }catch(e){}
       /* lo que quede por llegar, como mucho dos segundos */
-      setTimeout(() => { const alts = junta(); acaba(alts ? {alts} : {error}); }, 2000);
+      setTimeout(() => { const alts = junta(); acaba(alts ? {alts} : {error}); }, 1200);
     },
     fin
   };
@@ -15649,8 +15695,11 @@ function imGraba(){
   if(IM.ocupado){ if(vozParar) vozParar(); return; }
   const texto = imTexto();
   if(!texto){ imAviso("Escribe primero la frase que quieres decir."); return; }
+  if(imEnEspanol(texto)){ imPintaInfo(); imAviso(`<span class="muted">Primero pon la frase en ${esc(LANG.nombre.toLowerCase())} (arriba tienes sugerencias).</span>`); return; }
   const d = imDatos();
-  const conRecon = HAY_RECON() && navigator.onLine !== false && !d.secuencial;
+  /* (la marca de «por turnos» de antes se guardaba con el reconocedor del
+     WebView, que en la app no funciona: no vale, se usa otra) */
+  const conRecon = HAY_RECON() && navigator.onLine !== false && !d.porTurnos;
   const textoBtn = btn.innerHTML;
   IM.ocupado = true;
   btn.innerHTML = `${svg("stop")} Parar`;
@@ -15664,10 +15713,15 @@ function imGraba(){
     if(barra) barra.style.width = Math.round(k * 100) + "%";
     if(rotulo && fase === "voz" && !rotulo.dataset.va){ rotulo.dataset.va = 1; rotulo.textContent = "Grabando… se para solo cuando acabes."; }
   }, {
-    esperaVoz: true, grabar: true, silencioFin: 1400, esperaMax: 10000,
+    esperaVoz: true, grabar: true, silencioFin: 1100, esperaMax: 10000,
     /* el reconocedor se abre cuando el micrófono ya es nuestro: abierto
        antes, en algunos Android se queda él con el micro y la grabación sale muda */
-    alAbrir: () => { if(conRecon) escucha = imEscucha(LANG.voz, t => { if(rotulo) rotulo.innerHTML = `Te oigo: «<span class="th">${esc(t)}</span>»…`; }); }
+    alAbrir: () => { if(conRecon) escucha = imEscucha(LANG.voz,
+      t => { if(rotulo) rotulo.innerHTML = `Te oigo: «<span class="th">${esc(t)}</span>»…`; },
+      /* el reconocedor del teléfono sabe muy bien cuándo has acabado: en
+         cuanto da la frase por buena se para también la grabación, sin
+         esperar al silencio (era el «no se para cuando paro») */
+      () => setTimeout(() => { if(IM.ocupado && vozParar) vozParar(); }, 250)); }
   }).then(async marcos => {
     if(escucha) escucha.para();
     imAviso(`<span class="muted">Comparando con el modelo…</span>`);
@@ -15685,9 +15739,14 @@ function imGraba(){
 function imEvalua(texto, marcos, mod, sr, pidioRecon){
   const curva = vozCurva(marcos);
   const med = imMedidas(marcos, false);
-  if(!curva && !med){ imAviso(`<div class="voz-nada">No he oído la voz. Acércate al micrófono y prueba otra vez.</div>`); return; }
+  const hayPalabras = !!(sr && sr.alts && sr.alts.length);
+  if(!curva && !med && !hayPalabras){ imAviso(`<div class="voz-nada">No he oído la voz. Acércate al micrófono y prueba otra vez.</div>`); return; }
   const d = imDatos();
-  const m = {texto, curva, med, mod, audio: marcos.audio ? URL.createObjectURL(marcos.audio) : null, fecha: Date.now()};
+  /* el reconocedor te entendió pero la grabación salió muda: en ese
+     teléfono no pueden escuchar los dos a la vez y el micro se lo quedó
+     el reconocedor. Las palabras valen; escucharte, esta vez no. */
+  const muda = hayPalabras && !med;
+  const m = {texto, curva, med, mod, muda, audio: marcos.audio && !muda ? URL.createObjectURL(marcos.audio) : null, fecha: Date.now()};
   m.pal = sr && sr.alts && sr.alts.length ? imPalabras(sr.alts, texto) : null;
   m.srError = sr ? sr.error : null;
   /* ¿el reconocedor y el micrófono se han pisado? Hay voz y no ha
@@ -15695,7 +15754,7 @@ function imEvalua(texto, marcos, mod, sr, pidioRecon){
   /* dos veces seguidas: una sola puede ser solo que no te ha entendido */
   if(pidioRecon && !m.pal && med && med.dur > 500 && (!m.srError || m.srError === "audio-capture" || m.srError === "busy" || m.srError === "start")){
     d.choques = (d.choques || 0) + 1;
-    if(d.choques >= 2) d.secuencial = 1;
+    if(d.choques >= 3) d.porTurnos = 1;
     save();
   } else if(m.pal && d.choques){ d.choques = 0; save(); }
   m.mel = mod ? imMelodia(curva, mod.curva) : null;
@@ -15810,7 +15869,7 @@ function imPinta(m){
   const [nv, nvTxt] = m.nota != null ? imNivel(m.nota) : ["", ""];
   const sinPalabras = !m.pal;
   const porQueSin = !HAY_RECON() ? "Aquí no hay reconocedor de voz."
-    : imDatos().secuencial && !m.srError ? "En este teléfono el micrófono y el reconocedor no pueden ir a la vez, así que las palabras se corrigen aparte."
+    : imDatos().porTurnos && !m.srError ? "En este teléfono el micrófono y el reconocedor no pueden ir a la vez, así que las palabras se corrigen aparte."
     : navigator.onLine === false || m.srError === "network" ? "Para saber qué palabras dices hace falta internet (el reconocimiento se hace en un servidor)."
     : m.srError === "not-allowed" || m.srError === "service-not-allowed" ? "El reconocedor no tiene permiso para el micrófono."
     : "El reconocedor no ha entendido nada esta vez.";
@@ -15822,7 +15881,9 @@ function imPinta(m){
         <b>${m.nota}</b><span>/100</span><em>${nvTxt}${!m.pal && HAY_RECON() ? " · sin contar las palabras" : ""}${m.record ? " · ¡tu mejor nota!" : ""}</em></div>` : ""}
     <div class="row im-escucha">
       ${m.audio ? `<button class="btn btn--p" data-im-oir="yo">${svg("play")} Escucharme</button>
-        <button class="btn" data-im-oir="ambos">${svg("play")} Modelo y luego yo</button>` : `<span class="muted">Este navegador no deja guardar la grabación para escucharla.</span>`}
+        <button class="btn" data-im-oir="ambos">${svg("play")} Modelo y luego yo</button>`
+        : m.muda ? `<span class="muted">Esta vez no se pudo guardar tu voz para escucharla: el teléfono le dio el micrófono al corrector. Las palabras sí están corregidas.</span>`
+        : `<span class="muted">Este navegador no deja guardar la grabación para escucharla.</span>`}
     </div>
     <div class="im-barras">
       ${m.pal ? imBarra("Se te entiende", m.pal.puntos, "") : ""}
@@ -15920,6 +15981,8 @@ window.addEventListener("hashchange", () => { if(IM.srCtl){ IM.srCtl.para(); IM.
 .im-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--ink);
   border-radius:999px;padding:5px 11px;font-size:15px;cursor:pointer;min-height:32px}
 .im-chip b{font:700 11px var(--mono);color:var(--brand-ink);background:var(--accent-soft);border-radius:999px;padding:1px 6px}
+.im-es{background:color-mix(in srgb,var(--gold) 14%,transparent);border-radius:12px;padding:10px 12px;color:var(--ink)}
+.im-es small{color:var(--ink-2);font-size:12px;margin-left:4px}
 .im-info{font-size:13.5px;color:var(--ink-2);margin:12px 2px 0;min-height:20px}
 .im-tag{display:inline-block;font:700 11px var(--ui);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;
   background:var(--surface-3);color:var(--ink-2);margin-right:4px}

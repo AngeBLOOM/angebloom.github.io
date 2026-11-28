@@ -15123,7 +15123,20 @@ function vozGraba(segundos, alAvanzar, opciones){
             const dura = ahora - tVoz;
             if(alAvanzar) alAvanzar(Math.min(1, dura / (segundos * 1000)), m, "voz");
             /* se para al acabar de hablar, o al tope de tiempo */
-            if(dura >= segundos * 1000 || (dura > 400 && ahora - tUltVoz > SILENCIO_FIN)){ cierra(); return; }
+            if(dura >= segundos * 1000){ cierra(); return; }
+            if(ahora - tUltVoz > SILENCIO_FIN){
+              /* Un ruido corto no es haber hablado. En Android, el «tin» con
+                 que arranca el reconocedor del teléfono entraba por el micro
+                 como si fuera voz; un segundo después de silencio se daba la
+                 frase por terminada, antes de que dijeras nada. Si lo «dicho»
+                 duró menos de un tercio de segundo, se olvida y se sigue
+                 esperando. */
+              if(tUltVoz - tVoz < 350){
+                tVoz = null; pico = 0; marcos.length = 0;
+                if(ahora < ESPERA_MAX){ timer = setTimeout(paso, 30); return; }
+              }
+              cierra(); return;
+            }
           }
         }catch(e){
           /* un fallo a mitad no puede dejar el micro abierto y el botón muerto */
@@ -15696,9 +15709,22 @@ function imEscucha(lang, alInterino, alFinal){
   try{ nativo = !!(window.SuenaRecon && window.SuenaRecon.hay() && (!SR || EN_APP)); }catch(e){}
   if(nativo || !SR){
     if(!(window.SuenaRecon && window.SuenaRecon.hay())){ acaba({error: "not-available"}); return {para(){}, fin}; }
-    const c = escuchaVoz({lang, max: 20000, alInterino,
-      alFinal: alts => acaba({alts}), alError: e => acaba({error: e}), alSinNada: () => acaba({})});
-    return {para(){ c.para(); setTimeout(() => acaba({}), 1800); }, fin};
+    /* El del teléfono se da por acabado en cuanto oye un segundo de
+       silencio, y entonces devuelve una lista VACÍA: si tardabas en
+       arrancar, se cerraba antes de que hablaras y paraba también la
+       grabación («no he oído la voz»). Ahora, mientras sigas grabando,
+       se vuelve a abrir; solo una frase de verdad lo cierra. */
+    let c = null, parado = false, vueltas = 0;
+    const otra = () => { if(parado || hecho || vueltas++ > 12){ if(parado) acaba({}); return; } setTimeout(abre, 120); };
+    const abre = () => {
+      if(parado || hecho) return;
+      c = escuchaVoz({lang, max: 20000, alInterino,
+        alFinal: alts => { alts = (alts || []).filter(x => x && String(x).trim()); if(alts.length) acaba({alts}); else otra(); },
+        alError: e => { if(e === "network" || e === "not-allowed" || e === "service-not-allowed") acaba({error: e}); else otra(); },
+        alSinNada: otra});
+    };
+    abre();
+    return {para(){ parado = true; try{ c && c.para(); }catch(e){} setTimeout(() => acaba({}), 1800); }, fin};
   }
   const sesiones = [];
   let actual = [], interino = null, error = null, parado = false, r = null, aperturas = 0;

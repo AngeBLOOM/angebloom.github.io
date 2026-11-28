@@ -1093,6 +1093,11 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .cual-op:hover:not(:disabled){transform:translateY(-3px) scale(1.05); border-color:var(--brand)}
 .cual-op.ok{border-color:var(--ok); background:color-mix(in srgb, var(--ok) 14%, var(--surface)); animation:acierto .45s}
 .cual-op.no{border-color:var(--bad); animation:shake .32s}
+/* en el móvil: fuera lo que solo sirve con teclado, y las notas al lado de
+   un botón pasan debajo, en vez de apretujarse a su lado */
+@media (hover:none),(pointer:coarse){.solo-teclado{display:none}}
+@media (max-width:520px){.pp-bot{flex-direction:column; align-items:center; gap:4px}.pp-nota{text-align:center; font-size:12px}}
+
 .cual-fb{min-height:26px; margin-top:12px; font-size:14px; color:var(--ink-2)}
 /* ejercicios: una pestaña por ejercicio */
 .ejtabs{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:10px; margin-bottom:18px}
@@ -1620,6 +1625,19 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   transition:opacity .2s, visibility .2s, transform .2s;
 }
 .arriba.ver{opacity:1; visibility:visible; transform:none}
+/* la tortuguita fija: repite despacio lo último que sonó */
+.tortuga{
+  position:fixed; right:72px; bottom:18px; z-index:36;
+  width:46px; height:46px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
+  font-size:24px; line-height:1; padding:0;
+  border:1px solid var(--line); background:var(--surface); box-shadow:0 8px 22px rgba(0,0,0,.18);
+  opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, visibility .2s, transform .2s;
+}
+.tortuga.ver{opacity:.92; visibility:visible; transform:none}
+.tortuga:hover{border-color:var(--accent)}
+.tortuga.toca{animation:tortugaToca .5s ease}
+@keyframes tortugaToca{30%{transform:scale(.86)} 70%{transform:scale(1.08)}}
+@media (max-width:860px){ .tortuga{right:auto; left:14px; bottom:calc(98px + env(safe-area-inset-bottom, 0px))} }
 .arriba:hover{border-color:var(--accent); color:var(--accent-ink)}
 .arriba svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2;
   stroke-linecap:round; stroke-linejoin:round}
@@ -2794,13 +2812,16 @@ img{max-width:100%;height:auto}
   --au-glow: 0 8px 26px -8px color-mix(in srgb, var(--brand) 70%, transparent);
   --r: 20px; --r-s: 13px;
   --ground: #F6F3FB; --surface: #FFFFFF; --surface-2: #F0ECF7; --surface-3: #E4DEEF;
+  /* el gris de las notas pequeñas: el de antes se quedaba en 4,3:1 sobre
+     las tarjetas lilas, por debajo del 4,5:1 que pide WCAG AA */
+  --ink-3: #6B6058;
   --line: rgba(40,25,80,.1); --line-2: rgba(40,25,80,.16);
   --ease-rebote: cubic-bezier(.3,1.5,.5,1);
 }
 /* el oscuro es el de la casa: se aplica si lo pide el sistema o el usuario */
 :root[data-theme="dark"]{
   --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
-  --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+  --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#A79CBB;
   --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
   --glass: rgba(255,255,255,.055);
   --glass-2: rgba(255,255,255,.085);
@@ -2814,7 +2835,7 @@ img{max-width:100%;height:auto}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
-    --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+    --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#A79CBB;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
     --glass: rgba(255,255,255,.055); --glass-2: rgba(255,255,255,.085);
     --glass-line: rgba(255,255,255,.11); --glass-hi: rgba(255,255,255,.22);
@@ -3117,5 +3138,45 @@ html, body{overflow-x:clip}
 
 /* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
 #aurora .au-horizonte{display:none !important}
+
+/* ══ ACCESIBILIDAD ══════════════════════════════════════════
+   Alto contraste (Perfil → Personaliza, o el sistema si lo pide y no
+   se ha elegido nada): sin cristales ni fondo animado, el texto gris
+   pasa a casi negro (o casi blanco), las líneas se ven y los enlaces
+   van subrayados. Pensado para mala vista y para leer al sol. */
+:root[data-contraste="alto"]{
+  --ink-2: var(--ink);
+  --ink-3: color-mix(in srgb, var(--ink) 84%, var(--ground));
+  --line: color-mix(in srgb, var(--ink) 38%, transparent);
+  --line-2: color-mix(in srgb, var(--ink) 60%, transparent);
+  --glass: var(--surface); --glass-2: var(--surface-2); --glass-line: var(--line-2);
+  --au-sombra: none; --au-glow: none; --shadow: none;
+}
+:root[data-contraste="alto"] #aurora{display:none}
+:root[data-contraste="alto"] body{background:var(--ground)}
+:root[data-contraste="alto"] .card, :root[data-contraste="alto"] .li,
+:root[data-contraste="alto"] .btn{border:1.5px solid var(--line-2)}
+:root[data-contraste="alto"] main a:not(.btn){text-decoration:underline; text-underline-offset:2px}
+:root[data-contraste="alto"] :focus-visible{outline:3px solid var(--ink) !important; outline-offset:3px}
+:root[data-contraste="alto"] .muted, :root[data-contraste="alto"] .sec-note{color:var(--ink-2)}
+/* el título recibe el foco al cambiar de pantalla, para que el lector de
+   pantalla anuncie dónde estás; el foco ahí no hace falta verlo */
+.view h1[tabindex="-1"]:focus{outline:none}
+.asp-seg button[aria-pressed="true"]{background:var(--au-grad,var(--brand));color:#fff;box-shadow:var(--au-glow,none)}
+.solo-lector{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* la racha: en claro el texto pequeño blanco del todo (4,2:1 con el
+   blanco al 82 %); en oscuro el color de marca es claro y el texto va oscuro */
+.flame span{color:#fff}
+:root[data-theme="dark"] .flame b, :root[data-theme="dark"] .flame span{color:#0C0A12}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .flame b, :root:not([data-theme="light"]) .flame span{color:#0C0A12} }
+/* en oscuro el color de marca es claro: el texto blanco encima no se leía
+   (2,3:1). Los botones elegidos llevan el texto oscuro */
+:root[data-theme="dark"] :is(.filters,.markbar,.days) button[aria-pressed="true"]{color:#0C0A12}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) :is(.filters,.markbar,.days) button[aria-pressed="true"]{color:#0C0A12} }
+:root[data-contraste="alto"] .ini-racha b{opacity:1}
+/* los dibujos de color, sobre un fondo claro en el «¿cuál es?»: en
+   oscuro, algunos (el sombrero, las notas) se perdían contra el fondo */
+.cual-op:has(.ico-arte){background:#F6F2FB; border-color:color-mix(in srgb,var(--brand) 25%,#E4DEEF)}
+.cual-op .ico-arte{filter:drop-shadow(0 2px 3px rgba(40,20,80,.12))}
 
 

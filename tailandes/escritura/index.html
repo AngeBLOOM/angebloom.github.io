@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="สวัสดี" role="button" tabindex="0" lang="th-TH">สวัสดี</b>
@@ -61,7 +60,7 @@ a.btn{text-decoration:none}
     </div>
   </div>
     <div class="vhead" style=""><div class="eyebrow">Curso completo</div>
-      <h1>Escritura es del curso completo</h1>
+      <h1 tabindex="-1">Escritura es del curso completo</h1>
       <p class="lede">Lo de abajo se queda abierto siempre. Para el resto —gramática, conversaciones, juegos, hablar y todo lo demás— hace falta el curso completo.</p>
     </div>
     <p class="sec-note">Gratis: <button class="btn btn--s" data-go="basico">Lo básico</button> <button class="btn btn--s" data-go="temas">Primeras palabras</button> <button class="btn btn--s" data-go="cuerpo">El cuerpo</button> <button class="btn btn--s" data-go="alfabeto">Alfabeto</button> <button class="btn btn--s" data-go="perfil">Tu perfil</button> <button class="btn btn--s" data-go="chat">Chat</button> <button class="btn btn--s" data-go="companeros">Compañeros</button></p><div class="pago">

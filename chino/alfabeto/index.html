@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="你好" role="button" tabindex="0" lang="zh-CN">你好</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
-      <h1>El pinyin</h1>
+      <h1 tabindex="-1">El pinyin</h1>
       <p class="lede">El pinyin es el sistema oficial para escribir la pronunciación del chino con nuestro alfabeto, y es la puerta de entrada al idioma. El problema es que varias letras no suenan como te imaginas: la q no es una k, la x no es una equis y la c no es una ce. Estas veinte reglas lo cubren.</p></div>
 
     <div class="banner"><div><b>No leas el pinyin como si fuera español.</b> Es una convención, no una transcripción: cada letra tiene un valor fijo que hay que aprender una vez. Hazlo bien desde el principio y te ahorras años de pronunciación fosilizada.</div></div>
@@ -84,31 +83,31 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">el pinyin la escribe con una letra nuestra que suena a otra cosa</p>
         <div class="mg-letras"><button class="ml" data-say="七" title="q · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">q</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="西" title="x · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">x</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="菜" title="c · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">c</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="中" title="zh · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">zh</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="人" title="r · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">r</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="绿" title="ü · TRAMPA">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">ü</span>
     <span class="ml-n">TRAMPA</span>
   </button><button class="ml" data-say="十" title="-i · trampa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">-i tras z c s zh ch sh r</span>
     <span class="ml-n">trampa</span>
   </button></div>
@@ -121,43 +120,43 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">abre la sílaba</p>
         <div class="mg-letras"><button class="ml" data-say="八" title="b · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">b</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="怕" title="p · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">p</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="大" title="d · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">d</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="他" title="t · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">t</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="狗" title="g · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">g</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="看" title="k · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">k</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="家" title="j · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">j</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="在" title="z · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">z</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="吃" title="ch · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">ch</span>
     <span class="ml-n">inicial</span>
   </button><button class="ml" data-say="是" title="sh · inicial">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">sh</span>
     <span class="ml-n">inicial</span>
   </button></div>
@@ -170,15 +169,15 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">la cierra, y es donde va el tono</p>
         <div class="mg-letras"><button class="ml" data-say="河" title="e · final">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">e</span>
     <span class="ml-n">final</span>
   </button><button class="ml" data-say="天" title="ian · final">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">ian</span>
     <span class="ml-n">final</span>
   </button><button class="ml" data-say="水" title="ui · final">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="zh-CN">ui / iu</span>
     <span class="ml-n">final</span>
   </button></div>

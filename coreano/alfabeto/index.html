@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="안녕하세요" role="button" tabindex="0" lang="ko-KR">안녕하세요</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
-      <h1>El hangul</h1>
+      <h1 tabindex="-1">El hangul</h1>
       <p class="lede">El hangul es el alfabeto más joven y más lógico del mundo: lo inventaron en 1443 a propósito para que cualquiera pudiera aprenderlo en unos días. Las consonantes dibujan la forma que adopta la boca al pronunciarlas. 19 consonantes y 21 vocales, y ya lo lees todo.</p></div>
 
     <div class="banner"><div><b>Se aprende en un fin de semana, en serio.</b> No memorices los nombres de las letras: son útiles para deletrear pero no para leer. Aprende el sonido y a montar bloques, y el resto viene solo.</div></div>
@@ -85,43 +84,43 @@ a.btn{text-decoration:none}
         <p class="mg-truco">👉 Estas no hay que aprendérselas: son <b>todas las demás</b>.
                Si una letra no está en los otros grupos, está aquí.</p>
         <div class="mg-letras"><button class="ml" data-say="기역" title="g/k · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄱ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="니은" title="n · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄴ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="디귿" title="d/t · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄷ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="리을" title="r/l · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄹ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="미음" title="m · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅁ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="비읍" title="b/p · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅂ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="시옷" title="s · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅅ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="이응" title="— / ng · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅇ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="지읒" title="j · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅈ</span>
     <span class="ml-n">básica</span>
   </button><button class="ml" data-say="히읗" title="h · básica">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅎ</span>
     <span class="ml-n">básica</span>
   </button></div>
@@ -134,19 +133,19 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">sale con un golpe de aire</p>
         <div class="mg-letras"><button class="ml" data-say="치읓" title="ch · aspirada">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅊ</span>
     <span class="ml-n">aspirada</span>
   </button><button class="ml" data-say="키읔" title="k · aspirada">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅋ</span>
     <span class="ml-n">aspirada</span>
   </button><button class="ml" data-say="티읕" title="t · aspirada">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅌ</span>
     <span class="ml-n">aspirada</span>
   </button><button class="ml" data-say="피읖" title="p · aspirada">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅍ</span>
     <span class="ml-n">aspirada</span>
   </button></div>
@@ -159,23 +158,23 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">la garganta se aprieta y el sonido sale seco</p>
         <div class="mg-letras"><button class="ml" data-say="쌍기역" title="kk · tensa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄲ</span>
     <span class="ml-n">tensa</span>
   </button><button class="ml" data-say="쌍디귿" title="tt · tensa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㄸ</span>
     <span class="ml-n">tensa</span>
   </button><button class="ml" data-say="쌍비읍" title="pp · tensa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅃ</span>
     <span class="ml-n">tensa</span>
   </button><button class="ml" data-say="쌍시옷" title="ss · tensa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅆ</span>
     <span class="ml-n">tensa</span>
   </button><button class="ml" data-say="쌍지읒" title="jj · tensa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ko-KR">ㅉ</span>
     <span class="ml-n">tensa</span>
   </button></div>

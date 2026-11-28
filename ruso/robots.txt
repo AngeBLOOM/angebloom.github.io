@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://USUARIO.github.io/ruso/sitemap.xml
+Sitemap: https://angebloom.github.io/ruso/sitemap.xml

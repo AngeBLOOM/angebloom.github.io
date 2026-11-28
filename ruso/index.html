@@ -2,7 +2,7 @@
 <!--
   Bukva — aprender ruso desde cero, en español
   © 2026 1 mes. Todos los derechos reservados.
-  https://USUARIO.github.io/ruso/
+  https://angebloom.github.io/ruso/
 -->
 <html lang="es">
 <head>
@@ -12,13 +12,13 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FDFBF7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12100E" media="(prefers-color-scheme: dark)">
-<link rel="canonical" href="https://USUARIO.github.io/ruso/">
+<link rel="canonical" href="https://angebloom.github.io/ruso/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bukva">
 <meta property="og:title" content="Bukva — aprender ruso desde cero, en español">
 <meta property="og:description" content="Curso de ruso en español: las 33 letras del cirílico ordenadas por dificultad real, el acento móvil ">
-<meta property="og:url" content="https://USUARIO.github.io/ruso/">
-<meta property="og:image" content="https://USUARIO.github.io/ruso/og.png?v=2">
+<meta property="og:url" content="https://angebloom.github.io/ruso/">
+<meta property="og:image" content="https://angebloom.github.io/ruso/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Bukva — Curso de ruso en español: las 33 letras del cirílico ordenadas por dificultad real, el acento móvil ">
@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Bukva — aprender ruso desde cero, en español">
 <meta name="twitter:description" content="Curso de ruso en español: las 33 letras del cirílico ordenadas por dificultad real, el acento móvil ">
-<meta name="twitter:image" content="https://USUARIO.github.io/ruso/og.png?v=2">
+<meta name="twitter:image" content="https://angebloom.github.io/ruso/og.png?v=2">
 <meta name="author" content="1 mes">
 <meta name="copyright" content="© 2026 1 mes. Todos los derechos reservados.">
 <script type="application/ld+json">
@@ -35,7 +35,7 @@
   "@type": "LearningResource",
   "name": "Bukva — aprender ruso desde cero, en español",
   "description": "Curso de ruso en español: las 33 letras del cirílico ordenadas por dificultad real, el acento móvil ",
-  "url": "https://USUARIO.github.io/ruso/",
+  "url": "https://angebloom.github.io/ruso/",
   "inLanguage": "es",
   "teaches": "Idioma ruso para hispanohablantes",
   "educationalLevel": "Principiante",
@@ -55,7 +55,7 @@
   },
   "copyrightYear": 2026,
   "copyrightNotice": "© 2026 1 mes. Todos los derechos reservados.",
-  "image": "https://USUARIO.github.io/ruso/icon-512.png"
+  "image": "https://angebloom.github.io/ruso/icon-512.png"
 }
 </script>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
@@ -65,7 +65,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bukva">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <script data-goatcounter="https://suena.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 <title>Bukva — aprender ruso desde cero, en español</title>
@@ -1164,6 +1164,11 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
 .cual-op:hover:not(:disabled){transform:translateY(-3px) scale(1.05); border-color:var(--brand)}
 .cual-op.ok{border-color:var(--ok); background:color-mix(in srgb, var(--ok) 14%, var(--surface)); animation:acierto .45s}
 .cual-op.no{border-color:var(--bad); animation:shake .32s}
+/* en el móvil: fuera lo que solo sirve con teclado, y las notas al lado de
+   un botón pasan debajo, en vez de apretujarse a su lado */
+@media (hover:none),(pointer:coarse){.solo-teclado{display:none}}
+@media (max-width:520px){.pp-bot{flex-direction:column; align-items:center; gap:4px}.pp-nota{text-align:center; font-size:12px}}
+
 .cual-fb{min-height:26px; margin-top:12px; font-size:14px; color:var(--ink-2)}
 /* ejercicios: una pestaña por ejercicio */
 .ejtabs{display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:10px; margin-bottom:18px}
@@ -1691,6 +1696,19 @@ th{background:var(--accent-wash); color:var(--brand-ink)}
   transition:opacity .2s, visibility .2s, transform .2s;
 }
 .arriba.ver{opacity:1; visibility:visible; transform:none}
+/* la tortuguita fija: repite despacio lo último que sonó */
+.tortuga{
+  position:fixed; right:72px; bottom:18px; z-index:36;
+  width:46px; height:46px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
+  font-size:24px; line-height:1; padding:0;
+  border:1px solid var(--line); background:var(--surface); box-shadow:0 8px 22px rgba(0,0,0,.18);
+  opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .2s, visibility .2s, transform .2s;
+}
+.tortuga.ver{opacity:.92; visibility:visible; transform:none}
+.tortuga:hover{border-color:var(--accent)}
+.tortuga.toca{animation:tortugaToca .5s ease}
+@keyframes tortugaToca{30%{transform:scale(.86)} 70%{transform:scale(1.08)}}
+@media (max-width:860px){ .tortuga{right:auto; left:14px; bottom:calc(98px + env(safe-area-inset-bottom, 0px))} }
 .arriba:hover{border-color:var(--accent); color:var(--accent-ink)}
 .arriba svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2;
   stroke-linecap:round; stroke-linejoin:round}
@@ -2973,13 +2991,16 @@ img{max-width:100%;height:auto}
   --au-glow: 0 8px 26px -8px color-mix(in srgb, var(--brand) 70%, transparent);
   --r: 20px; --r-s: 13px;
   --ground: #F6F3FB; --surface: #FFFFFF; --surface-2: #F0ECF7; --surface-3: #E4DEEF;
+  /* el gris de las notas pequeñas: el de antes se quedaba en 4,3:1 sobre
+     las tarjetas lilas, por debajo del 4,5:1 que pide WCAG AA */
+  --ink-3: #6B6058;
   --line: rgba(40,25,80,.1); --line-2: rgba(40,25,80,.16);
   --ease-rebote: cubic-bezier(.3,1.5,.5,1);
 }
 /* el oscuro es el de la casa: se aplica si lo pide el sistema o el usuario */
 :root[data-theme="dark"]{
   --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
-  --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+  --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#A79CBB;
   --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
   --glass: rgba(255,255,255,.055);
   --glass-2: rgba(255,255,255,.085);
@@ -2993,7 +3014,7 @@ img{max-width:100%;height:auto}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --ground:#0C0A12; --surface:#16121F; --surface-2:#1E1829; --surface-3:#2A2238;
-    --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#8F84A3;
+    --ink:#F4EFFA; --ink-2:#C2B8D2; --ink-3:#A79CBB;
     --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
     --glass: rgba(255,255,255,.055); --glass-2: rgba(255,255,255,.085);
     --glass-line: rgba(255,255,255,.11); --glass-hi: rgba(255,255,255,.22);
@@ -3296,6 +3317,46 @@ html, body{overflow-x:clip}
 
 /* la línea del horizonte, fuera: cruzando la pantalla parecía un cristal roto */
 #aurora .au-horizonte{display:none !important}
+
+/* ══ ACCESIBILIDAD ══════════════════════════════════════════
+   Alto contraste (Perfil → Personaliza, o el sistema si lo pide y no
+   se ha elegido nada): sin cristales ni fondo animado, el texto gris
+   pasa a casi negro (o casi blanco), las líneas se ven y los enlaces
+   van subrayados. Pensado para mala vista y para leer al sol. */
+:root[data-contraste="alto"]{
+  --ink-2: var(--ink);
+  --ink-3: color-mix(in srgb, var(--ink) 84%, var(--ground));
+  --line: color-mix(in srgb, var(--ink) 38%, transparent);
+  --line-2: color-mix(in srgb, var(--ink) 60%, transparent);
+  --glass: var(--surface); --glass-2: var(--surface-2); --glass-line: var(--line-2);
+  --au-sombra: none; --au-glow: none; --shadow: none;
+}
+:root[data-contraste="alto"] #aurora{display:none}
+:root[data-contraste="alto"] body{background:var(--ground)}
+:root[data-contraste="alto"] .card, :root[data-contraste="alto"] .li,
+:root[data-contraste="alto"] .btn{border:1.5px solid var(--line-2)}
+:root[data-contraste="alto"] main a:not(.btn){text-decoration:underline; text-underline-offset:2px}
+:root[data-contraste="alto"] :focus-visible{outline:3px solid var(--ink) !important; outline-offset:3px}
+:root[data-contraste="alto"] .muted, :root[data-contraste="alto"] .sec-note{color:var(--ink-2)}
+/* el título recibe el foco al cambiar de pantalla, para que el lector de
+   pantalla anuncie dónde estás; el foco ahí no hace falta verlo */
+.view h1[tabindex="-1"]:focus{outline:none}
+.asp-seg button[aria-pressed="true"]{background:var(--au-grad,var(--brand));color:#fff;box-shadow:var(--au-glow,none)}
+.solo-lector{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* la racha: en claro el texto pequeño blanco del todo (4,2:1 con el
+   blanco al 82 %); en oscuro el color de marca es claro y el texto va oscuro */
+.flame span{color:#fff}
+:root[data-theme="dark"] .flame b, :root[data-theme="dark"] .flame span{color:#0C0A12}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .flame b, :root:not([data-theme="light"]) .flame span{color:#0C0A12} }
+/* en oscuro el color de marca es claro: el texto blanco encima no se leía
+   (2,3:1). Los botones elegidos llevan el texto oscuro */
+:root[data-theme="dark"] :is(.filters,.markbar,.days) button[aria-pressed="true"]{color:#0C0A12}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) :is(.filters,.markbar,.days) button[aria-pressed="true"]{color:#0C0A12} }
+:root[data-contraste="alto"] .ini-racha b{opacity:1}
+/* los dibujos de color, sobre un fondo claro en el «¿cuál es?»: en
+   oscuro, algunos (el sombrero, las notas) se perdían contra el fondo */
+.cual-op:has(.ico-arte){background:#F6F2FB; border-color:color-mix(in srgb,var(--brand) 25%,#E4DEEF)}
+.cual-op .ico-arte{filter:drop-shadow(0 2px 3px rgba(40,20,80,.12))}
 
 
 </style>
@@ -4212,6 +4273,7 @@ const CANTO = null;
 const AUDIO_PROFE = {};
 const AUDIO_EXPLICA = {"Once herramientas para el oído, la boca y la mano: las 33 letras del cirílico, el acento que cambia las vocales, gramática que sí se entiende, trazado a mano, 98 palabras, 38 frases y juegos para consolidar. Todo en una página, sin cuenta ni instalación.":"fba815ffd223.mp3","El orden importa. El ruso se lee en voz alta antes que en silencio: primero el oído, luego la letra.":"f7435dff3590.mp3","Ni «el» ni «un». es «libro», «el libro» y «un libro» a la vez, y nadie se pierde.":"1eab32218d7f.mp3","«Yo soy estudiante» se dice literalmente «yo estudiante»:.":"6f8cc14604d4.mp3","es «castillo» y es «candado». Mismas letras, y en un texto real no viene marcado.":"95282326fa5a.mp3","La foto se queda en este teléfono. No se sube a ningún sitio.":"1de23017f3aa.mp3","El curso entero en lecciones cortas, en orden. Cada una trae cosas que no has visto todavía: las conoces, haces un test corto y se abre la siguiente. Lo que aprendes vuelve solo en el repaso de Hoy.":"bd738fb6f235.mp3","3 palabras · 1 letra: lo que trae esta lección.":"e209bb14211f.mp3","Mira el dibujo, toca para oírlo y repítelo en voz alta.":"689f0049cd01.mp3","Preguntas de esta lección. Con 70 % o más se abre la siguiente.":"bce33d2f577b.mp3","Qué te toca, qué confundes y cómo va la semana. Todo en una pantalla, para no tener que recorrer el curso buscándolo.":"54a9210cfe38.mp3","De todo: palabras, letras, frases y patrones. Lo que aciertas no vuelve hasta dentro de unos días; lo que fallas, mañana.":"73f1688b4bc0.mp3","Todavía no hay suficientes fallos para ver un patrón. Según vayas haciendo tandas, aquí aparecerá qué confundes con qué —no «fallas en escucha», sino el par concreto— y podrás repasar solo eso.":"738bb7ba0051.mp3","Lo que de verdad se usa el primer día, junto y delante de todo: dar las gracias, decir que sí y que no, pedir perdón, y entender un precio. El resto del curso explica el porqué; esto se usa ya.":"394bcc70c428.mp3","Tócalas para oírlas. La las guarda en Tu lista, que es la pantalla que le enseñas a alguien cuando no te entienden.":"ae0384d4eb7f.mp3","Con estos diez ya se compra, se regatea y se coge un autobús. Arriba el número; abajo, cómo se dice. Lo que viene después —las decenas, los precios dichos deprisa— está en Números.":"031b42663e6f.mp3","Ocho preguntas, y solo de lo de esta pantalla. Nada de letras ni de tonos.":"4d0bab306914.mp3","Por temas y en orden: primero las conoces (dibujo y sonido), luego las reconoces de oído, luego escritas, y al final las escribes tú. Nunca te pregunto nada que no te haya enseñado antes.":"39a317be0222.mp3","Toca una parte del muñeco y te la digo. Gíralo para ver la espalda. Cuando las tengas, practícalas paso a paso: de oído, leyendo y escribiéndolas.":"a12e7c88a34b.mp3","Tener once herramientas no sirve de nada sin un orden. Esto es un plan concreto: qué hacer hoy, qué hacer cada día y en qué orden atacar las secciones.":"ffc1104cf57d.mp3","Quince minutos al día valen más que dos horas el domingo: la memoria se construye por repetición espaciada, no por atracón.":"0b71c97b48b6.mp3","Quince minutos a una hora fija cunden más que una tarde entera sin plan. Elige tus días y tu hora: con eso te genero una cita que se repite en el calendario de tu móvil, y es él quien te avisa.":"244540874314.mp3","El botón del calendario descarga una cita que se repite sola, con un aviso diez minutos antes. La entienden el calendario del iPhone, Google Calendar y Outlook, y suena aunque no tengas la web abierta — es tu móvil quien avisa, no la página. Los avisos del navegador, en cambio, solo aparecen si dejas esta pestaña abierta.":"44a3ac0b74cf.mp3","No hay regla que lo prediga. Es como el género en español: se memoriza junto. Por eso aquí va siempre marcado.":"20cdf686c174.mp3","Es la que más cambia tu acento extranjero por sí sola. Toda sin acento se dice «a».":"2981180f0224.mp3","Las consonantes blandas no se aprenden mirando: hay que ponerlas en la boca muchas veces.":"8f6d6adac4ba.mp3","No intentes aprender los seis a la vez, es la forma más rápida de abandonar. Acusativo primero, que es el que más sale.":"4840477c35fe.mp3","En español el acento está donde lo ves. En ruso no se escribe nunca, cae donde le da la gana, se mueve dentro de la misma palabra al declinarla, y —lo peor— cambia el sonido de las vocales. Es la dificultad central del ruso hablado y casi ningún método la explica al principio. Aquí sí.":"501f2d442559.mp3","Mismas letras, distinto acento, distinto significado. Escucha cada pareja seguida, en Lento.":"c1475aec74b7.mp3","Se escriben exactamente igual. Solo el acento las separa, y en un texto real no viene marcado.":"a72d07dd5d7a.mp3","La misma trampa. El contexto suele salvarte, pero al hablar tienes que acertar.":"d5ffae50b2b9.mp3","Aquí el acento se mueve dentro del mismo verbo al conjugarlo. Es lo normal, no la excepción.":"e07d22110508.mp3","Fíjate en las «o» sin acento: no suenan «o», suenan «a». Se escribe «moloko» y se dice «malakó».":"944d66d81837.mp3","Es la regla más rentable de todas. Toda que no lleva el acento se pronuncia «a»: se dice «malakó», se dice «jarashó». Aplicarla te cambia el acento extranjero de golpe.":"630eb9ff9e2a.mp3","Lo mismo con estas dos: sin acento se cierran hasta parecer una «i» floja. se dice «sistrá», se dice «yizýk».":"d636f55e67ad.mp3","Y las demás se comen. El ruso tiene un contraste entre fuerte y débil mucho mayor que el español: la sílaba acentuada es larga y clara, el resto se reduce.":"fb238a002907.mp3","No hay reglas fiables para deducirlo. Se memoriza con la palabra, igual que el género. Por eso en este curso va siempre marcado con tilde, aunque en ruso real no se escriba.":"9652442d20bb.mp3","Suena una de las dos palabras de una pareja. ¿Cuál era? Mejor marca hasta ahora: 0%.":"a236b4a5c8fe.mp3","Diez trampas concretas. El ruso tiene fama de difícil y en pronunciación no lo es tanto: casi todo lo tenemos. El problema son la, las consonantes blandas y el acento.":"f8a3b222b051.mp3","Dos o tres palabras casi idénticas. Escúchalas seguidas, luego tapa la pantalla y adivina.":"975d3c3dbcef.mp3","Suena una de las palabras del par. ¿Cuál era? Mejor marca: 0%.":"8d2af4e136fb.mp3","33 letras, y menos trabajo del que parece: seis son idénticas a las nuestras y siete más se aprenden en un minuto. La clave es atacarlas en el orden correcto, empezando por las que ya sabes y dejando para el final las que no existen en español.":"f592b0634a49.mp3","Las letras repartidas en grupos, cada uno con su color. Ese color es el mismo en toda la página: en la lista, en la ficha de cada letra y en los tests. Toca cualquiera para oírla.":"cd9fb20e0024.mp3","Estas no hay que aprendérselas: son todas las demás. Si una letra no está en los otros grupos, está aquí.":"b5d5a25c42f7.mp3","Empieza por las seis iguales, sigue por los seis falsos amigos y deja las nuevas para el final.":"c3a645be19b3.mp3","Esta es la idea que organiza toda la fonética rusa: cada vocal tiene una versión dura y otra blanda. La blanda ablanda la consonante que va delante, y esa diferencia distingue palabras enteras. Si entiendes esta tabla, entiendes por qué el ruso suena como suena.":"72253e461777.mp3","En ruso casi cada letra es un sonido, así que leer parece fácil. La trampa es el acento: decide qué sílaba suena fuerte y cambia cómo suenan las demás vocales. Aquí vas palabra a palabra, letra a letra y sílaba a sílaba, como aprenden a leer los niños rusos.":"3c7ab456c011.mp3","Toca cualquier ejemplo para oírlo. Cada pieza tiene su color, y es el mismo en las palabras de abajo.":"7997dc2c038a.mp3","De la más sencilla a la más enredada. No pases a la siguiente hasta poder decir esta.":"0596c03eb61f.mp3","Todo como en español. Se lee por sílabas, como en las cartillas rusas: -. La tilde marca la sílaba fuerte.":"fcc9029e6b37.mp3","El cirílico se traza como nuestro alfabeto y las mayúsculas de imprenta son fáciles. Escribirlas a mano es lo que separa reconocerlas de leerlas de corrido.":"552784b3de84.mp3","Igual que nuestro alfabeto. Las mayúsculas de imprenta son las más fáciles y con esas basta para empezar.":"2b0730494597.mp3","La letra manuscrita rusa cambia tanto que parece otro alfabeto: la manuscrita parece una «m» y la parece una «g». Déjala para más adelante.":"0c85511114f8.mp3","y se confunden al escribir rápido, igual que y, o y: lo único que las separa es la colita.":"4dec94a28a2f.mp3","y no suenan pero cambian la palabra. Escribirlos no es opcional.":"81639d544b30.mp3","Elige una letra, repásala encima del modelo con el ratón o el dedo, y luego intenta escribirla en el hueco de la derecha sin modelo. Con Ver cómo se forma la letra se pinta sola siguiendo su forma, con un punto por delante: te enseña de dónde sale cada parte, no el orden exacto de los trazos a mano, que es lo que explican las reglas de aquí arriba.":"0ea5efcd8b1e.mp3","Para escribir sin cambiar la configuración del sistema. Útil para copiar una palabra en un traductor o en un mensaje.":"1eaaf4e54929.mp3","Las teclas resaltadas son marcas: no se sostienen solas, se escriben justo después de la letra a la que acompañan. Aquí se muestran sobre un círculo para que se vean.":"ce3f35363977.mp3","No te voy a mentir: el ruso tiene seis casos y eso es trabajo de verdad. Pero también tiene regalos que compensan: no hay artículos, no existe el verbo «ser» en presente y el orden de las palabras es casi libre. Estos catorce puntos son los que hay que entender primero.":"025847503940.mp3","No hay artículos. Ni «el» ni «un». es «libro», «el libro» y «un libro». Una preocupación menos que en inglés.":"34e94b19b43d.mp3","El verbo «ser» no existe en presente. «Yo soy estudiante» se dice literalmente «yo estudiante». En pasado y futuro sí aparece.":"6f3c5b66b766.mp3","Seis casos, y no hay atajo. El final de cada sustantivo cambia según su papel en la frase. Es el trabajo grande del ruso, y hay que hacerlo poco a poco.":"9f568f93d9ab.mp3","El acusativo marca el objeto. Lo que recibe la acción cambia de terminación: (libro) pasa a cuando lo ves, lo compras o lo lees.":"1f6e55d391dd.mp3","Tres géneros. Se adivinan por la terminación: consonante es masculino, -/- femenino, -/- neutro. Y el adjetivo concuerda.":"0eba457f7b01.mp3","El orden es casi libre. Como las terminaciones marcan la función, puedes mover las palabras para enfatizar sin perder el sentido.":"3d619817bf63.mp3","Tener se dice «hay junto a mí». No se usa un verbo «tener». Se dice literalmente «junto a mí hay un coche».":"ccab7bae95ab.mp3","Cada verbo viene en pareja. Uno para la acción en marcha o repetida, otro para la acabada. No es tiempo verbal: es aspecto, y se aprende por parejas.":"767116527045.mp3","Ir a pie e ir en vehículo. Son verbos distintos y no se pueden intercambiar. Y cada uno tiene su versión para el movimiento repetido.":"260a141e1501.mp3","Negar: delante. Sencillo. Y a diferencia del inglés, se pueden acumular negaciones:.":"f68f02e46c7d.mp3","Preguntar es solo entonar. No hace falta cambiar el orden ni añadir palabras: se sube la voz en la palabra clave.":"53ff6093b9a9.mp3","Tú y usted. con amigos y familia; con desconocidos, mayores y en el trabajo. Usar antes de tiempo es una falta.":"d0d1d5628299.mp3","Los verbos se conjugan por persona. Seis terminaciones, dos modelos principales y poca cosa irregular. Después de los casos, esto se te hará fácil.":"736751169b08.mp3","El acento no se escribe. En este curso va marcado con tilde para que lo aprendas bien, pero en cualquier texto real no aparece.":"5f948a64ad6b.mp3","Combina las piezas y mira cómo cambia la frase. Es la forma rápida de que los patrones se te queden: no memorizándolos, sino usándolos.":"2f40e6fd6a57.mp3","Falsos amigos con el español y con el inglés. Algunos vienen del francés y otros son casualidades puras, pero todos hacen daño.":"0c3207b1ad59.mp3","Tres ejercicios de boca, para soltarse. Elige uno: se hace en dos minutos y puedes cambiar cuando quieras.":"153c5ba4d3e0.mp3","Te damos el significado en español y tú lo dices en voz alta. Te corrijo al momento. Primero palabras sueltas y luego frases enteras; si lo dices bien cuenta, aunque te dejes la partícula de cortesía.":"4cfb27de3657.mp3","Un día de alguien, escena a escena. Mira el dibujo y escucha: la frase suena sola y la traducción está escondida. Intenta entenderla antes de destaparla.":"0cdb919909cb.mp3","98 palabras de uso diario en tarjetas, con el acento marcado. Cada palabra tiene cinco niveles: acertarla la sube, fallarla la baja. Repasas más lo que peor llevas.":"fb59f1d7b97d.mp3","Toca una parte del dibujo y te la digo. Debajo las tienes todas escritas, y puedes decirlas tú para que te corrija.":"65e63fc13436.mp3","Lo que tú marques con la, aquí junto. 0 guardadas. Y el botón Enseñar lo pone a pantalla completa para que lo lea otra persona: en un taxi funciona mejor que cualquier explicación.":"57936c574305.mp3","38 frases completas por situación. En ruso, con su transliteración y con el acento marcado, que es lo que de verdad necesitas para que te entiendan.":"589aafd07c30.mp3","Si tu país no está, deja el hueco: verás el patrón de la frase con una raya, y ahí dices el nombre de tu país.":"a11fb1a5a259.mp3","Los números rusos son regulares hasta que empiezas a contar cosas: entonces el sustantivo cambia de forma según el número. Es raro, tiene una lógica y se explica aquí abajo.":"85f5a6c667f5.mp3","Contar es una cosa y entenderlos dichos a toda velocidad es otra, y la que hace falta en la calle es la segunda. Aquí el número no se lee: se oye.":"d131d0e85090.mp3","Oyes el precio y lo escribes en cifras. Es lo que pasa en una tienda: te lo dicen una vez y rápido.":"1eae79817d6d.mp3","Hasta aquí, fácil. Lo que complica el ruso no son los números en sí, sino lo que le pasa al sustantivo que va detrás: cambia de forma según el número. Lo tienes explicado abajo.":"8fb716cfc248.mp3","Con 1 va en singular normal, con 2, 3 y 4 en una forma especial, y a partir de 5 en otra distinta. Es la rareza más famosa del ruso.":"1798310c3452.mp3","La regla se aplica al último dígito: 21 se comporta como 1, 22 como 2, 25 como 5. Así que 21 y 25.":"24179479fca1.mp3","/ /, y /. Los demás números no cambian. Es de lo primero que se aprende porque sale constantemente.":"139f1b29be99.mp3","Oír no basta: el acento ruso y las consonantes blandas solo se aprenden produciéndolos. Escucha el modelo, repite en voz alta marcando bien la sílaba fuerte, y compárate.":"d94d5c5168c9.mp3","Le das al play y va solo: la palabra, un hueco para que la repitas, lo que significa, y a la siguiente. Para andando, cocinando o en el coche, sin tocar la pantalla.":"526fa313e01d.mp3","Aquí sí te corrige: escucha el modelo, pulsa Dilo tú y habla. Debajo te dice qué ha entendido y en qué fallaste. Es lo que no hace el reproductor de arriba.":"f56abc0fb098.mp3","Treinta palabras de uso diario. Trabaja de cinco en cinco.":"f48bfd348aad.mp3","Una escena, alguien que te habla y tu turno de contestar en voz alta. Lo que dices se compara con el modelo y se te corrige, igual que en el resto del curso. Todo lo que vas a oír y a decir sale de las frases que ya has visto.":"da56b1e9d126.mp3","Empieza por la primera: es la que te va a pasar antes. Necesitas el micrófono; si prefieres no usarlo, puedes pasar de turno igualmente.":"d1cb5837ac91.mp3","Charla con Masha como en el móvil: te escribe, lo oyes, y contestas tú. Son conversaciones de práctica con frases del curso: te equivoques o no, aquí se aprende.":"f0af4ae07c35.mp3","Practica con personas nativas que aprenden tu idioma.":"90af143068b2.mp3","Tres ejercicios que trabajan lo que las tarjetas no llegan a tocar: encadenar una conversación, asociar sin pistas y escribir de oído. Son los que más cansan y los que más consolidan.":"302f31d4e90e.mp3","Las frases de una escena, revueltas. Ponlas en el orden en que pasarían. Cada una suena al colocarla, así que oyes la conversación montarse; si te equivocas, la ficha se sacude y no pasa nada.":"683f99fb950b.mp3","Toca las frases en el orden en que se dirían. es lo que dicen ellos, lo que dices tú. Sin traducción a propósito: si está ahí, ordenas leyendo castellano y no te enteras de nada.":"b623103e3c0a.mp3","Seis palabras, doce cartas. Encuentra cada una con su español. Cada carta que destapas se pronuncia, así que además entrenas el oído sin darte cuenta.":"610ea9089ab2.mp3","El ejercicio más exigente de la página: oír una palabra y escribirla de cero. Junta oído, acento y ortografía en un solo gesto. Si aciertas una de cada tres, vas bien.":"01fadfc28fbd.mp3","Suena una palabra y tocas el dibujo. No hay que leer nada, ni en ruso ni en español: solo oír y reconocer. Es el ejercicio más corto de todos y el que mejor dice si una palabra te entra por el oído.":"a1b9b21f1f5a.mp3","Al revés que el dictado: ves lo que significa y lo escribes de cero, sin oírlo y sin tenerlo delante. Es lo más difícil de la página, y lo único que de verdad separa «la reconozco» de «me la sé».":"86bf1e532fcc.mp3","Seis viñetas de una misma situación, con su dibujo. Toca una para oírla, o dale a oírla entera y ve siguiéndolas.":"113dc15a75fa.mp3","Doce preguntas de todo: letras, acento, vocabulario, escucha, frases y números. Mejor marca hasta ahora: 0%.":"9c485704f905.mp3","Uno por lección, que pregunta de lo suyo y nada más. Se abre cuando ya has entrado en esa lección, y se aprueba con el 80 %. Lo que llevas pendiente se ve de un golpe.":"5aaa02ef4d08.mp3"};
 const EXPLICA_WEB = "https://angebloom.github.io/ruso/explica/";
+const DIB_COLOR = {"🗺️":"1f5fa.svg","🙋":"1f64b.svg","👫":"1f46b.svg","❓":"2753.svg","🌅":"1f305.svg","☀️":"2600.svg","🌇":"1f307.svg","🌙":"1f319.svg","🥵":"1f975.svg","🥶":"1f976.svg","⬆️":"2b06.svg","➡️":"27a1.svg","⬅️":"2b05.svg","🤤":"1f924.svg","🚶":"1f6b6.svg","🚗":"1f697.svg","💰":"1f4b0.svg","😔":"1f614.svg","🤗":"1f917.svg","🙏":"1f64f.svg","👌":"1f44c.svg","👋":"1f44b.svg","😍":"1f60d.svg","🐄":"1f404.svg","📍":"1f4cd.svg","🐘":"1f418.svg","🐭":"1f42d.svg","💎":"1f48e.svg","🏷️":"1f3f7.svg","👍":"1f44d.svg","🧗":"1f9d7.svg","🎉":"1f389.svg","👎":"1f44e.svg","😋":"1f60b.svg","🛠️":"1f6e0.svg","🕛":"1f55b.svg","🤧":"1f927.svg","🍾":"1f37e.svg","🐃":"1f403.svg","🔔":"1f514.svg","🐍":"1f40d.svg","🎶":"1f3b6.svg","⛓️":"26d3.svg","👑":"1f451.svg","🪡":"1faa1.svg","🏛️":"1f3db.svg","👴":"1f474.svg","🧘":"1f9d8.svg","👜":"1f45c.svg","💂":"1f482.svg","🚩":"1f6a9.svg","🍃":"1f343.svg","🐟":"1f41f.svg","🐝":"1f41d.svg","🎩":"1f3a9.svg","🍽️":"1f37d.svg","🦷":"1f9b7.svg","⛵":"26f5.svg","👹":"1f479.svg","🛶":"1f6f6.svg","🐒":"1f412.svg","💍":"1f48d.svg","⛩️":"26e9.svg","🧙":"1f9d9.svg","🧰":"1f9f0.svg","🪁":"1fa81.svg","🏺":"1f3fa.svg","🦉":"1f989.svg","🐜":"1f41c.svg","✋":"270b.svg","🦶":"1f9b6.svg","🙇":"1f647.svg","🤝":"1f91d.svg","✅":"2705.svg","❌":"274c.svg","👉":"1f449.svg","👨":"1f468.svg","👩":"1f469.svg","👥":"1f465.svg","🧑":"1f9d1.svg","👨‍👩‍👧":"1f468-200d-1f469-200d-1f467.svg","🏠":"1f3e0.svg","👶":"1f476.svg","🧒":"1f9d2.svg","🎓":"1f393.svg","🧑‍🏫":"1f9d1-200d-1f3eb.svg","💧":"1f4a7.svg","🍚":"1f35a.svg","☕":"2615.svg","🍵":"1f375.svg","🥛":"1f95b.svg","🍞":"1f35e.svg","🥚":"1f95a.svg","🥩":"1f969.svg","🍗":"1f357.svg","🐖":"1f416.svg","🦐":"1f990.svg","🍎":"1f34e.svg","🥦":"1f966.svg","🧀":"1f9c0.svg","🍷":"1f377.svg","🫒":"1fad2.svg","🧈":"1f9c8.svg","🥐":"1f950.svg","🌶️":"1f336.svg","🔥":"1f525.svg","❄️":"2744.svg","🍴":"1f374.svg","🥤":"1f964.svg","🛒":"1f6d2.svg","🏪":"1f3ea.svg","🛍️":"1f6cd.svg","💳":"1f4b3.svg","💶":"1f4b6.svg","📉":"1f4c9.svg","💵":"1f4b5.svg","💴":"1f4b4.svg","🏨":"1f3e8.svg","✈️":"2708.svg","🚉":"1f689.svg","🚆":"1f686.svg","🚕":"1f695.svg","🛣️":"1f6e3.svg","🌊":"1f30a.svg","🚻":"1f6bb.svg","🏃":"1f3c3.svg","🚪":"1f6aa.svg","📅":"1f4c5.svg","⏪":"23ea.svg","🗓️":"1f5d3.svg","📆":"1f4c6.svg","🎆":"1f386.svg","⏱️":"23f1.svg","⏰":"23f0.svg","🕰️":"1f570.svg","🔴":"1f534.svg","🔵":"1f535.svg","🟢":"1f7e2.svg","🟡":"1f7e1.svg","⚪":"26aa.svg","⚫":"26ab.svg","🟠":"1f7e0.svg","🌸":"1f338.svg","🎨":"1f3a8.svg","🌷":"1f337.svg","🙈":"1f648.svg","➕":"2795.svg","🤏":"1f90f.svg","👇":"1f447.svg","🗣️":"1f5e3.svg","👂":"1f442.svg","📖":"1f4d6.svg","✍️":"270d.svg","👀":"1f440.svg","💡":"1f4a1.svg","🧠":"1f9e0.svg","💭":"1f4ad.svg","💪":"1f4aa.svg","🤲":"1f932.svg","❤️":"2764.svg","💼":"1f4bc.svg","🏡":"1f3e1.svg","✨":"2728.svg","🇪🇸":"1f1ea-1f1f8.svg","🇯🇵":"1f1ef-1f1f5.svg","🇮🇹":"1f1ee-1f1f9.svg","🇬🇧":"1f1ec-1f1e7.svg","🇷🇺":"1f1f7-1f1fa.svg","🇰🇷":"1f1f0-1f1f7.svg","🇹🇭":"1f1f9-1f1ed.svg","🛏️":"1f6cf.svg","🪟":"1fa9f.svg","🪑":"1fa91.svg","🔑":"1f511.svg","🩺":"1fa7a.svg","💊":"1f48a.svg","🤕":"1f915.svg","😖":"1f616.svg","😴":"1f634.svg","🤒":"1f912.svg","🌧️":"1f327.svg","🌬️":"1f32c.svg","🌳":"1f333.svg","🌼":"1f33c.svg","⛰️":"26f0.svg","🏝️":"1f3dd.svg","🐱":"1f431.svg","🐶":"1f436.svg","🎁":"1f381.svg","⏳":"23f3.svg","🔍":"1f50d.svg","↔️":"2194.svg","🔀":"1f500.svg","💬":"1f4ac.svg","🤔":"1f914.svg","🐢":"1f422.svg","🐇":"1f407.svg","👵":"1f475.svg","🧑‍🤝‍🧑":"1f9d1-200d-1f91d-200d-1f9d1.svg","💺":"1f4ba.svg","🆘":"1f198.svg","🚢":"1f6a2.svg","🫐":"1fad0.svg","😘":"1f618.svg","👢":"1f462.svg","🐎":"1f40e.svg","👕":"1f455.svg","🔒":"1f512.svg","⛺":"26fa.svg","🏰":"1f3f0.svg","🧅":"1f9c5.svg","📄":"1f4c4.svg","🧵":"1f9f5.svg","🐦":"1f426.svg","🧺":"1f9fa.svg","📚":"1f4da.svg","⛏️":"26cf.svg","🍦":"1f366.svg","🌿":"1f33f.svg","👧":"1f467.svg","🏫":"1f3eb.svg","🎭":"1f3ad.svg","📰":"1f4f0.svg","👁️":"1f441.svg","🥇":"1f947.svg","🧸":"1f9f8.svg","🐑":"1f411.svg","💑":"1f491.svg","🍕":"1f355.svg","😠":"1f620.svg","🏞️":"1f3de.svg","✉️":"2709.svg","🍲":"1f372.svg","🐅":"1f405.svg","🎫":"1f3ab.svg","🏙️":"1f3d9.svg","🧾":"1f9fe.svg","🎬":"1f3ac.svg","📺":"1f4fa.svg","🤪":"1f92a.svg","9️⃣":"39-20e3.svg","7️⃣":"37-20e3.svg","4️⃣":"34-20e3.svg","🧳":"1f9f3.svg","🏅":"1f3c5.svg","🃏":"1f0cf.svg","🎧":"1f3a7.svg","🎯":"1f3af.svg","🎤":"1f3a4.svg","🧩":"1f9e9.svg","🔤":"1f524.svg","📌":"1f4cc.svg","🧭":"1f9ed.svg","🔁":"1f501.svg","📘":"1f4d8.svg","👪":"1f46a.svg","🧍":"1f9cd.svg","🍜":"1f35c.svg","💇":"1f487.svg","🙂":"1f642.svg","😊":"1f60a.svg","👃":"1f443.svg","👄":"1f444.svg","👅":"1f445.svg","🧣":"1f9e3.svg","🤷":"1f937.svg","☝️":"261d.svg","💅":"1f485.svg","🫁":"1fac1.svg","🫃":"1fac3.svg","🦵":"1f9b5.svg","▶":"25b6.svg"};
 /* ══════════════════════════════════════════════════════════
    CONFIGURACIÓN — botón de apoyo
 
@@ -4443,7 +4505,9 @@ function motivoDelSilencio(text){
    no llegaba. La app ahora pone a mano el lector de Android (SuenaVoz,
    ver VozNativa.java), que sí trae voces de los siete idiomas. Solo se
    usa para lo que no tiene fichero: la grabación siempre manda. */
-const hayVozNativa = () => { try{ return !!(window.SuenaVoz && SuenaVoz.tiene(LANG.voz)); }catch(e){ return false; } };
+/* función y no constante: paintVoice la llama al cargar, antes de llegar
+   aquí, y con una constante eso rompía la página entera */
+function hayVozNativa(){ try{ return !!(window.SuenaVoz && SuenaVoz.tiene(LANG.voz)); }catch(e){ return false; } }
 let vozNativaN = 0;
 const vozNativaCb = {};
 window.__vozNativa = (id, que) => {
@@ -4924,6 +4988,8 @@ function go(id, vuelta){
      cómo abrirla en vez del contenido */
   const cerrada = !abierta(id);
   if(viewCleanup){ viewCleanup(); viewCleanup = null; }
+  /* ¿es otra pantalla, o la misma que se repinta? (ver más abajo, el foco) */
+  const otra = !!current && id !== current;
   current = id;
   /* Cada sección deja su huella en el historial. Antes esto era
      replaceState, que PISA la entrada en vez de añadirla: el curso entero
@@ -4977,6 +5043,14 @@ function go(id, vuelta){
   marcaIdiomas(document.getElementById("view"));
   cuentaPantalla(id);
   animaVista();
+  /* Con lector de pantalla, cambiar de sección no se notaba: el foco se
+     quedaba en el botón del menú, que ya no está, y no se anunciaba nada.
+     Ahora va al título de la pantalla nueva. Solo al cambiar de pantalla:
+     al repintar la misma (un ajuste, un acceso) no se mueve. */
+  if(otra){
+    const h = document.querySelector("#view .view h1");
+    if(h){ h.setAttribute("tabindex", "-1"); try{ h.focus({preventScroll:true}); }catch(e){} }
+  }
 }
 
 document.addEventListener("click", e => {
@@ -6352,6 +6426,12 @@ VIEWS.hablar = {
     Debajo te dice qué ha entendido y en qué fallaste. Es lo que no hace el reproductor de arriba.</p>
     <div id="spkCaja">${spkTarjetaHTML()}</div>
 
+    ${typeof imitaHTML === "function" ? `<h2 class="sec" id="imTit">Tu frase: grábate, escúchate y te puntúo</h2>
+    <p class="sec-note">Cualquier frase que quieras aprender: escríbela o elige una del curso, oye cómo se dice
+    y grábate. Te escuchas al lado del modelo y te doy una nota del 0 al 100 con lo que se entiende,
+    la melodía y el ritmo, y en qué mejorar.</p>
+    ${imitaHTML()}` : ""}
+
     <h2 class="sec">Lista de práctica</h2>
     <p class="sec-note">Treinta palabras de uso diario. Trabaja de cinco en cinco.</p>
     <div class="list">
@@ -6365,6 +6445,7 @@ VIEWS.hablar = {
   init(){
     ecoInicia();
     spkEngancha();
+    if(typeof imitaInicia === "function") imitaInicia();
     document.querySelectorAll("[data-spk]").forEach(b => b.addEventListener("click",
       () => spkVeA(+b.dataset.spk)));
   }
@@ -6536,7 +6617,7 @@ VIEWS.vocabulario = {
     <span class="vhoy" id="vHoy"></span>
     <div class="bar"><i id="vBar" style="width:0%"></i></div>
     <div id="vCard"></div>
-    <p class="muted" style="font-size:13px;margin-top:10px;text-align:center">
+    <p class="muted solo-teclado" style="font-size:13px;margin-top:10px;text-align:center">
       Con teclado: <kbd>espacio</kbd> gira la tarjeta y la da por sabida ·
       <kbd>1</kbd> no la sabía · <kbd>2</kbd> la sabía · <kbd>S</kbd> escuchar</p>
 
@@ -7522,7 +7603,7 @@ const SINONIMO = {
 
 /* Un emoji lo dibuja cada sistema a su manera; estos no. Lo que no
    tenga dibujo propio sigue con su emoji, que es mejor que nada. */
-function ilustracion(clave){
+function ilustracion(clave, emoji){
   if(!clave) return null;
   const k = SINONIMO[clave] || clave;
   /* Si la palabra tiene dibujo hecho a mano, ese manda. Va en la misma
@@ -7531,6 +7612,12 @@ function ilustracion(clave){
      arte-palabras; si no hay, ARTE queda vacio y esto ni se entera. */
   if(typeof ARTE !== "undefined" && ARTE && ARTE[k])
     return `<img class="ico ico-arte" src="./dibujos/${ARTE[k]}" alt="" loading="lazy" decoding="async">`;
+  /* Después, el dibujo de color del emoji de esa palabra (arte-color,
+     Fluent Emoji plano): los de línea, «palitos», se veían pobres sobre
+     todo grandes, en el «¿cuál de estas imágenes es?». El de línea queda
+     solo para lo que no tiene ninguno de los dos. */
+  const c = emoji && typeof DIB_COLOR !== "undefined" && DIB_COLOR && DIB_COLOR[emoji];
+  if(c) return `<img class="ico ico-arte ico-color" src="./dibujos-color/${c}" alt="" loading="lazy" decoding="async">`;
   return Object.prototype.hasOwnProperty.call(ILUSTRA, k) ? ILUSTRA[k] : null;
 }
 
@@ -7989,7 +8076,7 @@ function dibujo(v){
      contesta: si hay dibujo de línea para esa palabra, ese; y si no, el
      emoji de toda la vida (ver dibujos.js) */
   const sale = (clave, emoji) => {
-    const d = typeof ilustracion === "function" ? ilustracion(clave) : null;
+    const d = typeof ilustracion === "function" ? ilustracion(clave, emoji) : null;
     return d || emoji;
   };
   for(const [frase, e] of DIBUJO_FRASES) if(g.indexOf(frase) >= 0) return sale(frase, e);
@@ -8928,15 +9015,41 @@ function palabraDiaHTML(){
   </div>`;
 }
 
-/* ¿cuál es? tres dibujos, una palabra */
+/* ¿cuál es? tres dibujos, una palabra, y sin ayuda: hay que saberla.
+   Por eso aquí solo entran palabras que se pueden DIBUJAR sin dudas
+   (cosas: comida, casa, animales, colores, familia, transporte…). «Ser»,
+   «bueno», «yo» o «ayer» tienen dibujo para acompañar la tarjeta, pero
+   solo no dicen cuál son: un círculo con una raya puede ser cualquiera. */
 let cualItem = null, cualAciertos = 0;
+const cualEs = v => String(v[2]).split(/\s*[\/(;]/)[0].trim();
+/* «personas» no: padre, hermano mayor y familia son tres monigotes muy parecidos */
+const DIB_CONCRETOS = ["casa", "colores", "naturaleza", "comida", "compras", "salud", "viajar",
+                       "cuerpo", "animales", "ropa", "lugares", "transporte", "objetos"];
+const DIB_ABSTRACTO = /^(yo|tú|tu|él|el|ella|nosotros|ellos|usted|persona|color|cuánto|dónde|caro|barato|picante|delicioso|cansado|enfermo|cerca|lejos|izquierda|derecha|todo recto)(?=$|[\s\/(,!?.])/;
+function dibujoClaro(v){
+  if(!v || DIB_CONCRETOS.indexOf(v[3]) < 0) return false;
+  const es = String(v[2]).toLowerCase().trim();
+  if(DIB_ABSTRACTO.test(es)) return false;
+  const pal = es.split(/[\s\/(,]/)[0];
+  /* los verbos (menos cosas que terminan igual: mar, mujer, lugar…) */
+  if(/(ar|er|ir|ír|arse|erse|irse)$/.test(pal) &&
+     ["mar", "bar", "lugar", "hogar", "mujer", "collar", "azúcar", "dólar", "taller", "altar"].indexOf(pal) < 0) return false;
+  return dibujo(v) !== "✨";
+}
 function nuevoCual(){
-  const conDibujo = VOCAB.filter(v => dibujo(v) !== "✨");
+  const conDibujo = VOCAB.filter(dibujoClaro);
   for(let i = 0; i < 40; i++){
     const bien = pick(conDibujo), suyo = dibujo(bien);
-    const otros = [...new Set(conDibujo.map(dibujo).filter(e => e !== suyo))];
-    if(otros.length < 2) break;
-    cualItem = {v:bien, ok:suyo, opciones:shuffle([suyo, ...shuffle(otros).slice(0, 2)])};
+    /* otras dos con dibujo y significado distintos, mejor de otro tema */
+    const pool = shuffle(conDibujo.filter(v => dibujo(v) !== suyo && cualEs(v) !== cualEs(bien)));
+    pool.sort((a, b) => (a[3] === bien[3]) - (b[3] === bien[3]));
+    const otros = [];
+    for(const v of pool){
+      if(otros.length >= 2) break;
+      if(!otros.some(o => dibujo(o) === dibujo(v) || cualEs(o) === cualEs(v))) otros.push(v);
+    }
+    if(otros.length < 2) continue;
+    cualItem = {v:bien, opciones:shuffle([bien, ...otros])};
     return true;
   }
   cualItem = null;
@@ -8949,8 +9062,8 @@ function cualHTML(){
     <div class="cual-cab"><b>¿Cuál es?</b><span class="lec-num">${cualAciertos} ✓</span></div>
     <div class="cual-pal th" data-say="${esc(v[0])}" role="button" tabindex="0">${v[0]}</div>
     <div class="cual-rom">${v[1]}</div>
-    <div class="cual-ops">${cualItem.opciones.map(e =>
-      `<button class="cual-op" data-cual="${esc(e)}" aria-label="Elegir">${e}</button>`).join("")}</div>
+    <div class="cual-ops">${cualItem.opciones.map((w, i) =>
+      `<button class="cual-op" data-cual="${i}" aria-label="Elegir">${dibujo(w)}</button>`).join("")}</div>
     <div class="cual-fb" id="cualFb" aria-live="polite">Toca el dibujo que significa esta palabra.</div>
   </div>`;
 }
@@ -8960,10 +9073,11 @@ function pintaCual(){
   c.innerHTML = cualHTML();
   c.querySelectorAll("[data-cual]").forEach(b => b.addEventListener("click", () => {
     if(b.disabled) return;
-    const bien = b.dataset.cual === cualItem.ok;
+    const okI = String(cualItem.opciones.indexOf(cualItem.v));
+    const bien = b.dataset.cual === okI;
     c.querySelectorAll("[data-cual]").forEach(x => {
       x.disabled = true;
-      if(x.dataset.cual === cualItem.ok) x.classList.add("ok");
+      if(x.dataset.cual === okI) x.classList.add("ok");
       else if(x === b) x.classList.add("no");
     });
     const fb = document.getElementById("cualFb");
@@ -8971,7 +9085,7 @@ function pintaCual(){
       cualAciertos++; ganaXP(5); touchStreak();
       fb.innerHTML = `<b style="color:var(--ok)">¡Sí!</b> ${cualItem.v[0]} · ${cualItem.v[1]} — ${cualItem.v[2]}`;
     } else {
-      fb.innerHTML = `<b style="color:var(--bad)">No.</b> ${cualItem.v[0]} es <b>${cualItem.v[2]}</b> ${cualItem.ok}`;
+      fb.innerHTML = `<b style="color:var(--bad)">No.</b> ${cualItem.v[0]} es <b>${cualItem.v[2]}</b> ${dibujo(cualItem.v)}`;
     }
     speak(cualItem.v[0]);
     setTimeout(() => { if(nuevoCual()) pintaCual(); }, bien ? 1100 : 2200);
@@ -9811,9 +9925,30 @@ const tapaChivatos = (si, donde) => { sinChivatos = !!si; chivatoDe = si ? (dond
 const hayQueTapar = () => sinChivatos && (!chivatoDe || !!chivatoDe.offsetParent);
 
 let subTimer = null;
+/* La barra de abajo salía cada vez que sonaba algo, con su «🐢 Más lento»
+   y su ×, y tapaba lo que estabas haciendo. Ahora hay una tortuguita
+   fija en una esquina que repite despacio lo último que sonó, y la barra
+   solo sale cuando el teléfono no tiene voz: entonces el texto es lo
+   único que hay. */
+let ultimoDicho = "";
+function tortugaLista(texto){
+  ultimoDicho = texto;
+  let t = document.getElementById("tortuga");
+  if(!t){
+    t = document.createElement("button");
+    t.id = "tortuga"; t.className = "tortuga"; t.type = "button";
+    t.title = "Repetir más despacio";
+    t.setAttribute("aria-label", "Repetir lo último más despacio");
+    t.textContent = "🐢";
+    document.body.appendChild(t);
+  }
+  t.classList.toggle("ver", !(typeof S !== "undefined" && S.mudo));
+}
 function subtitula(texto, aviso){
   const caja = document.getElementById("subt");
   if(!caja || !texto) return;
+  tortugaLista(texto);
+  if(!aviso) return;
 
   /* Tapado manda sobre todo lo demás. El aviso de «no hay voz» se sigue
      dando —no delata nada— pero el texto no se enseña: si no, en el
@@ -9853,6 +9988,12 @@ function subtitula(texto, aviso){
 document.addEventListener("click", e => {
   const caja = document.getElementById("subt");
   if(e.target.closest("[data-sub-x]")){ caja.classList.remove("ver"); return; }
+  if(e.target.closest("#tortuga") && ultimoDicho){
+    const t = document.getElementById("tortuga");
+    if(t){ t.classList.remove("toca"); void t.offsetWidth; t.classList.add("toca"); }
+    diAlgo(ultimoDicho, 0.45);
+    return;
+  }
   if(e.target.closest("[data-sub-lento]") && caja && caja.dataset.txt){
     /* 0.45 es el mínimo que casi todos los motores respetan sin romperse */
     diAlgo(caja.dataset.txt, 0.45);
@@ -10749,7 +10890,7 @@ function tmItemsDe(cat){
     if(typeof CUERPO === "undefined") return [];
     return CUERPO.map(p => ({
       th:p[1], rom:p[2], es:p[3],
-      dib:(typeof ilustracion === "function" && ilustracion(p[0])) || TM_CUERPO_EMOJI[p[0]] || "🧍"
+      dib:(typeof ilustracion === "function" && ilustracion(p[0], TM_CUERPO_EMOJI[p[0]] || "🧍")) || TM_CUERPO_EMOJI[p[0]] || "🧍"
     }));
   }
   if(typeof VOCAB === "undefined") return [];
@@ -11733,6 +11874,7 @@ VIEWS.perfil = {
     }).join("");
     const idiomas = Object.entries(S.idiomas || {});
     return `
+    <h1 class="solo-lector">Tu perfil</h1>
     <div class="pf-cab">
       <button class="pf-av" data-pf-elige aria-label="Cambiar tu imagen">${avatarHTML(112, "pf-grande")}<span class="pf-lapiz">✎</span></button>
       <input class="pf-nombre" id="pfNombre" maxlength="24" value="${esc(S.nombre || "")}" placeholder="Tu nombre" aria-label="Tu nombre">
@@ -12103,13 +12245,18 @@ const ASP_COLORES = [
 ];
 const ASP_MODOS = [["", "Automático", "🌗"], ["light", "Claro", "☀️"], ["dark", "Oscuro", "🌙"]];
 const ASP_EFECTOS = [["todos", "Todos los efectos", "✨"], ["suaves", "Suaves", "🍃"]];
+const ASP_CONTRASTE = [["", "Normal", "◐"], ["alto", "Alto", "◼"]];
+const ASP_LETRA = [["1", "Normal", "A"], ["1.15", "Grande", "A"], ["1.3", "Muy grande", "A"]];
 
 function aspecto(){
   if(!S.aspecto || typeof S.aspecto !== "object") S.aspecto = {};
   const a = S.aspecto;
   if(!a.fondo) a.fondo = "aurora";
   if(!a.acento) a.acento = "idioma";
-  if(!a.efectos) a.efectos = "todos";
+  /* quien tiene pedido «reducir movimiento» en el sistema empieza en suaves */
+  if(!a.efectos) a.efectos = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) ? "suaves" : "todos";
+  /* "" = lo que diga el sistema (alto si pide más contraste) */
+  if(a.contraste === undefined) a.contraste = "";
   if(!a.abiertos || typeof a.abiertos !== "object") a.abiertos = {};
   return a;
 }
@@ -12118,6 +12265,8 @@ function aplicaAspecto(){
   h.dataset.fondo = a.fondo;
   h.dataset.acento = a.acento;
   h.dataset.efectos = a.efectos;
+  const alto = a.contraste === "alto" || (a.contraste === "" && window.matchMedia && matchMedia("(prefers-contrast: more)").matches);
+  if(alto) h.dataset.contraste = "alto"; else delete h.dataset.contraste;
 }
 aplicaAspecto();
 
@@ -12140,13 +12289,21 @@ function aspectoHTML(){
   <h2 class="sec">Personaliza</h2>
   <div class="card asp">
     <div class="asp-fila"><span class="asp-tit">Modo</span>
-      <div class="asp-seg">${ASP_MODOS.map(([id, nom, e]) => `<button class="${modo === id ? "si" : ""}" data-asp="modo" data-asp-id="${id}">${e} ${nom}</button>`).join("")}</div></div>
+      <div class="asp-seg">${ASP_MODOS.map(([id, nom, e]) => `<button class="${modo === id ? "si" : ""}" aria-pressed="${modo === id}" data-asp="modo" data-asp-id="${id}">${e} ${nom}</button>`).join("")}</div></div>
     <div class="asp-tit">Fondo</div>
     <div class="asp-ops">${opc("fondo", ASP_FONDOS, a.fondo)}</div>
     <div class="asp-tit">Color</div>
     <div class="asp-ops asp-ops--color">${opc("acento", ASP_COLORES, a.acento)}</div>
     <div class="asp-fila"><span class="asp-tit">Efectos</span>
-      <div class="asp-seg">${ASP_EFECTOS.map(([id, nom, e]) => `<button class="${a.efectos === id ? "si" : ""}" data-asp="efectos" data-asp-id="${id}">${e} ${nom}</button>`).join("")}</div></div>
+      <div class="asp-seg">${ASP_EFECTOS.map(([id, nom, e]) => `<button class="${a.efectos === id ? "si" : ""}" aria-pressed="${a.efectos === id}" data-asp="efectos" data-asp-id="${id}">${e} ${nom}</button>`).join("")}</div></div>
+    <div class="asp-tit" id="aspAcc">Para ver y leer mejor</div>
+    <div class="asp-fila"><span class="asp-tit">Letra</span>
+      <div class="asp-seg" role="group" aria-label="Tamaño del texto">${ASP_LETRA.map(([n, nom, e], i) =>
+        `<button data-letra="${n}" aria-pressed="${(+S.letra || 1) === +n}" style="font-size:${12 + i * 3}px">${e}<span class="solo-lector"> ${nom}</span></button>`).join("")}</div></div>
+    <div class="asp-fila"><span class="asp-tit">Contraste</span>
+      <div class="asp-seg" role="group" aria-label="Contraste">${ASP_CONTRASTE.map(([id, nom, e]) =>
+        `<button class="${(a.contraste || "") === id ? "si" : ""}" aria-pressed="${(a.contraste || "") === id}" data-asp="contraste" data-asp-id="${id}">${e} ${nom}</button>`).join("")}</div></div>
+    <p class="asp-nota">El modo oscuro está arriba, en «Modo». «Efectos suaves» quita las animaciones.</p>
     ${aspEnApp() && !aspSuscrito() ? `<p class="asp-nota">🎬 Los especiales se desbloquean para siempre viendo un vídeo corto. Con la suscripción vienen todos.</p>` : ""}
   </div>`;
 }
@@ -12157,6 +12314,7 @@ function aspElige(tipo, id){
   else if(tipo === "fondo") a.fondo = id;
   else if(tipo === "acento") a.acento = id;
   else if(tipo === "efectos") a.efectos = id;
+  else if(tipo === "contraste") a.contraste = id;
   save(); aplicaAspecto();
   if(typeof auAvisaTema === "function") auAvisaTema();
   const c = document.querySelector(".asp");
@@ -12740,6 +12898,9 @@ function exDecora(){
   els.forEach(el => {
     if(el.dataset.ex) { n++; return; }
     if(exTexto(el).length < EX_MIN) return;
+    /* un párrafo con botones o enlaces dentro no es solo explicación: el 🔊
+       al lado los apretujaba */
+    if(el.querySelector("button:not(.ex-oir),a,input,select")) return;
     el.dataset.ex = "1";
     el.classList.add("ex-p");
     el.insertAdjacentHTML("beforeend", `<button class="ex-oir" type="button" aria-label="Escuchar en voz alta">🔊</button>`);
@@ -14853,8 +15014,11 @@ function vozCalla(){
    los idiomas de tonos, pensando el tono, pasa siempre) la grabación se acababa
    antes de que dijeras nada. */
 function vozGraba(segundos, alAvanzar, opciones){
-  const esperaVoz = !!(opciones && opciones.esperaVoz);
-  const ESPERA_MAX = 8000, CALIBRA = 250, SILENCIO_FIN = 750;
+  opciones = opciones || {};
+  const esperaVoz = !!opciones.esperaVoz;
+  /* una frase entera lleva pausas entre palabras: ahí el silencio que da
+     por terminada la grabación tiene que ser más largo que en una palabra */
+  const ESPERA_MAX = opciones.esperaMax || 8000, CALIBRA = 250, SILENCIO_FIN = opciones.silencioFin || 750;
   return new Promise((listo, mal) => {
     if(!HAY_MICRO){ mal(Object.assign(new Error("sin micrófono"), {name:"NotFoundError"})); return; }
     vozCalla();
@@ -14906,13 +15070,38 @@ function vozGraba(segundos, alAvanzar, opciones){
       const marcos = [];
       const t0 = Date.now();
       let timer = null, cerrado = false;
+      /* opciones.grabar: además de medir, se guarda el sonido, para poder
+         escucharte. Va en marcos.audio (un Blob); quien no lo pide no se entera. */
+      let rec = null, trozos = [];
+      if(opciones.grabar && window.MediaRecorder){
+        try{
+          rec = new MediaRecorder(s);
+          rec.ondataavailable = ev => { if(ev.data && ev.data.size) trozos.push(ev.data); };
+          rec.start();
+        }catch(e){ rec = null; }
+      }
       const cierra = () => {
         if(cerrado) return; cerrado = true;
         clearTimeout(timer);
+        if(rec && rec.state !== "inactive"){
+          let hecho = false;
+          const fin = () => {
+            if(hecho) return; hecho = true;
+            if(trozos.length) marcos.audio = new Blob(trozos, {type: trozos[0].type || rec.mimeType || "audio/webm"});
+            suelta();
+            listo(marcos);
+          };
+          rec.onstop = fin;
+          /* si el grabador no avisa, no se queda nadie esperando */
+          setTimeout(fin, 1500);
+          try{ rec.stop(); }catch(e){ fin(); }
+          return;
+        }
         suelta();
         listo(marcos);
       };
       vozParar = cierra;
+      if(opciones.alAbrir){ try{ opciones.alAbrir(); }catch(e){} }
       /* para esperar a la voz: el ruido de fondo se mide al principio,
          y se guarda un poquito de antes de que arranques para no comerte
          el comienzo de la palabra */
@@ -15147,6 +15336,722 @@ document.addEventListener("click", e => {
 });
 /* si te vas de la pantalla, el micrófono se suelta */
 window.addEventListener("hashchange", () => { if(vozParar) vozParar(); });
+
+/* ══════════════════════════════════════════════════════════
+   TU FRASE: GRÁBATE, ESCÚCHATE Y TE PUNTÚO
+   ══════════════════════════════════════════════════════════
+   Cualquier frase, no solo las del curso: la que necesitas para el
+   viaje, la de la canción, la que te dijo alguien. Se escribe (o se
+   elige del curso), se oye cómo se dice, te grabas, te escuchas al lado
+   del modelo y sale una nota del 0 al 100 con el porqué.
+
+   La nota junta hasta tres medidas, y solo las que se pueden medir de
+   verdad. No se inventa ninguna:
+     · SE TE ENTIENDE (60 %). Lo que el reconocedor de voz ha entendido,
+       comparado con la frase, palabra a palabra (o letra a letra en las
+       escrituras sin espacios). Es lo que más importa: que te entiendan.
+     · MELODÍA (25 %). Tu curva de tono contra la de la grabación del
+       curso, alineadas con DTW (se estiran en el tiempo para comparar
+       forma con forma, no segundo con segundo). En los idiomas de tonos
+       cuenta también el tono de cada sílaba (ver vozJuicio en voz.js).
+     · RITMO (15 %). Lo que tardas y las pausas, contra la grabación.
+   Melodía y ritmo necesitan una grabación con la que comparar. Para una
+   frase escrita a mano no la hay —la voz del teléfono no se puede
+   grabar desde la página—, y entonces la nota es solo la primera, y se
+   dice. Las frases del curso traen las tres.
+
+   Micrófono y reconocedor van A LA VEZ sobre la misma toma: así se dice
+   una sola vez. Si en algún teléfono no pueden convivir (el reconocedor
+   devuelve que el micrófono está ocupado, o nada aunque se oye voz), la
+   grabación sigue valiendo y se ofrece decirla otra vez solo para las
+   palabras. Y se recuerda, para no volver a chocar.
+
+   Va después de voz.js (usa vozGraba, vozCurva, tonoDeVentana) y de
+   vida.js (romDe), y antes de part4.js. */
+
+const IM = {intentos: [], ocupado: false, srCtl: null, modelos: {}};
+function imDatos(){
+  if(!S.imita || typeof S.imita !== "object") S.imita = {};
+  const d = S.imita;
+  if(!d.frases || typeof d.frases !== "object") d.frases = {};
+  if(!Array.isArray(d.recientes)) d.recientes = [];
+  return d;
+}
+const imTexto = () => { const t = document.getElementById("imTexto"); return t ? t.value.replace(/\s+/g, " ").trim() : ""; };
+
+/* ── 1 · la pantalla ──────────────────────────────────────── */
+function imFrasesCurso(){
+  if(typeof PHRASES === "undefined") return [];
+  return PHRASES.map(p => ({t: renderPhrase(p[0]), es: ponHuecosEs(p[2]), sit: p[3]}));
+}
+function imitaHTML(){
+  const d = imDatos();
+  const ult = d.ultima || "";
+  const frases = imFrasesCurso();
+  const sits = [...new Set(frases.map(f => f.sit))];
+  const recientes = d.recientes.slice(0, 8);
+  return `<div class="card im" id="imCaja">
+    <label class="im-lab" for="imTexto">La frase que quieres decir, en ${esc(LANG.nombre.toLowerCase())}</label>
+    <textarea id="imTexto" class="im-texto th" rows="2" lang="${esc(LANG.voz)}" maxlength="160"
+      placeholder="Escríbela o pégala aquí…" autocomplete="off" spellcheck="false">${esc(ult)}</textarea>
+    ${frases.length ? `<div class="im-elige">
+      <label for="imCurso">o elige una del curso</label>
+      <select id="imCurso"><option value="">Frases del curso…</option>
+        ${sits.map(s => `<optgroup label="${esc(s)}">${frases.filter(f => f.sit === s).map(f =>
+          `<option value="${esc(f.t)}">${esc(f.t)} · ${esc(f.es)}</option>`).join("")}</optgroup>`).join("")}
+      </select></div>` : ""}
+    ${recientes.length ? `<div class="im-recientes" aria-label="Tus frases de antes">
+      ${recientes.map(t => { const r = d.frases[t];
+        return `<button class="im-chip th" data-im-pon="${esc(t)}" lang="${esc(LANG.voz)}">${esc(t)}${r ? `<b>${r.mejor}</b>` : ""}</button>`; }).join("")}
+    </div>` : ""}
+    <div class="im-info" id="imInfo" aria-live="polite"></div>
+    <div class="row im-botones">
+      <button class="btn" id="imModelo">${svg("play")} Oír cómo se dice</button>
+      <button class="btn" id="imLento">${svg("play")} Lento</button>
+      ${HAY_MICRO ? `<button class="btn btn--p" id="imGrabar">${svg("mic")} Grabarme</button>` : ""}
+    </div>
+    ${HAY_MICRO ? "" : `<p class="muted">Este navegador no deja usar el micrófono, así que aquí no te puedo grabar.</p>`}
+    <div class="im-estado" id="imEstado" aria-live="polite"></div>
+    <div id="imResultado"></div>
+    <div id="imIntentos"></div>
+  </div>`;
+}
+
+function imPintaInfo(){
+  const info = document.getElementById("imInfo");
+  if(!info) return;
+  const t = imTexto();
+  const d = imDatos(), r = d.frases[t];
+  if(!t){ info.innerHTML = ""; return; }
+  const conModelo = !!hayGrabado(t);
+  const recon = HAY_RECON() && navigator.onLine !== false;
+  info.innerHTML = (conModelo
+      ? `<span class="im-tag im-tag--si">✓ Grabada en el curso</span> te comparo la pronunciación, la melodía y el ritmo.`
+      : `<span class="im-tag">Sin grabación</span> la oirás con la voz del teléfono, y te puntúo lo que se te entiende.`)
+    + (recon ? "" : ` <span class="muted">Sin reconocedor de voz${navigator.onLine === false ? " (hace falta internet)" : ""}: solo podré medir melodía y ritmo.</span>`)
+    + (r ? ` <span class="muted">Tu mejor nota: <b>${r.mejor}</b> en ${r.n} ${r.n === 1 ? "intento" : "intentos"}.</span>` : "");
+}
+
+function imitaInicia(){
+  const caja = document.getElementById("imCaja");
+  if(!caja) return;
+  IM.intentos = [];
+  const ta = document.getElementById("imTexto"), sel = document.getElementById("imCurso");
+  /* si vienes de «Practicar hablando» en otra pantalla, la frase ya está puesta */
+  /* (la pantalla se ordena en bloques plegables después de init: se abre el nuestro luego) */
+  if(IM.pendiente){
+    ta.value = IM.pendiente; IM.pendiente = null;
+    setTimeout(() => {
+      if(typeof abreBloquesDe === "function") abreBloquesDe(caja);
+      caja.scrollIntoView({block:"start", behavior: pocoMovimiento() ? "auto" : "smooth"});
+    }, 60);
+  }
+  ta.addEventListener("input", () => {
+    const d = imDatos(); d.ultima = imTexto(); save();
+    IM.intentos = []; imPintaIntentos();
+    document.getElementById("imResultado").innerHTML = "";
+    imPintaInfo();
+  });
+  if(sel) sel.addEventListener("change", () => {
+    if(!sel.value) return;
+    ta.value = sel.value; sel.value = "";
+    ta.dispatchEvent(new Event("input"));
+  });
+  caja.addEventListener("click", e => {
+    const pon = e.target.closest("[data-im-pon]");
+    if(pon){ ta.value = pon.dataset.imPon; ta.dispatchEvent(new Event("input")); return; }
+    const oir = e.target.closest("[data-im-oir]");
+    if(oir){ imOir(oir.dataset.imOir, +oir.dataset.imN || 0); return; }
+    if(e.target.closest("[data-im-palabras]")){ imSoloPalabras(); return; }
+  });
+  document.getElementById("imModelo").addEventListener("click", () => { const t = imTexto(); if(t) speak(t); else imAviso("Escribe primero la frase."); });
+  document.getElementById("imLento").addEventListener("click", () => { const t = imTexto(); if(t) speak(t, null, 0.6); else imAviso("Escribe primero la frase."); });
+  const g = document.getElementById("imGrabar");
+  if(g) g.addEventListener("click", imGraba);
+  imPintaInfo();
+}
+const imAviso = h => { const e = document.getElementById("imEstado"); if(e) e.innerHTML = h; };
+
+/* desde cualquier lista: llevar una frase a este ejercicio */
+function imitaPractica(t){
+  IM.pendiente = String(t || "");
+  go("hablar");
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-imita]");
+  if(b) imitaPractica(b.dataset.imita);
+});
+
+/* ── 2 · la grabación del curso, medida igual que tu voz ───── */
+function imModelo(texto){
+  if(!hayGrabado(texto)) return Promise.resolve(null);
+  if(IM.modelos[texto]) return IM.modelos[texto];
+  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+  if(!OAC || !window.fetch) return Promise.resolve(null);
+  const p = fetch(urlGrabada(texto))
+    .then(r => { if(!r.ok) throw new Error("http " + r.status); return r.arrayBuffer(); })
+    .then(buf => new Promise((bien, mal) => {
+      const oac = new OAC(1, 44100, 44100);
+      /* la forma con callbacks es la que entiende también el Safari viejo */
+      const pr = oac.decodeAudioData(buf, bien, mal);
+      if(pr && pr.catch) pr.catch(mal);
+    }))
+    .then(ab => {
+      const x = ab.getChannelData(0), hz = ab.sampleRate;
+      const VENT = 2048, PASO = Math.round(hz * 0.03);
+      const marcos = [];
+      for(let i = 0; i + VENT <= x.length; i += PASO){
+        const m = tonoDeVentana(x.subarray(i, i + VENT), hz);
+        marcos.push({t: Math.round(i / hz * 1000), hz: m.hz, fuerza: m.fuerza});
+      }
+      return {marcos, curva: vozCurva(marcos), med: imMedidas(marcos, true)};
+    })
+    .catch(e => { console.error("imita modelo: " + (e && e.message)); delete IM.modelos[texto]; return null; });
+  IM.modelos[texto] = p;
+  return p;
+}
+
+/* cuánto dura lo hablado y cuántas pausas hay dentro */
+function imMedidas(marcos, limpio){
+  if(!marcos || !marcos.length) return null;
+  const f = marcos.map(m => m.fuerza).sort((a, b) => a - b);
+  const maximo = f[f.length - 1] || 0;
+  /* el ruido de fondo: lo más callado de la toma. En la grabación del curso no hay */
+  const ruido = f[Math.floor(f.length * 0.15)] || 0;
+  const umbral = limpio ? Math.max(0.006, maximo * 0.08) : Math.max(0.012, ruido * 3, maximo * 0.06);
+  const voz = marcos.filter(m => m.fuerza > umbral);
+  if(voz.length < 3) return null;
+  const t0 = voz[0].t, t1 = voz[voz.length - 1].t;
+  let pausas = 0, enPausa = 0;
+  for(let i = 1; i < voz.length; i++){
+    const hueco = voz[i].t - voz[i - 1].t;
+    if(hueco > 280){ pausas++; enPausa += hueco; }
+  }
+  return {dur: Math.max(1, t1 - t0), pausas, enPausa};
+}
+
+/* ── 3 · las tres medidas ──────────────────────────────────── */
+/* las piezas que se comparan: palabras donde hay espacios, letras donde no */
+const imPorPalabras = t => /\s/.test(String(t).trim()) && !(typeof tieneSilabico === "function" && tieneSilabico(t));
+function imUnidades(t){
+  const s = habSinCeros(String(t || "")).normalize("NFC").trim();
+  if(imPorPalabras(s)) return s.split(/\s+/);
+  if(window.Intl && Intl.Segmenter){
+    try{ return [...new Intl.Segmenter(undefined, {granularity: "grapheme"}).segment(s)].map(x => x.segment).filter(x => x.trim()); }catch(e){}
+  }
+  /* sin Segmenter: las marcas que se escriben encima van con su letra */
+  return s.replace(/\s+/g, "").match(/\P{M}\p{M}*/gu) || [];
+}
+/* qué piezas de la frase se han oído: alineadas con la subsecuencia común
+   más larga, para que una palabra de más o de menos no tuerza el resto */
+function imAlinea(objetivo, dicho){
+  const A = imUnidades(objetivo), B = imUnidades(dicho);
+  const na = A.map(x => habNorma(x, true, false)), nb = B.map(x => habNorma(x, true, false));
+  /* una letra de diferencia en una palabra larga es el reconocedor, no tú;
+     en una corta («rain» por «train») es otra palabra */
+  const igual = (a, b) => a === b || (a.length >= 6 && habParecido(a, b) >= 0.84);
+  const L = Array.from({length: A.length + 1}, () => new Array(B.length + 1).fill(0));
+  for(let i = A.length - 1; i >= 0; i--)
+    for(let j = B.length - 1; j >= 0; j--)
+      L[i][j] = na[i] && igual(na[i], nb[j]) ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const bien = new Array(A.length).fill(false);
+  let i = 0, j = 0;
+  while(i < A.length && j < B.length){
+    if(na[i] && igual(na[i], nb[j])){ bien[i] = true; i++; j++; }
+    else if(L[i + 1][j] >= L[i][j + 1]) i++;
+    else j++;
+  }
+  return A.map((u, k) => ({u, bien: bien[k], neutra: !na[k]}));
+}
+function imPalabras(alts, objetivo){
+  let mejor = null;
+  for(const a of alts || []){
+    if(!a) continue;
+    const sin = habParecido(habNorma(a, true, true), habNorma(objetivo, true, true));
+    const con = habParecido(habNorma(a, false, true), habNorma(objetivo, false, true));
+    /* la marca (tono, tilde) cuenta un poco, salvo donde el curso dice que es opcional */
+    const nota = (MARCA || (!tieneMarcas(objetivo) && !tieneMarcas(a))) ? sin : 0.8 * sin + 0.2 * con;
+    if(!mejor || nota > mejor.nota) mejor = {nota, dicho: a, sin, con};
+  }
+  if(!mejor) return null;
+  mejor.puntos = Math.round(Math.max(0, Math.min(1, mejor.nota)) * 100);
+  mejor.piezas = imAlinea(objetivo, mejor.dicho);
+  /* la partícula de cortesía del final no se juzga aquí (el reconocedor la
+     pone, la quita o la cambia; ver comparaHabla): si falta, no se pinta mal */
+  const conP = habNorma(objetivo, true, false), sinP = habNorma(objetivo, true, true);
+  if(conP !== sinP && conP.startsWith(sinP)){
+    const part = conP.slice(sinP.length);
+    let acum = "";
+    for(let k = mejor.piezas.length - 1; k >= 0 && acum.length < part.length; k--){
+      const pz = mejor.piezas[k];
+      acum = habNorma(pz.u, true, false) + acum;
+      if(!pz.bien) pz.neutra = true;
+    }
+  }
+  /* la nota mezcla letras y palabras: con solo letras, «rain» por «train»
+     era un 95, y es una palabra de cinco mal */
+  const cuentan = mejor.piezas.filter(p => !p.neutra);
+  if(cuentan.length){
+    const ratio = cuentan.filter(p => p.bien).length / cuentan.length;
+    mejor.puntos = Math.round(Math.max(0, Math.min(100, 50 * Math.max(0, Math.min(1, mejor.nota)) + 50 * ratio)));
+  }
+  mejor.marca = mejor.sin >= 0.9 && mejor.con < 0.85 && !MARCA;
+  return mejor;
+}
+
+/* la forma de una curva, sin huecos y con N puntos */
+function imForma(curva, N){
+  if(!curva) return null;
+  const v = curva.st.filter(x => x != null);
+  if(v.length < 6) return null;
+  const out = [];
+  for(let k = 0; k < N; k++){
+    const p = k / (N - 1) * (v.length - 1), a = Math.floor(p), b = Math.min(v.length - 1, a + 1);
+    out.push(v[a] + (v[b] - v[a]) * (p - a));
+  }
+  const m = out.reduce((s, x) => s + x, 0) / N;
+  return out.map(x => x - m);
+}
+const imDesv = v => Math.sqrt(v.reduce((s, x) => s + x * x, 0) / v.length);
+function imMelodia(curvaYo, curvaModelo){
+  const N = 80, a = imForma(curvaYo, N), b = imForma(curvaModelo, N);
+  if(!a || !b) return null;
+  /* DTW con banda: se puede ir más rápido o más lento por partes, pero
+     no emparejar el principio de una con el final de la otra */
+  const W = Math.round(N * 0.2), INF = 1e9;
+  const D = Array.from({length: N}, () => new Float64Array(N).fill(INF));
+  const P = Array.from({length: N}, () => new Uint16Array(N));
+  for(let i = 0; i < N; i++){
+    for(let j = Math.max(0, i - W); j <= Math.min(N - 1, i + W); j++){
+      const c = Math.abs(a[i] - b[j]);
+      if(!i && !j){ D[i][j] = c; P[i][j] = 1; continue; }
+      let m = INF, pl = 0;
+      if(i && D[i - 1][j] < m){ m = D[i - 1][j]; pl = P[i - 1][j]; }
+      if(j && D[i][j - 1] < m){ m = D[i][j - 1]; pl = P[i][j - 1]; }
+      if(i && j && D[i - 1][j - 1] <= m){ m = D[i - 1][j - 1]; pl = P[i - 1][j - 1]; }
+      D[i][j] = m + c; P[i][j] = pl + 1;
+    }
+  }
+  const media = D[N - 1][N - 1] / P[N - 1][N - 1];        /* semitonos de diferencia, de media */
+  const rango = imDesv(a) / Math.max(0.3, imDesv(b));      /* cuánto mueves la voz, contra el modelo */
+  return {puntos: Math.round(Math.max(0, Math.min(100, 100 - media * 22))), media, rango};
+}
+function imRitmo(yo, modelo){
+  if(!yo || !modelo) return null;
+  const r = yo.dur / modelo.dur;
+  const extra = Math.max(0, yo.pausas - modelo.pausas);
+  const puntos = Math.round(Math.max(0, Math.min(100, 100 - Math.min(70, Math.abs(Math.log(r)) * 85) - extra * 6)));
+  return {puntos, r, extra};
+}
+/* el tono de cada sílaba, donde el curso lo enseña: se reaprovecha el
+   juicio de «Tu voz, dibujada» */
+function imTonos(curva, texto){
+  if(!hayTonos() || typeof romDe !== "function") return null;
+  const rom = romDe(texto);
+  if(!rom) return null;
+  const html = vozJuicio(curva, piezasConTono(texto, rom));
+  if(!html) return null;
+  const bien = (html.match(/voz-sil bien/g) || []).length, mal = (html.match(/voz-sil mal/g) || []).length;
+  if(!bien && !mal) return null;
+  return {html, puntos: Math.round(bien / (bien + mal) * 100), bien, total: bien + mal};
+}
+
+function imNota(m){
+  const partes = [];
+  if(m.pal) partes.push([m.pal.puntos, 0.6]);
+  if(m.melPuntos != null) partes.push([m.melPuntos, 0.25]);
+  if(m.rit) partes.push([m.rit.puntos, 0.15]);
+  if(!partes.length) return null;
+  const w = partes.reduce((s, p) => s + p[1], 0);
+  return Math.round(partes.reduce((s, p) => s + p[0] * p[1], 0) / w);
+}
+const imNivel = n => n >= 90 ? ["top", "Excelente"] : n >= 75 ? ["bien", "Muy bien"] : n >= 55 ? ["medio", "Se entiende; falta pulir"] : ["bajo", "Hay que practicarla más"];
+
+/* ── 4 · escuchar lo que entiende el reconocedor, sin cortarse ─
+   escuchaVoz (part3.js) se queda con el primer trozo final, que en una
+   palabra está bien; en una frase con una pausa en medio se quedaba con
+   media frase. Aquí se juntan todos los trozos hasta que acaba la
+   grabación. Dentro de la app, el reconocedor del teléfono ya devuelve la
+   frase entera de una vez, así que allí se usa escuchaVoz tal cual. */
+function imEscucha(lang, alInterino){
+  let resolver;
+  const fin = new Promise(r => resolver = r);
+  let hecho = false;
+  const acaba = res => { if(hecho) return; hecho = true; resolver(res); };
+  if(!SR){
+    if(!(window.SuenaRecon && window.SuenaRecon.hay())){ acaba({error: "not-available"}); return {para(){}, fin}; }
+    const c = escuchaVoz({lang, max: 20000, alInterino,
+      alFinal: alts => acaba({alts}), alError: e => acaba({error: e}), alSinNada: () => acaba({})});
+    return {para(){ c.para(); setTimeout(() => acaba({}), 2500); }, fin};
+  }
+  const sesiones = [];
+  let actual = [], interino = null, error = null, parado = false, r = null, aperturas = 0;
+  const junta = () => {
+    const segs = sesiones.concat([actual]).flat().filter(Boolean);
+    if(!segs.length) return interino ? [interino[0]] : null;
+    const n = Math.max(...segs.map(s => s.length));
+    const alts = [];
+    for(let k = 0; k < Math.min(3, n); k++) alts.push(segs.map(s => s[k] || s[0]).join(" ").replace(/\s+/g, " ").trim());
+    /* lo último aún sin cerrar, por si al parar no llega a cerrarse */
+    if(interino) alts.push((segs.map(s => s[0]).join(" ") + " " + interino[0]).trim());
+    return alts;
+  };
+  const abre = () => {
+    r = new SR();
+    r.lang = lang; r.continuous = true; r.interimResults = true; r.maxAlternatives = 3;
+    actual = [];
+    r.onresult = ev => {
+      for(let i = ev.resultIndex; i < ev.results.length; i++){
+        const res = ev.results[i], alts = [...res].map(a => a.transcript).filter(Boolean);
+        if(!alts.length) continue;
+        if(res.isFinal){ actual[i] = alts; interino = null; }
+        else { interino = alts; if(alInterino) alInterino((actual.filter(Boolean).map(s => s[0]).join(" ") + " " + alts[0]).trim()); }
+      }
+    };
+    r.onerror = ev => { if(ev.error !== "no-speech" && ev.error !== "aborted") error = ev.error; };
+    r.onend = () => {
+      sesiones.push(actual); actual = [];
+      /* en Android se corta solo en cada silencio: mientras sigas grabando, se reabre */
+      if(!parado && !error && aperturas < 8){ aperturas++; setTimeout(() => { if(!parado) try{ abre(); }catch(e){ error = "start"; } }, 100); return; }
+      if(parado || error){ const alts = junta(); acaba(alts ? {alts, error: null} : {error}); }
+    };
+    r.start();
+  };
+  try{ abre(); }catch(e){ acaba({error: "start"}); }
+  return {
+    para(){
+      parado = true;
+      try{ r && r.stop(); }catch(e){}
+      /* lo que quede por llegar, como mucho dos segundos */
+      setTimeout(() => { const alts = junta(); acaba(alts ? {alts} : {error}); }, 2000);
+    },
+    fin
+  };
+}
+
+/* ── 5 · grabarse ─────────────────────────────────────────── */
+function imGraba(){
+  const btn = document.getElementById("imGrabar");
+  if(IM.ocupado){ if(vozParar) vozParar(); return; }
+  const texto = imTexto();
+  if(!texto){ imAviso("Escribe primero la frase que quieres decir."); return; }
+  const d = imDatos();
+  const conRecon = HAY_RECON() && navigator.onLine !== false && !d.secuencial;
+  const textoBtn = btn.innerHTML;
+  IM.ocupado = true;
+  btn.innerHTML = `${svg("stop")} Parar`;
+  btn.classList.add("im-graba");
+  imAviso(`<div class="voz-oyendo"><i></i><span>Te escucho… di la frase cuando quieras.</span></div>`);
+  const barra = document.querySelector("#imEstado .voz-oyendo i"), rotulo = document.querySelector("#imEstado .voz-oyendo span");
+  const modelo = imModelo(texto);
+  let escucha = null;
+  const vuelve = () => { IM.ocupado = false; btn.innerHTML = textoBtn; btn.classList.remove("im-graba"); };
+  vozGraba(15, (k, m, fase) => {
+    if(barra) barra.style.width = Math.round(k * 100) + "%";
+    if(rotulo && fase === "voz" && !rotulo.dataset.va){ rotulo.dataset.va = 1; rotulo.textContent = "Grabando… se para solo cuando acabes."; }
+  }, {
+    esperaVoz: true, grabar: true, silencioFin: 1400, esperaMax: 10000,
+    /* el reconocedor se abre cuando el micrófono ya es nuestro: abierto
+       antes, en algunos Android se queda él con el micro y la grabación sale muda */
+    alAbrir: () => { if(conRecon) escucha = imEscucha(LANG.voz, t => { if(rotulo) rotulo.innerHTML = `Te oigo: «<span class="th">${esc(t)}</span>»…`; }); }
+  }).then(async marcos => {
+    if(escucha) escucha.para();
+    imAviso(`<span class="muted">Comparando con el modelo…</span>`);
+    const [mod, sr] = await Promise.all([modelo, escucha ? escucha.fin : Promise.resolve(null)]);
+    vuelve();
+    imEvalua(texto, marcos, mod, sr, conRecon);
+  }).catch(e => {
+    console.error("imita: " + (e && e.name) + " / " + (e && e.message));
+    if(escucha) escucha.para();
+    vuelve();
+    imAviso((e && e.name === "AbortError" && e.message === "cancelado") ? "" : `<div class="voz-nada">${vozPorQue(e)}</div>`);
+  });
+}
+
+function imEvalua(texto, marcos, mod, sr, pidioRecon){
+  const curva = vozCurva(marcos);
+  const med = imMedidas(marcos, false);
+  if(!curva && !med){ imAviso(`<div class="voz-nada">No he oído la voz. Acércate al micrófono y prueba otra vez.</div>`); return; }
+  const d = imDatos();
+  const m = {texto, curva, med, mod, audio: marcos.audio ? URL.createObjectURL(marcos.audio) : null, fecha: Date.now()};
+  m.pal = sr && sr.alts && sr.alts.length ? imPalabras(sr.alts, texto) : null;
+  m.srError = sr ? sr.error : null;
+  /* ¿el reconocedor y el micrófono se han pisado? Hay voz y no ha
+     entendido nada, o dice que el micro no está: la próxima vez, por turnos */
+  /* dos veces seguidas: una sola puede ser solo que no te ha entendido */
+  if(pidioRecon && !m.pal && med && med.dur > 500 && (!m.srError || m.srError === "audio-capture" || m.srError === "busy" || m.srError === "start")){
+    d.choques = (d.choques || 0) + 1;
+    if(d.choques >= 2) d.secuencial = 1;
+    save();
+  } else if(m.pal && d.choques){ d.choques = 0; save(); }
+  m.mel = mod ? imMelodia(curva, mod.curva) : null;
+  m.rit = mod ? imRitmo(med, mod.med) : null;
+  /* El juicio de tonos sílaba a sílaba reparte la curva a partes iguales:
+     vale para una palabra, no para una frase con pausas y sílabas de
+     distinto largo (con la propia grabación del curso salía mal). Con
+     grabación, la comparación con el modelo ya juzga los tonos y mejor.
+     Sin ella, solo en lo corto. */
+  m.tonos = !mod ? imTonos(curva, texto) : null;
+  if(m.tonos && m.tonos.total > 3) m.tonos = null;
+  m.melPuntos = m.mel && m.tonos ? Math.round((m.mel.puntos + m.tonos.puntos) / 2)
+              : m.mel ? m.mel.puntos : m.tonos ? m.tonos.puntos : null;
+  m.nota = imNota(m);
+  IM.intentos.unshift(m);
+  if(IM.intentos.length > 5){ const v = IM.intentos.pop(); try{ if(v.audio) URL.revokeObjectURL(v.audio); }catch(e){} }
+  imGuarda(m);
+  imAviso("");
+  imPinta(m);
+  imPintaIntentos();
+}
+function imGuarda(m){
+  if(m.nota == null) return;
+  const d = imDatos();
+  const r = d.frases[m.texto] || (d.frases[m.texto] = {mejor: 0, n: 0});
+  const antes = m.guardado ? m.antes : r.mejor;
+  /* el mismo intento puede volver aquí (al corregir las palabras después): cuenta una vez */
+  if(!m.guardado){ r.n++; m.antes = antes; }
+  r.mejor = Math.max(r.mejor, m.nota); r.ult = fechaLocal();
+  d.recientes = [m.texto].concat(d.recientes.filter(t => t !== m.texto)).slice(0, 12);
+  /* que no crezca sin fin: las 60 últimas */
+  const ks = Object.keys(d.frases);
+  if(ks.length > 60) ks.filter(k => d.recientes.indexOf(k) < 0).slice(0, ks.length - 60).forEach(k => delete d.frases[k]);
+  save();
+  if(!m.guardado){ ganaXP(m.nota >= 75 ? 14 : 8); touchStreak(); bump("decir"); }
+  m.guardado = true;
+  m.record = r.n > 1 && m.nota > antes;
+  imPintaInfo();
+}
+
+/* ── 6 · el resultado ─────────────────────────────────────── */
+function imCurvasSVG(yo, modelo){
+  const W = 320, H = 96;
+  const lineas = [];
+  const todas = [yo, modelo].filter(Boolean).flatMap(c => c.st.filter(x => x != null));
+  if(!todas.length) return "";
+  const lim = Math.max(3, ...todas.map(Math.abs));
+  const camino = c => {
+    if(!c) return "";
+    let d = "", abierto = false;
+    const n = c.st.length;
+    c.st.forEach((st, i) => {
+      if(st == null){ abierto = false; return; }
+      const x = 6 + i / Math.max(1, n - 1) * (W - 12), y = H / 2 - (st / lim) * (H / 2 - 8);
+      d += (abierto ? " L" : " M") + x.toFixed(1) + " " + y.toFixed(1); abierto = true;
+    });
+    return d.trim();
+  };
+  if(modelo) lineas.push(`<path class="im-l-modelo" d="${camino(modelo)}"/>`);
+  if(yo) lineas.push(`<path class="voz-linea" d="${camino(yo)}"/>`);
+  return `<figure class="im-curvas">
+    <svg class="voz-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="La melodía de tu voz${modelo ? " sobre la del modelo" : ""}">
+      <line class="voz-eje" x1="0" y1="${H / 2}" x2="${W}" y2="${H / 2}"/>${lineas.join("")}</svg>
+    <figcaption><span class="im-ley im-ley--yo">tu voz</span>${modelo ? `<span class="im-ley im-ley--modelo">el modelo</span>` : ""}</figcaption>
+  </figure>`;
+}
+function imBarra(nombre, puntos, porque){
+  return `<div class="im-barra"><div class="im-barra-cab"><b>${nombre}</b><span>${puntos}</span></div>
+    <div class="bar"><i style="width:${puntos}%"></i></div>${porque ? `<p>${porque}</p>` : ""}</div>`;
+}
+function imConsejos(m){
+  const c = [];
+  if(m.pal){
+    const cuentan = m.pal.piezas.filter(p => !p.neutra);
+    const fallan = cuentan.filter(p => !p.bien).map(p => p.u);
+    if(!fallan.length) c.push(m.pal.puntos >= 95 ? "Se te entiende todo." : "Se entiende todo, aunque no exactamente igual: escucha el modelo otra vez.");
+    else if(fallan.length === cuentan.length) c.push("No se ha entendido la frase: puede que hayas dicho otra cosa, o muy bajo. Oye el modelo en Lento y repite despacio.");
+    else if(imTrozosMal(m.pal.piezas, m.texto).length <= 4) c.push(`Lo que no se ha entendido: <span class="th">${imTrozosMal(m.pal.piezas, m.texto).map(esc).join(" · ")}</span>. Escúchalo en Lento y repite solo ese trozo.`);
+    else if(fallan.length) c.push("Se ha perdido buena parte de la frase. Prueba por trozos: oye el modelo en Lento y repite la mitad, luego la otra.");
+    if(m.pal.marca) c.push("Los sonidos están, pero la marca (tono o acento) no. Fíjate en la curva.");
+  }
+  if(m.mel){
+    if(m.mel.rango < 0.6) c.push("Tu voz va más plana que la del modelo: sube y baja más, exagera aunque te dé vergüenza.");
+    else if(m.mel.rango > 1.7) c.push("Mueves la voz bastante más que el modelo: suéltala, más natural.");
+    else if(m.mel.puntos < 65) c.push("La melodía no sigue la del modelo: mira dónde sube la línea gris y haz lo mismo.");
+  }
+  if(m.tonos && m.tonos.bien < m.tonos.total) c.push(`Tonos: ${m.tonos.bien} de ${m.tonos.total} sílabas como el modelo. Abajo ves cuáles.`);
+  if(m.rit){
+    const pc = Math.round(Math.abs(m.rit.r - 1) * 100);
+    if(m.rit.r > 1.3) c.push(`Vas un ${pc} % más despacio que el modelo. Está bien para empezar; luego ve soltándote.`);
+    else if(m.rit.r < 0.75) c.push(`Vas un ${pc} % más deprisa que el modelo: frena un poco y articula.`);
+    if(m.rit.extra > 0) c.push(m.rit.extra === 1 ? "Haces una pausa que el modelo no hace." : `Haces ${m.rit.extra} pausas que el modelo no hace.`);
+  }
+  return c.slice(0, 4);
+}
+/* lo que falla, en trozos seguidos: en las escrituras sin espacios, letra
+   suelta a letra suelta no se lee */
+function imTrozosMal(piezas, texto){
+  const sep = imPorPalabras(texto) ? " " : "";
+  const out = [];
+  let cur = null;
+  piezas.forEach(p => {
+    if(!p.bien && !p.neutra){ cur = cur == null ? p.u : cur + sep + p.u; }
+    else if(cur != null && !p.neutra){ out.push(cur); cur = null; }
+  });
+  if(cur != null) out.push(cur);
+  return out;
+}
+function imPinta(m){
+  const caja = document.getElementById("imResultado");
+  if(!caja) return;
+  const [nv, nvTxt] = m.nota != null ? imNivel(m.nota) : ["", ""];
+  const sinPalabras = !m.pal;
+  const porQueSin = !HAY_RECON() ? "Aquí no hay reconocedor de voz."
+    : imDatos().secuencial && !m.srError ? "En este teléfono el micrófono y el reconocedor no pueden ir a la vez, así que las palabras se corrigen aparte."
+    : navigator.onLine === false || m.srError === "network" ? "Para saber qué palabras dices hace falta internet (el reconocimiento se hace en un servidor)."
+    : m.srError === "not-allowed" || m.srError === "service-not-allowed" ? "El reconocedor no tiene permiso para el micrófono."
+    : "El reconocedor no ha entendido nada esta vez.";
+  const palDicho = m.pal ? `<p class="im-oido">Se te ha entendido: «<span class="th">${esc(m.pal.dicho)}</span>»</p>
+      <p class="im-frase th" lang="${esc(LANG.voz)}">${m.pal.piezas.map(p =>
+        `<span class="${p.neutra ? "" : p.bien ? "im-ok" : "im-mal"}">${esc(p.u)}</span>`).join(imPorPalabras(m.texto) ? " " : "")}</p>` : "";
+  caja.innerHTML = `<div class="im-res">
+    ${m.nota != null ? `<div class="im-nota im-nota--${nv}" role="status">
+        <b>${m.nota}</b><span>/100</span><em>${nvTxt}${!m.pal && HAY_RECON() ? " · sin contar las palabras" : ""}${m.record ? " · ¡tu mejor nota!" : ""}</em></div>` : ""}
+    <div class="row im-escucha">
+      ${m.audio ? `<button class="btn btn--p" data-im-oir="yo">${svg("play")} Escucharme</button>
+        <button class="btn" data-im-oir="ambos">${svg("play")} Modelo y luego yo</button>` : `<span class="muted">Este navegador no deja guardar la grabación para escucharla.</span>`}
+    </div>
+    <div class="im-barras">
+      ${m.pal ? imBarra("Se te entiende", m.pal.puntos, "") : ""}
+      ${m.melPuntos != null ? imBarra(m.tonos && !m.mel ? "Tonos" : "Melodía", m.melPuntos, "") : ""}
+      ${m.rit ? imBarra("Ritmo", m.rit.puntos, "") : ""}
+    </div>
+    ${palDicho}
+    ${sinPalabras ? `<div class="im-sinpal"><p>${porQueSin} ${m.mod ? "La nota es solo de melodía y ritmo." : ""}</p>
+      ${HAY_RECON() ? `<button class="btn btn--s" data-im-palabras>${svg("mic")} Que me corrija las palabras (dila otra vez)</button>` : ""}</div>` : ""}
+    ${!m.mod ? `<p class="muted im-nota-pie">Esta frase no tiene grabación en el curso, así que no puedo comparar tu melodía ni tu ritmo: la nota es por lo que se te entiende. Con las frases del curso (en la lista de arriba) te puntúo las tres cosas.</p>` : ""}
+    ${imCurvasSVG(m.curva, m.mod && m.mod.curva)}
+    ${m.tonos ? m.tonos.html : ""}
+    ${(() => { const c = imConsejos(m); return c.length ? `<ul class="im-consejos">${c.map(x => `<li>${x}</li>`).join("")}</ul>` : ""; })()}
+  </div>`;
+  /* que el resultado se vea sin buscarlo */
+  setTimeout(() => caja.scrollIntoView({block: "nearest", behavior: pocoMovimiento() ? "auto" : "smooth"}), 30);
+}
+function imPintaIntentos(){
+  const c = document.getElementById("imIntentos");
+  if(!c) return;
+  const l = IM.intentos;
+  if(l.length < 2){ c.innerHTML = ""; return; }
+  c.innerHTML = `<h3 class="im-int-tit">Tus intentos con esta frase</h3>
+    <div class="im-ints">${l.map((m, i) => `<div class="im-int">
+      <span class="im-int-n">${i ? "Intento " + (l.length - i) : "El último"}</span>
+      <b>${m.nota != null ? m.nota : "—"}</b>
+      ${m.audio ? `<button class="btn btn--s" data-im-oir="yo" data-im-n="${i}" aria-label="Escuchar este intento">${svg("play")}</button>` : ""}
+    </div>`).join("")}</div>`;
+}
+
+/* ── 7 · escuchar ─────────────────────────────────────────── */
+function imTocaAudio(url, alTerminar){
+  try{ if(sonando){ turnoGrabado++; sonando.pause(); } }catch(e){}
+  callaNativo();
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  /* el reproductor de siempre: en Safari es el único que puede sonar
+     encadenado detrás de otro sin un toque nuevo */
+  const a = reproductor || new Audio();
+  a.onplaying = a.onerror = null;
+  a.onended = () => { if(alTerminar) alTerminar(); };
+  a.src = url; a.playbackRate = 1;
+  sonando = a; turnoGrabado++;
+  const p = a.play();
+  if(p && p.catch) p.catch(() => {});
+}
+function imOir(que, n){
+  const m = IM.intentos[n || 0];
+  if(!m || !m.audio) return;
+  if(que === "yo"){ imTocaAudio(m.audio); return; }
+  /* el modelo, un respiro, y tú: así se oye la diferencia */
+  let ido = false;
+  const tuTurno = () => { if(ido) return; ido = true; setTimeout(() => imTocaAudio(m.audio), 350); };
+  diAlgo(m.texto, S.speed || 1, null, tuTurno, tuTurno);
+}
+
+/* ── 8 · solo las palabras, por turnos ─────────────────────
+   Para cuando el micrófono y el reconocedor no pueden ir a la vez: la
+   grabación ya está, ahora se dice otra vez solo para que la entienda. */
+function imSoloPalabras(){
+  const m = IM.intentos[0];
+  const b = document.querySelector("[data-im-palabras]");
+  if(!m || !b) return;
+  if(IM.srCtl){ IM.srCtl.para(); return; }
+  const txt = b.innerHTML;
+  b.innerHTML = `${svg("stop")} Parar`;
+  imAviso(`<span class="muted">Te escucho… dila otra vez.</span>`);
+  IM.srCtl = escuchaVoz({
+    lang: LANG.voz, max: 15000,
+    alInterino: t => imAviso(`<span class="muted">Te oigo: «<span class="th">${esc(t)}</span>»…</span>`),
+    alAcabar: () => { IM.srCtl = null; b.innerHTML = txt; },
+    alSinNada: () => imAviso(`<span class="muted">No te he oído. Prueba otra vez, más cerca del micrófono.</span>`),
+    alError: e => imAviso(`<span class="muted">${e === "network" ? "Para esto hace falta internet." : "No se ha podido escuchar (" + esc(e) + ")."}</span>`),
+    alFinal: alts => {
+      imAviso("");
+      m.pal = imPalabras(alts, m.texto);
+      m.srError = null;
+      m.nota = imNota(m);
+      imGuarda(m);
+      imPinta(m); imPintaIntentos();
+    }
+  });
+}
+
+window.addEventListener("hashchange", () => { if(IM.srCtl){ IM.srCtl.para(); IM.srCtl = null; } });
+
+(function(){
+  const css = `
+.im{padding:18px 18px 16px}
+.im-lab, .im-elige label{display:block;font:600 13px var(--ui);color:var(--ink-2);margin:0 2px 6px}
+.im-texto{width:100%;font-size:22px;line-height:1.4;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line-2);
+  background:var(--surface);color:var(--ink);resize:vertical;min-height:58px}
+.im-elige{margin-top:10px}
+.im-elige select{width:100%;padding:9px 10px;border-radius:10px;border:1.5px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.im-recientes{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.im-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--ink);
+  border-radius:999px;padding:5px 11px;font-size:15px;cursor:pointer;min-height:32px}
+.im-chip b{font:700 11px var(--mono);color:var(--brand-ink);background:var(--accent-soft);border-radius:999px;padding:1px 6px}
+.im-info{font-size:13.5px;color:var(--ink-2);margin:12px 2px 0;min-height:20px}
+.im-tag{display:inline-block;font:700 11px var(--ui);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;
+  background:var(--surface-3);color:var(--ink-2);margin-right:4px}
+.im-tag--si{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.im-botones{justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+.im-graba{animation:imLate 1.2s ease-in-out infinite}
+@keyframes imLate{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--brand) 25%,transparent)}}
+.im-estado{margin-top:8px}
+.im-res{margin-top:12px;border-top:1px solid var(--line);padding-top:14px}
+.im-nota{display:flex;align-items:baseline;justify-content:center;gap:4px;flex-wrap:wrap;text-align:center}
+.im-nota b{font:700 54px/1 var(--disp)}
+.im-nota span{font:600 16px var(--ui);color:var(--ink-3)}
+.im-nota em{flex-basis:100%;font-style:normal;font-weight:700;font-size:15px;margin-top:4px}
+.im-nota--top b,.im-nota--top em{color:var(--ok)}
+.im-nota--bien b,.im-nota--bien em{color:var(--jade)}
+.im-nota--medio b,.im-nota--medio em{color:var(--gold)}
+.im-nota--bajo b,.im-nota--bajo em{color:var(--bad)}
+.im-escucha{justify-content:center;margin:12px 0;flex-wrap:wrap}
+.im-barras{display:grid;gap:10px;margin:10px 0}
+.im-barra-cab{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:4px}
+.im-barra-cab span{font:700 13px var(--mono)}
+.im-barra p{margin:4px 0 0;font-size:13px;color:var(--ink-2)}
+.im-oido{font-size:14px;color:var(--ink-2);margin:12px 0 4px}
+.im-frase{font-size:22px;line-height:1.5;margin:0 0 8px}
+.im-ok{color:var(--ok)}
+.im-mal{color:var(--bad);text-decoration:underline wavy;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.im-sinpal{font-size:13.5px;color:var(--ink-2);background:var(--surface-2);border-radius:12px;padding:10px 12px;margin:10px 0}
+.im-sinpal p{margin:0 0 8px}
+.im-nota-pie{font-size:12.5px;margin:8px 0}
+.im-curvas{margin:12px 0 4px}
+.im-curvas figcaption{display:flex;gap:14px;justify-content:center;font-size:12px;color:var(--ink-2);margin-top:4px}
+.im-ley::before{content:"";display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px;background:var(--brand)}
+.im-ley--modelo::before{background:var(--ink-3);height:2px}
+.im-l-modelo{fill:none;stroke:var(--ink-3);stroke-width:2;stroke-dasharray:5 4;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.im-consejos{margin:12px 0 0;padding-left:20px;font-size:14px;line-height:1.5}
+.im-consejos li{margin-bottom:4px}
+.im-int-tit{font:700 12px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:16px 2px 8px}
+.im-ints{display:flex;gap:8px;flex-wrap:wrap}
+.im-int{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:12px;padding:6px 8px 6px 12px;background:var(--surface-2)}
+.im-int-n{font-size:12px;color:var(--ink-3)}
+.im-int b{font:700 16px var(--mono)}
+.im-int .btn{min-width:36px;min-height:36px}`;
+  const st = document.createElement("style");
+  st.textContent = css;
+  document.head.appendChild(st);
+})();
 
 /* ══════════════════════════════════════════════════════════
    LLEVARTE EL PROGRESO CONTIGO
@@ -16567,6 +17472,7 @@ function miasListaHTML(){
       <div class="les" style="color:var(--ink-2)">${esc(x.es)}</div></div>
     <div class="row" style="gap:6px">
       ${sayBtn(x.th, x.rom)}
+      ${typeof HAY_MICRO !== "undefined" && HAY_MICRO ? `<button class="btn btn--s" data-imita="${esc(x.th)}" title="Grábate diciéndola y te pongo nota">🎙 Practicar</button>` : ""}
       <button class="btn btn--s" data-ensena="${esc(x.th)}" data-ensena-es="${esc(x.es)}"
         title="A pantalla completa, para enseñárselo a alguien">👁 Enseñar</button>
     </div></div>`).join("")}</div>`;
@@ -17724,8 +18630,10 @@ function retoAzar(semilla){
 }
 function retoPalabras(){
   const todas = (typeof VOCAB !== "undefined" ? VOCAB : []);
-  /* solo las que tienen dibujo propio: si no, dos opciones saldrían iguales */
-  const conDib = todas.filter(v => dibujo(v) !== dibujo(["", "", "", v[3]]));
+  /* solo las que tienen dibujo propio y que se entiende solo (cosas, no
+     «ser» ni «ayer»): las opciones son dibujos sin palabra, hay que saberla */
+  const conDib = todas.filter(v => dibujo(v) !== dibujo(["", "", "", v[3]]) &&
+    (typeof dibujoClaro !== "function" || dibujoClaro(v)));
   const vistas = conDib.filter(v => typeof fechaDe === "function" && fechaDe(v[0]));
   const base = vistas.length >= RETO_N + 3 ? vistas : conDib;
   const az = retoAzar(LANG.id + today());

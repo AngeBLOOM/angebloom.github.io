@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="สวัสดี" role="button" tabindex="0" lang="th-TH">สวัสดี</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
-      <h1>El alfabeto</h1>
+      <h1 tabindex="-1">El alfabeto</h1>
       <p class="lede">44 consonantes, 32 vocales y un puñado de signos. Cada consonante pertenece a una clase (media, alta o baja) y esa clase decide el tono de la sílaba: apréndelas juntas desde el primer día.</p></div>
 
     <div class="banner"><div><b>Cómo se aprenden.</b> Cada consonante tiene un nombre-mnemotecnia: <span class="th" lang="th-TH">ก ไก่</span> «ko kai», la ka de pollo. Los niños tailandeses las memorizan así, en orden. Toca una letra para verla en grande y oírla.</div></div>
@@ -143,22 +142,19 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">sin marca y sílaba viva → tono medio</p>
         <div class="mg-letras"><button class="ml" data-say="ก ไก่" title="kài · pollo">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10a7 7 0 0 0-7 7c0 4-9 6-9 15a11 11 0 0 0 22 0V17a7 7 0 0 0-6-7z"></path>
-    <path class="a" d="M30 8V4"></path><circle class="f" cx="31" cy="16" r="1.6"></circle>
-    <path class="a" d="M37 19l6-2-6-2"></path><path d="M19 41v3M31 41v3"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f357.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ก</span>
     <span class="ml-n">pollo</span>
   </button><button class="ml" data-say="จ จาน" title="caan · plato">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="26" r="14"></circle><circle cx="24" cy="26" r="7"></circle>
-    <path class="a" d="M9 10v8M39 10v8"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f37d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">จ</span>
     <span class="ml-n">plato</span>
   </button><button class="ml" data-say="ฎ ชฎา" title="chá-daa · tocado">
-    <span class="ml-dib" aria-hidden="true">👑</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f451.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฎ</span>
     <span class="ml-n">tocado</span>
   </button><button class="ml" data-say="ฏ ปฏัก" title="pà-tàk · aguijón">
-    <span class="ml-dib" aria-hidden="true">🪡</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1faa1.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฏ</span>
     <span class="ml-n">aguijón</span>
   </button><button class="ml" data-say="ด เด็ก" title="dèk · niño">
@@ -166,20 +162,19 @@ a.btn{text-decoration:none}
     <span class="ml-g th" lang="th-TH">ด</span>
     <span class="ml-n">niño</span>
   </button><button class="ml" data-say="ต เต่า" title="tào · tortuga">
-    <span class="ml-dib" aria-hidden="true">🐢</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f422.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ต</span>
     <span class="ml-n">tortuga</span>
   </button><button class="ml" data-say="บ ใบไม้" title="bai-máai · hoja">
-    <span class="ml-dib" aria-hidden="true">🍃</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f343.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">บ</span>
     <span class="ml-n">hoja</span>
   </button><button class="ml" data-say="ป ปลา" title="plaa · pez">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24s7-10 17-10 14 10 14 10-4 10-14 10S6 24 6 24z"></path>
-    <path d="M37 24l6-8v16z"></path><circle class="af" cx="16" cy="21" r="2"></circle></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f41f.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ป</span>
     <span class="ml-n">pez</span>
   </button><button class="ml" data-say="อ อ่าง" title="àang · barreño">
-    <span class="ml-dib" aria-hidden="true">🏺</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f3fa.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">อ</span>
     <span class="ml-n">barreño</span>
   </button></div>
@@ -192,43 +187,43 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">sin marca y sílaba viva → tono ascendente</p>
         <div class="mg-letras"><button class="ml" data-say="ข ไข่" title="khài · huevo">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c8 0 13 13 13 22a13 13 0 0 1-26 0C11 19 16 6 24 6z"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f95a.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ข</span>
     <span class="ml-n">huevo</span>
   </button><button class="ml" data-say="ฉ ฉิ่ง" title="chìng · platillos">
-    <span class="ml-dib" aria-hidden="true">🎶</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f3b6.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฉ</span>
     <span class="ml-n">platillos</span>
   </button><button class="ml" data-say="ฐ ฐาน" title="thǎan · pedestal">
-    <span class="ml-dib" aria-hidden="true">🏛️</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f3db.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฐ</span>
     <span class="ml-n">pedestal</span>
   </button><button class="ml" data-say="ถ ถุง" title="thǔng · bolsa">
-    <span class="ml-dib" aria-hidden="true">👜</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f45c.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ถ</span>
     <span class="ml-n">bolsa</span>
   </button><button class="ml" data-say="ผ ผึ้ง" title="phʉ̂ng · abeja">
-    <span class="ml-dib" aria-hidden="true">🐝</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f41d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ผ</span>
     <span class="ml-n">abeja</span>
   </button><button class="ml" data-say="ฝ ฝา" title="fǎa · tapa">
-    <span class="ml-dib" aria-hidden="true">🎩</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f3a9.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฝ</span>
     <span class="ml-n">tapa</span>
   </button><button class="ml" data-say="ศ ศาลา" title="sǎa-laa · pabellón">
-    <span class="ml-dib" aria-hidden="true">⛩️</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/26e9.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ศ</span>
     <span class="ml-n">pabellón</span>
   </button><button class="ml" data-say="ษ ฤๅษี" title="rʉʉ-sǐi · ermitaño">
-    <span class="ml-dib" aria-hidden="true">🧙</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f9d9.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ษ</span>
     <span class="ml-n">ermitaño</span>
   </button><button class="ml" data-say="ส เสือ" title="sʉ̌a · tigre">
-    <span class="ml-dib" aria-hidden="true">🐅</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f405.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ส</span>
     <span class="ml-n">tigre</span>
   </button><button class="ml" data-say="ห หีบ" title="hìip · cofre">
-    <span class="ml-dib" aria-hidden="true">🧰</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f9f0.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ห</span>
     <span class="ml-n">cofre</span>
   </button></div>
@@ -242,26 +237,23 @@ a.btn{text-decoration:none}
         <p class="mg-truco">👉 Estas no hay que aprendérselas: son <b>todas las demás</b>.
                Si una letra no está en los otros grupos, está aquí.</p>
         <div class="mg-letras"><button class="ml" data-say="ค ควาย" title="khwaai · búfalo">
-    <span class="ml-dib" aria-hidden="true">🐃</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f403.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ค</span>
     <span class="ml-n">búfalo</span>
   </button><button class="ml" data-say="ฆ ระฆัง" title="rá-khang · campana">
-    <span class="ml-dib" aria-hidden="true">🔔</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f514.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฆ</span>
     <span class="ml-n">campana</span>
   </button><button class="ml" data-say="ง งู" title="nguu · serpiente">
-    <span class="ml-dib" aria-hidden="true">🐍</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f40d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ง</span>
     <span class="ml-n">serpiente</span>
   </button><button class="ml" data-say="ช ช้าง" title="cháang · elefante">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="21" rx="12" ry="13"></ellipse>
-    <path d="M12 14c-6-2-9 2-9 7s3 9 9 8M36 14c6-2 9 2 9 7s-3 9-9 8"></path>
-    <circle class="f" cx="19" cy="19" r="1.9"></circle><circle class="f" cx="29" cy="19" r="1.9"></circle>
-    <path class="a" d="M24 29v9c0 3.5 5 4 5.5.5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f418.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ช</span>
     <span class="ml-n">elefante</span>
   </button><button class="ml" data-say="ซ โซ่" title="sôo · cadena">
-    <span class="ml-dib" aria-hidden="true">⛓️</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/26d3.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ซ</span>
     <span class="ml-n">cadena</span>
   </button><button class="ml" data-say="ฌ เฌอ" title="chəə · árbol">
@@ -269,71 +261,71 @@ a.btn{text-decoration:none}
     <span class="ml-g th" lang="th-TH">ฌ</span>
     <span class="ml-n">árbol</span>
   </button><button class="ml" data-say="ญ หญิง" title="yǐng · mujer">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="13" r="7"></circle><path d="M12 42l5-14a8 8 0 0 1 14 0l5 14z"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f469.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ญ</span>
     <span class="ml-n">mujer</span>
   </button><button class="ml" data-say="ฑ มณโฑ" title="mon-thoo · Montho">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฑ</span>
     <span class="ml-n">Montho</span>
   </button><button class="ml" data-say="ฒ ผู้เฒ่า" title="phûu-thâo · anciano">
-    <span class="ml-dib" aria-hidden="true">👴</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f474.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฒ</span>
     <span class="ml-n">anciano</span>
   </button><button class="ml" data-say="ณ เณร" title="neen · novicio">
-    <span class="ml-dib" aria-hidden="true">🧘</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f9d8.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ณ</span>
     <span class="ml-n">novicio</span>
   </button><button class="ml" data-say="ท ทหาร" title="thá-hǎan · soldado">
-    <span class="ml-dib" aria-hidden="true">💂</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f482.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ท</span>
     <span class="ml-n">soldado</span>
   </button><button class="ml" data-say="ธ ธง" title="thong · bandera">
-    <span class="ml-dib" aria-hidden="true">🚩</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f6a9.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ธ</span>
     <span class="ml-n">bandera</span>
   </button><button class="ml" data-say="น หนู" title="nǔu · ratón">
-    <span class="ml-dib" aria-hidden="true">🐭</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f42d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">น</span>
     <span class="ml-n">ratón</span>
   </button><button class="ml" data-say="พ พาน" title="phaan · bandeja">
-    <span class="ml-dib" aria-hidden="true">🍽️</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f37d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">พ</span>
     <span class="ml-n">bandeja</span>
   </button><button class="ml" data-say="ฟ ฟัน" title="fan · diente">
-    <span class="ml-dib" aria-hidden="true">🦷</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f9b7.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฟ</span>
     <span class="ml-n">diente</span>
   </button><button class="ml" data-say="ภ สำเภา" title="sǎm-phao · junco">
-    <span class="ml-dib" aria-hidden="true">⛵</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/26f5.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ภ</span>
     <span class="ml-n">junco</span>
   </button><button class="ml" data-say="ม ม้า" title="máa · caballo">
-    <span class="ml-dib" aria-hidden="true">🐎</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f40e.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ม</span>
     <span class="ml-n">caballo</span>
   </button><button class="ml" data-say="ย ยักษ์" title="yák · gigante">
-    <span class="ml-dib" aria-hidden="true">👹</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f479.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ย</span>
     <span class="ml-n">gigante</span>
   </button><button class="ml" data-say="ร เรือ" title="rʉa · barca">
-    <span class="ml-dib" aria-hidden="true">🛶</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f6f6.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ร</span>
     <span class="ml-n">barca</span>
   </button><button class="ml" data-say="ล ลิง" title="ling · mono">
-    <span class="ml-dib" aria-hidden="true">🐒</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f412.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ล</span>
     <span class="ml-n">mono</span>
   </button><button class="ml" data-say="ว แหวน" title="wɛ̌ɛn · anillo">
-    <span class="ml-dib" aria-hidden="true">💍</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f48d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ว</span>
     <span class="ml-n">anillo</span>
   </button><button class="ml" data-say="ฬ จุฬา" title="cù-laa · cometa">
-    <span class="ml-dib" aria-hidden="true">🪁</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1fa81.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฬ</span>
     <span class="ml-n">cometa</span>
   </button><button class="ml" data-say="ฮ นกฮูก" title="nók-hûuk · búho">
-    <span class="ml-dib" aria-hidden="true">🦉</span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f989.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="th-TH">ฮ</span>
     <span class="ml-n">búho</span>
   </button></div>

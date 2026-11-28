@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="สวัสดี" role="button" tabindex="0" lang="th-TH">สวัสดี</b>
@@ -61,6 +60,7 @@ a.btn{text-decoration:none}
     </div>
   </div>
     
+    <h1 class="solo-lector" tabindex="-1">Tu perfil</h1>
     <div class="pf-cab">
       <button class="pf-av" data-pf-elige="" aria-label="Cambiar tu imagen"><span class="au-av r0 pf-grande" style="width:112px;height:112px"><span style="background:linear-gradient(135deg,#FF8A4C,#C2399A);font-size:56px">🦊</span></span><span class="pf-lapiz">✎</span></button>
       <input class="pf-nombre" id="pfNombre" maxlength="24" value="" placeholder="Tu nombre" aria-label="Tu nombre">
@@ -86,7 +86,7 @@ a.btn{text-decoration:none}
 
     <section class="bloque abierto bloque--primero" id="bl1" style=""><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl1-c"><span class="bl-num" aria-hidden="true">1</span><h2 class="sec">Tus últimas 4 semanas</h2>
        </button><div class="bl-cuerpo" id="bl1-c">
-    <div class="card pf-heat" style=""><i class="" title="2026-10-27"></i><i class="" title="2026-10-28"></i><i class="" title="2026-10-29"></i><i class="" title="2026-10-30"></i><i class="" title="2026-10-31"></i><i class="" title="2026-11-01"></i><i class="" title="2026-11-02"></i><i class="" title="2026-11-03"></i><i class="" title="2026-11-04"></i><i class="" title="2026-11-05"></i><i class="" title="2026-11-06"></i><i class="" title="2026-11-07"></i><i class="" title="2026-11-08"></i><i class="" title="2026-11-09"></i><i class="" title="2026-11-10"></i><i class="" title="2026-11-11"></i><i class="" title="2026-11-12"></i><i class="" title="2026-11-13"></i><i class="" title="2026-11-14"></i><i class="" title="2026-11-15"></i><i class="" title="2026-11-16"></i><i class="" title="2026-11-17"></i><i class="" title="2026-11-18"></i><i class="" title="2026-11-19"></i><i class="" title="2026-11-20"></i><i class="" title="2026-11-21"></i><i class="" title="2026-11-22"></i><i class="" title="2026-11-23"></i></div>
+    <div class="card pf-heat" style=""><i class="" title="2026-10-31"></i><i class="" title="2026-11-01"></i><i class="" title="2026-11-02"></i><i class="" title="2026-11-03"></i><i class="" title="2026-11-04"></i><i class="" title="2026-11-05"></i><i class="" title="2026-11-06"></i><i class="" title="2026-11-07"></i><i class="" title="2026-11-08"></i><i class="" title="2026-11-09"></i><i class="" title="2026-11-10"></i><i class="" title="2026-11-11"></i><i class="" title="2026-11-12"></i><i class="" title="2026-11-13"></i><i class="" title="2026-11-14"></i><i class="" title="2026-11-15"></i><i class="" title="2026-11-16"></i><i class="" title="2026-11-17"></i><i class="" title="2026-11-18"></i><i class="" title="2026-11-19"></i><i class="" title="2026-11-20"></i><i class="" title="2026-11-21"></i><i class="" title="2026-11-22"></i><i class="" title="2026-11-23"></i><i class="" title="2026-11-24"></i><i class="" title="2026-11-25"></i><i class="" title="2026-11-26"></i><i class="" title="2026-11-27"></i></div>
 
     </div></section><section class="bloque abierto" id="bl2"><button type="button" class="bl-cab" aria-expanded="true" aria-controls="bl2-c"><span class="bl-num" aria-hidden="true">2</span><h2 class="sec">Tus idiomas</h2>
        </button><div class="bl-cuerpo" id="bl2-c">
@@ -101,7 +101,7 @@ a.btn{text-decoration:none}
        </button><div class="bl-cuerpo" id="bl3-c">
   <div class="card asp">
     <div class="asp-fila"><span class="asp-tit">Modo</span>
-      <div class="asp-seg"><button class="" data-asp="modo" data-asp-id="">🌗 Automático</button><button class="" data-asp="modo" data-asp-id="light">☀️ Claro</button><button class="si" data-asp="modo" data-asp-id="dark">🌙 Oscuro</button></div></div>
+      <div class="asp-seg"><button class="" aria-pressed="false" data-asp="modo" data-asp-id="">🌗 Automático</button><button class="" aria-pressed="false" data-asp="modo" data-asp-id="light">☀️ Claro</button><button class="si" aria-pressed="true" data-asp="modo" data-asp-id="dark">🌙 Oscuro</button></div></div>
     <div class="asp-tit">Fondo</div>
     <div class="asp-ops"><button class="asp-op si " data-asp="fondo" data-asp-id="aurora" aria-pressed="true" aria-label="Aurora">
       <span class="asp-muestra" style="background:linear-gradient(135deg,var(--brand),#8B5CF6,#22D3C5)"></span>
@@ -131,7 +131,13 @@ a.btn{text-decoration:none}
       <span class="asp-muestra" style="background:#34D399"></span>
       <b>Esmeralda</b></button></div>
     <div class="asp-fila"><span class="asp-tit">Efectos</span>
-      <div class="asp-seg"><button class="si" data-asp="efectos" data-asp-id="todos">✨ Todos los efectos</button><button class="" data-asp="efectos" data-asp-id="suaves">🍃 Suaves</button></div></div>
+      <div class="asp-seg"><button class="si" aria-pressed="true" data-asp="efectos" data-asp-id="todos">✨ Todos los efectos</button><button class="" aria-pressed="false" data-asp="efectos" data-asp-id="suaves">🍃 Suaves</button></div></div>
+    <div class="asp-tit" id="aspAcc">Para ver y leer mejor</div>
+    <div class="asp-fila"><span class="asp-tit">Letra</span>
+      <div class="asp-seg" role="group" aria-label="Tamaño del texto"><button data-letra="1" aria-pressed="true" style="font-size:12px">A<span class="solo-lector"> Normal</span></button><button data-letra="1.15" aria-pressed="false" style="font-size:15px">A<span class="solo-lector"> Grande</span></button><button data-letra="1.3" aria-pressed="false" style="font-size:18px">A<span class="solo-lector"> Muy grande</span></button></div></div>
+    <div class="asp-fila"><span class="asp-tit">Contraste</span>
+      <div class="asp-seg" role="group" aria-label="Contraste"><button class="si" aria-pressed="true" data-asp="contraste" data-asp-id="">◐ Normal</button><button class="" aria-pressed="false" data-asp="contraste" data-asp-id="alto">◼ Alto</button></div></div>
+    <p class="asp-nota">El modo oscuro está arriba, en «Modo». «Efectos suaves» quita las animaciones.</p>
     
   </div>
 

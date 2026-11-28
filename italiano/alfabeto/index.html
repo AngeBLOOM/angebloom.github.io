@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="ciao" role="button" tabindex="0" lang="it-IT">ciao</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 2</div>
-      <h1>Cómo se lee el italiano</h1>
+      <h1 tabindex="-1">Cómo se lee el italiano</h1>
       <p class="lede">Buena noticia: el italiano se lee casi como se escribe, igual que el español. Mala noticia: ese «casi» esconde una docena de reglas que, si no las sabes, te delatan en la primera frase. Estas veinte cubren todo lo que suena distinto a como lo leerías tú.</p></div>
 
     <div class="banner"><div><b>Cuidado con la confianza.</b> El italiano es el idioma en el que un hispanohablante llega más lejos sin estudiar y también en el que se estanca antes. Las reglas de esta sección son el filtro entre hablar «español con las manos» y hablar italiano.</div></div>
@@ -84,41 +83,39 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">casi todas suenan como las nuestras</p>
         <div class="mg-letras"><button class="ml" data-say="casa" title="/k/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">c + a o u</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="cena" title="/tʃ/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">c + e i</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="gatto" title="/g/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">g + a o u</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="gelato" title="/dʒ/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">g + e i</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="pizza" title="/ts/ o /dz/ · consonante">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42V26"></path>
-    <path d="M24 26 8 12M24 26l16-14"></path>
-    <path class="a" d="M8 20V12h8M40 20V12h-8"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f500.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">z</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="casa" title="/z/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">s entre vocales</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="sole" title="/s/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">s inicial</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="ho" title="muda · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">h</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="Roma" title="vibrante · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">r simple</span>
     <span class="ml-n">consonante</span>
   </button></div>
@@ -131,35 +128,35 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">dos letras, un solo sonido</p>
         <div class="mg-letras"><button class="ml" data-say="chi" title="/k/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">ch</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="spaghetti" title="/g/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">gh</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="figlio" title="/ʎ/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">gli</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="gnocchi" title="/ɲ/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">gn</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="pesce" title="/ʃ/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">sc + e i</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="scuola" title="/sk/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">sc + a o u</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="questo" title="/kw/ · dígrafo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">qu</span>
     <span class="ml-n">dígrafo</span>
   </button><button class="ml" data-say="stazione" title="/tsjone/ · terminación">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">-zione</span>
     <span class="ml-n">terminación</span>
   </button></div>
@@ -172,15 +169,11 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">siempre clara, nunca se relaja</p>
         <div class="mg-letras"><button class="ml" data-say="è / perché" title="/ɛ/ o /e/ · vocal">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42V26"></path>
-    <path d="M24 26 8 12M24 26l16-14"></path>
-    <path class="a" d="M8 20V12h8M40 20V12h-8"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f500.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">e abierta y cerrada</span>
     <span class="ml-n">vocal</span>
   </button><button class="ml" data-say="però / sono" title="/ɔ/ o /o/ · vocal">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42V26"></path>
-    <path d="M24 26 8 12M24 26l16-14"></path>
-    <path class="a" d="M8 20V12h8M40 20V12h-8"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f500.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">o abierta y cerrada</span>
     <span class="ml-n">vocal</span>
   </button></div>
@@ -193,7 +186,7 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">se alarga de verdad y cambia la palabra</p>
         <div class="mg-letras"><button class="ml" data-say="nonno" title="larga · doble">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="it-IT">Consonantes dobles</span>
     <span class="ml-n">doble</span>
   </button></div>

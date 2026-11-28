@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="приве́т" role="button" tabindex="0" lang="ru-RU">приве́т</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 3</div>
-      <h1>El cirílico</h1>
+      <h1 tabindex="-1">El cirílico</h1>
       <p class="lede">33 letras, y menos trabajo del que parece: seis son idénticas a las nuestras y siete más se aprenden en un minuto. La clave es atacarlas en el orden correcto, empezando por las que ya sabes y dejando para el final las que no existen en español.</p></div>
 
     <div class="banner"><div><b>El orden importa mucho aquí.</b> Filtra primero por «Iguales», luego por «Falsos amigos» —que son las que de verdad te van a hacer fallar— y solo al final por «Nuevas». Hacerlo alfabéticamente, como en los libros, es la peor forma de aprender el cirílico.</div></div>
@@ -84,29 +83,27 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">se parece a la nuestra y además suena igual: regalada</p>
         <div class="mg-letras"><button class="ml" data-say="а" title="a · igual">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">А а</span>
     <span class="ml-n">igual</span>
   </button><button class="ml" data-say="е" title="ye · casi igual">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Е е</span>
     <span class="ml-n">casi igual</span>
   </button><button class="ml" data-say="к" title="k · igual">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">К к</span>
     <span class="ml-n">igual</span>
   </button><button class="ml" data-say="м" title="m · igual">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">М м</span>
     <span class="ml-n">igual</span>
   </button><button class="ml" data-say="о" title="o · igual">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42V26"></path>
-    <path d="M24 26 8 12M24 26l16-14"></path>
-    <path class="a" d="M8 20V12h8M40 20V12h-8"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f500.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">О о</span>
     <span class="ml-n">igual</span>
   </button><button class="ml" data-say="т" title="t · igual">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Т т</span>
     <span class="ml-n">igual</span>
   </button></div>
@@ -119,33 +116,27 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">se parece a una nuestra y suena a otra cosa: aquí están los errores</p>
         <div class="mg-letras"><button class="ml" data-say="в" title="v · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">В в</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button><button class="ml" data-say="н" title="n · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Н н</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button><button class="ml" data-say="р" title="r · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Р р</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button><button class="ml" data-say="с" title="s · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">С с</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button><button class="ml" data-say="у" title="u · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">У у</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button><button class="ml" data-say="х" title="j · FALSO AMIGO">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="16" cy="15" r="6"></circle><circle cx="33" cy="15" r="6"></circle>
-    <path d="M5 42v-5a11 11 0 0 1 22 0v5"></path><path d="M22 42v-5a11 11 0 0 1 22 0v5"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f91d.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Х х</span>
     <span class="ml-n">FALSO AMIGO</span>
   </button></div>
@@ -159,90 +150,87 @@ a.btn{text-decoration:none}
         <p class="mg-truco">👉 Estas no hay que aprendérselas: son <b>todas las demás</b>.
                Si una letra no está en los otros grupos, está aquí.</p>
         <div class="mg-letras"><button class="ml" data-say="б" title="b · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Б б</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="г" title="g · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Г г</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="д" title="d · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Д д</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ё" title="yo · nueva">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><circle cx="30" cy="13" r="6"></circle><path d="M19 40v-9a11 11 0 0 1 22 0v9"></path>
-    <path class="a" d="M14 28l-6 2 6 2"></path><path class="a" d="M8 30h12"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/1f64b.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ё ё</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ж" title="zh · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ж ж</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="з" title="z · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">З з</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="и" title="i · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">И и</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="й" title="y · nueva">
-    <span class="ml-dib" aria-hidden="true"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><rect class="af" x="3" y="16" width="14" height="16" rx="3"></rect>
-    <rect x="31" y="16" width="14" height="16" rx="3"></rect>
-    <path class="a" d="M24 18v12M18 24h12"></path></svg></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2795.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Й й</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="л" title="l · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Л л</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="п" title="p · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">П п</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ф" title="f · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ф ф</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ц" title="ts · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ц ц</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ч" title="ch · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ч ч</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ш" title="sh · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ш ш</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="щ" title="shch · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Щ щ</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ы" title="ɨ · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ы ы</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="э" title="e · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Э э</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ю" title="yu · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ю ю</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="я" title="ya · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Я я</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ь" title="— · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ь ь</span>
     <span class="ml-n">nueva</span>
   </button><button class="ml" data-say="ъ" title="— · nueva">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="ru-RU">Ъ ъ</span>
     <span class="ml-n">nueva</span>
   </button></div>

@@ -19,7 +19,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../estilo.css">
 <script>/* el tema elegido, antes de pintar nada, para que no dé un fogonazo blanco */
-try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||"todos";}catch(e){document.documentElement.dataset.theme="dark";}</script>
+try{var _t=JSON.parse(localStorage.getItem("huajai")||"{}").tema; if(_t===undefined) _t="dark"; if(_t) document.documentElement.dataset.theme=_t; var _a=JSON.parse(localStorage.getItem("huajai")||"{}").aspecto||{}; var _h=document.documentElement; _h.dataset.fondo=_a.fondo||"aurora"; _h.dataset.acento=_a.acento||"idioma"; _h.dataset.efectos=_a.efectos||(matchMedia("(prefers-reduced-motion: reduce)").matches?"suaves":"todos"); var _c=_a.contraste||(matchMedia("(prefers-contrast: more)").matches?"alto":""); if(_c) _h.dataset.contraste=_c;}catch(e){document.documentElement.dataset.theme="dark";}</script>
 <style>
 .wrap{max-width:1040px; margin:0 auto; padding:0 18px 30px}
 a.btn{text-decoration:none}
@@ -47,8 +47,7 @@ a.btn{text-decoration:none}
     <span class="play-tira-t"><b>Descárgala gratis en Google Play</b><em>El curso completo, sin conexión</em></span>
     <span class="play-tira-b">Instalar</span></a>
     <div class="dd-banner ">
-    <span class="tm-dib dd-dib"><svg class="ico" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 40V22a3.5 3.5 0 0 1 7 0v-6a3.5 3.5 0 0 1 7 0v3a3.5 3.5 0 0 1 7 0v12a9 9 0 0 1-9 9h-4a8 8 0 0 1-8-8z"></path>
-    <path class="a" d="M34 9l3-4M39 14l5-2M30 8l-1-5"></path></svg></span>
+    <span class="tm-dib dd-dib"><img class="ico ico-arte ico-color" src="./dibujos-color/1f44b.svg" alt="" loading="lazy" decoding="async"></span>
     <div class="dd-txt">
       <div class="dd-eti">✍️ La del día <i>Palabra</i></div>
       <div class="dd-pal"><b class="th" data-say="hello" role="button" tabindex="0" lang="en-GB">hello</b>
@@ -62,7 +61,7 @@ a.btn{text-decoration:none}
   </div>
     
     <div class="vhead" style=""><div class="eyebrow">Fundamento 2</div>
-      <h1>Los sonidos del inglés</h1>
+      <h1 tabindex="-1">Los sonidos del inglés</h1>
       <p class="lede">Aquí no hay alfabeto que aprender: las letras ya las conoces. El problema es otro. El inglés tiene unos 44 sonidos y solo 26 letras, así que la misma letra suena de formas distintas y el mismo sonido se escribe de mil maneras. Estos son los 20 que hay que dominar.</p></div>
 
     <div class="banner"><div><b>Aprende sonidos, no letras.</b> Si estudias inglés por la escritura acabas diciendo «í-ma-gi-ne» en lugar de /ɪˈmædʒɪn/. Toca cada sonido, escucha las palabras de ejemplo y repítelas en voz alta: es la única forma de que el oído los separe.</div></div>
@@ -84,23 +83,23 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">se sostiene, y la duración distingue palabras</p>
         <div class="mg-letras"><button class="ml" data-say="sheep" title="/iː/ · vocal larga">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">iː</span>
     <span class="ml-n">vocal larga</span>
   </button><button class="ml" data-say="food" title="/uː/ · vocal larga">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">uː</span>
     <span class="ml-n">vocal larga</span>
   </button><button class="ml" data-say="car" title="/ɑː/ · vocal larga">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ɑː</span>
     <span class="ml-n">vocal larga</span>
   </button><button class="ml" data-say="door" title="/ɔː/ · vocal larga">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ɔː</span>
     <span class="ml-n">vocal larga</span>
   </button><button class="ml" data-say="bird" title="/ɜː/ · vocal larga">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ɜː</span>
     <span class="ml-n">vocal larga</span>
   </button></div>
@@ -113,31 +112,31 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">seca; confundirla con la larga cambia la palabra</p>
         <div class="mg-letras"><button class="ml" data-say="ship" title="/ɪ/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ɪ</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="book" title="/ʊ/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ʊ</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="bed" title="/e/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">e</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="cat" title="/æ/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">æ</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="cup" title="/ʌ/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ʌ</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="hot" title="/ɒ/ · vocal corta">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ɒ</span>
     <span class="ml-n">vocal corta</span>
   </button><button class="ml" data-say="about" title="/ə/ · schwa">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ə</span>
     <span class="ml-n">schwa</span>
   </button></div>
@@ -150,15 +149,15 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">la boca se mueve de una vocal a otra dentro de la sílaba</p>
         <div class="mg-letras"><button class="ml" data-say="day" title="/eɪ/ · diptongo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">eɪ</span>
     <span class="ml-n">diptongo</span>
   </button><button class="ml" data-say="go" title="/əʊ/ · diptongo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">əʊ</span>
     <span class="ml-n">diptongo</span>
   </button><button class="ml" data-say="my" title="/aɪ/ · diptongo">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">aɪ</span>
     <span class="ml-n">diptongo</span>
   </button></div>
@@ -171,23 +170,23 @@ a.btn{text-decoration:none}
         </header>
         <p class="mg-nota">no existe en español: hay que aprenderla de cero</p>
         <div class="mg-letras"><button class="ml" data-say="think" title="/θ/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">θ</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="this" title="/ð/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ð</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="she" title="/ʃ/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ʃ</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="vision" title="/ʒ/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">ʒ</span>
     <span class="ml-n">consonante</span>
   </button><button class="ml" data-say="very" title="/v/ · consonante">
-    <span class="ml-dib" aria-hidden="true"></span>
+    <span class="ml-dib" aria-hidden="true"><img class="ico ico-arte ico-color" src="./dibujos-color/2728.svg" alt="" loading="lazy" decoding="async"></span>
     <span class="ml-g th" lang="en-GB">v</span>
     <span class="ml-n">consonante</span>
   </button></div>
